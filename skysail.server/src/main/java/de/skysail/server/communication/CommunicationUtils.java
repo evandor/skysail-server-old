@@ -1,0 +1,231 @@
+package de.skysail.server.communication;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.restlet.Request;
+import org.restlet.data.Form;
+import org.restlet.data.MediaType;
+import org.restlet.ext.freemarker.TemplateRepresentation;
+import org.restlet.ext.jackson.JacksonRepresentation;
+import org.restlet.ext.xstream.XstreamRepresentation;
+import org.restlet.representation.Representation;
+import org.restlet.representation.Variant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.skysail.common.messages.FormData;
+import de.skysail.common.messages.GridData;
+import de.skysail.common.messages.LinkData;
+import de.skysail.common.messages.TreeNodeData;
+import de.skysail.common.responses.SkysailFailureResponse;
+import de.skysail.common.responses.SkysailResponse;
+import de.skysail.common.responses.SkysailSuccessResponse;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
+/**
+ * @author Graef
+ * 
+ */
+public class CommunicationUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(CommunicationUtils.class);
+
+    private static Configuration configuration;
+
+    public void setConfiguration(Configuration freemarkerConfiguration) {
+        CommunicationUtils.configuration = freemarkerConfiguration;
+    }
+
+    /** === handle TreeNodeData ======================================== */
+
+    /**
+     * Convenience method
+     * 
+     * @param data
+     * @param variant
+     * @param message
+     * @return
+     */
+    public static Representation createTreeNodeRepresentation(final TreeNodeData data, final Variant variant,
+            final Form query, final Request request, String message) {
+        List<TreeNodeData> oneElementList = new ArrayList<TreeNodeData>();
+        return createTreeNodeRepresentation(oneElementList, variant, query, request, message);
+    }
+
+    /**
+     * returns the registered / configured components for the skysail restlet
+     * server.
+     * 
+     * A component must extend the abstract class Component.
+     * 
+     * @param message
+     * 
+     * @param mediaType
+     *            the representation type
+     * @return a string representation of the resource for the given mediaType
+     */
+    public static Representation createTreeNodeRepresentation(final List<TreeNodeData> data, final Variant variant,
+            final Form query, final Request request, final String message) {
+        SkysailResponse<TreeNodeData> response;
+        logger.debug("creating representation for variant " + variant);
+        response = new SkysailSuccessResponse<TreeNodeData>(message, data);
+        handleParameters(query, request, response);
+
+        if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
+            return new JacksonRepresentation<SkysailResponse<TreeNodeData>>(response);
+        } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
+            Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:menu.ftl");
+            return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
+        } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
+            return new XstreamRepresentation<SkysailResponse<TreeNodeData>>(response);
+        } else {
+            throw new RuntimeException("media type '" + variant + "' not supported");
+        }
+    }
+
+    /** === handle LinkData =================================== */
+
+    /**
+     * Convenience method
+     * 
+     * @param data
+     * @param variant
+     * @param message
+     * @return
+     */
+    public static Representation createLinkRepresentation(final LinkData data, final Variant variant, Form query,
+            Request request, String message) {
+        List<LinkData> oneElementList = new ArrayList<LinkData>();
+        return createLinkRepresentation(oneElementList, variant, query, request, message);
+    }
+
+    public static Representation createLinkRepresentation(List<LinkData> data, Variant variant, Form query,
+            Request request, String message) {
+        SkysailResponse<LinkData> response;
+        response = new SkysailSuccessResponse<LinkData>(message, data);
+        handleParameters(query, request, response);
+
+        if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
+            return new JacksonRepresentation<SkysailResponse<LinkData>>(response);
+        } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
+            Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:menu.ftl");
+            return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
+        } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
+            return new XstreamRepresentation<SkysailResponse<LinkData>>(response);
+        } else {
+            throw new RuntimeException("media type '" + variant + "' not supported");
+        }
+    }
+
+    /**
+     * === handle GridData ===============================================
+     * 
+     * @param message
+     */
+
+    public static Representation createGridInfoRepresentation(GridData data, Variant variant, Form query,
+            Request request, String message) {
+        SkysailResponse<GridData> response;
+        response = new SkysailSuccessResponse<GridData>(message, data);
+        handleParameters(query, request, response);
+
+        if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
+            return new JacksonRepresentation<SkysailResponse<GridData>>(response);
+        } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
+            Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:menu.ftl");
+            return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
+        } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
+            return new XstreamRepresentation<SkysailResponse<GridData>>(response);
+        } else {
+            throw new RuntimeException("media type '" + variant + "' not supported");
+        }
+    }
+
+    /**
+     * === handle FormData ===============================================
+     * 
+     * @param query
+     * @param request
+     * @param message
+     */
+
+    public static Representation createFormRepresentation(FormData data, Variant variant, Form query, Request request,
+            String message) {
+        SkysailResponse<FormData> response;
+        response = new SkysailSuccessResponse<FormData>(message, data);
+        response.setOrigRequest(request.getOriginalRef().toUrl());
+        handleParameters(query, request, response);
+
+        if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
+            return new JacksonRepresentation<SkysailResponse<FormData>>(response);
+        } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
+            Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:form.ftl");
+            return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
+        } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
+            return new XstreamRepresentation<SkysailResponse<FormData>>(response);
+        } else {
+            throw new RuntimeException("media type '" + variant + "' not supported");
+        }
+    }
+
+    /**
+     * === handle Errors
+     * =================================================================
+     */
+
+    public static Representation createErrorResponse(final Exception e, final org.slf4j.Logger logger, Variant variant) {
+        logger.info("creating error representation for variant " + variant);
+        SkysailResponse<Object> res = new SkysailFailureResponse(e);
+        if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
+            return new JacksonRepresentation<SkysailResponse<Object>>(res);
+        } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
+            Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:errormessage.ftl");
+            return new TemplateRepresentation(ftlTemplate, res, MediaType.TEXT_HTML);
+        } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
+            return new JacksonRepresentation<SkysailResponse<Object>>(res);
+        } else {
+            throw new RuntimeException("media type '" + variant + "' not supported");
+        }
+    }
+
+    private static final Template getFtlTemplate(String templatePath) {
+        // ServiceReference serviceRef =
+        // bundleContext.getServiceReference(Configuration.class.getName());
+        // Configuration service =
+        // (Configuration)bundleContext.getService(serviceRef);
+        if (configuration != null) {
+            try {
+                return configuration.getTemplate(templatePath);
+            } catch (IOException e) {
+                throw new RuntimeException("Problem accessing template '" + templatePath + "'");
+            }
+
+        }
+        return null;
+    }
+
+    private static void handleParameters(Form query, Request request, SkysailResponse<?> response) {
+        response.setOrigRequest(request.getOriginalRef().toUrl());
+        if (query != null && query.getNames().contains("debug")) {
+            response.setDebug(true);
+        }
+    }
+
+    public static Representation createGridDataRepresentation(SkysailResponse<GridData> response, Variant variant,
+            String ftlPath) {
+        if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
+            return new JacksonRepresentation<SkysailResponse<GridData>>(response);
+        } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
+            Template ftlTemplate = getFtlTemplate(ftlPath);
+            return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
+        } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
+            return new XstreamRepresentation<SkysailResponse<GridData>>(response);
+        } else {
+            throw new RuntimeException("media type '" + variant + "' not supported");
+        }
+    }
+
+}
