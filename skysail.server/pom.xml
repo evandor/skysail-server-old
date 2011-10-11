@@ -5,12 +5,12 @@
 
 	<parent>
 		<artifactId>skysail.maven.parentPom</artifactId>
-		<version>0.5.0</version>
+		<version>0.5.2</version>
 		<groupId>de.evandor</groupId>
 	</parent>
 
 	<artifactId>skysail.server</artifactId>
-	<version>0.4.3-SNAPSHOT</version>
+	<version>0.4.5</version>
 	<name>skysail server</name>
 	<packaging>bundle</packaging>
 
