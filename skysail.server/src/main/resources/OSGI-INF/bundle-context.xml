@@ -15,7 +15,7 @@
 
 	<!-- === provided services ====================================== -->
 
-	<bean id="osgiComponent" class="de.skysail.server.communication.CommunicationUtils">
+	<bean id="osgiComponent" class="de.twenty11.skysail.server.communication.CommunicationUtils">
 		<property name="configuration" ref="freemarkerConfiguration"/>
 	</bean>
 

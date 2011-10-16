@@ -1,4 +1,4 @@
-package de.skysail.server;
+package de.twenty11.skysail.server;
 
 import java.util.Map;
 

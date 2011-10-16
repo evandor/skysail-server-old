@@ -1,4 +1,4 @@
-package de.skysail.server.communication;
+package de.twenty11.skysail.server.communication;
 
 import java.io.IOException;
 import java.util.ArrayList;

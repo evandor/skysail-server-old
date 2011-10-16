@@ -1,4 +1,4 @@
-package de.skysail.server.security;
+package de.twenty11.skysail.server.security;
 
 import java.security.Principal;
 

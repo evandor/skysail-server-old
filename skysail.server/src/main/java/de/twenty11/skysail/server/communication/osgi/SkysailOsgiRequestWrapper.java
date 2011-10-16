@@ -1,11 +1,11 @@
-package de.skysail.server.communication.osgi;
+package de.twenty11.skysail.server.communication.osgi;
 
 import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-import de.skysail.server.security.UserPrincipal;
+import de.twenty11.skysail.server.security.UserPrincipal;
 
 /**
  * The skysailOsgiDispatcherServlet is not meant to be called directly - the only

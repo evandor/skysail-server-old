@@ -1,4 +1,4 @@
-package de.skysail.server.communication.osgi;
+package de.twenty11.skysail.server.communication.osgi;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
