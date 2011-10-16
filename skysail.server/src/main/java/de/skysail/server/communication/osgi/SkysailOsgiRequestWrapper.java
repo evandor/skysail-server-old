@@ -55,7 +55,7 @@ public class SkysailOsgiRequestWrapper extends HttpServletRequestWrapper {
     
     @Override
     public Principal getUserPrincipal() {
-        Principal dummy = super.getUserPrincipal();
+        //Principal dummy = super.getUserPrincipal();
         return this.principal;
     }
 
