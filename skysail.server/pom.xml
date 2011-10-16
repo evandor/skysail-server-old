@@ -35,10 +35,10 @@
 		<dependency>
 			<groupId>de.2011.skysail</groupId>
 			<artifactId>skysail.common</artifactId>
-			<version>[0.0.1,0.1.0)</version>
+			<version>[0.0.2,0.1.0)</version>
 		</dependency>
 
-		<!-- restlet --> 
+		<!-- restlet -->
 		<dependency>
 			<groupId>org.restlet.jee</groupId>
 			<artifactId>org.restlet</artifactId>

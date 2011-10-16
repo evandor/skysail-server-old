@@ -31,10 +31,13 @@ import freemarker.template.Template;
  */
 public class CommunicationUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(CommunicationUtils.class);
+    private static final Logger  logger = LoggerFactory.getLogger(CommunicationUtils.class);
 
     private static Configuration configuration;
 
+    @edu.umd.cs.findbugs.annotations.SuppressWarnings(
+            value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD", 
+            justification = "Spring setter, object needed for all instances")
     public void setConfiguration(Configuration freemarkerConfiguration) {
         CommunicationUtils.configuration = freemarkerConfiguration;
     }
