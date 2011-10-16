@@ -15,13 +15,13 @@ import org.restlet.representation.Variant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.skysail.common.messages.FormData;
-import de.skysail.common.messages.GridData;
-import de.skysail.common.messages.LinkData;
-import de.skysail.common.messages.TreeNodeData;
-import de.skysail.common.responses.SkysailFailureResponse;
-import de.skysail.common.responses.SkysailResponse;
-import de.skysail.common.responses.SkysailSuccessResponse;
+import de.twenty11.skysail.common.messages.FormData;
+import de.twenty11.skysail.common.messages.GridData;
+import de.twenty11.skysail.common.messages.LinkData;
+import de.twenty11.skysail.common.messages.TreeNodeData;
+import de.twenty11.skysail.common.responses.SkysailFailureResponse;
+import de.twenty11.skysail.common.responses.SkysailResponse;
+import de.twenty11.skysail.common.responses.SkysailSuccessResponse;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 

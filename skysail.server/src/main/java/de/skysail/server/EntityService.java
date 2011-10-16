@@ -4,10 +4,10 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
-import de.skysail.common.messages.EntityData;
-import de.skysail.common.messages.GridData;
-import de.skysail.common.messages.GridInfo;
-import de.skysail.common.messages.TreeNodeData;
+import de.twenty11.skysail.common.messages.EntityData;
+import de.twenty11.skysail.common.messages.GridData;
+import de.twenty11.skysail.common.messages.GridInfo;
+import de.twenty11.skysail.common.messages.TreeNodeData;
 
 
 /**
