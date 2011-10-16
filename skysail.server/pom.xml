@@ -4,13 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
+		<groupId>de.2011.skysail</groupId>
 		<artifactId>skysail.maven.parentPom</artifactId>
-		<version>0.5.2</version>
-		<groupId>de.evandor</groupId>
+		<version>0.0.1</version>
 	</parent>
 
 	<artifactId>skysail.server</artifactId>
-	<version>0.4.5</version>
+	<version>0.0.1</version>
 	<name>skysail server</name>
 	<packaging>bundle</packaging>
 
@@ -33,9 +33,9 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>de.evandor</groupId>
+			<groupId>de.2011.skysail</groupId>
 			<artifactId>skysail.common</artifactId>
-			<version>[0.4.4,0.5.0)</version>
+			<version>[0.0.1,0.1.0)</version>
 		</dependency>
 
 		<!-- restlet --> 
@@ -132,12 +132,11 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-
-		<!--dependency>
-			<groupId>uk.com.robust-it</groupId>
-			<artifactId>cloning</artifactId>
-			<version>1.7.4</version>
-		</dependency-->
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>com.springsource.freemarker</artifactId>
+			<version>2.3.18</version>
+		</dependency>
 	</dependencies>
 
 </project>
