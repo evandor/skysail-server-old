@@ -35,7 +35,7 @@
 		<dependency>
 			<groupId>de.2011.skysail</groupId>
 			<artifactId>skysail.common</artifactId>
-			<version>[0.1.0-SNAPSHOT,0.2.0)</version>
+			<version>[0.1.0,0.2.0)</version>
 		</dependency>
 
 		<!-- restlet -->
