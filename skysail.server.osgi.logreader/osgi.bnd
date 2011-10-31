@@ -1,0 +1,5 @@
+Import-Package:	*
+Include-Resource: {maven-resources}
+Spring-Context: OSGI-INF/*.xml
+
+

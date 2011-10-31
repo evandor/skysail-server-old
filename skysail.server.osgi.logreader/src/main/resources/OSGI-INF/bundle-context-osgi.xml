@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                      http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+	<!-- === references to services consumed ====================================== -->
+	
+ 	<osgi:reference 
+		id="logProvider" 
+		interface="skysail.server.osgi.logging.memoryAppender.MemoryLogProvider" />
+
+<!--	<osgi:reference 
+		id="sfProvider" 
+		interface="de.skysail.server.osgi.hibernate.session.SessionFactoryProvider" />
+
+	trick to make sure the metadata bundle is already started
+	<osgi:reference cardinality="1..1"
+		id="metadataEntityService"
+		interface="de.skysail.server.EntityService"
+		filter="(component=um.metadata)" />
+ -->
+	<!-- === services provided  =================================================== -->
+
+	<osgi:service ref="osgiComponent" interface="de.skysail.server.UrlMapper" />
+	
+</beans>
