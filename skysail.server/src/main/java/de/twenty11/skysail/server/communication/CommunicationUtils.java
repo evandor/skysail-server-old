@@ -31,9 +31,13 @@ import freemarker.template.Template;
  */
 public class CommunicationUtils {
 
+    private static final String SKYSAIL_SERVER_RESTLETOSGI_MENU_FTL = "skysail.server.restletosgi:menu.ftl";
+
     private static final Logger  logger = LoggerFactory.getLogger(CommunicationUtils.class);
 
     private static Configuration configuration;
+
+    private String template = SKYSAIL_SERVER_RESTLETOSGI_MENU_FTL;
 
     @edu.umd.cs.findbugs.annotations.SuppressWarnings(
             value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD", 
@@ -41,7 +45,13 @@ public class CommunicationUtils {
     public void setConfiguration(Configuration freemarkerConfiguration) {
         CommunicationUtils.configuration = freemarkerConfiguration;
     }
-
+    
+    public CommunicationUtils() {    }
+    
+    public CommunicationUtils(String freemarkerTemplate) {
+        this.template = freemarkerTemplate;
+    }
+    
     /** === handle TreeNodeData ======================================== */
 
     /**
@@ -80,7 +90,7 @@ public class CommunicationUtils {
         if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
             return new JacksonRepresentation<SkysailResponse<TreeNodeData>>(response);
         } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
-            Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:menu.ftl");
+            Template ftlTemplate = getFtlTemplate(SKYSAIL_SERVER_RESTLETOSGI_MENU_FTL);
             return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
         } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
             return new XstreamRepresentation<SkysailResponse<TreeNodeData>>(response);
@@ -99,13 +109,21 @@ public class CommunicationUtils {
      * @param message
      * @return
      */
-    public static Representation createLinkRepresentation(final LinkData data, final Variant variant, Form query,
+    public Representation createLinkRepresentation(final LinkData data, final Variant variant, Form query,
             Request request, String message) {
         List<LinkData> oneElementList = new ArrayList<LinkData>();
         return createLinkRepresentation(oneElementList, variant, query, request, message);
     }
 
-    public static Representation createLinkRepresentation(List<LinkData> data, Variant variant, Form query,
+    /**
+     * @param data
+     * @param variant
+     * @param query
+     * @param request
+     * @param message
+     * @return
+     */
+    public Representation createLinkRepresentation(List<LinkData> data, Variant variant, Form query,
             Request request, String message) {
         SkysailResponse<LinkData> response;
         response = new SkysailSuccessResponse<LinkData>(message, data);
@@ -114,7 +132,7 @@ public class CommunicationUtils {
         if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
             return new JacksonRepresentation<SkysailResponse<LinkData>>(response);
         } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
-            Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:menu.ftl");
+            Template ftlTemplate = getFtlTemplate(template);
             return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
         } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
             return new XstreamRepresentation<SkysailResponse<LinkData>>(response);
@@ -138,7 +156,7 @@ public class CommunicationUtils {
         if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
             return new JacksonRepresentation<SkysailResponse<GridData>>(response);
         } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
-            Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:menu.ftl");
+            Template ftlTemplate = getFtlTemplate(SKYSAIL_SERVER_RESTLETOSGI_MENU_FTL);
             return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
         } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
             return new XstreamRepresentation<SkysailResponse<GridData>>(response);

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="skysail.server.osgi.bundles" default="copy2restletServer" basedir=".." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+	<description>
+		Concenience ant file to create the projects artifact and to copy it to the desired loction
+	</description>
+	
+	<condition property="mvn.command" value="mvn.bat">
+	   <os family="windows"/>
+	</condition>
+	<condition property="mvn.command" value="mvn">
+	   <os family="unix"/>
+	</condition>
+
+	<target name="install">
+		<exec dir="." executable="${mvn.command}">
+			<arg line="clean install" />
+		</exec>
+	</target>
+
+	<property name="pluginsFolder" value="../skysail.server.restlet/src/main/webapp/WEB-INF/eclipse/plugins/skysail" />
+
+	<target name="copy2restletServer" depends="install">
+		<!-- copy to server eclipse plugin repository -->
+		<copy todir="${pluginsFolder}" overwrite="true">
+			<fileset dir="target">
+				<include name="**/*.jar" />
+				<exclude name="**/*sources.jar" />
+			</fileset>
+		</copy>
+
+	</target>
+
+</project>

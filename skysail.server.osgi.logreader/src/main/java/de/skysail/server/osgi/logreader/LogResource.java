@@ -31,7 +31,8 @@ public class LogResource extends WadlServerResource {
     private Representation dispatchGet(LogReader handler, Variant variant) {
         String logname = (String) getRequest().getAttributes().get("logname");
         List<LinkData> loggerLinks = handler.getLogs(logname);
-        return CommunicationUtils.createLinkRepresentation(loggerLinks, variant, getQuery(), getRequest(), "Log Info");
+        CommunicationUtils commUtils = new CommunicationUtils();
+        return commUtils.createLinkRepresentation(loggerLinks, variant, getQuery(), getRequest(), "Log Info");
     }
 
 }

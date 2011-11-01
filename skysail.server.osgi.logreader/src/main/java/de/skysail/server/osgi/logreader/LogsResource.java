@@ -30,7 +30,8 @@ public class LogsResource extends WadlServerResource {
 
     private Representation dispatchGet(LogReader handler, Variant variant) {
         List<LinkData> loggerLinks = handler.getLoggerKeys();
-        return CommunicationUtils.createLinkRepresentation(loggerLinks, variant, getQuery(), getRequest(),
+        CommunicationUtils commUtils = new CommunicationUtils();
+        return commUtils.createLinkRepresentation(loggerLinks, variant, getQuery(), getRequest(),
                 "List of Logs");
     }
 
