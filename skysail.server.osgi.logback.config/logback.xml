@@ -1,9 +1,7 @@
 <configuration scan="true">
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
-			by default -->
 		<encoder>
-			<pattern>xxz %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
 			</pattern>
 		</encoder>
 	</appender>
@@ -18,13 +16,13 @@
 		</connectionSource>
 	</appender>
  -->
-	<appender name="memory" class="skysail.server.osgi.logging.memoryAppender.MemoryAppender">
-	
-	</appender>
 
+	<appender name="memory" class="skysail.server.osgi.logging.memoryAppender.MemoryAppender" />
+	
 	<root level="info">
 		<appender-ref ref="STDOUT" />
 		<!--appender-ref ref="DB" /-->
 		<appender-ref ref="memory" />
 	</root>
+
 </configuration>
