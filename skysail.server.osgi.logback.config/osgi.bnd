@@ -1,0 +1,3 @@
+Include-Resource: logback.xml=logback.xml
+Fragment-Host: ch.qos.logback.classic
+Bundle-ClassPath: .

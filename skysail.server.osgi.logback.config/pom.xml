@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<!-- usage on hudson: clean install bundle:install -->
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.2011.skysail</groupId>
+		<artifactId>skysail.maven.parentPom</artifactId>
+		<version>0.0.2</version>
+	</parent>
+
+	<artifactId>skysail.server.osgi.logback.config</artifactId>
+	<version>0.4.0</version>
+	<name>skysail server osgi logback configuration</name>
+	<packaging>bundle</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>2.3.4</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<_include>-osgi.bnd</_include>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+
+	</dependencies>
+
+</project>
