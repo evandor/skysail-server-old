@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<!-- usage on hudson: clean install bundle:install -->
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.2011.skysail</groupId>
+		<artifactId>skysail.maven.parentPom</artifactId>
+		<version>0.0.2</version>
+	</parent>
+
+	<artifactId>skysail.server.osgi.logging.osgi-over-slf4j</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>skysail server logging osgi over slf4j</name>
+	<packaging>bundle</packaging>
+
+	<build>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>2.3.4</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<_include>-bnd.bnd</_include>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>de.2011.skysail</groupId>
+			<artifactId>skysail.server.osgi</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.equinox</groupId>
+			<artifactId>org.eclipse.equinox.log</artifactId>
+			<version>1.2.100.v20100503</version>
+		</dependency>
+	</dependencies>
+</project>

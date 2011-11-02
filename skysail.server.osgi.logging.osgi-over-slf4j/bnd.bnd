@@ -1,0 +1,2 @@
+Import-Package:	*
+Bundle-Activator: skysail.server.osgi.logging.osgi_over_slf4j.Activator
