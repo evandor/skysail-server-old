@@ -1,0 +1,54 @@
+ -----
+ skysail Server
+ -----
+ evandor
+ -----
+ March 2011
+ 
+Introduction
+
+
+
+
+* Status
+
+
+ 
+   
+   
+* Next steps
+
+* Development
+
+ how to create a new component
+ 
+ how to implement the component interface
+ 
+  make sure to have this in your osgi.bnd file: Service-Component: OSGI-INF/uses.xml
+  create this file in src/main/resources and put something like this there
+  
++---+
+  <?xml version='1.0' encoding='utf-8'?>
+  <component name='de.twenty11.skysail.server.osgi.bookmarks.BookmarkComponentJavade.skysail.osgi.notes.java.NotesComponentJava' immediate='true'>
+    <implementation class='de.twenty11.skysail.server.osgi.bookmarks.BookmarkComponentJava'/>
+    <service>
+      <provide interface='de.twenty11.skysail.server.EntityService'/>
+    </service>
+    <property name='component' value='bookmarks'/>
+    <property name='openAction' value='components/bookmarks/menus/default/'/>
+    <property name='clickAction' value='components/bookmarks/show/'/>
+  </component>
++---+ 
+
+ how to create the database structure from an annotated file
+ 
+ put this in osgi.bnd
+ 
++---
+Import-Package:	org.hibernate.proxy,\
+ javassist.util.proxy,\
+ *
+Hibernate-Contribution: default; \
+	classes="de.twenty11.skysail.server.osgi.notes.java.Notes"
++---  
+  

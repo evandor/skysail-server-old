@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<component name='de.twenty11.skysail.server.osgi.internal.ComponentsLookup'>
+	<implementation class='de.twenty11.skysail.server.osgi.internal.ComponentsLookup' />
+	<service>
+		<provide interface='de.twenty11.skysail.server.osgi.IComponentsLookup' />
+	</service>
+	<reference name='de.twenty11.skysail.server.osgi.internal.ComponentsLookup'
+		interface='de.twenty11.skysail.server.EntityService' cardinality='0..n'
+		bind='addComponent' unbind='removeComponent' policy='dynamic' />
+</component>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<component name='de.twenty11.skysail.server.osgi.internal.skysailOsgiDispatcher'>
+	<implementation class='de.twenty11.skysail.server.osgi.internal.SkysailOsgiDispatcher' />
+
+	<reference name='de.twenty11.skysail.server.osgi.IComponentsLookup'
+		interface='de.twenty11.skysail.server.osgi.IComponentsLookup' bind='setLookup'
+		cardinality="1..1" policy="dynamic" />
+
+	<reference name='httpService' interface='org.osgi.service.http.HttpService'
+		bind='setHttp' unbind='unsetHttp' cardinality="1..1" policy="dynamic" />
+
+</component>
