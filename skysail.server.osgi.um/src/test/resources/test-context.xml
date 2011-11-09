@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<context:annotation-config/>
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<value>classpath:database.properties</value>
+		</property>
+	</bean>
+
+	<!-- Database Properties -->
+	<bean id="hibernateProperties"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="properties">
+			<props>
+
+				<prop key="hibernate.dialect">
+					${hibernate.dialect}
+				</prop>
+				<!-- Note: Hibernate is unable to 'validate' the schema when tables are -->
+				<!--       really synonyms (metadata problem)                           -->
+				<!-- use 'update' to autogenerate tables -->
+				<!-- <prop key="hibernate.hbm2ddl.auto">update</prop> -->
+				<prop key="hibernate.query.substitutions">
+					true 'T', false 'F'
+				</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.jdbc.batch_size">50</prop>
+				<prop key="hibernate.connection.release_mode">
+					auto
+				</prop>
+				<prop key="hibernate.c3p0.testConnectionOnCheckout">
+					false
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="connection.autocommit">false</prop>
+				<prop key="hibernate.connection.driver_class">${driver.classname}</prop>
+				<prop key="hibernate.connection.url">${database.url}</prop>				
+			</props>
+		</property>
+	</bean>
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${driver.classname}" />
+		<property name="url" value="${database.url}" />
+	</bean>
+
+	<bean id="dynamicConfiguration"
+		class="de.skysail.osgi.hibernate.session.DynamicSessionFactoryProvider">
+		<aop:scoped-proxy/>
+		<!--property name="dataSource" ref="dataSource" /-->
+		<property name="annotatedClasses">
+			<list>
+				<value>
+					de.skysail.server.osgi.um.users.User
+				</value>
+			</list>
+		</property>
+		<property name="hibernateProperties" ref="hibernateProperties" />
+	</bean>
+	
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="dynamicSessionFactory"/>
+	</bean>
+
+</beans>

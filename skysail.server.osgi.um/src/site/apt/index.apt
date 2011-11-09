@@ -1,0 +1,27 @@
+ -----
+ skysail Server
+ -----
+ evandor
+ -----
+ January 2011
+ 
+Introduction
+
+
+ This project (skysail server osgi notes) provides a simple
+ note application
+
+
+* Status
+
+
+ 
+   
+   
+* Next steps
+
+* Development
+
+ install by running maven clean install
+ then run mvn clean install on skysail.server.restlet
+ 

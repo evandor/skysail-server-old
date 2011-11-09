@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="skysail.server.osgi.um" default="copy2restletServer" basedir=".." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+	<description>
+		Concenience ant file to copy the osgi bundle to the restlet server.
+		Preferred way to do this is to run mvn "package" command on server.restlet
+    </description>
+
+	<target name="install">
+		<exec dir="." executable="mvn.bat">
+			<arg line="clean install" />
+		</exec>
+	</target>
+
+	<property name="pluginsFolder" value="../skysail.server.restlet/src/main/webapp/WEB-INF/eclipse/plugins/skysail" />
+
+	<target name="copy2restletServer" depends="install">
+		<!-- copy to server eclipse plugin repository -->
+		<copy todir="${pluginsFolder}" overwrite="true">
+			<fileset dir="target">
+				<include name="**/*.jar" />
+				<exclude name="**/*sources.jar" />
+			</fileset>
+		</copy>
+
+	</target>
+
+</project>
