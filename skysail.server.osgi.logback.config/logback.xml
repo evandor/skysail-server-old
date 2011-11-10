@@ -1,28 +1,40 @@
 <configuration scan="true">
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>hi %d{HH:mm:ss.SSS} [%thread{20}] %-5level %logger{36} - %msg%n
+			<pattern>%d{HH:mm:ss.SSS} [%thread{20}] %-5level %logger{36} - %msg%n
 			</pattern>
 		</encoder>
 	</appender>
 
-	<!-- <appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+	<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
 		<connectionSource
 			class="ch.qos.logback.core.db.DriverManagerConnectionSource">
 			<driverClass>com.mysql.jdbc.Driver</driverClass>
-			<url>jdbc:mysql://localhost:3306/skysailosgi</url>
+			<url>jdbc:mysql://localhost:3306/logback</url>
 			<user>root</user>
 			<password></password>
 		</connectionSource>
 	</appender>
- -->
 
-	<appender name="memory" class="skysail.server.osgi.logging.memoryAppender.MemoryAppender" />
-	
+	<appender name="MEMORY"
+		class="skysail.server.osgi.logging.memoryAppender.MemoryAppender" />
+
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>/home/carsten/testFile.log</file>
+		<append>true</append>
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
+			by default -->
+		<encoder>
+			<pattern>%msg%n</pattern>
+		</encoder>
+	</appender>
+
+
 	<root level="info">
 		<appender-ref ref="STDOUT" />
-		<!--appender-ref ref="DB" /-->
-		<appender-ref ref="memory" />
+		<!--appender-ref ref="DB" / -->
+		<appender-ref ref="MEMORY" />
+		<appender-ref ref="FILE" />
 	</root>
 
 </configuration>
