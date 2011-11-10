@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>org.eclipse.osgi</groupId>
 			<artifactId>org.eclipse.osgi.services</artifactId>
-			<version>3.3.0.v20101018</version>
+			<version>3.2.100.v20100503</version>
 		</dependency>
 		<dependency>
 			<groupId>org.restlet.jee</groupId>

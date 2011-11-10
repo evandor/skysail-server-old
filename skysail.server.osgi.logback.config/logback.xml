@@ -6,7 +6,7 @@
 		</encoder>
 	</appender>
 
-	<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+	<!-- appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
 		<connectionSource
 			class="ch.qos.logback.core.db.DriverManagerConnectionSource">
 			<driverClass>com.mysql.jdbc.Driver</driverClass>
@@ -14,7 +14,7 @@
 			<user>root</user>
 			<password></password>
 		</connectionSource>
-	</appender>
+	</appender-->
 
 	<appender name="MEMORY"
 		class="skysail.server.osgi.logging.memoryAppender.MemoryAppender" />
