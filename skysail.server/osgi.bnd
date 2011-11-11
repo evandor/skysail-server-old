@@ -1,4 +1,6 @@
-Import-Package:	*
+Import-Package:	de.twenty11.skysail.common.messages;version="[0.1.0, 1.0.0)",\
+ de.twenty11.skysail.common.responses;version="[0.1.0, 1.0.0)",\
+ *
 Bundle-SymbolicName: skysail.server
 Include-Resource: {maven-resources}
 Spring-Context: OSGI-INF/*.xml
