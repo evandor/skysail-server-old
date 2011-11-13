@@ -191,7 +191,7 @@ public class CommunicationUtils {
             throw new RuntimeException("media type '" + variant + "' not supported");
         }
     }
-
+    
     /**
      * === handle Errors
      * =================================================================
@@ -212,7 +212,7 @@ public class CommunicationUtils {
         }
     }
 
-    private static final Template getFtlTemplate(String templatePath) {
+    public static final Template getFtlTemplate(String templatePath) {
         // ServiceReference serviceRef =
         // bundleContext.getServiceReference(Configuration.class.getName());
         // Configuration service =
