@@ -22,7 +22,7 @@
 		[<a href="http://wiki.twentyeleven.de" target="_blank">Wiki</a>]
 		[<a href="http://jira.twentyeleven.de" target="_blank">Jira</a>]
 		[<a href="http://hudson.twentyeleven.de" target="_blank">Hudson</a>]
-		[<a href="http://nexus.twentyeleven.de/nexus/index.html" target="_blank">Nexus</a>]
+		[<a href="http://nexus.twentyeleven.de" target="_blank">Nexus</a>]
 		[<a href="http://sonar.twentyeleven.de" target="_blank">Sonar</a>]
   	</td>
   </tr>

@@ -7,7 +7,6 @@ import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
-import org.restlet.Application;
 import org.restlet.routing.TemplateRoute;
 import org.restlet.util.RouteList;
 import org.slf4j.Logger;
@@ -35,7 +34,7 @@ public class UrlMappingServiceListener implements ServiceListener {
     /**
      * the osgi bundle context provided in the constructor.
      */
-    private final BundleContext          bundleContext;
+    private final BundleContext bundleContext;
 
     /**
      * the restlet application.
@@ -45,17 +44,17 @@ public class UrlMappingServiceListener implements ServiceListener {
     /**
      * slf4j based logging implementation.
      */
-    private final Logger                 logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Constructor which needs the bundleContext and the RestletOsgiApplication.
      * 
      * When this Listener is instantiated, the bundleContext is queried for all
-     * the already existing serviceReferences to the de.twenty11.skysail.server.UrlMapper
-     * class. The mappings provided by those classes are then added to the
-     * applications router. This is done to make sure that all the mappings from
-     * running bundles are taken into account even though the restletosgi bundle
-     * might have been started later.
+     * the already existing serviceReferences to the
+     * de.twenty11.skysail.server.UrlMapper class. The mappings provided by
+     * those classes are then added to the applications router. This is done to
+     * make sure that all the mappings from running bundles are taken into
+     * account even though the restletosgi bundle might have been started later.
      * 
      * @param context
      *            the osgi bundle context
@@ -101,32 +100,6 @@ public class UrlMappingServiceListener implements ServiceListener {
 
     /**
      * All the provided URL mappings (from the serviceReference implementing the
-     * UrlMapper interface) are removed from the applications router.
-     * 
-     * Possible exceptions are translated into runtime exceptions.
-     * 
-     * @param serviceRef
-     *            the service reference to a UrlMapper.
-     */
-    private void removeMapping(final ServiceReference serviceRef) {
-        UrlMapper urlMapper = (UrlMapper) bundleContext.getService(serviceRef);
-        Map<String, String> providedMapping = urlMapper.getUrlMapping();
-        if (providedMapping == null) {
-            return;
-        }
-        for (Map.Entry<String, String> mapping : providedMapping.entrySet()) {
-            try {
-                logger.info("removing mapping '{}'", mapping);
-                application.getRouter().detach(Class.forName(mapping.getValue()));
-                logCurrentMapping(application.getRouter().getRoutes());
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException("was not able to find class " + mapping.getValue(), e);
-            }
-        }
-    }
-
-    /**
-     * All the provided URL mappings (from the serviceReference implementing the
      * UrlMapper interface) are attached to the applications router.
      * 
      * Possible exceptions are translated into runtime exceptions.
@@ -146,6 +119,32 @@ public class UrlMappingServiceListener implements ServiceListener {
             try {
                 logger.info("adding new mapping from '{}' to '{}'", mapping.getKey(), mapping.getValue());
                 application.getRouter().attach(mapping.getKey(), Class.forName(mapping.getValue()));
+                logCurrentMapping(application.getRouter().getRoutes());
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException("was not able to find class " + mapping.getValue(), e);
+            }
+        }
+    }
+
+    /**
+     * All the provided URL mappings (from the serviceReference implementing the
+     * UrlMapper interface) are removed from the applications router.
+     * 
+     * Possible exceptions are translated into runtime exceptions.
+     * 
+     * @param serviceRef
+     *            the service reference to a UrlMapper.
+     */
+    private void removeMapping(final ServiceReference serviceRef) {
+        UrlMapper urlMapper = (UrlMapper) bundleContext.getService(serviceRef);
+        Map<String, String> providedMapping = urlMapper.getUrlMapping();
+        if (providedMapping == null) {
+            return;
+        }
+        for (Map.Entry<String, String> mapping : providedMapping.entrySet()) {
+            try {
+                logger.info("removing mapping '{}'", mapping);
+                application.getRouter().detach(Class.forName(mapping.getValue()));
                 logCurrentMapping(application.getRouter().getRoutes());
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException("was not able to find class " + mapping.getValue(), e);
