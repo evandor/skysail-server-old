@@ -211,6 +211,21 @@ public class CommunicationUtils {
             throw new RuntimeException("media type '" + variant + "' not supported");
         }
     }
+    
+    public static Representation createErrorResponse(final Exception e, final org.slf4j.Logger logger, MediaType mediaType) {
+        //logger.info("creating error representation for variant " + variant);
+        SkysailResponse<Object> res = new SkysailFailureResponse(e);
+        if (mediaType.equals(MediaType.APPLICATION_JSON)) {
+            return new JacksonRepresentation<SkysailResponse<Object>>(res);
+        } else if (mediaType.equals(MediaType.TEXT_HTML)) {
+            Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:errormessage.ftl");
+            return new TemplateRepresentation(ftlTemplate, res, MediaType.TEXT_HTML);
+        } else if (mediaType.equals(MediaType.TEXT_XML)) {
+            return new JacksonRepresentation<SkysailResponse<Object>>(res);
+        } else {
+            throw new RuntimeException("media type '" + mediaType + "' not supported");
+        }
+    }
 
     public static final Template getFtlTemplate(String templatePath) {
         // ServiceReference serviceRef =
