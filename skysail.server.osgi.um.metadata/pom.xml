@@ -33,17 +33,17 @@
 		<dependency>
 			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.server.osgi</artifactId>
-			<version>0.1.0</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.server.osgi.um.users</artifactId>
-			<version>[0.4.0-SNAPSHOT,0.5.0)</version>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.server.osgi.hibernate-session</artifactId>
-			<version>[0.4.2,0.5.0)</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>cglib</groupId>
