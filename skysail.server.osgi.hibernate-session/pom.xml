@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>de.2011.skysail</groupId>
+		<groupId>de.twenty11.skysail</groupId>
 		<artifactId>skysail.maven.parentPom</artifactId>
 		<version>0.0.2</version>
 	</parent>
