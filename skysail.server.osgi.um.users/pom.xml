@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>de.2011.skysail</groupId>
 		<artifactId>skysail.maven.parentPom</artifactId>
-		<version>0.0.1</version>
+		<version>0.0.2</version>
 	</parent>
 
 	<artifactId>skysail.server.osgi.um.users</artifactId>
@@ -33,12 +33,12 @@
 		<dependency>
 			<groupId>de.2011.skysail</groupId>
 			<artifactId>skysail.server.osgi</artifactId>
-			<version>[0.0.1-SNAPSHOT,0.2.0)</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
-			<groupId>de.evandor</groupId>
+			<groupId>de.2011.skysail</groupId>
 			<artifactId>skysail.server.osgi.hibernate-session</artifactId>
-			<version>0.4.2</version>
+			<version>0.0.1</version>
 		</dependency>
 
 		<dependency>
