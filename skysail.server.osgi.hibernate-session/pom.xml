@@ -41,11 +41,7 @@
 			<artifactId>skysail.bundles.hibernate-core</artifactId>
 			<version>3.6.1.Final</version>
 		</dependency>
-		<dependency>
-			<groupId>org.eclipse</groupId>
-			<artifactId>osgi</artifactId>
-			<version>3.6.1.R36x_v20100806</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>com.springsource.javax.persistence</artifactId>
