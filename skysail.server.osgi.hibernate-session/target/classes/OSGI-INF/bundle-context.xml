@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- needed what for? <bean id="databaseLauncher" class="de.skysail.server.osgi.hibernate.session.db.DatabaseLauncher" 
+		init-method="startDatabase" /> -->
+
+	<!-- get the database property placeholders from the configuration directory -->
+	<bean 
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<!--value>classpath:OSGI-INF/database.properties</value -->
+			<value>file://${skysail.confDir}/database/datasource.properties
+			</value>
+		</property>
+	</bean>
+
+	<!-- bean implementing the exposed OSGi sessionFactoryProvider service -->
+	<bean id="dynamicSessionFactoryProvider"
+		class="de.skysail.server.osgi.hibernate.session.DynamicSessionFactoryProvider">
+		<property name="hibernateProperties" ref="hibernateProperties" />
+	</bean>
+
+	<!-- actual sessionFactory from the dynamicSessionFactoryProvider -->
+	<bean id="dynamicSessionFactory" class="de.skysail.server.osgi.hibernate.session.DynamicSessionFactory"
+		depends-on="dynamicSessionFactoryProvider">
+		<property name="configuration" ref="dynamicSessionFactoryProvider" />
+	</bean>
+
+	<!-- Database Properties -->
+	<bean id="hibernateProperties"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="properties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.query.substitutions">true 'T', false 'F'</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.jdbc.batch_size">50</prop>
+				<prop key="hibernate.connection.release_mode">auto</prop>
+				<prop key="hibernate.c3p0.testConnectionOnCheckout">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="connection.autocommit">false</prop>
+				<prop key="hibernate.connection.driver_class">${driver.classname}</prop>
+				<prop key="hibernate.connection.url">${database.url}</prop>
+				<prop key="hibernate.connection.username">${database.username}</prop>
+				<prop key="hibernate.connection.password">${database.password}</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- manage transaction policy -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="dynamicSessionFactory" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
+</beans>

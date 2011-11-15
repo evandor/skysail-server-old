@@ -1,0 +1,12 @@
+Export-Package: de.skysail.server.osgi.hibernate.session,\
+	de.skysail.server.osgi.hibernate.session.dao,\
+	de.skysail.server.osgi.hibernate.session.model,\
+	de.skysail.server.osgi.hibernate.session.db
+DynamicImport-Package: *
+Import-Package: org.hibernate
+Bundle-Activator: de.skysail.server.osgi.hibernate.session.internal.BundleTracker
+Include-Resource: {maven-resources}
+Spring-Context: OSGI-INF/*.xml
+Import-Package: org.hibernate.cfg,\
+	*
+Private-Package: de.skysail.server.osgi.hibernate.session.internal
