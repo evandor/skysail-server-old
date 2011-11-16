@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>skysail.server.configurationService</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1.wip</version>
 	<name>skysail.server.configurationService created by skysail archetype</name>
 	<packaging>bundle</packaging>
 

@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>skysail.server.osgi.logreader</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1.wip</version>
 	<name>skysail server osgi logreader service</name>
 	<packaging>bundle</packaging>
 

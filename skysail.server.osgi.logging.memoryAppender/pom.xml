@@ -16,7 +16,7 @@
 	</parent>
 
 	<artifactId>skysail.server.osgi.logging.memoryAppender</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1.wip</version>
 	<name>skysail server logging logback memory appender</name>
 	<packaging>bundle</packaging>
 
