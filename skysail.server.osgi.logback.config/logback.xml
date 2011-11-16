@@ -19,6 +19,9 @@
 	<appender name="MEMORY"
 		class="skysail.server.osgi.logging.memoryAppender.MemoryAppender" />
 
+	<appender name="STARTUP"
+		class="de.twenty11.skysail.logging.startup.StartupAppender" />
+
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
 		<file>/home/carsten/testFile.log</file>
 		<append>true</append>
@@ -33,6 +36,7 @@
 	<root level="info">
 		<appender-ref ref="STDOUT" />
 		<!--appender-ref ref="DB" / -->
+		<appender-ref ref="STARTUP" />
 		<appender-ref ref="MEMORY" />
 		<appender-ref ref="FILE" />
 	</root>

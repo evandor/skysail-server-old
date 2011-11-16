@@ -1,0 +1,2 @@
+Bundle-SymbolicName: skysail.server.logging.startup
+Service-Component: OSGI-INF/*.xml
