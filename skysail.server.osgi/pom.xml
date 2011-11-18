@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>skysail.server.osgi</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>#</version>
 	<name>skysail server osgi</name>
 	<packaging>bundle</packaging>
 
