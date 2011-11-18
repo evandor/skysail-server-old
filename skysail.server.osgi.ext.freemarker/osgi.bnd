@@ -1,0 +1,3 @@
+Bundle-Activator: de.twenty11.skysail.server.ext.freemarker.internal.Activator
+FtlTemplates: /freemarker/ftls/
+

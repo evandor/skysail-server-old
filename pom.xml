@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
  <parent>
-    <groupId>de.2011.skysail</groupId>
+    <groupId>de.twenty11.skysail</groupId>
     <artifactId>skysail.maven.parentPom</artifactId>
     <version>0.0.2</version>
   </parent>
@@ -17,6 +17,7 @@
   <modules>
     <module>skysail.server</module>
     <module>skysail.server.configurationService</module>
+    <module>skysail.server.logging.startup</module>
     <module>skysail.server.osgi.um</module>
     <module>skysail.server.osgi.hibernate-session</module>
     <module>skysail.server.osgi.um.users</module>
@@ -27,6 +28,7 @@
     <module>skysail.server.osgi.logging.memoryAppender</module>
     <module>skysail.server.osgi.logging.osgi-over-slf4j</module>
     <module>skysail.server.osgi.logreader</module>
+    <module>skysail.server.restletosgi</module>
   </modules>
 
 </project>

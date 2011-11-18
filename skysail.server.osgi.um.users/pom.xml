@@ -31,12 +31,12 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>de.2011.skysail</groupId>
+			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.server.osgi</artifactId>
 			<version>0.0.1</version>
 		</dependency>
 		<dependency>
-			<groupId>de.2011.skysail</groupId>
+			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.server.osgi.hibernate-session</artifactId>
 			<version>0.0.1</version>
 		</dependency>

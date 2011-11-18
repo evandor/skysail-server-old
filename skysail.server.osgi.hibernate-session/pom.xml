@@ -32,7 +32,7 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>de.2011.skysail</groupId>
+			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.server</artifactId>
 			<version>0.1.0</version>
 		</dependency>
