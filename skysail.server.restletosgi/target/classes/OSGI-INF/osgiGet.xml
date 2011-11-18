@@ -1,8 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<component
-	name='de.twenty11.skysail.server.restletosgi.RestletOsgiServerResource'>
-	<implementation
-		class='de.twenty11.skysail.server.restletosgi.RestletOsgiServerResource' />
-	<reference name='de.twenty11.skysail.server.osgi.IComponentsLookup'
-		interface='de.twenty11.skysail.server.osgi.IComponentsLookup' bind='setLookup' />
-</component>
