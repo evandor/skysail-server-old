@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>skysail.server.osgi.um</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>skysail server osgi usermangement interface defintions</name>
 	<packaging>bundle</packaging>
 
