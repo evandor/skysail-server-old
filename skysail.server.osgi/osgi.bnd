@@ -1,3 +1,5 @@
+Import-Package: de.twenty11.skysail.common;version="[0.1.0, 1.0.0)",\
+ *
 Bundle-SymbolicName: skysail.server.osgi
 Include-Resource: {maven-resources}
 Service-Component: OSGI-INF/*.xml
