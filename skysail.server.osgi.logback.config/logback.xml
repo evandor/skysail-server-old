@@ -20,7 +20,7 @@
 		class="skysail.server.osgi.logging.memoryAppender.MemoryAppender" />
 
 	<appender name="STARTUP"
-		class="de.twenty11.skysail.logging.startup.StartupAppender" />
+		class="de.twenty11.skysail.logging.startup.StartupLogAppender" />
 
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
 		<file>/home/carsten/testFile.log</file>
