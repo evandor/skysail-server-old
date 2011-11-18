@@ -5,12 +5,12 @@
 
 	<parent>
 		<groupId>de.twenty11.skysail</groupId>
-		<artifactId>skysail.maven.parentPom</artifactId>
-		<version>0.0.2</version>
+		<artifactId>skysail.build.maven.parentPom</artifactId>
+		<version>0.0.7</version>
 	</parent>
 
 	<artifactId>skysail.server.osgi.um</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>skysail server osgi usermangement interface defintions</name>
 	<packaging>bundle</packaging>
 
@@ -29,7 +29,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
-	</dependencies>
 
 </project>
