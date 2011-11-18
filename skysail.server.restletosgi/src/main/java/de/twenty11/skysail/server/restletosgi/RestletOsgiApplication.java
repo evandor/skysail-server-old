@@ -7,6 +7,8 @@ import org.osgi.framework.ServiceReference;
 import org.restlet.Restlet;
 import org.restlet.ext.wadl.WadlApplication;
 import org.restlet.routing.Router;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -16,6 +18,9 @@ import freemarker.template.Template;
  * 
  */
 public class RestletOsgiApplication extends WadlApplication {
+
+    /** slf4j based logger implementation */
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /** the restlet router. */
     protected Router router;
@@ -34,7 +39,7 @@ public class RestletOsgiApplication extends WadlApplication {
     @Override
     public final Restlet createRoot() {
 
-        // Create a router
+        logger.info("creating new Router in {}", this.getClass().getName());
         router = new Router(getContext());
         attach();
 
@@ -52,14 +57,6 @@ public class RestletOsgiApplication extends WadlApplication {
         router.attach("/", SkysailRootServerResource.class);
 
     }
-
-    // @Override
-    // public Restlet createInboundRoot() {
-    // Blocker blocker = new Blocker(getContext());
-    // // blocker.getBlockedAddresses().add("127.0.0.1");
-    // blocker.setNext(new Tracer(getContext()));
-    // return blocker;
-    // }
 
     /**
      * attaches a path/classname pair to the router.
