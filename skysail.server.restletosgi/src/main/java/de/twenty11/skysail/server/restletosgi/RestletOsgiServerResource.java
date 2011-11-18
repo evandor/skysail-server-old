@@ -152,14 +152,14 @@ public class RestletOsgiServerResource extends WadlServerResource {
 
     private Representation dispatchVariant(Exception e, Variant variant) {
         logger.info("creating error representation for variant " + variant);
-        SkysailResponse<Object> res = new SkysailFailureResponse(e);
+        SkysailResponse<SkysailData> res = new SkysailFailureResponse(e);
         if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
-            return new JacksonRepresentation<SkysailResponse<Object>>(res);
+            return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
         } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
             Template ftlTemplate = RestletOsgiApplication.getFtlTemplate("skysail.server.restletosgi:errormessage.ftl");
             return new TemplateRepresentation(ftlTemplate, res, MediaType.TEXT_HTML);
         } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
-            return new JacksonRepresentation<SkysailResponse<Object>>(res);
+            return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
         } else {
             throw new RuntimeException("media type '" + variant + "' not supported");
         }
