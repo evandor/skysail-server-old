@@ -15,6 +15,7 @@ import org.restlet.representation.Variant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.common.SkysailData;
 import de.twenty11.skysail.common.messages.FormData;
 import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.common.messages.LinkData;
@@ -199,14 +200,14 @@ public class CommunicationUtils {
 
     public static Representation createErrorResponse(final Exception e, final org.slf4j.Logger logger, Variant variant) {
         logger.info("creating error representation for variant " + variant);
-        SkysailResponse<Object> res = new SkysailFailureResponse(e);
+        SkysailResponse<SkysailData> res = new SkysailFailureResponse(e);
         if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
-            return new JacksonRepresentation<SkysailResponse<Object>>(res);
+            return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
         } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
             Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:errormessage.ftl");
             return new TemplateRepresentation(ftlTemplate, res, MediaType.TEXT_HTML);
         } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
-            return new JacksonRepresentation<SkysailResponse<Object>>(res);
+            return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
         } else {
             throw new RuntimeException("media type '" + variant + "' not supported");
         }
@@ -214,14 +215,14 @@ public class CommunicationUtils {
     
     public static Representation createErrorResponse(final Exception e, final org.slf4j.Logger logger, MediaType mediaType) {
         //logger.info("creating error representation for variant " + variant);
-        SkysailResponse<Object> res = new SkysailFailureResponse(e);
+        SkysailResponse<SkysailData> res = new SkysailFailureResponse(e);
         if (mediaType.equals(MediaType.APPLICATION_JSON)) {
-            return new JacksonRepresentation<SkysailResponse<Object>>(res);
+            return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
         } else if (mediaType.equals(MediaType.TEXT_HTML)) {
             Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:errormessage.ftl");
             return new TemplateRepresentation(ftlTemplate, res, MediaType.TEXT_HTML);
         } else if (mediaType.equals(MediaType.TEXT_XML)) {
-            return new JacksonRepresentation<SkysailResponse<Object>>(res);
+            return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
         } else {
             throw new RuntimeException("media type '" + mediaType + "' not supported");
         }

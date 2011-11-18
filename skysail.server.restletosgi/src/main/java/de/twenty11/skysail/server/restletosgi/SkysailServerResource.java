@@ -17,22 +17,39 @@ import de.twenty11.skysail.server.communication.CommunicationUtils;
 import freemarker.template.Template;
 
 /**
- * @author carsten
+ * By implementing this class you can provide RESTful access to a specific resource, i.e.
+ * a RESTful representation of the resource.
  * 
+ * The type of the representation depends on the request. Currently JSON, XML and HTML are
+ * supported.
+ * 
+ * If an exception occurs, skysail will create an error-representation with information 
+ * about the exception with the same type (Json, xml,...). 
+ * 
+ * @param <T> has to extend the marker interface SkysailData.
  */
 public abstract class SkysailServerResource<T extends SkysailData> extends WadlServerResource {
 
     /** slf4j based logger implementation */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /** short message to be passed to the client */
     private String message = "";
 
+    /** template to be shown. */
     private String template = "skysail.product.twindir:accounts.ftl";
 
     public SkysailServerResource(String message) {
         this.message = message;
     }
 
+    /**
+     * Implementors of this class have to provide data which will be used to create
+     * a restlet representation. Which type of representation (json, xml, ...) will
+     * be returned depends on the request details.
+     * 
+     * @return Type extending SkysailData
+     */
     public abstract T getData();
 
     @Get("json")
