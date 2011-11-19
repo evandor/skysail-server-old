@@ -6,6 +6,7 @@
 		<groupId>de.twenty11.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
 		<version>0.0.8</version>
+		<relativePath></relativePath>
 	</parent>
 
 	<artifactId>skysail.server</artifactId>
