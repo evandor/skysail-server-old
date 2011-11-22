@@ -1,6 +1,6 @@
 
 
-version 0.0.3 (Nov. 2011):
+version 0.0.4 (Nov. 2011):
 -------------
 
 using 0.0.20 parent pom now
