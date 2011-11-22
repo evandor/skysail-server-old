@@ -3,6 +3,7 @@
 version 0.0.4 (Nov. 2011):
 -------------
 
+removing dependency to skysail.server.osgi.um
 using 0.0.20 parent pom now
 
 Older:

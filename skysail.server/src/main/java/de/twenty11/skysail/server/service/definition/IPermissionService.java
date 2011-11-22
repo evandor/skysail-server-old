@@ -1,4 +1,4 @@
-package de.skysail.server.osgi.um;
+package de.twenty11.skysail.server.service.definition;
 
 import java.security.Principal;
 

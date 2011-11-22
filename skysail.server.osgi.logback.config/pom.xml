@@ -7,8 +7,8 @@
 
 	<parent>
 		<groupId>de.twenty11.skysail</groupId>
-		<artifactId>skysail.maven.parentPom</artifactId>
-		<version>0.0.2</version>
+		<artifactId>skysail.build.maven.parentPom</artifactId>
+		<version>0.0.20</version>
 	</parent>
 
 	<artifactId>skysail.server.osgi.logback.config</artifactId>

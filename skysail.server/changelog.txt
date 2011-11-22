@@ -1,6 +1,10 @@
 
+version 0.1.5 (Nov. 2011):
+-------------
 
-version 0.0.4 (Nov. 2011):
+integrating iPermissionService and Role from skysail.server.osgi.um
+
+version 0.1.4 (Nov. 2011):
 -------------
 
 using 0.0.20 parent pom now
