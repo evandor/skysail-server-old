@@ -22,7 +22,7 @@
 	
 
 	<artifactId>skysail.server.osgi.logging.memoryAppender</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>skysail server logging logback memory appender</name>
 	<packaging>bundle</packaging>
 
