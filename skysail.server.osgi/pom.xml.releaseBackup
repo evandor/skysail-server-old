@@ -7,11 +7,11 @@
 	<parent>
 		<groupId>de.twenty11.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.0.7</version>
+		<version>0.0.20</version>
 	</parent>
 
 	<artifactId>skysail.server.osgi</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.4-SNAPSHOT</version>
 	<name>skysail server osgi</name>
 	<packaging>bundle</packaging>
 
@@ -41,12 +41,7 @@
 		<dependency>
 			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.server</artifactId>
-			<version>0.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>de.twenty11.skysail</groupId>
-			<artifactId>skysail.server.osgi.um</artifactId>
-			<version>0.0.3</version>
+			<version>[0.1.4,0.2.0)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.sonatype.tycho</groupId>
