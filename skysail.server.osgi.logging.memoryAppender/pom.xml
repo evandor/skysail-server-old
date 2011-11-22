@@ -14,6 +14,13 @@
 		<artifactId>skysail.build.maven.parentPom</artifactId>
 		<version>0.0.20</version>
 	</parent>
+	
+	<scm>
+		<connection>scm:git:git://javaforge.com/skysail-server</connection>
+		<url>scm:git:http://javaforge.com/git/skysail-server</url>
+		<developerConnection>scm:git:[fetch=]git://javaforge.com/skysail-server[push=]http://javaforge.com/git/skysail-server</developerConnection>
+	</scm>
+	
 
 	<artifactId>skysail.server.osgi.logging.memoryAppender</artifactId>
 	<version>0.0.1.wip</version>

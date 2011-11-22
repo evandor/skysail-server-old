@@ -19,6 +19,13 @@
 		<exam.version>2.3.0.M1</exam.version>
 		<url.version>1.3.5</url.version>
 	</properties>
+	
+	<scm>
+		<connection>scm:git:git://javaforge.com/skysail-server</connection>
+		<url>scm:git:http://javaforge.com/git/skysail-server</url>
+		<developerConnection>scm:git:[fetch=]git://javaforge.com/skysail-server[push=]http://javaforge.com/git/skysail-server</developerConnection>
+	</scm>
+	
 
 	<build>
 		<plugins>
