@@ -16,7 +16,7 @@
 	<scm>
 		<connection>scm:git:git://javaforge.com/skysail-server</connection>
 		<url>scm:git:http://javaforge.com/git/skysail-server</url>
-		<developerConnection>scm:git:[fetch=]git://javaforge.com/skysail-server[push=]http://javaforge.com/git/skysail-server</developerConnection>
+		<developerConnection>scm:git:[fetch=]http://javaforge.com/git/skysail-server[push=]http://javaforge.com/git/skysail-server</developerConnection>
 	</scm>
 
 	<build>
