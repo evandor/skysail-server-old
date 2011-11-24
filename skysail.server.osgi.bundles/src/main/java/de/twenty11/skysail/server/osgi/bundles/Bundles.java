@@ -47,19 +47,6 @@ public class Bundles implements UrlMapper {
         return SingletonHolder.instance;
     }
 
-//    public List<LinkData> getBundles() {
-//        Bundle[] bundles = bundleContext.getBundles();
-//        List<LinkData> results = new ArrayList<LinkData>();
-//        for (Bundle bundle : bundles) {
-//            LinkData link = new LinkData();
-//            link.setHref("bundles/" + bundle.getSymbolicName());
-//            link.setValue(bundle.getSymbolicName());
-//            results.add(link);
-//        }
-//        return results;
-//
-//    }
-
     public GridData getBundles() {
         Bundle[] bundles = bundleContext.getBundles();
         GridInfo fieldsList = SkysailUtils.createFieldList(fields);
@@ -70,13 +57,14 @@ public class Bundles implements UrlMapper {
             cols.add(bundle.getBundleId());
             cols.add(bundle.getSymbolicName());
             cols.add(bundle.getVersion());
-            cols.add(bundle.getState());
+            cols.add(translateStatus(bundle.getState()));
             col.setColumnData(cols);
             grid.addRowData(col);
         }
         return grid;
 
     }
+
     public void setContext(BundleContext context) {
         this.bundleContext = context;
     }
@@ -91,4 +79,25 @@ public class Bundles implements UrlMapper {
         return null;
     }
 
+    private String translateStatus(int state) {
+        // state as defined in org.osgi.framework.Bundle
+        switch (state) {
+            case Bundle.ACTIVE :
+                return "ACTIVE";
+            case Bundle.INSTALLED :
+                return "INSTALLED";
+            case Bundle.RESOLVED :
+                return "RESOLVED";
+            case Bundle.STARTING :
+                return "STARTING";
+            case Bundle.STOPPING :
+                return "STOPPING";
+            case Bundle.UNINSTALLED :
+                return "UNINSTALLED";
+            default :
+                return "unknown (" + state +")";
+        }
+    }
+
+    
 }
