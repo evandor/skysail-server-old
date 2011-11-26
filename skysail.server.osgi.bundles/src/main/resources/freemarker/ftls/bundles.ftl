@@ -44,7 +44,13 @@ ${message}
 	  <#assign columns = row.columnData>
 	  <tr>
 	    <#list columns as columnData>
-		<td>${columnData}</td>
+		<td>
+		  <#if columnData_index == 1>
+		      <a href='${columnData}/'>${columnData}</a>
+		  <#else>
+			  ${columnData}
+		  </#if>
+		</td>
 		</#list>
 		<td><#if columns[1]?starts_with("skysail.")>
 			<a href='http://www.evandor.de:8787/job/${columns[1]}/' target='_blank'>project</a>&nbsp;

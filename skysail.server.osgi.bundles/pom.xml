@@ -95,5 +95,12 @@
 			<version>${url.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>de.twenty11.skysail</groupId>
+			<artifactId>skysail.server.restletosgi</artifactId>
+			<version>[0.0.5-SNAPSHOT, 0.1)</version>
+			<type>bundle</type>
+		</dependency>
 	</dependencies>
 </project>

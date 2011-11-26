@@ -1,10 +1,7 @@
-package de.twenty11.skysail.server.osgi.bundles;
+package de.twenty11.skysail.server.osgi.bundles.internal;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -12,24 +9,13 @@ import org.osgi.framework.BundleContext;
 import de.twenty11.skysail.common.RowData;
 import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.common.messages.GridInfo;
-import de.twenty11.skysail.server.UrlMapper;
 import de.twenty11.skysail.server.osgi.SkysailUtils;
 
-public class Bundles implements UrlMapper {
+public class Bundles {
 
     private BundleContext bundleContext;
 
-    public static final String RESTLET_BUNDLE_CONTEXT_ID = "bundles";
-    public static final String RESTLET_BUNDLE_NAME_ID = "bundleName";
     private static final String[] fields = { "ID","symbolicName", "version", "status" };
-
-    @Override
-    public Map<String, String> getUrlMapping() {
-        Map<String, String> queue = Collections.synchronizedMap(new LinkedHashMap<String, String>());
-        queue.put("/" + RESTLET_BUNDLE_CONTEXT_ID + "/", BundlesResource.class.getName());
-        queue.put("/" + RESTLET_BUNDLE_CONTEXT_ID + "/{" + RESTLET_BUNDLE_NAME_ID + "}", BundleResource.class.getName());
-        return queue;
-    }
 
     private Bundles() {
     }

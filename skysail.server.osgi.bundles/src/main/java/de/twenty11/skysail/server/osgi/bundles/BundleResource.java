@@ -1,42 +1,49 @@
 package de.twenty11.skysail.server.osgi.bundles;
 
 import org.osgi.framework.Bundle;
-import org.restlet.ext.wadl.WadlServerResource;
-import org.restlet.representation.Representation;
-import org.restlet.representation.Variant;
-import org.restlet.resource.Get;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.messages.FormData;
 import de.twenty11.skysail.common.messages.TextFieldData;
-import de.twenty11.skysail.server.communication.CommunicationUtils;
+import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
+import de.twenty11.skysail.server.osgi.bundles.internal.BundlesUrlMapper;
+import de.twenty11.skysail.server.restletosgi.SkysailServerResource;
 
-public class BundleResource extends WadlServerResource {
+public class BundleResource extends SkysailServerResource<FormData> {
 
     /** slf4j based logger implementation */
-    private static final Logger logger = LoggerFactory.getLogger(BundleResource.class);
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Get("json|xml|html|txt")
-    public Representation processRequest(Variant variant) {
-        try {
-            logger.debug("dispatching accepted media types: " + getRequest().getClientInfo().getAcceptedMediaTypes());
-            return dispatchGet(variant);
-        } catch (Exception e) {
-            return CommunicationUtils.createErrorResponse(e, logger, variant);
-        }
+    public BundleResource() {
+        super("Bundle Information");
+        setTemplate("skysail.server.osgi.bundles:bundle.ftl");
     }
 
-    private Representation dispatchGet(Variant variant) {
-        String bundleName = (String) getRequest().getAttributes().get(Bundles.RESTLET_BUNDLE_NAME_ID);
+    @Override
+    public FormData getData() {
+        String bundleName = (String) getRequest().getAttributes().get(BundlesUrlMapper.RESTLET_BUNDLE_NAME_ID);
         Bundle bundle = Bundles.getInstance().getBundle(bundleName);
         FormData form = new FormData();
+        
         TextFieldData tfd = new TextFieldData("symbolicName", bundle.getSymbolicName());
         form.addField(tfd);
+        
+        tfd = new TextFieldData("id", Long.toString(bundle.getBundleId()));
+        form.addField(tfd);
+
+        tfd = new TextFieldData("state", Integer.toString(bundle.getState()));
+        form.addField(tfd);
+
+        tfd = new TextFieldData("lastModified", Long.toString(bundle.getLastModified()));
+        form.addField(tfd);
+
+        tfd = new TextFieldData("version", bundle.getVersion().toString());
+        form.addField(tfd);
+
         tfd = new TextFieldData("location", bundle.getLocation());
         form.addField(tfd);
-        
-        return CommunicationUtils.createFormRepresentation(form,variant,getQuery(), getRequest(), "Bundle Info");
+        return form;
     }
 
 }
