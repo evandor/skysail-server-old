@@ -28,7 +28,7 @@
     <module>skysail.server.osgi.logging.memoryAppender</module>
     <module>skysail.server.osgi.logging.osgi-over-slf4j</module>
     <module>skysail.server.osgi.logreader</module>
-    <module>skysail.server.osgi.restletosgi</module>
+    <module>skysail.server.restletosgi</module>
   </modules>
 
 </project>

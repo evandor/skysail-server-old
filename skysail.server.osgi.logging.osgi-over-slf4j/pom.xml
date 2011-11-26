@@ -12,7 +12,7 @@
 	</parent>
 
 	<artifactId>skysail.server.osgi.logging.osgi-over-slf4j</artifactId>
-	<version>0.0.1.wip</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>skysail server logging osgi over slf4j</name>
 	<packaging>bundle</packaging>
 
