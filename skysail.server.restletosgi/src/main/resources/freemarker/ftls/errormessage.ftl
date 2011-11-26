@@ -21,7 +21,8 @@ ${message}
 <h2>Data</h2>
 
 Error occured:<br><br>
+<pre>
 ${message}
-
+</pre>
 </body>
 </html>

@@ -77,6 +77,9 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
         try {
             SkysailResponse<T> response = new SkysailSuccessResponse<T>(message, getData());
             response.setOrigRequest(getRequest().getOriginalRef().toUrl());
+            if (getQuery() != null && getQuery().getNames().contains("debug")) {
+                response.setDebug(true);
+            }
             Template ftlTemplate = CommunicationUtils.getFtlTemplate(template);
             return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
         } catch (Exception e) {
