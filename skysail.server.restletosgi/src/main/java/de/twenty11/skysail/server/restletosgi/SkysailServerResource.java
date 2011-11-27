@@ -1,5 +1,7 @@
 package de.twenty11.skysail.server.restletosgi;
 
+import java.net.URL;
+
 import org.restlet.data.MediaType;
 import org.restlet.ext.freemarker.TemplateRepresentation;
 import org.restlet.ext.jackson.JacksonRepresentation;
@@ -56,6 +58,8 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     public Representation getJson() {
         try {
             SkysailResponse<T> response = new SkysailSuccessResponse<T>(message, getData());
+            response.setOrigRequest(getRequest().getOriginalRef().toUrl());
+            response.setParent(getParent());
             return new JacksonRepresentation<SkysailResponse<T>>(response);
         } catch (Exception e) {
             return CommunicationUtils.createErrorResponse(e, logger, MediaType.APPLICATION_JSON);
@@ -66,6 +70,8 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     public Representation getXml() {
         try {
             SkysailResponse<T> response = new SkysailSuccessResponse<T>(message, getData());
+            response.setOrigRequest(getRequest().getOriginalRef().toUrl());
+            response.setParent(getParent());
             return new XstreamRepresentation<SkysailResponse<T>>(response);
         } catch (Exception e) {
             return CommunicationUtils.createErrorResponse(e, logger, MediaType.APPLICATION_XML);
@@ -77,6 +83,7 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
         try {
             SkysailResponse<T> response = new SkysailSuccessResponse<T>(message, getData());
             response.setOrigRequest(getRequest().getOriginalRef().toUrl());
+            response.setParent(getParent());
             if (getQuery() != null && getQuery().getNames().contains("debug")) {
                 response.setDebug(true);
             }
@@ -89,5 +96,11 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     
     public void setTemplate(String template) {
         this.template = template;
+    }
+    
+    public URL getParent() {
+        URL origRequest = getRequest().getOriginalRef().getParentRef().toUrl();
+        //origRequest.getProtocol() + "://" + origRequest.getHost() + ":" + origRequest.getPort() + 
+        return origRequest;
     }
 }
