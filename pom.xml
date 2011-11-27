@@ -19,7 +19,7 @@
     <module>skysail.server.configurationService</module>
     <module>skysail.server.logging.startup</module>
     <module>skysail.server.osgi.um</module>
-    <module>skysail.server.osgi.hibernate-session</module>
+    <!--module>skysail.server.osgi.hibernate-session</module-->
     <module>skysail.server.osgi.um.users</module>
     <module>skysail.server.osgi</module>
     <module>skysail.server.osgi.bundles</module>
