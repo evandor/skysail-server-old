@@ -37,6 +37,10 @@ ${message}
       <td>${fields.id.value}</td>
     </tr>
     <tr>
+      <th>Status</th>
+      <td>${fields.state.value}</td>
+    </tr>
+    <tr>
       <th>Version</th>
       <td>${fields.version.value}</td>
     </tr>
