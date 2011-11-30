@@ -48,6 +48,10 @@ ${message}
       <th>Last Modified</th>
       <td>${fields.lastModified.value}</td>
     </tr>
+    <tr>
+      <th>&nbsp;</th>
+      <td><a href='importedPackages/'>Imported Packages</a></td>
+    </tr>
     </table>
   </#if> 
 

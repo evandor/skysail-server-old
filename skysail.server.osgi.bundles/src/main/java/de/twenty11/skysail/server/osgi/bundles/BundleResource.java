@@ -22,8 +22,8 @@ public class BundleResource extends SkysailServerResource<FormData> {
 
     @Override
     public FormData getData() {
-        String bundleName = (String) getRequest().getAttributes().get(BundlesUrlMapper.RESTLET_BUNDLE_NAME_ID);
-        Bundle bundle = Bundles.getInstance().getBundle(bundleName);
+        String bundleId = (String) getRequest().getAttributes().get(BundlesUrlMapper.BUNDLE_ID);
+        Bundle bundle = Bundles.getInstance().getBundle(Long.parseLong(bundleId));
         FormData form = new FormData();
         
         TextFieldData tfd = new TextFieldData("symbolicName", bundle.getSymbolicName());
@@ -43,6 +43,7 @@ public class BundleResource extends SkysailServerResource<FormData> {
 
         tfd = new TextFieldData("location", bundle.getLocation());
         form.addField(tfd);
+
         return form;
     }
 

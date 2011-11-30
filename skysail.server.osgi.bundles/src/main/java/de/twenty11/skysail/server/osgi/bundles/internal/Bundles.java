@@ -7,6 +7,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 import de.twenty11.skysail.common.RowData;
+import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.common.messages.GridInfo;
 import de.twenty11.skysail.server.osgi.SkysailUtils;
@@ -33,7 +34,7 @@ public class Bundles {
         return SingletonHolder.instance;
     }
 
-    public GridData getBundles() {
+    public GridData getBundles(Filter filter) {
         Bundle[] bundles = bundleContext.getBundles();
         GridInfo fieldsList = SkysailUtils.createFieldList(fields);
         GridData grid = new GridData(fieldsList.getColumns());
@@ -41,6 +42,8 @@ public class Bundles {
             RowData col = new RowData();
             List<Object> cols = new ArrayList<Object>();
             cols.add(bundle.getBundleId());
+            if (!filter.match("filterSymbolicName", bundle.getSymbolicName()))
+                continue;
             cols.add(bundle.getSymbolicName());
             cols.add(bundle.getVersion());
             cols.add(translateStatus(bundle.getState()));
@@ -63,6 +66,10 @@ public class Bundles {
             }
         }
         return null;
+    }
+
+    public Bundle getBundle(long id) {
+        return this.bundleContext.getBundle(id);
     }
 
     private String translateStatus(int state) {

@@ -46,7 +46,7 @@ ${message}
 	    <#list columns as columnData>
 		<td>
 		  <#if columnData_index == 1>
-		      <a href='${columnData}/'>${columnData}</a>
+		      <a href='${columns[0]}/'>${columnData}</a>
 		  <#else>
 			  ${columnData}
 		  </#if>
