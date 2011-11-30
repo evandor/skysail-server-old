@@ -6,6 +6,8 @@
   	</td>
   	<td style="background-color:#CCDDEE; width:150px">
       <!--[<a href="?method=OPTIONS" target="_blank">Wadl Documentation</a>]-->
+		[<a href="${origRequest}">Reload</a>]
+		<#if parent??>[<a href="${parent}">Up</a>]</#if>
   	</td>
   	<td style="background-color:#CCDDEE; width:300px">
 <#assign request = origRequest?split("?")[0] />

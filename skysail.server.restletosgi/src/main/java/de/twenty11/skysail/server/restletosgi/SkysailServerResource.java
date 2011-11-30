@@ -98,7 +98,7 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
         this.template = template;
     }
     
-    public URL getParent() {
+    private URL getParent() {
         URL origRequest = getRequest().getOriginalRef().getParentRef().toUrl();
         //origRequest.getProtocol() + "://" + origRequest.getHost() + ":" + origRequest.getPort() + 
         return origRequest;
