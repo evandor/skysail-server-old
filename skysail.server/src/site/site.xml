@@ -10,12 +10,13 @@
   </bannerRight>
   <body>
     <links>
-      <item name="Maven Repository" href="http://62.75.235.75:8787/job/skysail.server/" />
+      <item name="Skysail Home" href="http://www.twentyeleven.de/" />
     </links>
 
-    <menu name="Maven 2.0">
+    <menu name="skysail.server">
       <item name="Introduction" href="index.html"/>
-      <item name="Versions and Todos" href="versions.html"/>
+      <item name="Links" href="links.html"/>      
+      <item name="Changelog" href="changelog.html"/>
       <item name="Skysail Server Developer Setup" href="setup.html"/>
       
       
