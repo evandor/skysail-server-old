@@ -4,6 +4,6 @@ Import-Package:	de.twenty11.skysail.common;version="[0.1.0, 1.0.0)",\
  *
 Bundle-SymbolicName: skysail.server
 Include-Resource: {maven-resources}
-Spring-Context: OSGI-INF/*.xml
+Service-Component: OSGI-INF/freemarker.xml
 
 
