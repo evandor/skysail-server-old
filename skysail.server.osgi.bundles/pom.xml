@@ -16,11 +16,13 @@
 	</properties>
 
 	<scm>
-		<connection>scm:git:git://javaforge.com/skysail-server</connection>
-		<url>scm:git:http://javaforge.com/git/skysail-server</url>
-		<developerConnection>scm:git:[fetch=]http://javaforge.com/git/skysail-server[push=]http://javaforge.com/git/skysail-server</developerConnection>
+		<!-- read access -->
+		<connection>scm:git:git@github.com:evandor/skysail-server.git</connection>
+		<!-- write access -->
+		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
+		<!-- A publicly browsable repository. For example, via ViewCVS. -->
+		<url>https://github.com/evandor/skysail-server</url>
 	</scm>
-
 
 	<artifactId>skysail.server.osgi.bundles</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
