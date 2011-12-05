@@ -1,3 +1,7 @@
+ <<0.1.6-SNAPSHOT>>
+ 
+  * switch from spring-context to service-component
+
  <<0.1.5 (Dec. 2011)>>
 
   * integrating iPermissionService and Role from skysail.server.osgi.um
