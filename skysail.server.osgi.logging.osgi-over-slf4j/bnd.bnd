@@ -1,2 +1,3 @@
 Import-Package:	*
+Bundle-SymbolicName: skysail.server.osgi.logging.osgi-over-slf4j
 Bundle-Activator: skysail.server.osgi.logging.osgi_over_slf4j.Activator
