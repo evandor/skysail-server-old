@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.configurationService;
+package de.twenty11.skysail.server.configuration.byPropertiesService;
 
 import de.twenty11.skysail.server.service.definition.ConfigService;
 

@@ -8,7 +8,7 @@
 		<version>0.1.0</version>
 	</parent>
 
-	<artifactId>skysail.server.configurationService</artifactId>
+	<artifactId>skysail.server.configuration.byPropertiesService</artifactId>
 	<version>0.0.3-SNAPSHOT</version>
 	<name>skysail.server.configurationService created by skysail archetype</name>
 	<packaging>bundle</packaging>

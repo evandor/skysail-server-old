@@ -1,2 +1,2 @@
-Bundle-SymbolicName: skysail.server.configurationService
+Bundle-SymbolicName: skysail.server.configuration.byPropertiesService
 Service-Component: OSGI-INF/*.xml
