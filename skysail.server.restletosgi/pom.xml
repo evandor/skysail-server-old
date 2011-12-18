@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>skysail.server.restletosgi</artifactId>
-	<version>0.0.7</version>
+	<version>0.0.8-SNAPSHOT</version>
 	<name>skysail server restletosgi</name>
 	<packaging>bundle</packaging>
 
