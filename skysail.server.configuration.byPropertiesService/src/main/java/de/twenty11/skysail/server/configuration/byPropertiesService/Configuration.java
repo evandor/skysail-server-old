@@ -29,6 +29,7 @@ public class Configuration implements ConfigService {
     Properties props = new Properties();
     
     public Configuration() throws FileNotFoundException, IOException {
+        //new File("./whereami").createNewFile();
         props.load(new FileReader(new File("./conf/skysail.properties")));
     }
     
