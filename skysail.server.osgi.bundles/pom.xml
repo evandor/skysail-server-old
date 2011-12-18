@@ -21,7 +21,7 @@
 		<!-- write access -->
 		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
 		<!-- A publicly browsable repository. For example, via ViewCVS. -->
-		<url>https://github.com/evandor/skysail-server</url>
+		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
 	</scm>
 
 	<artifactId>skysail.server.osgi.bundles</artifactId>
