@@ -5,4 +5,4 @@ mvn3 clean install
 mvn3 -Dresume=false release:prepare 
 mvn3 release:perform
 
-then commit and let jenkins build the proper tag (skysail.common-0.x.y)
+then commit and let jenkins build the proper tag (skysail.server-0.x.y)

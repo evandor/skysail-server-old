@@ -5,11 +5,12 @@
 	<parent>
 		<groupId>de.twenty11.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.0.7</version>
+		<version>0.1.0</version>
+		<relativePath />
 	</parent>
 
 	<artifactId>skysail.server</artifactId>
-	<version>0.1.1-SNAPSHOT</version>
+	<version>0.1.6-SNAPSHOT</version>
 	<name>skysail server</name>
 	<packaging>bundle</packaging>
 
@@ -40,7 +41,7 @@
 		<dependency>
 			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.common</artifactId>
-			<version>0.1.12</version>
+			<version>[0.1.22, 0.2)</version>
 		</dependency>
 
 		<!-- restlet -->
