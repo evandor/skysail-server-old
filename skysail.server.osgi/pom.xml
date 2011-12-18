@@ -11,14 +11,14 @@
 	</parent>
 
 	<artifactId>skysail.server.osgi</artifactId>
-	<version>0.0.6</version>
+	<version>0.0.6-SNAPSHOT</version>
 	<name>skysail server osgi</name>
 	<packaging>bundle</packaging>
 
 	<scm>
-		<connection>scm:git:git://javaforge.com/skysail-server</connection>
-		<url>scm:git:http://javaforge.com/git/skysail-server</url>
-		<developerConnection>scm:git:[fetch=]http://javaforge.com/git/skysail-server[push=]http://javaforge.com/git/skysail-server</developerConnection>
+		<connection>scm:git:git@github.com:evandor/skysail-server.git</connection>
+		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
+		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
 	</scm>
 	
 	<build>
