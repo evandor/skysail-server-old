@@ -101,7 +101,8 @@ public class CommunicationUtils {
             final Form query, final Request request, final String message) {
         SkysailResponse<TreeNodeData> response;
         logger.debug("creating representation for variant " + variant);
-        response = new SkysailSuccessResponse<TreeNodeData>(message, data);
+        response = new SkysailSuccessResponse<TreeNodeData>(data);
+        response.setMessage(message);
         handleParameters(query, request, response);
 
         if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
@@ -143,7 +144,8 @@ public class CommunicationUtils {
     public Representation createLinkRepresentation(List<LinkData> data, Variant variant, Form query,
             Request request, String message) {
         SkysailResponse<LinkData> response;
-        response = new SkysailSuccessResponse<LinkData>(message, data);
+        response = new SkysailSuccessResponse<LinkData>(data);
+        response.setMessage(message);
         handleParameters(query, request, response);
 
         if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
@@ -167,7 +169,8 @@ public class CommunicationUtils {
     public static Representation createGridInfoRepresentation(GridData data, Variant variant, Form query,
             Request request, String message) {
         SkysailResponse<GridData> response;
-        response = new SkysailSuccessResponse<GridData>(message, data);
+        response = new SkysailSuccessResponse<GridData>(data);
+        response.setMessage(message);
         handleParameters(query, request, response);
 
         if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
@@ -193,7 +196,8 @@ public class CommunicationUtils {
     public static Representation createFormRepresentation(FormData data, Variant variant, Form query, Request request,
             String message) {
         SkysailResponse<FormData> response;
-        response = new SkysailSuccessResponse<FormData>(message, data);
+        response = new SkysailSuccessResponse<FormData>(data);
+        response.setMessage(message);
         response.setOrigRequest(request.getOriginalRef().toUrl());
         handleParameters(query, request, response);
 
