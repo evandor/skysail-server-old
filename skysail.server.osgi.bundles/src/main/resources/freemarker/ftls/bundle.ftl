@@ -13,7 +13,7 @@
 <#include "skysail.server.restletosgi:navigation.ftl">
 
 <h2>Message</h2>
-${message}
+${message}a
 
 <#include "skysail.server.restletosgi:debug.ftl">
 
@@ -51,6 +51,22 @@ ${message}
     <tr>
       <th>&nbsp;</th>
       <td><a href='importedPackages/'>Imported Packages</a></td>
+    </tr>
+    <tr>
+      <th>&nbsp;</th>
+      <td><a href='exportedPackages/'>Exported Packages</a></td>
+    </tr>
+    <tr>
+      <th>&nbsp;</th>
+      <td><a href='bundleHeader/'>Bundle Header</a></td>
+    </tr>
+    <tr>
+      <th>&nbsp;</th>
+      <td><a href='registeredServices/'>Registered Services</a></td>
+    </tr>
+    <tr>
+      <th>&nbsp;</th>
+      <td><a href='consumedServices/'>Consumed Services</a></td>
     </tr>
     </table>
   </#if> 

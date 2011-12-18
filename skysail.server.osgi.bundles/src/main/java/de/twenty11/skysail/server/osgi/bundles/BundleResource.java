@@ -22,7 +22,7 @@ public class BundleResource extends SkysailServerResource<FormData> {
 
     @Override
     public FormData getData() {
-        String bundleId = (String) getRequest().getAttributes().get(BundlesUrlMapper.BUNDLE_ID);
+        String bundleId = (String) getRequest().getAttributes().get(OsgiBundlesConstants.BUNDLE_ID);
         Bundle bundle = Bundles.getInstance().getBundle(Long.parseLong(bundleId));
         FormData form = new FormData();
         

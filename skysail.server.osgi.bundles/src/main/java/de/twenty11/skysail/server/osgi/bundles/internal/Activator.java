@@ -17,7 +17,7 @@ public class Activator implements BundleActivator {
     private static Logger       logger = LoggerFactory.getLogger(Activator.class);
 
     /** OSGi bundle context . */
-    private BundleContext context;
+    private static BundleContext context;
 
     /*
      * (non-Javadoc)
@@ -41,6 +41,10 @@ public class Activator implements BundleActivator {
     @Override
     public final void stop(final BundleContext context) throws Exception {
         this.context = null;
+    }
+    
+    public static BundleContext getContext() {
+        return context;
     }
 
 }
