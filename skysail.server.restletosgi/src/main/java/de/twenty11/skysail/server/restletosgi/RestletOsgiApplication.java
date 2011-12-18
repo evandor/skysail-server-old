@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.restlet.Restlet;
+import org.restlet.data.LocalReference;
+import org.restlet.data.Protocol;
 import org.restlet.ext.wadl.WadlApplication;
 import org.restlet.routing.Router;
 import org.slf4j.Logger;
@@ -41,6 +43,27 @@ public class RestletOsgiApplication extends WadlApplication {
 
         logger.info("creating new Router in {}", this.getClass().getName());
         router = new Router(getContext());
+        
+        // see http://nexnet.wordpress.com/2010/09/29/clap-protocol-in-restlet-and-osgi/
+        getConnectorService().getClientProtocols().add(Protocol.FILE);
+        getConnectorService().getClientProtocols().add(Protocol.CLAP);
+        
+        LocalReference localReference = LocalReference.createClapReference(LocalReference.CLAP_THREAD, "/webapp/");
+
+        CompositeClassLoader customCL = new CompositeClassLoader();
+        // TODO check ordering
+        // add "this" classloader first (this is usually the "product" bundle
+        customCL.addClassLoader(this.getClass().getClassLoader());
+        // this is the "restletosgi" bundle
+        customCL.addClassLoader(Thread.currentThread().getContextClassLoader());
+        //customCL.addClassLoader(Router.class.getClassLoader());
+
+        ClassLoaderDirectory directory = new ClassLoaderDirectory(getContext(),
+               localReference,
+               customCL);        
+
+        router.attach("/static", directory);
+        
         attach();
 
         Blocker blocker = new Blocker(getContext());

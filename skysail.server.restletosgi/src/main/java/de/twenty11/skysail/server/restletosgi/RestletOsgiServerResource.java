@@ -181,20 +181,22 @@ public class RestletOsgiServerResource extends WadlServerResource {
      *            the representation type
      * @return a string representation of the resource for the given mediaType
      */
+    @Deprecated
     protected Representation createRepresentation(final List<SkysailData> data, final Variant variant) {
         SkysailResponse<SkysailData> response;
         logger.debug("creating representation for variant " + variant);
-        response = new SkysailSuccessResponse<SkysailData>("data loaded", data);
-        if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
-            return new JacksonRepresentation<SkysailResponse<SkysailData>>(response);
-        } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
-            Template ftlTemplate = RestletOsgiApplication.getFtlTemplate("de.evandor.skysail.server.restletosgi:menu.ftl");
-            return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
-        } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
-            return new XstreamRepresentation<SkysailResponse<SkysailData>>(response);
-        } else {
-            throw new RuntimeException("media type '" + variant + "' not supported");
-        }
+//        response = new SkysailSuccessResponse<SkysailData>("data loaded", data);
+//        if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
+//            return new JacksonRepresentation<SkysailResponse<SkysailData>>(response);
+//        } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
+//            Template ftlTemplate = RestletOsgiApplication.getFtlTemplate("de.evandor.skysail.server.restletosgi:menu.ftl");
+//            return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
+//        } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
+//            return new XstreamRepresentation<SkysailResponse<SkysailData>>(response);
+//        } else {
+//            throw new RuntimeException("media type '" + variant + "' not supported");
+//        }
+        return null;
     }
 
     protected String get(String identifier) {

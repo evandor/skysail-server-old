@@ -38,6 +38,9 @@ public class Activator implements BundleActivator {
      */
     public final void start(final BundleContext context) throws Exception {
     	
+        // http://web.mac.com/ekkehard.gentz/ekkes-corner/blog/Eintr%C3%A4ge/2008/10/3_Logging_in_OSGI_Enterprise_Anwendungen%2C_Teil_2.html
+        //org.slf4j.bridge.SLF4JBridgeHandler.install();
+        
 //		ServiceTracker logServiceTracker = new ServiceTracker(context,
 //				org.osgi.service.log.LogService.class.getName(), null);
 //		logServiceTracker.open();

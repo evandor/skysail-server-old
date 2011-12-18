@@ -57,7 +57,8 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     @Get("json")
     public Representation getJson() {
         try {
-            SkysailResponse<T> response = new SkysailSuccessResponse<T>(message, getData());
+            SkysailResponse<T> response = new SkysailSuccessResponse<T>(getData());
+            response.setMessage(getMessage());
             response.setOrigRequest(getRequest().getOriginalRef().toUrl());
             response.setParent(getParent());
             return new JacksonRepresentation<SkysailResponse<T>>(response);
@@ -69,7 +70,8 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     @Get("xml")
     public Representation getXml() {
         try {
-            SkysailResponse<T> response = new SkysailSuccessResponse<T>(message, getData());
+            SkysailResponse<T> response = new SkysailSuccessResponse<T>(getData());
+            response.setMessage(getMessage());
             response.setOrigRequest(getRequest().getOriginalRef().toUrl());
             response.setParent(getParent());
             return new XstreamRepresentation<SkysailResponse<T>>(response);
@@ -81,7 +83,8 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     @Get("html")
     public Representation getHtml() {
         try {
-            SkysailResponse<T> response = new SkysailSuccessResponse<T>(message, getData());
+            SkysailResponse<T> response = new SkysailSuccessResponse<T>(getData());
+            response.setMessage(getMessage());
             response.setOrigRequest(getRequest().getOriginalRef().toUrl());
             response.setParent(getParent());
             if (getQuery() != null && getQuery().getNames().contains("debug")) {
@@ -96,6 +99,14 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     
     public void setTemplate(String template) {
         this.template = template;
+    }
+    
+    public void setMessage(String message) {
+        this.message = message;
+    }
+    
+    public String getMessage() {
+        return message;
     }
     
     private URL getParent() {
