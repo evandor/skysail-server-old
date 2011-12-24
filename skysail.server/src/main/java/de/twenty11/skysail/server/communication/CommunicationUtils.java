@@ -208,24 +208,25 @@ public class CommunicationUtils {
      * =================================================================
      */
 
-    public static Representation createErrorResponse(final Exception e, final org.slf4j.Logger logger, Variant variant) {
-        logger.info("creating error representation for variant " + variant);
-        SkysailResponse<SkysailData> res = new SkysailFailureResponse(e);
-        if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
-            return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
-        } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
-            Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:errormessage.ftl");
-            return new TemplateRepresentation(ftlTemplate, res, MediaType.TEXT_HTML);
-        } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
-            return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
-        } else {
-            throw new RuntimeException("media type '" + variant + "' not supported");
-        }
-    }
+//    public static Representation createErrorResponse(final Exception e, final org.slf4j.Logger logger, Variant variant) {
+//        logger.info("creating error representation for variant " + variant);
+//        SkysailResponse<SkysailData> res = new SkysailFailureResponse(e);
+//        if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
+//            return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
+//        } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
+//            Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:errormessage.ftl");
+//            return new TemplateRepresentation(ftlTemplate, res, MediaType.TEXT_HTML);
+//        } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
+//            return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
+//        } else {
+//            throw new RuntimeException("media type '" + variant + "' not supported");
+//        }
+//    }
     
     public static Representation createErrorResponse(final Exception e, final org.slf4j.Logger logger, MediaType mediaType) {
         //logger.info("creating error representation for variant " + variant);
         SkysailResponse<SkysailData> res = new SkysailFailureResponse(e);
+        logger.error(e.getMessage(), e);
         if (mediaType.equals(MediaType.APPLICATION_JSON)) {
             return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
         } else if (mediaType.equals(MediaType.TEXT_HTML)) {
