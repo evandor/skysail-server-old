@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title>Skysail Server: Error occured</title>
-    <#include "skysail.server.restletosgi:style.ftl">
+    <#include "skysail.server.restletosgi:style.css">
 </head>
 <body>
 

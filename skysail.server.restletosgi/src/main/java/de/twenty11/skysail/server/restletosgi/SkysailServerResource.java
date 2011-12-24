@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.SkysailData;
+import de.twenty11.skysail.common.filters.AndFilter;
+import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SkysailSuccessResponse;
 import de.twenty11.skysail.server.communication.CommunicationUtils;
@@ -41,9 +43,9 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     /** template to be shown. */
     private String template = "skysail.product.twindir:accounts.ftl";
 
-    public SkysailServerResource(String message) {
-        this.message = message;
-    }
+    private int totalResults;
+    
+    private Filter filter;
 
     /**
      * Implementors of this class have to provide data which will be used to create
@@ -58,9 +60,7 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     public Representation getJson() {
         try {
             SkysailResponse<T> response = new SkysailSuccessResponse<T>(getData());
-            response.setMessage(getMessage());
-            response.setOrigRequest(getRequest().getOriginalRef().toUrl());
-            response.setParent(getParent());
+            setResponseDetails(response);
             return new JacksonRepresentation<SkysailResponse<T>>(response);
         } catch (Exception e) {
             return CommunicationUtils.createErrorResponse(e, logger, MediaType.APPLICATION_JSON);
@@ -71,9 +71,7 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     public Representation getXml() {
         try {
             SkysailResponse<T> response = new SkysailSuccessResponse<T>(getData());
-            response.setMessage(getMessage());
-            response.setOrigRequest(getRequest().getOriginalRef().toUrl());
-            response.setParent(getParent());
+            setResponseDetails(response);
             return new XstreamRepresentation<SkysailResponse<T>>(response);
         } catch (Exception e) {
             return CommunicationUtils.createErrorResponse(e, logger, MediaType.APPLICATION_XML);
@@ -84,16 +82,22 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     public Representation getHtml() {
         try {
             SkysailResponse<T> response = new SkysailSuccessResponse<T>(getData());
-            response.setMessage(getMessage());
-            response.setOrigRequest(getRequest().getOriginalRef().toUrl());
-            response.setParent(getParent());
-            if (getQuery() != null && getQuery().getNames().contains("debug")) {
-                response.setDebug(true);
-            }
+            setResponseDetails(response);
             Template ftlTemplate = CommunicationUtils.getFtlTemplate(template);
             return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
         } catch (Exception e) {
             return CommunicationUtils.createErrorResponse(e, logger, MediaType.TEXT_HTML);
+        }
+    }
+
+    private void setResponseDetails(SkysailResponse<T> response) {
+        response.setMessage(getMessage());
+        response.setTotalResults(getTotalResults());
+        response.setOrigRequest(getRequest().getOriginalRef().toUrl());
+        response.setParent(getParent());
+        response.setFilter(getFilter() != null ? getFilter().toString() : "");
+        if (getQuery() != null && getQuery().getNames().contains("debug")) {
+            response.setDebug(true);
         }
     }
     
@@ -102,16 +106,44 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     }
     
     public void setMessage(String message) {
-        this.message = message;
+        this.message =  message;
     }
     
     public String getMessage() {
         return message;
     }
     
+    protected void setTotalResults(int length) {
+        this.totalResults = length;        
+    }
+    
+    public int getTotalResults() {
+        return totalResults;
+    }
+    
+    public Filter getFilter() {
+        return filter;
+    }
+    
+    public void setFilter(Filter filter) {
+        this.filter = filter;
+    }
+    
     private URL getParent() {
         URL origRequest = getRequest().getOriginalRef().getParentRef().toUrl();
         //origRequest.getProtocol() + "://" + origRequest.getHost() + ":" + origRequest.getPort() + 
         return origRequest;
+    }
+
+    protected Filter getFilterFromQuery() {
+        Filter filter = null;
+        String filterExpression = getQuery().getFirstValue("filterExpression");
+        if (filterExpression != null) {
+    
+        } else {
+            filter = AndFilter.newInstance(getQuery().getValuesMap());
+        }
+        setFilter(filter);
+        return filter;
     }
 }
