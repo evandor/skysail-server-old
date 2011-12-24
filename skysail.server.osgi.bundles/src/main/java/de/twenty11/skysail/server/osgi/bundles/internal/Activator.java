@@ -5,6 +5,8 @@ import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umd.cs.findbugs.annotations.NoWarning;
+
 
 /**
  * 
@@ -27,6 +29,7 @@ public class Activator implements BundleActivator {
      * )
      */
     @Override
+    @NoWarning("findbug warning not relevant here")
     public final void start(final BundleContext context) throws Exception {
         this.context = context;
         Bundles.getInstance().setContext(context);
@@ -39,6 +42,7 @@ public class Activator implements BundleActivator {
      * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
      */
     @Override
+    @NoWarning("findbug warning not relevant here")
     public final void stop(final BundleContext context) throws Exception {
         this.context = null;
     }

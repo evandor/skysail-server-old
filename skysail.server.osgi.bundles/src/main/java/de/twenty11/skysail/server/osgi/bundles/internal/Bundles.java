@@ -37,19 +37,22 @@ public class Bundles {
     public GridData getBundles(Filter filter) {
         Bundle[] bundles = bundleContext.getBundles();
         GridInfo fieldsList = SkysailUtils.createFieldList(fields);
-        GridData grid = new GridData(fieldsList.getColumns());
+        GridData grid = new GridData();
+        int count = 0;
         for (Bundle bundle : bundles) {
             RowData col = new RowData();
             List<Object> cols = new ArrayList<Object>();
             cols.add(bundle.getBundleId());
-            if (!filter.match("filterSymbolicName", bundle.getSymbolicName()))
-                continue;
+//            if (!filter.match("filterSymbolicName", bundle.getSymbolicName()))
+//                continue;
             cols.add(bundle.getSymbolicName());
             cols.add(bundle.getVersion());
             cols.add(translateStatus(bundle.getState()));
             col.setColumnData(cols);
             grid.addRowData(col);
+            count++;
         }
+        grid.setAvailableRows(count);
         return grid;
 
     }

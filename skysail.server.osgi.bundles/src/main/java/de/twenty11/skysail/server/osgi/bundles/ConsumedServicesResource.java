@@ -26,13 +26,11 @@ import org.osgi.framework.ServiceReference;
 import de.twenty11.skysail.common.RowData;
 import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
-import de.twenty11.skysail.server.osgi.bundles.internal.BundlesUrlMapper;
 import de.twenty11.skysail.server.restletosgi.SkysailServerResource;
 
 public class ConsumedServicesResource extends SkysailServerResource<GridData> {
 
     public ConsumedServicesResource() {
-        super("Services in use");
         setTemplate("skysail.server.osgi.bundles:usedServices.ftl");
     }
 
@@ -41,11 +39,11 @@ public class ConsumedServicesResource extends SkysailServerResource<GridData> {
         String bundleId = (String) getRequest().getAttributes().get(OsgiBundlesConstants.BUNDLE_ID);
         Bundle bundle = Bundles.getInstance().getBundle(Long.parseLong(bundleId));
         setMessage("Used Services for bundle " + bundle.getSymbolicName());
-        
+
         GridData grid = new GridData();
-        
+
         ServiceReference[] usedServices = bundle.getServicesInUse();
-        
+
         if (usedServices == null || usedServices.length == 0)
             return grid;
 
@@ -57,9 +55,9 @@ public class ConsumedServicesResource extends SkysailServerResource<GridData> {
             columnData.add(serviceRef.getClass());
             rowData.setColumnData(columnData);
             grid.addRowData(rowData);
-            
+
         }
-        
+
         return grid;
     }
 

@@ -27,14 +27,13 @@ import org.osgi.framework.ServiceReference;
 
 import de.twenty11.skysail.common.RowData;
 import de.twenty11.skysail.common.messages.GridData;
+import de.twenty11.skysail.server.osgi.bundles.internal.Activator;
 import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
-import de.twenty11.skysail.server.osgi.bundles.internal.BundlesUrlMapper;
 import de.twenty11.skysail.server.restletosgi.SkysailServerResource;
 
 public class RegisteredServicesResource extends SkysailServerResource<GridData> {
 
     public RegisteredServicesResource() {
-        super("Registered Services");
         setTemplate("skysail.server.osgi.bundles:registeredServices.ftl");
     }
 
@@ -43,6 +42,7 @@ public class RegisteredServicesResource extends SkysailServerResource<GridData> 
         String bundleId = (String) getRequest().getAttributes().get(OsgiBundlesConstants.BUNDLE_ID);
         Bundle bundle = Bundles.getInstance().getBundle(Long.parseLong(bundleId));
         setMessage("Registered Services for bundle " + bundle.getSymbolicName());
+        setTotalResults(Activator.getContext().getBundles().length);
         
         GridData grid = new GridData();
         
