@@ -38,7 +38,7 @@ import freemarker.template.Template;
  */
 public class CommunicationUtils {
 
-    private static final String SKYSAIL_SERVER_RESTLETOSGI_MENU_FTL = "skysail.server.restletosgi:menu.ftl";
+    private static final String SKYSAIL_SERVER_RESTLETOSGI_MENU_FTL = "skysail.server:menu.ftl";
 
     private static final Logger  logger = LoggerFactory.getLogger(CommunicationUtils.class);
 
@@ -194,7 +194,7 @@ public class CommunicationUtils {
 //        if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
 //            return new JacksonRepresentation<SkysailResponse<FormData>>(response);
 //        } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
-//            Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:form.ftl");
+//            Template ftlTemplate = getFtlTemplate("skysail.server:form.ftl");
 //            return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
 //        } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
 //            return new XstreamRepresentation<SkysailResponse<FormData>>(response);
@@ -214,7 +214,7 @@ public class CommunicationUtils {
 //        if (variant.getMediaType().equals(MediaType.APPLICATION_JSON)) {
 //            return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
 //        } else if (variant.getMediaType().equals(MediaType.TEXT_HTML)) {
-//            Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:errormessage.ftl");
+//            Template ftlTemplate = getFtlTemplate("skysail.server:errormessage.ftl");
 //            return new TemplateRepresentation(ftlTemplate, res, MediaType.TEXT_HTML);
 //        } else if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
 //            return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
@@ -230,7 +230,7 @@ public class CommunicationUtils {
         if (mediaType.equals(MediaType.APPLICATION_JSON)) {
             return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
         } else if (mediaType.equals(MediaType.TEXT_HTML)) {
-            Template ftlTemplate = getFtlTemplate("skysail.server.restletosgi:errormessage.ftl");
+            Template ftlTemplate = getFtlTemplate("skysail.server:errormessage.ftl");
             return new TemplateRepresentation(ftlTemplate, res, MediaType.TEXT_HTML);
         } else if (mediaType.equals(MediaType.TEXT_XML)) {
             return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);

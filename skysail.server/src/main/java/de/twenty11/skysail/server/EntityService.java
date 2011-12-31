@@ -20,9 +20,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
-import de.twenty11.skysail.common.messages.EntityData;
 import de.twenty11.skysail.common.messages.GridData;
-import de.twenty11.skysail.common.messages.GridInfo;
 import de.twenty11.skysail.common.messages.TreeNodeData;
 
 
@@ -49,7 +47,7 @@ public interface EntityService {
      * @param serializedEntity entity string like '{"data":{"title":"mytitle","note":"mynote"}}'
      * @return EntityData describing the created entity
      */
-    EntityData createEntity (Principal userPrincipal, String serializedEntity);
+    //EntityData createEntity (Principal userPrincipal, String serializedEntity);
 
 	/**
      * Delete the entity with the provided id.
@@ -93,7 +91,7 @@ public interface EntityService {
 	 * @param parameterMap
 	 * @return
 	 */
-	GridInfo getGridInfo(String pathInfo, Map<String,String[]> parameterMap);
+	//GridInfo getGridInfo(String pathInfo, Map<String,String[]> parameterMap);
 
 	/**
 	 * @param userPrincipal 
