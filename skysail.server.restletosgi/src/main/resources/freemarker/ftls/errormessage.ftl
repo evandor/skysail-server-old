@@ -1,4 +1,4 @@
-<#import "skysail.server.restletosgi:dump.ftl" as dumper>
+<#import "skysail.server:dump.ftl" as dumper>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -12,10 +12,10 @@
 	<meta name="language" content="English" />
 	<meta http-equiv="content-language" content="en" />
     
-    <#include "skysail.server.restletosgi:style.css">
+    <#include "skysail.server:style.css">
 </head>
 <body>
-  <#include "skysail.server.restletosgi:header.ftl">
+  <#include "skysail.server:header.ftl">
   <div id="container">
     <#assign info = "Sorry, there has been an error processing your request ;(" />
     <#include "skysail.server.osgi.bundles:title.ftl">

@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.messages.FormData;
 import de.twenty11.skysail.common.messages.TextFieldData;
+import de.twenty11.skysail.server.SkysailServerResource;
 import de.twenty11.skysail.server.osgi.bundles.internal.Activator;
-import de.twenty11.skysail.server.restletosgi.SkysailServerResource;
 
 public class ServiceDetailsResource extends SkysailServerResource<FormData> {
 

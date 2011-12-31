@@ -1,6 +1,6 @@
 <#include "skysail.server.osgi.bundles:head.ftl">
 <body>
-  <#include "skysail.server.restletosgi:header.ftl">
+  <#include "skysail.server:header.ftl">
   <div id="container">
     <#include "skysail.server.osgi.bundles:title.ftl">
 	
@@ -9,7 +9,7 @@
 
 	<h3>Data</h3>
 	
-	<#include "skysail.server.restletosgi:debug.ftl">
+	<#include "skysail.server:debug.ftl">
 	
 	<#list data as component>
 	  

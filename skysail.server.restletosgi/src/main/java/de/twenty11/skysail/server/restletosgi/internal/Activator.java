@@ -3,12 +3,7 @@ package de.twenty11.skysail.server.restletosgi.internal;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceListener;
-import org.osgi.service.log.LogService;
-import org.osgi.util.tracker.ServiceTracker;
 import org.restlet.Component;
-import org.restlet.data.Protocol;
-
-import de.twenty11.skysail.server.restletosgi.RestletOsgiApplication;
 
 /**
  * The bundles activator, taking care of creating a new restlet component,

@@ -1,16 +1,16 @@
-<#import "skysail.server.restletosgi:dump.ftl" as dumper>
+<#import "skysail.server:dump.ftl" as dumper>
 <#assign foo = data />
 
 <html>
 <head>
 	<title>Skysail Server</title>
-    <#include "skysail.server.restletosgi:style.css">
+    <#include "skysail.server:style.css">
 </head>
 <body>
 
 <h1>Skysail RestletOsgi Server - Menu</h1>
 
-<#include "skysail.server.restletosgi:navigation.ftl">
+<#include "skysail.server:navigation.ftl">
 
 <h2>Message</h2>
 ${message}
@@ -59,7 +59,7 @@ ${message}
 
 </#list>
 
-<#include "skysail.server.restletosgi:debug.ftl">
+<#include "skysail.server:debug.ftl">
 
 </body>
 </html>

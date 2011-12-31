@@ -1,4 +1,4 @@
-<#import "skysail.server.restletosgi:dump.ftl" as dumper>
+<#import "skysail.server:dump.ftl" as dumper>
 <#assign foo = data />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -12,5 +12,5 @@
 	<meta name="language" content="English" />
 	<meta http-equiv="content-language" content="en" />
     
-    <#include "skysail.server.restletosgi:style.css">
+    <#include "skysail.server:style.css">
 </head>

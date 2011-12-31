@@ -1,16 +1,9 @@
 package de.twenty11.skysail.server.osgi.bundles.internal;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
-import de.twenty11.skysail.common.RowData;
-import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.messages.GridData;
-import de.twenty11.skysail.common.messages.GridInfo;
-import de.twenty11.skysail.server.osgi.SkysailUtils;
 
 public class Bundles {
 
@@ -34,25 +27,25 @@ public class Bundles {
         return SingletonHolder.instance;
     }
 
-    public GridData getBundles(GridData grid, Filter filter) {
-        Bundle[] bundles = bundleContext.getBundles();
-        GridInfo fieldsList = SkysailUtils.createFieldList(fields);
-        int count = 0;
-        for (Bundle bundle : bundles) {
-            RowData col = new RowData();
-            List<Object> cols = new ArrayList<Object>();
-            cols.add(bundle.getBundleId());
-            cols.add(bundle.getSymbolicName());
-            cols.add(bundle.getVersion());
-            cols.add(translateStatus(bundle.getState()));
-            col.setColumnData(cols);
-            grid.addRowData(col);
-            count++;
-        }
-        grid.setAvailableRows(count);
-        return grid;
-
-    }
+//    public GridData getBundles(GridData grid, Filter filter) {
+//        Bundle[] bundles = bundleContext.getBundles();
+//        GridInfo fieldsList = SkysailUtils.createFieldList(fields);
+//        int count = 0;
+//        for (Bundle bundle : bundles) {
+//            RowData col = new RowData();
+//            List<Object> cols = new ArrayList<Object>();
+//            cols.add(bundle.getBundleId());
+//            cols.add(bundle.getSymbolicName());
+//            cols.add(bundle.getVersion());
+//            cols.add(translateStatus(bundle.getState()));
+//            col.setColumnData(cols);
+//            grid.addRowData(col);
+//            count++;
+//        }
+//        grid.setAvailableRows(count);
+//        return grid;
+//
+//    }
 
     public void setContext(BundleContext context) {
         this.bundleContext = context;
@@ -90,6 +83,11 @@ public class Bundles {
             default :
                 return "unknown (" + state +")";
         }
+    }
+
+    public GridData getBundles(GridData grid, Object object) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     
