@@ -1,19 +1,4 @@
-<#import "skysail.server.restletosgi:dump.ftl" as dumper>
-<#assign foo = data />
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>Skysail Server</title>
-	
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="keywords" content="skysail" />
-	<meta name="description" content="skysail" />
-	<meta name="robots" content="follow, all" />
-	<meta name="language" content="English" />
-	<meta http-equiv="content-language" content="en" />
-    
-    <#include "skysail.server.restletosgi:style.css">
-</head>
+<#include "skysail.server.osgi.bundles:head.ftl">
 <body>
 
 	<script src="/static/js/jquery-1.7.1.min.js"></script>
@@ -36,26 +21,10 @@
 	  
 	  <#if component.class.simpleName == "GridData">
 		<#assign gridColumns = component.columns>
-		<form action="#">
+		<#assign request = origRequest?split("?")[0] />
+        <form action="#">
 		<table>
-
-		<caption>
-		  [ &lt; 1 2 3 4 &gth; ] xml json
-		  <#assign request = origRequest?split("?")[0] />
-			[<a href="${request}?media=xml">as XML</a>]
-			[<a href="${request}?media=json">as JSON</a>]
-			<!--[<a href="${request}?media=text">as Text</a>]-->
-		  <#if debug>
-			 [<a href="${origRequest}?replace("&debug","").replace("?debug","")>debug off</a>]
-		  <#else>
-			  <#if origRequest?contains("?")>
-			    [<a href="${origRequest}&debug">debug</a>]
-			  <#else>
-			    [<a href="${origRequest}?debug">debug</a>]
-			  </#if>
-		  </#if>
-		</caption>
-
+		<#include "skysail.server.osgi.bundles:caption.ftl">
 		<thead>
 		  <tr>
 			<th scope="col" width="400px">Service Name</th>  
@@ -74,16 +43,16 @@
 
 		<tbody>
 		<tr>
-		  <td>
+		  <td class="search">
 			<input type="text" name="serviceName" value='<#if gridColumns["serviceName"]??>${gridColumns["serviceName"].filterValue}</#if>' />
 		  </td>
-		  <td>
+		  <td class="search">
 			<input type="text" name="f_ImplementingBundle" value='<#if gridColumns["implementingBundle"]??>${gridColumns["implementingBundle"].filterValue}</#if>' />
 		  </td>  
-		  <td>
+		  <td class="search">
 			<input type="text" name="f_UsingBundle" value='<#if gridColumns["serviceName"]??>${gridColumns["serviceName"].filterValue}</#if>' />
 		  </td>  
-		   <td>
+		   <td class="search">
 			<input type="submit" value="Search"/>
 		  </td>  
 		</tr>
@@ -92,21 +61,21 @@
 		  <#assign columns = row.columnData>
 		  <#assign counter = counter + 1 />
 		  <#if (counter % 2 == 1)>
-		  <tr>
+		    <tr>
 		  <#else>
-		  <tr class="odd" />
+		    <tr class="odd" />
 		  </#if>
-		    <#list columns as columnData>
-			
-			  <#if columnData_index == 0>
-				  <!-- ommit id column -->
-		      <#elseif columnData_index == 1>
-		        <!--<td><img src="/static/img/types.gif">&nbsp;<a href='/services/${columns[0]}/'>${columnData?replace(";","<br>\n")}</a></td>-->
-		        <td>
-		        <#list columnData?split(",") as links>
-		          <img src="/static/img/types.gif">&nbsp;<a href="/services/${links}/">${links}</a></br>
-		        </#list>
-				</td>
+		    
+		  <#list columns as columnData>
+		    <#if columnData_index == 0>
+			  <!-- ommit id column -->
+		    <#elseif columnData_index == 1>
+		      <!--<td><img src="/static/img/types.gif">&nbsp;<a href='/services/${columns[0]}/'>${columnData?replace(";","<br>\n")}</a></td>-->
+		      <td>
+		      <#list columnData?split(",") as links>
+		        <img src="/static/img/types.gif">&nbsp;<a href="/services/${links}/">${links}</a></br>
+		      </#list>
+		      </td>
 			  <#elseif columnData_index == 2>
 		        <td><img src="/static/img/bundle.gif">&nbsp;${columnData}</td>
 			  <#elseif columnData_index == 3>
@@ -119,7 +88,7 @@
 			<td>hi</td>
 		  </tr>  
 		</#list>
-		
+		</tbody>
 		</table>  
 		</form>
 	  </#if>  

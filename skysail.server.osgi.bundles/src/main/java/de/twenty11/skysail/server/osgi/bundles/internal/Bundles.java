@@ -34,17 +34,14 @@ public class Bundles {
         return SingletonHolder.instance;
     }
 
-    public GridData getBundles(Filter filter) {
+    public GridData getBundles(GridData grid, Filter filter) {
         Bundle[] bundles = bundleContext.getBundles();
         GridInfo fieldsList = SkysailUtils.createFieldList(fields);
-        GridData grid = new GridData();
         int count = 0;
         for (Bundle bundle : bundles) {
             RowData col = new RowData();
             List<Object> cols = new ArrayList<Object>();
             cols.add(bundle.getBundleId());
-//            if (!filter.match("filterSymbolicName", bundle.getSymbolicName()))
-//                continue;
             cols.add(bundle.getSymbolicName());
             cols.add(bundle.getVersion());
             cols.add(translateStatus(bundle.getState()));
