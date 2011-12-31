@@ -22,27 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.twenty11.skysail.common.messages.GridInfo;
-import de.twenty11.skysail.common.ColumnInfo;
-
 public class SkysailUtils {
-
-	public static GridInfo createFieldList (String[] fields) {
-
-		List<ColumnInfo> columns = new ArrayList<ColumnInfo>();
-		for (int i=0; i < fields.length; i++) {
-			ColumnInfo col = new ColumnInfo();
-			col.setColumnName(fields[i]);
-			columns.add(col);
-			if (fields[i].equals("id"))
-			    col.setEditable(false);
-			if (fields[i].equals("id"))
-                col.setWidth(50);
-		}
-		GridInfo gridInfo = new GridInfo();
-		gridInfo.setColumns(columns);
-		return gridInfo;
-	}
 
 	/**
 	 * Utility method to create a representation of an entity model (typically the metadata
