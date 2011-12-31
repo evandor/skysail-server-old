@@ -30,13 +30,11 @@ import de.twenty11.skysail.common.RowData;
 import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.server.osgi.bundles.internal.Activator;
 import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
-import de.twenty11.skysail.server.osgi.bundles.internal.BundlesUrlMapper;
 import de.twenty11.skysail.server.restletosgi.SkysailServerResource;
 
 public class ExportedPackagesResource extends SkysailServerResource<GridData> {
 
     public ExportedPackagesResource() {
-        super("Exported Packages");
         setTemplate("skysail.server.osgi.bundles:imported.ftl");
     }
 

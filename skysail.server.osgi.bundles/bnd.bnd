@@ -1,5 +1,5 @@
 Import-Package:	de.twenty11.skysail.common;version="[0.1.0, 1.0.0)",\
- de.twenty11.skysail.common.filters;version="[0.0.0, 0.1.0)",\
+ de.twenty11.skysail.common.filters;version="[0.0.0, 1.0.0)",\
  *
 Bundle-SymbolicName: skysail.server.osgi.bundles
 Bundle-Activator: de.twenty11.skysail.server.osgi.bundles.internal.Activator

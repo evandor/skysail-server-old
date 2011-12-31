@@ -26,14 +26,13 @@ public class PackagesResource extends SkysailServerResource<GridData> {
     private static final String[] fields = { "Package", "version", "Exporting Bundle", "Importing Bundles" };
 
     public PackagesResource() {
-        super("Packages");
         setTemplate("skysail.server.osgi.bundles:packages.ftl");
     }
 
     @Override
     public GridData getData() {
         GridInfo fieldsList = SkysailUtils.createFieldList(fields);
-        GridData grid = new GridData(fieldsList.getColumns());
+        GridData grid = new GridData();
         
         BundleContext context = Activator.getContext();
         Bundle bundle = null;

@@ -22,6 +22,7 @@ import de.twenty11.skysail.server.communication.CommunicationUtils;
  * @author carsten
  * 
  */
+@Deprecated
 public class SkysailRootServerResource extends WadlServerResource {
 
     /** slf4j based logger implementation */
@@ -33,7 +34,7 @@ public class SkysailRootServerResource extends WadlServerResource {
             logger.debug("dispatching accepted media types: " + getRequest().getClientInfo().getAcceptedMediaTypes());
             return dispatchGet(variant);
         } catch (Exception e) {
-            return CommunicationUtils.createErrorResponse(e, logger, variant);
+            return CommunicationUtils.createErrorResponse(e, logger, variant.getMediaType());
         }
     }
 
@@ -44,7 +45,8 @@ public class SkysailRootServerResource extends WadlServerResource {
         addLink(links,"bundles/", "Installed Bundles");
         //return CommunicationUtils.createLinkRepresentation(links, variant, getQuery(), getRequest(), "Root");
         CommunicationUtils commUtils = new CommunicationUtils();
-        return commUtils.createLinkRepresentation(links, variant, getQuery(), getRequest(), "root");
+        // TODO check
+        return null; //commUtils.createLinkRepresentation(links, variant, getQuery(), getRequest(), "root");
     }
 
 

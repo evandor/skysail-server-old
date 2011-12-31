@@ -1,28 +1,31 @@
-<html>
+<#import "skysail.server.restletosgi:dump.ftl" as dumper>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Skysail Server: Error occured</title>
-    <#include "skysail.server.restletosgi:style.ftl">
+	<title>Skysail Server Errorpage</title>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="skysail" />
+	<meta name="description" content="skysail" />
+	<meta name="robots" content="follow, all" />
+	<meta name="language" content="English" />
+	<meta http-equiv="content-language" content="en" />
+    
+    <#include "skysail.server.restletosgi:style.css">
 </head>
 <body>
-
-<h1>Skysail RestletOsgi Server - Menu</h1>
-
-<h2>Navigation</h2>
+  <#include "skysail.server.restletosgi:header.ftl">
+  <div id="container">
+    <#assign info = "Sorry, there has been an error processing your request ;(" />
+    <#include "skysail.server.osgi.bundles:title.ftl">
+	
+	<div><h2><span>&nbsp;&nbsp;Please make sure to check the server error log as well for more details.</span></h2></div>
   
-[<a href="javascript:history.back()">back</a>] [<a href="/">Home</a>]
-[<a href="?method=OPTIONS" target="_blank">Wadl Documentation</a>]
-[<a href="http://www.evandor.de:8080" target="_blank">Wiki</a>]
-[<a href="http://www.evandor.de:8787" target="_blank">Hudson</a>]
-[<a href="http://www.evandor.de:8081/nexus/index.html" target="_blank">Nexus</a>]
+  <h2>Message</h2>
+  <pre>${message}</pre>
 
-<h2>Message</h2>
-${message}
-
-<h2>Data</h2>
-
-Error occured:<br><br>
-<pre>
-${message}
-</pre>
+  
+  </div>
 </body>
 </html>

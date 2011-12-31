@@ -11,7 +11,7 @@
 
 	<artifactId>skysail.server.osgi.jgit</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>skysail.server.osgi.jgit created by skysail archetype</name>
+	<name>skysail server osgi jgit</name>
 	<packaging>bundle</packaging>
 
 	<properties>

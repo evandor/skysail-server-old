@@ -86,27 +86,21 @@ public class FtlTrackerCustomizer implements BundleTrackerCustomizer {
      * @return null
      */
     @Override
+    @SuppressWarnings("unchecked")
     public final Object addingBundle(final Bundle bundle, final BundleEvent event) {
 
         String locationInBundle = (String) bundle.getHeaders().get(BUNDLE_TEMPLATE_HEADER);
         if (locationInBundle == null) { // nothing found
             return null;
         }
-
-        @SuppressWarnings("unchecked")
+        
         // Remark: The urls return from this method might look different when
         // using different OSGi frameworks
         Enumeration<URL> bundleTemplatesUrls = bundle.findEntries(locationInBundle, "*.ftl", true);
-        log.info("Adding templates from bundle :{}", bundle.getSymbolicName());
-        log.info("Relative location is '{}'", locationInBundle);
-        while (bundleTemplatesUrls.hasMoreElements()) {
-            URL bundleEntryUrl = bundleTemplatesUrls.nextElement();
-            log.info(" >>> adding " + bundleEntryUrl);
-            TemplateInfo newTemplate = new TemplateInfo(bundle, bundleEntryUrl, locationInBundle);
-            String templateName = getTemplateName(bundleEntryUrl, locationInBundle);
-            //createTemplateInfo(bundle, bundleEntryUrl, locationInBundle);
-            addTemplateInfo(bundle, templateName, newTemplate);
-        }
+        addTemplates(bundle, locationInBundle, bundleTemplatesUrls);
+        // add css files as well
+        Enumeration<URL> bundleCssUrls = bundle.findEntries(locationInBundle, "*.css", true);
+        addTemplates(bundle, locationInBundle, bundleCssUrls);
         return null;
     }
 
@@ -246,6 +240,22 @@ public class FtlTrackerCustomizer implements BundleTrackerCustomizer {
         } else {
             log.warn("Service freemarker Configuration had no template loader, using default bundle loader");
             freemarkerConfig.setTemplateLoader(new MapBasedUrlTemplateLoader(templates));
+        }
+    }
+    
+    private void addTemplates(final Bundle bundle, String locationInBundle, Enumeration<URL> bundleTemplatesUrls) {
+        if (bundleTemplatesUrls == null) {
+            return;
+        }
+        log.info("Adding templates from bundle :{}", bundle.getSymbolicName());
+        log.info("Relative location is '{}'", locationInBundle);
+        while (bundleTemplatesUrls.hasMoreElements()) {
+            URL bundleEntryUrl = bundleTemplatesUrls.nextElement();
+            log.info(" >>> adding " + bundleEntryUrl);
+            TemplateInfo newTemplate = new TemplateInfo(bundle, bundleEntryUrl, locationInBundle);
+            String templateName = getTemplateName(bundleEntryUrl, locationInBundle);
+            //createTemplateInfo(bundle, bundleEntryUrl, locationInBundle);
+            addTemplateInfo(bundle, templateName, newTemplate);
         }
     }
 

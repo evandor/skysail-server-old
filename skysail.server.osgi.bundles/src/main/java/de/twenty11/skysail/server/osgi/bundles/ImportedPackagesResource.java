@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.osgi.framework.internal.core.AbstractBundle;
-import org.eclipse.osgi.framework.internal.core.Constants;
 import org.eclipse.osgi.service.resolver.BundleDescription;
 import org.eclipse.osgi.service.resolver.ExportPackageDescription;
 import org.eclipse.osgi.service.resolver.ImportPackageSpecification;
@@ -33,13 +32,11 @@ import de.twenty11.skysail.common.RowData;
 import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.server.osgi.bundles.internal.Activator;
 import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
-import de.twenty11.skysail.server.osgi.bundles.internal.BundlesUrlMapper;
 import de.twenty11.skysail.server.restletosgi.SkysailServerResource;
 
 public class ImportedPackagesResource extends SkysailServerResource<GridData> {
 
     public ImportedPackagesResource() {
-        super("Imported Packages");
         setTemplate("skysail.server.osgi.bundles:imported.ftl");
     }
 

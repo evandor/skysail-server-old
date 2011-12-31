@@ -24,7 +24,7 @@ public class LogResource extends WadlServerResource {
             LogReader handler = new LogReader();
             return dispatchGet(handler,variant);
         } catch (Exception e) {
-            return CommunicationUtils.createErrorResponse(e, logger, variant);
+            return CommunicationUtils.createErrorResponse(e, logger, variant.getMediaType());
         }
     }
 
@@ -32,7 +32,8 @@ public class LogResource extends WadlServerResource {
         String logname = (String) getRequest().getAttributes().get("logname");
         List<LinkData> loggerLinks = handler.getLogs(logname);
         CommunicationUtils commUtils = new CommunicationUtils();
-        return commUtils.createLinkRepresentation(loggerLinks, variant, getQuery(), getRequest(), "Log Info");
+        // TODO check
+        return null;//commUtils.createLinkRepresentation(loggerLinks, variant, getQuery(), getRequest(), "Log Info");
     }
 
 }

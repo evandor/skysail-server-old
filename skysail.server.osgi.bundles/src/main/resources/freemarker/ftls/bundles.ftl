@@ -1,73 +1,96 @@
-<#import "skysail.server.restletosgi:dump.ftl" as dumper>
-<#assign foo = data />
-
-<html>
-<head>
-	<title>Skysail Server</title>
-    <#include "skysail.server.restletosgi:style.ftl">
-</head>
+<#include "skysail.server.osgi.bundles:head.ftl">
 <body>
 
-<h1>Skysail RestletOsgi Server - Menu</h1>
+	<script src="/static/js/jquery-1.7.1.min.js"></script>
+	<script>
+    
+   </script>
 
-<#include "skysail.server.restletosgi:navigation.ftl">
-
-<h2>Message</h2>
-${message}
-
-<h2>Data</h2>
-
-<#list data as component>
-  
-  <#if component.class.simpleName == "GridData">
-	<#assign columns = component.columns>
-	<form action="#">
-	<table>
-	<tr>
-	  <#list columns as column>
-		<th>${column.columnName}</th>  
-	  </#list>
-	  <th>Maven Project</th>
-	</tr>
-	<tr>
-	  <#list columns as column>
-		<td>
-		<#if column.columnName == "symbolicName">
-		<input type="text" name="filterSymbolicName" value="skysail" />
-		<input type="submit" value="filter"/>
-		</#if>
-		</td>  
-	  </#list>
-	  <td>&nbsp;</td>
-	</tr>
-    <#list component.gridData as row>
-	  <#assign columns = row.columnData>
-	  <tr>
-	    <#list columns as columnData>
-		<td>
-		  <#if columnData_index == 1>
-		      <a href='${columns[0]}/'>${columnData}</a>
-		  <#else>
-			  ${columnData}
-		  </#if>
-		</td>
-		</#list>
-		<td><#if columns[1]?starts_with("skysail.")>
-			<a href='http://www.evandor.de:8787/job/${columns[1]}/' target='_blank'>project</a>&nbsp;
-			<a href='http://www.evandor.de:8787/job/${columns[1]}/site/${columns[1]}/' target='_blank'>site</a>&nbsp;			
-			<a href='http://www.evandor.de:9000/dashboard/index/de.evandor:${columns[1]}' target='_blank'>Sonar</a>&nbsp;			
-			</#if>
-		</td>
-	  </tr>  
-	</#list>
+  <#include "skysail.server.restletosgi:header.ftl">
+  <div id="container">
+    <#assign info = "List of all available Services" />
+    <#include "skysail.server.osgi.bundles:title.ftl">
 	
-	</table>  
-	</form>
-  </#if>  
+	<div id="fsi"><h2>
+        	<span>&nbsp;&nbsp;total of ${totalResults} hits for your query, showing page ${page}</span></h2>
+    </div>
+	
+	<#include "skysail.server.restletosgi:debug.ftl">
+	
+	<#list data as component>
+	  
+	  <#if component.class.simpleName == "GridData">
+		<#assign gridColumns = component.columns>
+		<#assign request = origRequest?split("?")[0] />
+		<form action="#">
+		<table>
+		<#include "skysail.server.osgi.bundles:caption.ftl">
+		<thead>
+		  <tr>
+			<th scope="col" width="400px">ID</th>  
+			<th scope="col" width="200px">Symbolic Name</th>  
+			<th scope="col" width="400px">Version</th>
+			<th scope="col" width="100px">State</th>  
+		  </tr>
+		</thead>
 
-</#list>
+		<tfoot>
+			<tr>
+				<th scope="row">Total</th>
+				<td colspan="3">&nbsp;</td>
+			</tr>
+		</tfoot>
 
-<#include "skysail.server.restletosgi:debug.ftl">
+
+		<tbody>
+		<tr>
+		  <td class="search" width="50">
+			<input type="text" name="id" value='<#if gridColumns["id"]??>${gridColumns["id"].filterValue}</#if>' />
+		  </td>
+		  <td class="search">
+			<input type="text" name="f_ImplementingBundle" value='<#if gridColumns["implementingBundle"]??>${gridColumns["implementingBundle"].filterValue}</#if>' />
+		  </td>  
+		  <td class="search">
+			<input type="text" name="f_UsingBundle" value='<#if gridColumns["serviceName"]??>${gridColumns["serviceName"].filterValue}</#if>' />
+		  </td>  
+		   <td class="search">
+			<input type="submit" value="Search"/>
+		  </td>  
+		</tr>
+		<#assign counter = 0 />
+	    <#list component.gridData as row>
+		  <#assign columns = row.columnData>
+		  <#assign counter = counter + 1 />
+		  <#if (counter % 2 == 1)>
+		    <tr>
+		  <#else>
+		    <tr class="odd" />
+		  </#if>
+		    
+		  <#list columns as columnData>
+		    <#if columnData_index == 0>
+			  <td>${columnData}</td>
+		    <#elseif columnData_index == 1>
+			  <td>${columnData}</td>
+			<#elseif columnData_index == 2>
+		        <td><img src="/static/img/bundle.gif">&nbsp;${columnData}</td>
+			<#elseif columnData_index == 3>
+			  <td>${columnData}</td>
+			<#elseif columnData_index == 4>
+   		        <td>${columnData?replace(";","<br>\n")}</td>
+			<#else>
+				
+			  </#if>
+			</#list>
+		  </tr>  
+		</#list>
+		</tbody>
+		</table>  
+		</form>
+	  </#if>  
+	
+	</#list>
+  </div>
 
 </body>
 </html>

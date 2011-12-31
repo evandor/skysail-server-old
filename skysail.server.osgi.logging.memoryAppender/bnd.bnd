@@ -1,4 +1,5 @@
 Import-Package:	*
 Include-Resource: {maven-resources}
+Bundle-SymbolicName: skysail.server.osgi.logging.memoryAppender
 Spring-Context: OSGI-INF/*.xml
 

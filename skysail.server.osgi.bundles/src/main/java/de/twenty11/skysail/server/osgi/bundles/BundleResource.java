@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.common.messages.FormData;
 import de.twenty11.skysail.common.messages.TextFieldData;
 import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
-import de.twenty11.skysail.server.osgi.bundles.internal.BundlesUrlMapper;
 import de.twenty11.skysail.server.restletosgi.SkysailServerResource;
 
 public class BundleResource extends SkysailServerResource<FormData> {
@@ -16,7 +15,6 @@ public class BundleResource extends SkysailServerResource<FormData> {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public BundleResource() {
-        super("Bundle Information");
         setTemplate("skysail.server.osgi.bundles:bundle.ftl");
     }
 

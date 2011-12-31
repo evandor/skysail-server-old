@@ -25,6 +25,8 @@ public class OsgiBundlesConstants {
 
     public static final String BUNDLE_ID = "bundleId";
 
+    public static final String SERVICE_ID = "serviceId";
+
     public static final String REGISTERD_SERVICES = "registeredServices";
 
     public static final String CONSUMED_SERVICES = "consumedServices";
@@ -34,5 +36,7 @@ public class OsgiBundlesConstants {
     public static final String EXPORTED_PACKAGES = "exportedPackages";
 
     public static final String BUNDLE_HEADER = "bundleHeader";
+
+    public static final String SERVICES = "services";
 
 }

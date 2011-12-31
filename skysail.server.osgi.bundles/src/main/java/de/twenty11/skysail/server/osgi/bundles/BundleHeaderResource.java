@@ -22,20 +22,16 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.eclipse.osgi.framework.internal.core.BundleHost;
-import org.eclipse.osgi.service.resolver.ImportPackageSpecification;
 import org.osgi.framework.Bundle;
 
 import de.twenty11.skysail.common.RowData;
 import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
-import de.twenty11.skysail.server.osgi.bundles.internal.BundlesUrlMapper;
 import de.twenty11.skysail.server.restletosgi.SkysailServerResource;
 
 public class BundleHeaderResource extends SkysailServerResource<GridData> {
 
     public BundleHeaderResource() {
-        super("Bundle Header");
         setTemplate("skysail.server.osgi.bundles:header.ftl");
     }
 
