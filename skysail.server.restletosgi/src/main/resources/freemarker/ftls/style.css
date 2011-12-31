@@ -10,8 +10,7 @@
 		}
 		        
         .header {
-		    background: none repeat fixed 0 0 #000066;
-		    color: #000066;
+		    background: none repeat fixed 0 0 #06266F;
 		    height: 24px;
 		    margin: 0;
 		    padding: 4px 4px 0px 30px;
@@ -33,7 +32,7 @@
 		}
 		
 		caption { 
-			border:1px solid #5C443A;
+			border:0px solid #5C443A;
 			color:#000066;
 			font-weight:bold;
 			letter-spacing:2px;
@@ -51,15 +50,22 @@
 		}
 		
 		tr { 
-			border:1px dotted gray;
+			border:0px dotted gray;
 		}
 		
 		thead th, tfoot th { 
-			background:#000066;
-			color:#FFFFFF;
+			background:#FFAA00;
+			color:#06266F;
 			padding:3px 10px 3px 10px;
 			text-align:left;
 			text-transform:uppercase;
+		}
+		
+		tbody { 
+			color:#363636;
+			border-right:1px solid #bfbfbf;
+			border-left:1px solid #bfbfbf;
+			text-decoration:none;
 		}
 		
 		tbody td a { 
@@ -83,21 +89,21 @@
 		}
 		
 		tbody th a:hover { 
-			color:#363636;
+			color:#bfbfbf;
 		}
 		
 		tbody td+td+td+td a { 
-			background-image:url('bullet_blue.png');
-			background-position:left center;
-			background-repeat:no-repeat;
-			color:#03476F;
-			padding-left:15px;
+			background-image: url("bullet_blue.png");
+			background-position: left center;
+			background-repeat: no-repeat;
+			color: #BFBFBF;
+			padding-left: 15px;
 		}
 		
 		tbody td+td+td+td a:visited { 
-			background-image:url('bullet_white.png');
-			background-position:left center;
-			background-repeat:no-repeat;
+			background-image: url("bullet_white.png");
+			background-position: left center;
+			background-repeat: no-repeat;
 		}
 		
 		tbody th, tbody td { 
@@ -114,10 +120,14 @@
 		.odd { 
 			background:#fff;
 		}
-		
+
+		.search { 
+			background:#6C8CD5;
+		}
+
 		tbody tr:hover { 
-			background:#99BCBF;
-		 	border:1px solid #03476F;
+			background:#bfbfbf;
+		 	border:1px solid #bfbfbf;
 			color:#000000;
 		}
 
@@ -156,6 +166,55 @@
 			color:#ffffff;
 			text-decoration: none;
 		} 
+		
+		ul{border:0; margin:0; padding:0;}
+
+		/* ===== pagination related =============================== */
+
+		#pagination-digg li{
+			border:0; margin:0; padding:0;
+			font-size:11px;
+			list-style:none;
+			margin-right:2px;
+		}
+		#pagination-digg a{
+			border:solid 1px #9aafe5
+			margin-right:2px;
+		}
+		#pagination-digg .previous-off, #pagination-digg .next-off {
+			border:solid 1px #DEDEDE
+			color:#888888
+			display:block;
+			float:left;
+			font-weight:bold;
+			margin-right:2px;
+			padding:3px 4px;
+		}
+	
+		#pagination-digg .next a, #pagination-digg .previous a {
+			font-weight:bold;
+		}
+	
+		#pagination-digg .active{
+			background:#000066;
+			color:#FFFFFF;
+			font-weight:bold;
+			display:block;
+			float:left;
+			padding:4px 6px;
+		}
+	
+		#pagination-digg a:link, #pagination-digg a:visited {
+			color: #0e509e display :block;
+			float: left;
+			padding: 3px 6px;
+			text-decoration: none;
+			border: solid 1px #eeeeee;
+		}
+	
+		#pagination-digg a:hover{
+			border:solid 1px #000066
+		}
 		
 		#container {
 		    padding-left: 28px;

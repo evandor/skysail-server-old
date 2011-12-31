@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.SkysailData;
-import de.twenty11.skysail.common.filters.AndFilter;
 import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SkysailSuccessResponse;
@@ -46,6 +45,8 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     private int totalResults;
     
     private Filter filter;
+
+    private Integer currentPage = 1;
 
     /**
      * Implementors of this class have to provide data which will be used to create
@@ -93,6 +94,7 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     private void setResponseDetails(SkysailResponse<T> response) {
         response.setMessage(getMessage());
         response.setTotalResults(getTotalResults());
+        response.setPage(getCurrentPage());
         response.setOrigRequest(getRequest().getOriginalRef().toUrl());
         response.setParent(getParent());
         response.setFilter(getFilter() != null ? getFilter().toString() : "");
@@ -101,6 +103,14 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
         }
     }
     
+    protected Integer getCurrentPage() {
+        return this.currentPage;
+    }
+    
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
+    }
+
     public void setTemplate(String template) {
         this.template = template;
     }
@@ -131,19 +141,15 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     
     private URL getParent() {
         URL origRequest = getRequest().getOriginalRef().getParentRef().toUrl();
-        //origRequest.getProtocol() + "://" + origRequest.getHost() + ":" + origRequest.getPort() + 
         return origRequest;
     }
 
-    protected Filter getFilterFromQuery() {
-        Filter filter = null;
-        String filterExpression = getQuery().getFirstValue("filterExpression");
-        if (filterExpression != null) {
-    
-        } else {
-            filter = AndFilter.newInstance(getQuery().getValuesMap());
-        }
-        setFilter(filter);
-        return filter;
+    protected int handlePagination() {
+        int pageSize = 20;
+        String firstValue = getQuery().getFirstValue("page", "1");
+        int page = Integer.parseInt(firstValue);
+        setCurrentPage(page);
+        return pageSize;
     }
+
 }
