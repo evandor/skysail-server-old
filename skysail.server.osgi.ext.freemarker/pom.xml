@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>skysail.server.osgi.ext.freemarker</artifactId>
-	<version>0.0.5-SNAPSHOT</version>
+	<version>0.0.5</version>
 	<name>skysail server freemarker extension</name>
 	<packaging>bundle</packaging>
 
