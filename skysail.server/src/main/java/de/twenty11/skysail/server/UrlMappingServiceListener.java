@@ -116,7 +116,7 @@ public class UrlMappingServiceListener implements ServiceListener {
         }
         for (Map.Entry<String, String> mapping : providedMapping.entrySet()) {
             try {
-                logger.info("adding new mapping from '{}' to '{}'", mapping.getKey(), mapping.getValue());
+                logger.debug("adding new mapping from '{}' to '{}'", mapping.getKey(), mapping.getValue());
                 application.getRouter().attach(mapping.getKey(), Class.forName(mapping.getValue()));
                 logCurrentMapping(application.getRouter().getRoutes());
             } catch (ClassNotFoundException e) {
@@ -142,7 +142,7 @@ public class UrlMappingServiceListener implements ServiceListener {
         }
         for (Map.Entry<String, String> mapping : providedMapping.entrySet()) {
             try {
-                logger.info("removing mapping '{}'", mapping);
+                logger.debug("removing mapping '{}'", mapping);
                 application.getRouter().detach(Class.forName(mapping.getValue()));
                 logCurrentMapping(application.getRouter().getRoutes());
             } catch (ClassNotFoundException e) {
@@ -158,9 +158,9 @@ public class UrlMappingServiceListener implements ServiceListener {
      *            the url mapping
      */
     private void logCurrentMapping(final RouteList routes) {
-        logger.info("current mapping now is:");
+        logger.debug("current mapping now is:");
         for (TemplateRoute route : routes) {
-            logger.info(route.toString());
+            logger.debug(route.toString());
         }
     }
 

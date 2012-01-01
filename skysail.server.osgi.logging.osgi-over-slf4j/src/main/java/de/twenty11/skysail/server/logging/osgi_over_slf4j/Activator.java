@@ -15,7 +15,7 @@
  * 
  */
 
-package skysail.server.osgi.logging.osgi_over_slf4j;
+package de.twenty11.skysail.server.logging.osgi_over_slf4j;
 
 import org.eclipse.equinox.log.ExtendedLogEntry;
 import org.eclipse.equinox.log.ExtendedLogReaderService;
@@ -83,11 +83,11 @@ public class Activator implements BundleActivator {
             ExtendedLogEntry extendedEntry = (ExtendedLogEntry) entry;
             Logger xLogger = LoggerFactory.getLogger(ConstantsAndProperties.EXTENDED_LOGENTRY_PREFIX
                     + extendedEntry.getLoggerName());
-            logLogEntry (logger,
-                    entry.getLevel(),
-                    LogServiceUtil.createBundleAndServiceMarker(entry, getContext()),
-                    entry.getMessage(),
-                    entry.getException());
+//            logLogEntry (logger,
+//                    entry.getLevel(),
+//                    LogServiceUtil.createBundleAndServiceMarker(entry, getContext()),
+//                    entry.getMessage(),
+//                    entry.getException());
             
 
         }

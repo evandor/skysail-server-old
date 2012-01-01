@@ -50,19 +50,28 @@
 	<dependencies>
 		<dependency>
 			<groupId>de.twenty11.skysail</groupId>
-			<artifactId>skysail.server.osgi</artifactId>
-			<version>[0.0.3,0.2.0)</version>
+			<artifactId>skysail.server</artifactId>
+			<version>[0.1.0,0.2.0)</version>
 		</dependency>
+		
 		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>0.9.29</version>
+			<groupId>org.sonatype.tycho</groupId>
+			<artifactId>org.eclipse.osgi</artifactId>
+			<version>3.6.1.R36x_v20100806</version>
+		</dependency> 
+		<!-- <dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>com.springsource.javax.servlet</artifactId>
+			<version>2.5.0</version>
+			<scope>compile</scope>
+		</dependency> -->
+<!-- 		<dependency>
+			<groupId>org.eclipse.osgi</groupId>
+			<artifactId>org.eclipse.osgi.services</artifactId>
+			<version>3.2.100.v20100503</version>
 		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>0.9.29</version>
-		</dependency>
+ -->		
+		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -98,11 +107,5 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>de.twenty11.skysail</groupId>
-			<artifactId>skysail.server.restletosgi</artifactId>
-			<version>[0.0.5-SNAPSHOT, 0.1)</version>
-			<type>bundle</type>
-		</dependency>
 	</dependencies>
 </project>
