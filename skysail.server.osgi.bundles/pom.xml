@@ -25,7 +25,7 @@
 	</scm>
 
 	<artifactId>skysail.server.osgi.bundles</artifactId>
-	<version>0.1.2-SNAPSHOT</version>
+	<version>0.1.2</version>
 	<name>skysail server bundles</name>
 	<packaging>bundle</packaging>
 
