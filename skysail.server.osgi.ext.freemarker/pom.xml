@@ -11,20 +11,20 @@
 	</parent>
 
 	<artifactId>skysail.server.osgi.ext.freemarker</artifactId>
-	<version>0.0.5-SNAPSHOT</version>
+	<version>0.0.6-SNAPSHOT</version>
 	<name>skysail server freemarker extension</name>
 	<packaging>bundle</packaging>
 
 	<properties>
-		<!-- exam.version>2.3.0.M1-SNAPSHOT</exam.version-->
+		<!-- exam.version>2.3.0.M1-SNAPSHOT</exam.version -->
 		<exam.version>2.3.0.M1</exam.version>
 		<url.version>1.3.5</url.version>
 	</properties>
 
 	<scm>
-		<connection>scm:git:git://javaforge.com/skysail-server</connection>
-		<url>scm:git:http://javaforge.com/git/skysail-server</url>
-		<developerConnection>scm:git:[fetch=]http://javaforge.com/git/skysail-server[push=]http://javaforge.com/git/skysail-server</developerConnection>
+		<connection>scm:git:git@github.com:evandor/skysail-server.git</connection>
+		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
+		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
 	</scm>
 
 	<build>
@@ -46,10 +46,15 @@
 	<dependencies>
 		<dependency>
 			<groupId>de.twenty11.skysail</groupId>
-			<artifactId>skysail.server.osgi</artifactId>
-			<version>[0.0.1,0.2.0)</version>
+			<artifactId>skysail.server</artifactId>
+			<version>[0.1.0,0.2.0)</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.eclipse.osgi</groupId>
+			<artifactId>org.eclipse.osgi.services</artifactId>
+			<version>3.2.100.v20100503</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.ops4j.pax.exam</groupId>
@@ -79,12 +84,8 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--dependency>
-			<groupId>org.apache.felix</groupId>
-			<artifactId>org.apache.felix.framework</artifactId>
-			<version>3.2.2</version>
-			<scope>test</scope>
-		</dependency-->
+		<!--dependency> <groupId>org.apache.felix</groupId> <artifactId>org.apache.felix.framework</artifactId> 
+			<version>3.2.2</version> <scope>test</scope> </dependency -->
 
 	</dependencies>
 

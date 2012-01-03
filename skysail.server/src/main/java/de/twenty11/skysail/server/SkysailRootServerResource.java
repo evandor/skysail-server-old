@@ -1,7 +1,4 @@
-package de.twenty11.skysail.server.restletosgi;
-
-import java.util.ArrayList;
-import java.util.List;
+package de.twenty11.skysail.server;
 
 import org.restlet.data.MediaType;
 import org.restlet.ext.wadl.DocumentationInfo;
@@ -15,7 +12,6 @@ import org.restlet.resource.Get;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.messages.LinkData;
 import de.twenty11.skysail.server.communication.CommunicationUtils;
 
 /**
@@ -39,12 +35,12 @@ public class SkysailRootServerResource extends WadlServerResource {
     }
 
     protected Representation dispatchGet(Variant variant) {
-        List<LinkData> links = new ArrayList<LinkData>();
-        addLink(links,"components/", "Installed Components");
-        addLink(links,"logs/", "Current Logs");
-        addLink(links,"bundles/", "Installed Bundles");
-        //return CommunicationUtils.createLinkRepresentation(links, variant, getQuery(), getRequest(), "Root");
-        CommunicationUtils commUtils = new CommunicationUtils();
+//        List<LinkData> links = new ArrayList<LinkData>();
+//        addLink(links,"components/", "Installed Components");
+//        addLink(links,"logs/", "Current Logs");
+//        addLink(links,"bundles/", "Installed Bundles");
+//        //return CommunicationUtils.createLinkRepresentation(links, variant, getQuery(), getRequest(), "Root");
+//        CommunicationUtils commUtils = new CommunicationUtils();
         // TODO check
         return null; //commUtils.createLinkRepresentation(links, variant, getQuery(), getRequest(), "root");
     }
@@ -94,9 +90,9 @@ public class SkysailRootServerResource extends WadlServerResource {
         return new StringRepresentation(sb.toString(), MediaType.TEXT_HTML);
     }
 
-    protected void addLink(List<LinkData> loggerLinks, String string, String string2) {
-        LinkData ld = new LinkData(string, string2);
-        loggerLinks.add(ld);
-    }
+//    protected void addLink(List<LinkData> loggerLinks, String string, String string2) {
+//        LinkData ld = new LinkData(string, string2);
+//        loggerLinks.add(ld);
+//    }
 
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.twenty11.skysail</groupId>
+		<artifactId>skysail.build.maven.parentPom</artifactId>
+		<version>0.1.0</version>
+		<relativePath />
+	</parent>
+
+	<artifactId>skysail.server.build</artifactId>
+	<name>skysail server build</name>
+	<packaging>pom</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<modules>
+		<module>../skysail.server</module>
+		<module>../skysail.server.osgi.bundles</module>
+		<module>../skysail.server.configuration.byPropertiesService</module>
+		<module>../skysail.server.logging.startup</module>
+		<module>../skysail.server.osgi.logback.config</module>
+		<module>../skysail.server.osgi.logging.memoryAppender</module>
+		<module>../skysail.server.osgi.logging.osgi-over-slf4j</module>
+	</modules>
+
+</project>

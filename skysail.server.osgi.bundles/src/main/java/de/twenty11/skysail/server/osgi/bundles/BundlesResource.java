@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.common.ColumnsBuilder;
 import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.messages.GridData;
+import de.twenty11.skysail.server.SkysailServerResource;
 import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
-import de.twenty11.skysail.server.restletosgi.SkysailServerResource;
 
 public class BundlesResource extends SkysailServerResource<GridData> {
 

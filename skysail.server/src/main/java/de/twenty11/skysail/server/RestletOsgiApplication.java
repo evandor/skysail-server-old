@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.restletosgi;
+package de.twenty11.skysail.server;
 
 import java.io.IOException;
 
@@ -12,6 +12,7 @@ import org.restlet.routing.Router;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.server.internal.Blocker;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
@@ -76,7 +77,7 @@ public class RestletOsgiApplication extends WadlApplication {
     }
 
     protected void attach() {
-        router.attach("/components/", RestletOsgiServerResource.class);
+        //router.attach("/components/", RestletOsgiServerResource.class);
         router.attach("/", SkysailRootServerResource.class);
 
     }

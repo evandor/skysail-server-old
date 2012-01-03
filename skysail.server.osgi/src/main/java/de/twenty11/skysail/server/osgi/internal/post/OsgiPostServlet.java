@@ -64,7 +64,7 @@ public class OsgiPostServlet extends OsgiHttpServlet {
 		String componentName = getComponentFromPath(pathInfo);
 		EntityService component = componentsLookup.getComponent(componentName);
 		String serializedEntity = (String) request.getAttribute("entity");
-		return component.createEntity(userPrincipal,serializedEntity);
+		return null;//component.createEntity(userPrincipal,serializedEntity);
 	}
 
 

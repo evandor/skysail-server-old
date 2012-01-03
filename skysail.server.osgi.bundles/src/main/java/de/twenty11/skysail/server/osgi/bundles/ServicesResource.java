@@ -15,8 +15,8 @@ import de.twenty11.skysail.common.RowData;
 import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.filters.LdapSearchFilter;
 import de.twenty11.skysail.common.messages.GridData;
+import de.twenty11.skysail.server.SkysailServerResource;
 import de.twenty11.skysail.server.osgi.bundles.internal.Activator;
-import de.twenty11.skysail.server.restletosgi.SkysailServerResource;
 
 public class ServicesResource extends SkysailServerResource<GridData> {
 

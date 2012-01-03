@@ -93,7 +93,7 @@ public class OsgiRestletServlet extends OsgiHttpServlet {
         } else if (command.equals("show")) {
             return serialize(component.getGridData(userPrincipal, pathInfo, parameterMap));
         } else if (command.equals("fields")) {
-            return serialize(component.getGridInfo(pathInfo, parameterMap));
+            //return serialize(component.getGridInfo(pathInfo, parameterMap));
         }
         // last resort for non-standard commands
         return component.runCommand(command, parameterMap);

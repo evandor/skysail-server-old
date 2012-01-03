@@ -1,6 +1,6 @@
 issues with release plugin: have to release this locally like
 
-cd ~/git/skysail-server/skysail.server
+cd ~/git/skysail-server/skysail.server.osgi.ext.freemarker
 
 optional: mvn3 dependency:analyze
 

@@ -6,7 +6,7 @@
     
    </script>
 
-  <#include "skysail.server.restletosgi:header.ftl">
+  <#include "skysail.server:header.ftl">
   <div id="container">
     <#assign info = "List of all available Services" />
     <#include "skysail.server.osgi.bundles:title.ftl">
@@ -15,7 +15,7 @@
         	<span>&nbsp;&nbsp;total of ${totalResults} hits for your query, showing page ${page}</span></h2>
     </div>
 	
-	<#include "skysail.server.restletosgi:debug.ftl">
+	<#include "skysail.server:debug.ftl">
 	
 	<#list data as component>
 	  

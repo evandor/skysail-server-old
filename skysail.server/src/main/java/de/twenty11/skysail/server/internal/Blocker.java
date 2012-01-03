@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.restletosgi;
+package de.twenty11.skysail.server.internal;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;

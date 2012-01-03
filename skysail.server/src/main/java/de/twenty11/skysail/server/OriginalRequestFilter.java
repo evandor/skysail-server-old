@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.restletosgi;
+package de.twenty11.skysail.server;
 
 import java.net.URL;
 
