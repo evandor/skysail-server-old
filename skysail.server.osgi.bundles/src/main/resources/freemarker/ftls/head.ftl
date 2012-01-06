@@ -12,5 +12,8 @@
 	<meta name="language" content="English" />
 	<meta http-equiv="content-language" content="en" />
     
-    <#include "skysail.server:style.css">
+    <style type='text/css'  media='all'>
+   		@import '/static/css/osgimonitor.css';
+	</style>
+   
 </head>

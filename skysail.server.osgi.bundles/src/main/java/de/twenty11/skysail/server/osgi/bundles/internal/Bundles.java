@@ -1,5 +1,10 @@
 package de.twenty11.skysail.server.osgi.bundles.internal;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
@@ -27,25 +32,10 @@ public class Bundles {
         return SingletonHolder.instance;
     }
 
-//    public GridData getBundles(GridData grid, Filter filter) {
-//        Bundle[] bundles = bundleContext.getBundles();
-//        GridInfo fieldsList = SkysailUtils.createFieldList(fields);
-//        int count = 0;
-//        for (Bundle bundle : bundles) {
-//            RowData col = new RowData();
-//            List<Object> cols = new ArrayList<Object>();
-//            cols.add(bundle.getBundleId());
-//            cols.add(bundle.getSymbolicName());
-//            cols.add(bundle.getVersion());
-//            cols.add(translateStatus(bundle.getState()));
-//            col.setColumnData(cols);
-//            grid.addRowData(col);
-//            count++;
-//        }
-//        grid.setAvailableRows(count);
-//        return grid;
-//
-//    }
+    public List<?> getBundles() {
+        Bundle[] bundles = bundleContext.getBundles();
+        return Arrays.asList(bundles);
+    }
 
     public void setContext(BundleContext context) {
         this.bundleContext = context;
@@ -65,7 +55,7 @@ public class Bundles {
         return this.bundleContext.getBundle(id);
     }
 
-    private String translateStatus(int state) {
+    public static String translateStatus(int state) {
         // state as defined in org.osgi.framework.Bundle
         switch (state) {
             case Bundle.ACTIVE :
@@ -84,11 +74,5 @@ public class Bundles {
                 return "unknown (" + state +")";
         }
     }
-
-    public GridData getBundles(GridData grid, Object object) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     
 }

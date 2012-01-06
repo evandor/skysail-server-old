@@ -1,7 +1,9 @@
 package de.twenty11.skysail.server.osgi.bundles;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.osgi.framework.Bundle;
@@ -24,31 +26,14 @@ public class ServicesResource extends SkysailServerResource<GridData> {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public ServicesResource() {
+        super(new GridData());
         setTemplate("skysail.server.osgi.bundles:services.ftl");
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.twenty11.skysail.server.restletosgi.SkysailServerResource#getData()
-     * 
-     * @see
-     * org.eclipse.osgi.framework.internal.core.FrameworkCommandProvider._services
-     * (CommandInterpreter)
-     */
     @Override
-    public GridData getData() {
-
-        // create the grid
-        final GridData grid = new GridData();
-
-        // pagination
-        int pageSize = handlePagination();
-
+    public void setColumns(GridData gridData) {
         // @formatter:off
-        // define the columns
-        grid.setColumnsBuilder(new ColumnsBuilder(getQuery().getValuesMap()) {
+        gridData.setColumnsBuilder(new ColumnsBuilder(getQuery().getValuesMap()) {
             @Override
             public void configure() {
                 addColumn("id").setWidth(0).
@@ -59,69 +44,62 @@ public class ServicesResource extends SkysailServerResource<GridData> {
             }
         });
         // @formatter:on
+    }
 
-        // filtering
-        Filter filter = grid.getFilter();
+    @Override
+    public int handlePagination() {
+        return doHandlePagination("skysail.server.osgi.bundles.entriesPerPage", 20);
+    }
 
-        ServiceReference[] services;
+    @Override
+    public List<Object> getFilteredData() {
+
+        Filter filter = getSkysailData().getFilter();
+        Object[] services;
+
         try {
             if (filter instanceof LdapSearchFilter) {
                 services = Activator.getContext().getServiceReferences(null, filter.toString());
+                // countAll = services.length;
+                return Arrays.asList(services);
             } else {
+                // need to filter "manually"
                 services = Activator.getContext().getServiceReferences(null, null);
-            }
-            if (services != null) {
-                int size = services.length;
-                setTotalResults(size);
-                if (size > 0) {
-                    
-                    int countHitsOnPage = 0;
-                    int countAll = 0; // anything from 0 to size depending on
-                                      // filter matches
-                    
-                    // first loop - get all matching data
-                    for (int j = 0; j < size; j++) {
-
-                        ServiceReference service = services[j];
-
-                        RowData rowData = new RowData();
+                List<ServiceReference> filteredReferences = new ArrayList<ServiceReference>();
+                if (services != null) {
+                    for (int j = 0; j < services.length; j++) {
+                        ServiceReference service = (ServiceReference) services[j];
                         Map<String, String> columnData = putColumnData(service);
-
-                        // apply filter to decide whether to include the
-                        // entry
-//                        if ((j < (page - 1) * pageSize) && filter.match(columnData)) {
-//                            countAll++;
-//                        } else if ((j >= (page - 1) * pageSize) && filter.match(columnData)) {
                         if (filter.match(columnData)) {
-                            countAll++;
-                            //if (countHitsOnPage < pageSize) {
-                                rowData.setColumnData(new ArrayList(columnData.values()));
-                                grid.addRowData(rowData);
-                                countHitsOnPage++;
-                            //}
+
+                            filteredReferences.add(service);
+                            // countHitsOnPage++;
                         }
                     }
-                    
-                    // now sort (row data)
-                    grid.sort(grid.getColumns());
-                    
-                    // second loop - remove 
-                    for (int j = 0; j < ((getCurrentPage() - 1) * pageSize); j++) {
-                        grid.removeRow(j);
-                    }
-                    // third loop - remove 
-                    for (int j = (getCurrentPage() * pageSize); j < size; j++) {
-                        grid.removeRow(j);
-                    }
-                    
-                    setTotalResults(countAll);
                 }
+                services = filteredReferences.toArray(new ServiceReference[filteredReferences.size()]);
+                return Arrays.asList(services);
             }
         } catch (InvalidSyntaxException e) {
             throw new RuntimeException("Invalid Syntax for filter", e);
         }
+    }
+    
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @Override
+    public GridData currentPageResults(List<?> filterResults, int pageSize) {
+        GridData grid = getSkysailData();
+        int max = Math.min(filterResults.size(), (getCurrentPage() * pageSize));
+        for (int j = ((getCurrentPage() - 1) * pageSize); j < max; j++) {
+            ServiceReference service = (ServiceReference)filterResults.get(j);
+            RowData rowData = new RowData();
+            Map<String, String> columnData = putColumnData(service);
+            rowData.setColumnData(new ArrayList(columnData.values()));
+            grid.addRowData(rowData);
+        }
         return grid;
     }
+
 
     private Map<String, String> putColumnData(ServiceReference service) {
         Map<String, String> columnData = new LinkedHashMap<String, String>();

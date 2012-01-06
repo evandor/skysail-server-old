@@ -6,7 +6,7 @@
     
    </script>
 
-  <#include "skysail.server:header.ftl">
+  <#include "skysail.server:navigation.ftl">
   <div id="container">
     <#assign info = "List of all available Services" />
     <#include "skysail.server.osgi.bundles:title.ftl">
@@ -36,8 +36,7 @@
 
 		<tfoot>
 			<tr>
-				<th scope="row">Total</th>
-				<td colspan="3">&nbsp;</td>
+				<th scope="row" colspan="4">&nbsp;</th>
 			</tr>
 		</tfoot>
 
@@ -85,7 +84,7 @@
 				
 			  </#if>
 			</#list>
-			<td>hi</td>
+			<td>to be done</td>
 		  </tr>  
 		</#list>
 		</tbody>

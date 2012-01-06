@@ -6,7 +6,7 @@
     
    </script>
 
-  <#include "skysail.server:header.ftl">
+  <#include "skysail.server:navigation.ftl">
   <div id="container">
     <#assign info = "List of all available Services" />
     <#include "skysail.server.osgi.bundles:title.ftl">
@@ -36,8 +36,7 @@
 
 		<tfoot>
 			<tr>
-				<th scope="row">Total</th>
-				<td colspan="3">&nbsp;</td>
+				<th scope="row" colspan="4">&nbsp;</th>
 			</tr>
 		</tfoot>
 
@@ -71,7 +70,7 @@
 		    <#if columnData_index == 0>
 			  <td>${columnData}</td>
 		    <#elseif columnData_index == 1>
-			  <td>${columnData}</td>
+			  <td><a href='/bundles/${columns[0]}/'>${columnData}</a></td>
 			<#elseif columnData_index == 2>
 		        <td><img src="/static/img/bundle.gif">&nbsp;${columnData}</td>
 			<#elseif columnData_index == 3>

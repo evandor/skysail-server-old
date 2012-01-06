@@ -14,7 +14,6 @@ import de.twenty11.skysail.server.osgi.bundles.ImportedPackagesResource;
 import de.twenty11.skysail.server.osgi.bundles.OsgiBundlesConstants;
 import de.twenty11.skysail.server.osgi.bundles.PackagesResource;
 import de.twenty11.skysail.server.osgi.bundles.RegisteredServicesResource;
-import de.twenty11.skysail.server.osgi.bundles.ServiceDetailsResource;
 import de.twenty11.skysail.server.osgi.bundles.ServicesResource;
 
 public class BundlesUrlMapper implements UrlMapper {
@@ -34,8 +33,8 @@ public class BundlesUrlMapper implements UrlMapper {
 
         queue.put("/" + OsgiBundlesConstants.SERVICES + "/", ServicesResource.class.getName());
         
-        queue.put("/" + OsgiBundlesConstants.SERVICES + "/{" + OsgiBundlesConstants.SERVICE_ID + "}/",
-                        ServiceDetailsResource.class.getName());
+//        queue.put("/" + OsgiBundlesConstants.SERVICES + "/{" + OsgiBundlesConstants.SERVICE_ID + "}/",
+//                        ServiceDetailsResource.class.getName());
 
         queue.put("/" + OsgiBundlesConstants.RESTLET_BUNDLE_CONTEXT_ID + "/{" + OsgiBundlesConstants.BUNDLE_ID + "}/",
                         BundleResource.class.getName());

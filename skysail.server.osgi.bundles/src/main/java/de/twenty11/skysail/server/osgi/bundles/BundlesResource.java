@@ -1,9 +1,15 @@
 package de.twenty11.skysail.server.osgi.bundles;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.osgi.framework.internal.core.AbstractBundle;
+import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.ColumnsBuilder;
+import de.twenty11.skysail.common.RowData;
 import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.server.SkysailServerResource;
@@ -15,21 +21,15 @@ public class BundlesResource extends SkysailServerResource<GridData> {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public BundlesResource() {
+        super(new GridData());
+
         setTemplate("skysail.server.osgi.bundles:bundles.ftl");
     }
 
     @Override
-    public GridData getData() {
-
-        // create the grid
-        final GridData grid = new GridData();
-
-        // pagination
-        int pageSize = handlePagination();
-
+    public void setColumns(GridData data) {
         // @formatter:off
-        // define the columns
-        grid.setColumnsBuilder(new ColumnsBuilder(getQuery().getValuesMap()) {
+        data.setColumnsBuilder(new ColumnsBuilder(getQuery().getValuesMap()) {
             @Override
             public void configure() {
                 addColumn("id").setWidth(50).
@@ -39,14 +39,36 @@ public class BundlesResource extends SkysailServerResource<GridData> {
             }
         });
         // @formatter:on
+    }
 
-        // filtering
-        Filter filter = grid.getFilter();
+    @Override
+    public List<?> getFilteredData() {
+        // Filter filter = getSkysailData().getFilter();
+         List<?> bundles = Bundles.getInstance().getBundles();
+         return bundles;
+    }
 
-        
-        GridData bundles = Bundles.getInstance().getBundles(grid, null);// filter);
-        setTotalResults(bundles.getAvailableRows());
-        return bundles;
+    @Override
+    public int handlePagination() {
+        return doHandlePagination("", 15);
+    }
+
+    @Override
+    public GridData currentPageResults(List<?> filteredResults, int pageSize) {
+        for (Object object : filteredResults) {
+            AbstractBundle bundle = (AbstractBundle) object;
+            
+            RowData rowData = new RowData();
+            
+            List<Object> columnData = new ArrayList<Object>();
+            columnData.add(bundle.getBundleId());
+            columnData.add(bundle.getSymbolicName());
+            columnData.add(bundle.getVersion());
+            columnData.add(Bundles.translateStatus(bundle.getState()));
+            rowData.setColumnData(columnData );
+            getSkysailData().addRowData(rowData );
+        }
+        return getSkysailData();
     }
 
 }

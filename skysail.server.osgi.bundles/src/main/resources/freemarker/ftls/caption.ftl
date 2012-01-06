@@ -21,6 +21,10 @@
 			</#if>
 	        <li class="next-off">&nbsp;</li>
 		    
+			<li class="next-off"><input type="text" name="pageSize" value="${pageSize}" class="smallInput" /> results per page</li>
+
+	        <li class="next-off">&nbsp;</li>
+
 			<li class="next"><a href="${request}?media=xml">as XML</a></li>
 			<li class="next"><a href="${request}?media=json">as JSON</a></li>
 			<!--[<a href="${request}?media=text">as Text</a>]-->

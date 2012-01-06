@@ -31,10 +31,12 @@ import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
 public class ConsumedServicesResource extends SkysailServerResource<GridData> {
 
     public ConsumedServicesResource() {
+        super(new GridData());
+
         setTemplate("skysail.server.osgi.bundles:usedServices.ftl");
     }
 
-    @Override
+//    @Override
     public GridData getData() {
         String bundleId = (String) getRequest().getAttributes().get(OsgiBundlesConstants.BUNDLE_ID);
         Bundle bundle = Bundles.getInstance().getBundle(Long.parseLong(bundleId));
@@ -59,6 +61,33 @@ public class ConsumedServicesResource extends SkysailServerResource<GridData> {
         }
 
         return grid;
+    }
+
+    @Override
+    public void setColumns(GridData data) {
+        // TODO Auto-generated method stub
+        
+    }
+
+   
+    @Override
+    public List<Object> getFilteredData() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+ 
+
+    @Override
+    public int handlePagination() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public GridData currentPageResults(List<?> filterResults, int pageSize) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
