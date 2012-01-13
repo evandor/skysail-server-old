@@ -6,6 +6,6 @@ DynamicImport-Package: *
 FtlTemplates: /freemarker/ftls/
 Bundle-SymbolicName: skysail.server
 Include-Resource: {maven-resources}
-Service-Component: OSGI-INF/freemarker.xml
+Service-Component: OSGI-INF/*.xml
 
 

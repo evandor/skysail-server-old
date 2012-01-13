@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -43,13 +44,21 @@
 			<artifactId>skysail.common</artifactId>
 			<version>[0.2.1-SNAPSHOT, 0.3)</version>
 		</dependency>
-		
+
 		<!-- osgi -->
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.core</artifactId>
 			<version>4.2.0</version>
 		</dependency>
+
+<!-- TODO there is an equivalent for org.osgi.services? -->
+		<dependency>
+			<groupId>org.eclipse.osgi</groupId>
+			<artifactId>org.eclipse.osgi.services</artifactId>
+			<version>3.2.100.v20100503</version>
+		</dependency>
+
 
 		<!-- restlet -->
 		<dependency>
@@ -76,6 +85,11 @@
 			<groupId>org.restlet.jee</groupId>
 			<artifactId>org.restlet.ext.freemarker</artifactId>
 			<version>${org.restlet.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.restlet.jee</groupId>
+			<artifactId>org.restlet.ext.jetty</artifactId>
+			<version>2.0-M6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.restlet.jee</groupId>
@@ -138,18 +152,9 @@
 			<version>${org.restlet.version}</version>
 		</dependency>
 
-		<!--dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency-->
-		<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>com.springsource.freemarker</artifactId>
-			<version>2.3.18</version>
-		</dependency>
+		<!--dependency> <groupId>javax.servlet</groupId> <artifactId>servlet-api</artifactId> 
+			<version>2.5</version> <type>jar</type> <scope>compile</scope> </dependency -->
+
 		<dependency>
 			<groupId>com.google.code.findbugs</groupId>
 			<artifactId>annotations</artifactId>

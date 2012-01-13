@@ -4,11 +4,12 @@ import java.io.IOException;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.restlet.Application;
 import org.restlet.Restlet;
 import org.restlet.data.LocalReference;
 import org.restlet.data.Protocol;
-import org.restlet.ext.wadl.WadlApplication;
 import org.restlet.routing.Router;
+import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,27 +18,38 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 
 /**
+ * 
+ * Concurrency note from parent class: instances of this class or its subclasses can be invoked by
+ * several threads at the same time and therefore must be thread-safe. You should be especially careful 
+ * when storing state in member variables.
+ *
  * @author carsten
  * 
  */
-public class RestletOsgiApplication extends WadlApplication {
+public class RestletOsgiApplication extends Application {
 
     /** slf4j based logger implementation */
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+    final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /** the restlet router. */
-    protected Router router;
+    protected volatile Router router;
 
     /** the osgi bundle context. */
     private static BundleContext bundleContext;
 
+    public static void setBundleContext(BundleContext bundleContext) {
+        RestletOsgiApplication.bundleContext = bundleContext;
+    }
+    
     /**
      * @param context
      *            OSGi bundleContext
      */
-    public RestletOsgiApplication(final BundleContext context) {
-        RestletOsgiApplication.bundleContext = context;
-    }
+    // TODO dont know how to pass the context in the constructor when I am using
+    // web.xml approach + jetty
+//    public RestletOsgiApplication(final BundleContext context) {
+//        RestletOsgiApplication.bundleContext = context;
+//    }
 
     @Override
     public final Restlet createRoot() {
@@ -77,31 +89,6 @@ public class RestletOsgiApplication extends WadlApplication {
     }
 
     protected void attach() {
-        //router.attach("/components/", RestletOsgiServerResource.class);
-        router.attach("/", SkysailRootServerResource.class);
-
-    }
-
-    /**
-     * attaches a path/classname pair to the router.
-     * 
-     * @param path
-     *            the url sub-path to be handled
-     * @param carer
-     *            the class to take care of those requests
-     */
-    protected final void attachToRouter(final String path, final Class<?> carer) {
-        router.attach(path, carer);
-    }
-
-    /**
-     * router getter.
-     * 
-     * @return the router instance
-     * @see org.restlet.ext.wadl.WadlApplication#getRouter()
-     */
-    public final Router getRouter() {
-        return router;
     }
 
     // TODO Duplication in communicationUtils
@@ -115,6 +102,20 @@ public class RestletOsgiApplication extends WadlApplication {
         } catch (IOException e) {
             throw new RuntimeException("Problem accessing template '" + templatePath + "'");
         }
+    }
+
+    public void attachToRouter(String key, Class<?> executor) {
+        router.attach(key, executor);
+        
+    }
+
+    public void detachFromRouter(Class<?> executor) {
+        router.detach(executor);
+        
+    }
+
+    public RouteList getRoutes() {
+        return router.getRoutes();
     }
 
 }
