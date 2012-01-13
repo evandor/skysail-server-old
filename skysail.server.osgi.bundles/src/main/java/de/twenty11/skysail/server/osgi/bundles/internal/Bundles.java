@@ -1,14 +1,12 @@
 package de.twenty11.skysail.server.osgi.bundles.internal;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-
-import de.twenty11.skysail.common.messages.GridData;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.packageadmin.PackageAdmin;
 
 public class Bundles {
 
@@ -55,6 +53,14 @@ public class Bundles {
         return this.bundleContext.getBundle(id);
     }
 
+    public ServiceReference getServiceReference(String type) {
+        return this.bundleContext.getServiceReference(type);
+    }
+
+    public Object getService(ServiceReference reference) {
+        return this.bundleContext.getService(reference);
+    }
+
     public static String translateStatus(int state) {
         // state as defined in org.osgi.framework.Bundle
         switch (state) {
@@ -74,5 +80,7 @@ public class Bundles {
                 return "unknown (" + state +")";
         }
     }
+
+
     
 }
