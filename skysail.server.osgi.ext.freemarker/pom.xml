@@ -44,11 +44,6 @@
 	</build>
 
 	<dependencies>
-		<dependency>
-			<groupId>de.twenty11.skysail</groupId>
-			<artifactId>skysail.server</artifactId>
-			<version>[0.1.0,0.2.0)</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.eclipse.osgi</groupId>
@@ -82,6 +77,12 @@
 			<artifactId>pax-url-aether</artifactId>
 			<version>${url.version}</version>
 			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>com.springsource.freemarker</artifactId>
+			<version>2.3.18</version>
 		</dependency>
 
 		<!--dependency> <groupId>org.apache.felix</groupId> <artifactId>org.apache.felix.framework</artifactId> 
