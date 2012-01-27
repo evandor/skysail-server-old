@@ -1,7 +1,7 @@
 <#include "skysail.server.osgi.bundles:head.ftl">
 <body>
 
-	<script src="/static/js/jquery-1.7.1.min.js"></script>
+	<script src="${contextPath}static/js/jquery-1.7.1.min.js"></script>
 	<script>
     
    </script>
@@ -69,14 +69,14 @@
 		    <#if columnData_index == 0>
 			  <!-- ommit id column -->
 		    <#elseif columnData_index == 1>
-		      <!--<td><img src="/static/img/types.gif">&nbsp;<a href='/services/${columns[0]}/'>${columnData?replace(";","<br>\n")}</a></td>-->
+		      <!--<td><img src="${contextPath}static/img/types.gif">&nbsp;<a href='/services/${columns[0]}/'>${columnData?replace(";","<br>\n")}</a></td>-->
 		      <td>
 		      <#list columnData?split(",") as links>
-		        <img src="/static/img/types.gif">&nbsp;<a href="/services/${links}/">${links}</a></br>
+		        <img src="${contextPath}static/img/types.gif">&nbsp;<a href="/services/${links}/">${links}</a></br>
 		      </#list>
 		      </td>
 			  <#elseif columnData_index == 2>
-		        <td><img src="/static/img/bundle.gif">&nbsp;${columnData}</td>
+		        <td><img src="${contextPath}static/img/bundle.gif">&nbsp;${columnData}</td>
 			  <#elseif columnData_index == 3>
 			  <#elseif columnData_index == 4>
    		        <td>${columnData?replace(";","<br>\n")}</td>

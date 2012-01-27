@@ -13,7 +13,7 @@
 	<meta http-equiv="content-language" content="en" />
     
     <style type='text/css'  media='all'>
-   		@import '/static/css/osgimonitor.css';
+   		@import '${contextPath}static/css/osgimonitor.css';
 	</style>
    
 </head>

@@ -1,7 +1,7 @@
 <#include "skysail.server.osgi.bundles:head.ftl">
 <body>
 
-	<script src="/static/js/jquery-1.7.1.min.js"></script>
+	<script src="${contextPath}static/js/jquery-1.7.1.min.js"></script>
 	<script>
     
    </script>
@@ -72,7 +72,7 @@
 		    <#elseif columnData_index == 1>
 			  <td><a href='/bundles/${columns[0]}/'>${columnData}</a></td>
 			<#elseif columnData_index == 2>
-		        <td><img src="/static/img/bundle.gif">&nbsp;${columnData}</td>
+		        <td><img src="${contextPath}static/img/bundle.gif">&nbsp;${columnData}</td>
 			<#elseif columnData_index == 3>
 			  <td>${columnData}</td>
 			<#elseif columnData_index == 4>
