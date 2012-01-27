@@ -136,6 +136,7 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
         response.setPageSize(getPageSize());
         response.setOrigRequest(getRequest().getOriginalRef().toUrl());
         response.setParent(getParent());
+        response.setContextPath("/rest/");
         response.setFilter(getFilter() != null ? getFilter().toString() : "");
         if (getQuery() != null && getQuery().getNames().contains("debug")) {
             response.setDebug(true);

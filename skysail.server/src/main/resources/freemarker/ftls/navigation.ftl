@@ -13,3 +13,7 @@
     </#list>
     </#if>
   </div>
+  
+  <div class="navright">
+  	Serverload<span id="serverload"></span>
+  </div>
