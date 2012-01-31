@@ -17,9 +17,9 @@
 
 package de.twenty11.skysail.server.osgi.bundles;
 
-public class OsgiBundlesConstants {
+public class Constants {
 
-    public static final String RESTLET_BUNDLE_CONTEXT_ID = "bundles";
+    public static final String BUNDLES = "bundles";
 
     public static final String PACKAGES = "packages";
 

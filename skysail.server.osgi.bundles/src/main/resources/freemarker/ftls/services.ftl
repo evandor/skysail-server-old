@@ -15,46 +15,23 @@
         	<span>&nbsp;&nbsp;total of ${totalResults} hits for your query, showing page ${page}</span></h2>
     </div>
 
-	<#include "skysail.server:debug.ftl">
-	
 	<#list data as component>
 	  
 	  <#if component.class.simpleName == "GridData">
 		<#assign gridColumns = component.columns>
 		<#assign request = origRequest?split("?")[0] />
-        <form action="#">
-		<table>
-		<#include "skysail.server.osgi.bundles:caption.ftl">
-		<thead>
-		  <tr>
-			<th scope="col" width="400px">Service Name</th>  
-			<th scope="col" width="200px">defined in Bundle</th>  
-			<th scope="col" width="400px">used in Bundle(s)</th>
-			<th scope="col" width="100px">Actions</th>  
-		  </tr>
-		</thead>
-
-		<tfoot>
-			<tr>
-				<th scope="row" colspan="4">&nbsp;</th>
-			</tr>
-		</tfoot>
+        
+      <form action="#">
+      <table>
+        <#include "skysail.server.osgi.bundles:caption.ftl">
+        <#include "skysail.server.osgi.bundles:colgroup.ftl">
+        <#include "skysail.server.osgi.bundles:thead.ftl">
+        <#include "skysail.server.osgi.bundles:tfoot.ftl">
 
 		<tbody>
-		<tr>
-		  <td class="search">
-			<input type="text" name="serviceName" value='<#if gridColumns["serviceName"]??>${gridColumns["serviceName"].filterValue}</#if>' />
-		  </td>
-		  <td class="search">
-			<input type="text" name="f_ImplementingBundle" value='<#if gridColumns["implementingBundle"]??>${gridColumns["implementingBundle"].filterValue}</#if>' />
-		  </td>  
-		  <td class="search">
-			<input type="text" name="f_UsingBundle" value='<#if gridColumns["serviceName"]??>${gridColumns["serviceName"].filterValue}</#if>' />
-		  </td>  
-		   <td class="search">
-			<input type="submit" value="Search"/>
-		  </td>  
-		</tr>
+		
+		<#include "skysail.server.osgi.bundles:search.ftl">
+		
 		<#assign counter = 0 />
 	    <#list component.gridData as row>
 		  <#assign columns = row.columnData>
@@ -72,11 +49,11 @@
 		      <!--<td><img src="${contextPath}static/img/types.gif">&nbsp;<a href='/services/${columns[0]}/'>${columnData?replace(";","<br>\n")}</a></td>-->
 		      <td>
 		      <#list columnData?split(",") as links>
-		        <img src="${contextPath}static/img/types.gif">&nbsp;<a href="/services/${links}/">${links}</a></br>
+		        <img src="${contextPath}static/img/service.gif" align="top">&nbsp;<a href="${columns[0]}/">${links}</a></br>
 		      </#list>
 		      </td>
 			  <#elseif columnData_index == 2>
-		        <td><img src="${contextPath}static/img/bundle.gif">&nbsp;${columnData}</td>
+		        <td><img src="${contextPath}static/img/bundle.gif" align="top">&nbsp;${columnData}</td>
 			  <#elseif columnData_index == 3>
 			  <#elseif columnData_index == 4>
    		        <td>${columnData?replace(";","<br>\n")}</td>
@@ -93,6 +70,12 @@
 	  </#if>  
 	
 	</#list>
+	
+	
+	<#include "skysail.server:debug.ftl">
+    
+	
+	
   </div>
 
 </body>

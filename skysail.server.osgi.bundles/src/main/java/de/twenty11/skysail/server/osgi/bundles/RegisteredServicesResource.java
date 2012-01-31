@@ -41,7 +41,7 @@ public class RegisteredServicesResource extends SkysailServerResource<GridData> 
 
 //    @Override
     public GridData getData() {
-        String bundleId = (String) getRequest().getAttributes().get(OsgiBundlesConstants.BUNDLE_ID);
+        String bundleId = (String) getRequest().getAttributes().get(Constants.BUNDLE_ID);
         Bundle bundle = Bundles.getInstance().getBundle(Long.parseLong(bundleId));
         setMessage("Registered Services for bundle " + bundle.getSymbolicName());
         setTotalResults(Activator.getContext().getBundles().length);

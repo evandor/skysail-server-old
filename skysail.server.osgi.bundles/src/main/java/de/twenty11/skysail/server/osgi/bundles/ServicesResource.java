@@ -37,10 +37,10 @@ public class ServicesResource extends SkysailServerResource<GridData> {
             @Override
             public void configure() {
                 addColumn("id").setWidth(0).
-                addColumn("serviceName").sortDesc(1).setWidth(100).
-                addColumn("implementingBundle").
-                addColumn("version").
-                addColumn("usingBundles");
+                addColumn("serviceName").sortDesc(1).setWidth(200).
+                addColumn("implementingBundle").setWidth(200).
+                addColumn("version").setWidth(100).
+                addColumn("usingBundles").setWidth(300);
             }
         });
         // @formatter:on

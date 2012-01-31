@@ -11,50 +11,47 @@ import de.twenty11.skysail.server.osgi.bundles.BundlesResource;
 import de.twenty11.skysail.server.osgi.bundles.ConsumedServicesResource;
 import de.twenty11.skysail.server.osgi.bundles.ExportedPackagesResource;
 import de.twenty11.skysail.server.osgi.bundles.ImportedPackagesResource;
-import de.twenty11.skysail.server.osgi.bundles.OsgiBundlesConstants;
 import de.twenty11.skysail.server.osgi.bundles.PackagesResource;
 import de.twenty11.skysail.server.osgi.bundles.RegisteredServicesResource;
+import de.twenty11.skysail.server.osgi.bundles.ServiceDetailsResource;
 import de.twenty11.skysail.server.osgi.bundles.ServicesResource;
 
+/**
+ * Maps urls to resource handlers.
+ * 
+ * @author carsten
+ * 
+ */
 public class BundlesUrlMapper implements UrlMapper {
 
+    /**
+     * It is really easier reading this if I do _not_ use constants.
+     * 
+     * @see de.twenty11.skysail.server.UrlMapper#getUrlMapping()
+     */
     @Override
     public Map<String, String> getUrlMapping() {
-        // TODO make nicer somehow
         Map<String, String> queue = Collections.synchronizedMap(new LinkedHashMap<String, String>());
-        
-        queue.put("/" + OsgiBundlesConstants.RESTLET_BUNDLE_CONTEXT_ID + "/", BundlesResource.class.getName());
-        
-        queue.put("/" + OsgiBundlesConstants.PACKAGES + "/", PackagesResource.class.getName());
 
-        // This needs dependency on equinox.ds, should be put in a bundle of its own and contribute
-//        queue.put("/" + OsgiBundlesConstants.RESTLET_BUNDLE_CONTEXT_ID + "/" 
-//                        + OsgiBundlesConstants.SCR + "/", ScrResource.class.getName());
+        // @formatter:off
+        queue.put("/bundles/",                              BundlesResource.class.getName());
+        queue.put("/bundles/{bundleId}/",                   BundleResource.class.getName());
+        queue.put("/bundles/{bundleId}/bundleHeader/",      BundleHeaderResource.class.getName());
+        queue.put("/bundles/{bundleId}/importedPackages/",  ImportedPackagesResource.class.getName());
+        queue.put("/bundles/{bundleId}/exportedPackages/",  ExportedPackagesResource.class.getName());
+        queue.put("/bundles/{bundleId}/registeredService/", RegisteredServicesResource.class.getName());
+        queue.put("/bundles/consumedServices/",             ConsumedServicesResource.class.getName());
 
-        queue.put("/" + OsgiBundlesConstants.SERVICES + "/", ServicesResource.class.getName());
-        
-//        queue.put("/" + OsgiBundlesConstants.SERVICES + "/{" + OsgiBundlesConstants.SERVICE_ID + "}/",
-//                        ServiceDetailsResource.class.getName());
+        queue.put("/packages/",                             PackagesResource.class.getName());
 
-        queue.put("/" + OsgiBundlesConstants.RESTLET_BUNDLE_CONTEXT_ID + "/{" + OsgiBundlesConstants.BUNDLE_ID + "}/",
-                        BundleResource.class.getName());
-        
-        queue.put("/" + OsgiBundlesConstants.RESTLET_BUNDLE_CONTEXT_ID + "/{" + OsgiBundlesConstants.BUNDLE_ID + "}/"
-                        + OsgiBundlesConstants.BUNDLE_HEADER + "/", BundleHeaderResource.class.getName());
-        
-        queue.put("/" + OsgiBundlesConstants.RESTLET_BUNDLE_CONTEXT_ID + "/{" + OsgiBundlesConstants.BUNDLE_ID + "}/"
-                        + OsgiBundlesConstants.IMPORTED_PACKAGES + "/", ImportedPackagesResource.class.getName());
-        
-        queue.put("/" + OsgiBundlesConstants.RESTLET_BUNDLE_CONTEXT_ID + "/{" + OsgiBundlesConstants.BUNDLE_ID + "}/"
-                        + OsgiBundlesConstants.EXPORTED_PACKAGES + "/", ExportedPackagesResource.class.getName());
-        
-        queue.put("/" + OsgiBundlesConstants.RESTLET_BUNDLE_CONTEXT_ID + "/{" + OsgiBundlesConstants.BUNDLE_ID + "}/"
-                        + OsgiBundlesConstants.REGISTERD_SERVICES + "/", RegisteredServicesResource.class.getName());
-        
+        queue.put("/services/",                             ServicesResource.class.getName());
+        queue.put("/services/{serviceId}/",                 ServiceDetailsResource.class.getName());
 
-        queue.put("/" + OsgiBundlesConstants.RESTLET_BUNDLE_CONTEXT_ID + "/"
-                        + OsgiBundlesConstants.CONSUMED_SERVICES + "/", ConsumedServicesResource.class.getName());
-
+        // This needs dependency on equinox.ds, should be put in a bundle of its
+        // own and contribute
+        // queue.put("/" + Constants.BUNDLES + "/"
+        // + Constants.SCR + "/", ScrResource.class.getName());
+        // @formatter:on
         return queue;
     }
 

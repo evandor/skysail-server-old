@@ -15,5 +15,14 @@
     <style type='text/css'  media='all'>
    		@import '${contextPath}static/css/osgimonitor.css';
 	</style>
+	
+	<script type="text/javascript">
+        var config = {
+            contextPath: '/cometd/'
+        };
+    </script>
+	
+	<script type="text/javascript" src="${contextPath}static/js/dojo/dojo.js.uncompressed.js"></script>
+	<script type="text/javascript" src="${contextPath}static/js/serverload.js"></script>
    
 </head>

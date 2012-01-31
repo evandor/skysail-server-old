@@ -37,7 +37,7 @@ public class BundleHeaderResource extends SkysailServerResource<GridData> {
     }
 
     public GridData getData() {
-        String bundleId = (String) getRequest().getAttributes().get(OsgiBundlesConstants.BUNDLE_ID);
+        String bundleId = (String) getRequest().getAttributes().get(Constants.BUNDLE_ID);
         Bundle bundle = Bundles.getInstance().getBundle(Long.parseLong(bundleId));
         GridData grid = new GridData();
         

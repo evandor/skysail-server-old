@@ -1,21 +1,15 @@
 <#include "skysail.server.osgi.bundles:head.ftl">
 <body>
 
-	<script src="${contextPath}static/js/jquery-1.7.1.min.js"></script>
-	<script>
-    
-   </script>
-
   <#include "skysail.server:navigation.ftl">
+
   <div id="container">
     <#assign info = "List of all available Services" />
     <#include "skysail.server.osgi.bundles:title.ftl">
 	
 	<div id="fsi"><h2>
-        	<span>&nbsp;&nbsp;total of ${totalResults} hits for your query, showing page ${page}</span></h2>
+		<span>&nbsp;&nbsp;total of ${totalResults} hits for your query, showing page ${page}</span></h2>
     </div>
-	
-	<#include "skysail.server:debug.ftl">
 	
 	<#list data as component>
 	  
@@ -25,25 +19,13 @@
 		<form action="#">
 		<table>
 		<#include "skysail.server.osgi.bundles:caption.ftl">
-		<thead>
-		  <tr>
-			<th scope="col" width="400px">ID</th>  
-			<th scope="col" width="200px">Symbolic Name</th>  
-			<th scope="col" width="400px">Version</th>
-			<th scope="col" width="100px">State</th>  
-		  </tr>
-		</thead>
-
-		<tfoot>
-			<tr>
-				<th scope="row" colspan="4">&nbsp;</th>
-			</tr>
-		</tfoot>
-
+		<#include "skysail.server.osgi.bundles:colgroup.ftl">
+		<#include "skysail.server.osgi.bundles:thead.ftl">
+		<#include "skysail.server.osgi.bundles:tfoot.ftl">
 
 		<tbody>
 		<tr>
-		  <td class="search" width="50">
+		  <td class="search">
 			<input type="text" name="id" value='<#if gridColumns["id"]??>${gridColumns["id"].filterValue}</#if>' />
 		  </td>
 		  <td class="search">
@@ -90,6 +72,8 @@
 	
 	</#list>
   </div>
+
+  <#include "skysail.server:debug.ftl">
 
 </body>
 </html>

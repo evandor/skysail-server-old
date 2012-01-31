@@ -42,7 +42,7 @@ public class ExportedPackagesResource extends SkysailServerResource<GridData> {
 
 //    @Override
     public GridData getData() {
-        String bundleId = (String) getRequest().getAttributes().get(OsgiBundlesConstants.BUNDLE_ID);
+        String bundleId = (String) getRequest().getAttributes().get(Constants.BUNDLE_ID);
         GridData grid = new GridData();
 
         // TODO equinox case only!

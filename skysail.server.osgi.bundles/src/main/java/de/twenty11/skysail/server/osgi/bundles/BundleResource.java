@@ -33,7 +33,7 @@ public class BundleResource extends SkysailServerResource<GridData> {
 
     @Override
     public List<?> getFilteredData() {
-        String bundleId = (String) getRequest().getAttributes().get(OsgiBundlesConstants.BUNDLE_ID);
+        String bundleId = (String) getRequest().getAttributes().get(Constants.BUNDLE_ID);
         Bundle bundle = Bundles.getInstance().getBundle(Long.parseLong(bundleId));
         List<Bundle> result = new ArrayList<Bundle>();
         result.add(bundle);
