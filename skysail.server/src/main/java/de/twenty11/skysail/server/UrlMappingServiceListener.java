@@ -12,6 +12,8 @@ import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.server.service.definition.UrlMapper;
+
 /**
  * A service listener which takes care of UrlMapper related services. A
  * UrlMapper provides a Map between a path (like "/components") and a class

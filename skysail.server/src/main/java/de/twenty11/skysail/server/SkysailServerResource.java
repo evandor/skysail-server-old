@@ -2,6 +2,7 @@ package de.twenty11.skysail.server;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 import org.restlet.data.MediaType;
 import org.restlet.ext.freemarker.TemplateRepresentation;
@@ -13,8 +14,10 @@ import org.restlet.resource.Get;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.common.ColumnDefinition;
 import de.twenty11.skysail.common.SkysailData;
 import de.twenty11.skysail.common.filters.Filter;
+import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SkysailSuccessResponse;
 import de.twenty11.skysail.server.communication.CommunicationUtils;
@@ -80,10 +83,9 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
      * @return Type extending SkysailData
      *
      */
-    // TODO corrections missing
     private final T getData() {
         // define the columns for the result (for grids)
-        setColumns(skysailData);
+        setColumns(skysailData); 
         // get actual data, applying the current filter
         List<?> filterResults = getFilteredData();
         // handle Page size and pagination

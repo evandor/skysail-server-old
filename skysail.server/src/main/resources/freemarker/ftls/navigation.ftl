@@ -14,6 +14,4 @@
     </#if>
   </div>
   
-  <div class="navright">
-  	Serverload<span id="serverload"></span>
-  </div>
+  <div class="navright"><span id="serverload">server load average</span></div>
