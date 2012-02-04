@@ -3,6 +3,7 @@ Import-Package:	de.twenty11.skysail.common;version="[0.1.0, 1.0.0)",\
  de.twenty11.skysail.common.responses;version="[0.1.0, 1.0.0)",\
  *
 DynamicImport-Package: *
+Bundle-Activator: de.twenty11.skysail.server.internal.Activator
 FtlTemplates: /freemarker/ftls/
 Bundle-SymbolicName: skysail.server
 Include-Resource: {maven-resources}

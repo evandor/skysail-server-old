@@ -14,9 +14,9 @@ import org.restlet.resource.Get;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.ColumnDefinition;
 import de.twenty11.skysail.common.SkysailData;
 import de.twenty11.skysail.common.filters.Filter;
+import de.twenty11.skysail.common.grids.ColumnDefinition;
 import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SkysailSuccessResponse;
