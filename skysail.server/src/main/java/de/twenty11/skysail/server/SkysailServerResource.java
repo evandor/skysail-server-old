@@ -22,7 +22,7 @@ import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SkysailSuccessResponse;
 import de.twenty11.skysail.server.communication.CommunicationUtils;
 import de.twenty11.skysail.server.internal.ConfigServiceProvider;
-import de.twenty11.skysail.server.service.definition.ConfigService;
+import de.twenty11.skysail.server.servicedefinitions.ConfigService;
 import freemarker.template.Template;
 
 /**

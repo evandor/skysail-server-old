@@ -12,7 +12,7 @@ import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.service.definition.UrlMapper;
+import de.twenty11.skysail.server.servicedefinitions.UrlMapper;
 
 /**
  * A service listener which takes care of UrlMapper related services. A
