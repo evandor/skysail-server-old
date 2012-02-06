@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import de.twenty11.skysail.server.UrlMapper;
 import de.twenty11.skysail.server.osgi.bundles.BundleHeaderResource;
 import de.twenty11.skysail.server.osgi.bundles.BundleResource;
 import de.twenty11.skysail.server.osgi.bundles.BundlesResource;
@@ -15,6 +14,7 @@ import de.twenty11.skysail.server.osgi.bundles.PackagesResource;
 import de.twenty11.skysail.server.osgi.bundles.RegisteredServicesResource;
 import de.twenty11.skysail.server.osgi.bundles.ServiceDetailsResource;
 import de.twenty11.skysail.server.osgi.bundles.ServicesResource;
+import de.twenty11.skysail.server.servicedefinitions.UrlMapper;
 
 /**
  * Maps urls to resource handlers.
@@ -27,7 +27,7 @@ public class BundlesUrlMapper implements UrlMapper {
     /**
      * It is really easier reading this if I do _not_ use constants.
      * 
-     * @see de.twenty11.skysail.server.UrlMapper#getUrlMapping()
+     * @see de.twenty11.skysail.server.servicedefinitions.UrlMapper#getUrlMapping()
      */
     @Override
     public Map<String, String> getUrlMapping() {

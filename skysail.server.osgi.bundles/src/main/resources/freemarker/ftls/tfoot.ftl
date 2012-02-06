@@ -1,8 +1,7 @@
-		
-
-		<tfoot>
-			<tr>
-				<th scope="row" colspan="4">&nbsp;</th>
-			</tr>
-		</tfoot>
+        <#-- visibleColumnCount defined in thead.ftl -->
+        <tfoot>
+          <tr>
+            <th scope="row" colspan="${visibleColumnCount}">&nbsp;</th>
+          </tr>
+        </tfoot>
 

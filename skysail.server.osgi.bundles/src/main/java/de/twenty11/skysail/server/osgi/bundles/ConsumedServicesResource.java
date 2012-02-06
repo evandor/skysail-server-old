@@ -23,7 +23,7 @@ import java.util.List;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceReference;
 
-import de.twenty11.skysail.common.RowData;
+import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.server.SkysailServerResource;
 import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;

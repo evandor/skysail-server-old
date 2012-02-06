@@ -1,11 +1,14 @@
 
-		<tr>
-		  <#list gridColumns?keys as key>
-		  <td class="search">
-			<input type="text" name="${key}" value='<#if gridColumns[key]??>${gridColumns[key].filterValue}</#if>' />
-		  </td>
-		  </#list>
-		  <td class="search">
-			<input type="submit" value="Search"/>
-		  </td>  
-		</tr>
+        <tr>
+          <#list gridColumns?values as value>
+          <#-- ignore columns with width <= 0, but show column if width is not defined -->
+          <#if (!value.width?? || value.width > 0) >
+          <td class="search">
+            <input type="text" name="${value.name}" value='<#if value??>${value.filterValue}</#if>' />
+          </td>
+          </#if>
+          </#list>
+          <td class="search">
+            <input type="submit" value="Search"/>
+          </td>  
+        </tr>

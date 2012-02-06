@@ -12,10 +12,10 @@ import org.osgi.framework.ServiceReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.ColumnsBuilder;
-import de.twenty11.skysail.common.RowData;
 import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.filters.LdapSearchFilter;
+import de.twenty11.skysail.common.grids.ColumnsBuilder;
+import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.server.SkysailServerResource;
 import de.twenty11.skysail.server.osgi.bundles.internal.Activator;
@@ -48,7 +48,7 @@ public class ServicesResource extends SkysailServerResource<GridData> {
 
     @Override
     public int handlePagination() {
-        return doHandlePagination("skysail.server.osgi.bundles.entriesPerPage", 20);
+        return doHandlePagination("skysail.server.osgi.bundles.entriesPerPage", 15);
     }
 
     @Override
@@ -60,7 +60,6 @@ public class ServicesResource extends SkysailServerResource<GridData> {
         try {
             if (filter instanceof LdapSearchFilter) {
                 services = Activator.getContext().getServiceReferences(null, filter.toString());
-                // countAll = services.length;
                 return Arrays.asList(services);
             } else {
                 // need to filter "manually"
@@ -71,9 +70,7 @@ public class ServicesResource extends SkysailServerResource<GridData> {
                         ServiceReference service = (ServiceReference) services[j];
                         Map<String, String> columnData = putColumnData(service);
                         if (filter.match(columnData)) {
-
                             filteredReferences.add(service);
-                            // countHitsOnPage++;
                         }
                     }
                 }

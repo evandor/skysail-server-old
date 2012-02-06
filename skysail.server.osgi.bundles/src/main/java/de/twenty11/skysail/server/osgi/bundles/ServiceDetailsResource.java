@@ -7,8 +7,8 @@ import org.osgi.framework.Bundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.ColumnsBuilder;
-import de.twenty11.skysail.common.RowData;
+import de.twenty11.skysail.common.grids.ColumnsBuilder;
+import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.server.SkysailServerResource;
 import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
