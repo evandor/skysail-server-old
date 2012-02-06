@@ -22,20 +22,37 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-import de.twenty11.skysail.server.service.definition.ConfigService;
+import de.twenty11.skysail.server.servicedefinitions.ConfigService;
 
 public class Configuration implements ConfigService {
 
     Properties props = new Properties();
-    
+
     public Configuration() throws FileNotFoundException, IOException {
-        //new File("./whereami").createNewFile();
+        // new File("./whereami").createNewFile();
         props.load(new FileReader(new File("./conf/skysail.properties")));
     }
-    
+
     @Override
     public String getString(String identifier) {
         return props.getProperty(identifier);
+    }
+
+    @Override
+    public Properties getProperties(String identifier, boolean removePrefix) {
+        Properties result = new Properties();
+        for (Object key : props.keySet()) {
+            if (key instanceof String) {
+                String keyString = (String) key;
+                if (keyString.startsWith(identifier)) {
+                    if (removePrefix) {
+                        key = keyString.substring(identifier.length());
+                    }
+                    result.put(key, props.get(key));
+                }
+            }
+        }
+        return result;
     }
 
 }
