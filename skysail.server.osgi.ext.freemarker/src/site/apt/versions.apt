@@ -3,15 +3,6 @@
  -----
  evandor
  -----
- January 2011
+ February 2012
  
 Versions and Todos
-
- * current 0.4.0-SNAPSHOT
-
- * 0.4.0 - planned first stable version
- 
-  Todos & plans:
-  
-  make pom.xml use the bnd-file approach (0.4.0)
-  move restlet dependencies in pom to skysail.server.restlet ?

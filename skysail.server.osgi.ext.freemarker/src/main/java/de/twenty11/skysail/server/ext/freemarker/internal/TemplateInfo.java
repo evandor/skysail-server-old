@@ -32,6 +32,9 @@ public class TemplateInfo {
      */
     private long timestamp;
 
+    /**
+     * 
+     */
     private String locationInBundle;
     
     /**

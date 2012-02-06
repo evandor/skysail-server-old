@@ -29,22 +29,22 @@ import freemarker.template.DefaultObjectWrapper;
 public class FtlTrackerCustomizer implements BundleTrackerCustomizer {
 
     /** time in seconds to check for new templates. */
-    private static final int          TEMPLATE_UPDATE_DELAY  = 3600;
+    private static final int TEMPLATE_UPDATE_DELAY = 3600;
 
     /** slf4j based log. */
-    private static Logger             log                    = LoggerFactory.getLogger(FtlTrackerCustomizer.class);
+    private static Logger log = LoggerFactory.getLogger(FtlTrackerCustomizer.class);
 
     /**
      * a freemarker configuration; if not set, a default configurion will be
      * used.
      */
-    private Configuration             freemarkerConfig;
+    private Configuration freemarkerConfig;
 
     /** Identifier in bundles. */
-    private static final String       BUNDLE_TEMPLATE_HEADER = "FtlTemplates";
+    private static final String BUNDLE_TEMPLATE_HEADER = "FtlTemplates";
 
     /** . */
-    private Map<String, TemplateInfo> templates              = new HashMap<String, TemplateInfo>();
+    private Map<String, TemplateInfo> templates = new HashMap<String, TemplateInfo>();
 
     /**
      * default constructor, creates a new default Freemarker Configuration and
@@ -93,7 +93,7 @@ public class FtlTrackerCustomizer implements BundleTrackerCustomizer {
         if (locationInBundle == null) { // nothing found
             return null;
         }
-        
+
         // Remark: The urls return from this method might look different when
         // using different OSGi frameworks
         Enumeration<URL> bundleTemplatesUrls = bundle.findEntries(locationInBundle, "*.ftl", true);
@@ -136,9 +136,9 @@ public class FtlTrackerCustomizer implements BundleTrackerCustomizer {
      * @param bundle
      *            the one containing the template
      * @param templateName
-     *            e.g. 'description.ftl' 
+     *            e.g. 'description.ftl'
      * @param templateInfo
-     *            the necessary information about where to find the template 
+     *            the necessary information about where to find the template
      */
     private void addTemplateInfo(final Bundle bundle, final String templateName, final TemplateInfo templateInfo) {
         addTemplateWithIdentifier(templateInfo, getTemplateIdentifier(bundle, templateName));
@@ -162,7 +162,8 @@ public class FtlTrackerCustomizer implements BundleTrackerCustomizer {
      * find the 'base' name (without leading slash).
      * 
      * @param bundleEntryUrl
-     *            something like bundleentry://5.fwk357451187/freemarker/ftls/description.ftl
+     *            something like
+     *            bundleentry://5.fwk357451187/freemarker/ftls/description.ftl
      * @param locationInBundle
      *            for example '/freemarker/ftls/'
      * @return normalized Name like 'description.ftl'
@@ -170,8 +171,8 @@ public class FtlTrackerCustomizer implements BundleTrackerCustomizer {
     private String getTemplateName(final URL bundleEntryUrl, final String locationInBundle) {
 
         // gives something like '/freemarker/ftls/description.ftl'
-        String templatePath = bundleEntryUrl.getPath(); 
-        
+        String templatePath = bundleEntryUrl.getPath();
+
         // 'remove' relative location in bundle and leading slash
         String name = templatePath.substring(locationInBundle.length());
         if (name.startsWith("/")) {
@@ -234,16 +235,23 @@ public class FtlTrackerCustomizer implements BundleTrackerCustomizer {
             freemarkerConfig.setTemplateLoader(new MapBasedUrlTemplateLoader(templates));
 
             TemplateLoader dynamicTemplateLoader = freemarkerConfig.getTemplateLoader();
-            freemarkerConfig.setTemplateLoader(new MultiTemplateLoader(new TemplateLoader[] { existingTemplateLoader,
-                    dynamicTemplateLoader }));
+            freemarkerConfig.setTemplateLoader(new MultiTemplateLoader(new TemplateLoader[]{existingTemplateLoader,
+                            dynamicTemplateLoader}));
 
         } else {
             log.warn("Service freemarker Configuration had no template loader, using default bundle loader");
             freemarkerConfig.setTemplateLoader(new MapBasedUrlTemplateLoader(templates));
         }
     }
-    
-    private void addTemplates(final Bundle bundle, String locationInBundle, Enumeration<URL> bundleTemplatesUrls) {
+
+    /**
+     * helper for adding the templates.
+     * @param bundle containing the template
+     * @param locationInBundle location inside the bundle
+     * @param bundleTemplatesUrls 
+     */
+    private void addTemplates(final Bundle bundle, final String locationInBundle,
+                    final Enumeration<URL> bundleTemplatesUrls) {
         if (bundleTemplatesUrls == null) {
             return;
         }
@@ -254,7 +262,7 @@ public class FtlTrackerCustomizer implements BundleTrackerCustomizer {
             log.info(" >>> adding " + bundleEntryUrl);
             TemplateInfo newTemplate = new TemplateInfo(bundle, bundleEntryUrl, locationInBundle);
             String templateName = getTemplateName(bundleEntryUrl, locationInBundle);
-            //createTemplateInfo(bundle, bundleEntryUrl, locationInBundle);
+            // createTemplateInfo(bundle, bundleEntryUrl, locationInBundle);
             addTemplateInfo(bundle, templateName, newTemplate);
         }
     }

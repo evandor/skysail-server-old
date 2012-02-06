@@ -28,7 +28,8 @@ public class MapBasedUrlTemplateLoader extends URLTemplateLoader {
      * @param identifier
      *            for example "de.evandor.skysail.server.osgi.ext.freemarker:description.ftl"
      * @see freemarker.cache.URLTemplateLoader#getURL(java.lang.String)
-     * @return the url of the template (like bundleentry://252.fwk2092843500/freemarker/ftls/menu.ftl) or null if not found
+     * @return the url of the template 
+     * (like bundleentry://252.fwk2092843500/freemarker/ftls/menu.ftl) or null if not found
      */
     @Override
     protected final URL getURL(final String identifier) {
