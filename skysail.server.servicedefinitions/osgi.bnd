@@ -1,0 +1,4 @@
+Import-Package: *
+Bundle-SymbolicName: skysail.server.servicedefinitions
+Include-Resource: {maven-resources}
+
