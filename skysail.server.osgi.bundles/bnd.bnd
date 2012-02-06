@@ -1,4 +1,4 @@
-Import-Package:	de.twenty11.skysail.common;version="[0.1.0, 1.0.0)",\
+Import-Package:	de.twenty11.skysail.common;version="[0.2.0, 1.0.0)",\
  de.twenty11.skysail.common.grids;version="[0.1,0.2)",\
  de.twenty11.skysail.common.filters;version="[0.0.0, 1.0.0)",\
  *
