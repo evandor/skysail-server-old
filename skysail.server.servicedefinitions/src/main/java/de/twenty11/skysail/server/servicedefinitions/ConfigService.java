@@ -29,11 +29,25 @@ public interface ConfigService {
 
     /**
      * looks for identifier and returns the value.
-     * @param identifier
-     * @return
+     * @param identifier key
+     * @return the value for the identifier, null if not found
      */
-    public String getString(String identifier);
+    String getString(String identifier);
     
-    public Properties getProperties(String identifier, boolean removePrefix);
+    /**
+     * looks for identifier and returns the value.
+     * @param identifier key
+     * @param defaultValue the value to use if key is not found
+     * @return the value for the identifier
+     */
+    String getString(String identifier, String defaultValue);
+
+    /**
+     * return properties for given identifier.
+     * 
+     * @param identifier the key for the properties
+     * @return a properties object containing the keys/values for the given identifier
+     */
+    Properties getProperties(String identifier);
     
 }
