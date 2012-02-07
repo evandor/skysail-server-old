@@ -1,0 +1,4 @@
+/target
+/src-gen
+/createDDL.jdbc
+/dropDDL.jdbc
