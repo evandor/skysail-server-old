@@ -1,8 +1,7 @@
-Import-Package:
- *
 FtlTemplates: /freemarker/ftls/
 Bundle-SymbolicName: skysail.server.um
+JPA-PersistenceUnits: skysail.server.um
+DynamicImport-Package: *
 Include-Resource: {maven-resources}
 Service-Component: OSGI-INF/*.xml
-
 

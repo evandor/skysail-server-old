@@ -17,33 +17,82 @@
 
 package de.twenty11.skysail.server.um.internal;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
-@Entity
+/**
+ * @author carsten
+ *
+ */
+@Entity(name="SkysailUsers")
 public class SkysailUser {
 
     @Id
     @GeneratedValue
     private int id;
 
-    private String userid;
-    private long login;
+    /** hmmm.... = email address???. */
+    private String login;
+    
+    /** users password. */
+    private String password;
+    
+    private Set<SkysailRole> roles;
+
+    private Set<SkysailClient> clients;
+
+    private Set<SkysailPermission> permissions;
 
     public int getId() {
         return this.id;
     }
-    public String getUserid() {
-        return this.userid;
+    
+    public void setId(final int userId) {
+        this.id = userId;
     }
-    public void setUserid(String userid) {
-        this.userid = userid;
-    }
-    public long getLogin() {
+
+    public String getLogin() {
         return this.login;
     }
-    public void setLogin(long login) {
+    public void setLogin(String login) {
         this.login = login;
+    }
+    
+    @OneToMany
+    public Set<SkysailRole> getRoles() {  
+        return roles;
+    }
+    
+    public void setRoles(Set<SkysailRole> roles) {
+        this.roles = roles;
+    }
+    
+    public Set<SkysailClient> getClients() {
+        return clients;
+    }
+    
+    public void setClients(Set<SkysailClient> clients) {
+        this.clients = clients;
+    }
+    
+    public void setPermissions(Set<SkysailPermission> permissions) {
+        this.permissions = permissions;
+    }
+    
+    @OneToMany
+    public Set<SkysailPermission> getPermissions() {
+        return permissions;
+    }
+    
+    public final void setPassword(final String password) {
+        this.password = password;
+    }
+    
+    public String getPassword() {
+        return password;
     }
 }

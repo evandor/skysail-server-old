@@ -5,6 +5,14 @@ depends on
     // === 'this' bundle ==============================================
     group "/de/twenty11/skysail"        artifact "skysail.server.um"       version "0.0.1-SNAPSHOT" starting yes,
         
+    group "/de/twenty11/skysail"        artifact "skysail.server.servicedefinitions" version "0.1.1-SNAPSHOT" starting yes,
+    group "/de/twenty11/skysail"        artifact "skysail.server.configuration.byPropertiesService" version "0.0.5-SNAPSHOT" starting yes,
+
+    // === logging bundles =====================
+    group "/ch/qos/logback"             artifact "logback-core"                                 version "0.9.29"    starting yes,
+    group "/ch/qos/logback"             artifact "skysail.bundles.logback-classic"              version "0.9.29"    starting yes,
+    group "/org/slf4j"                  artifact "slf4j-api"                                    version "1.6.3"     starting yes,
+
  	// === skysail server ext eclipselink bundles =====================
  	group "/de/twenty11/skysail"		artifact "skysail.server.eclipselink" 		version "0.0.1-SNAPSHOT" starting yes,
  	group "/org/eclipse/persistence"    artifact "javax.persistence"                    version "2.0.3" starting yes,
