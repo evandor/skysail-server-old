@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.twenty11.skysail</groupId>
+		<artifactId>skysail.build.maven.parentPom</artifactId>
+		<version>0.1.0</version>
+		<relativePath />
+	</parent>
+
+	<artifactId>skysail.server.um</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>skysail server</name>
+	<packaging>bundle</packaging>
+
+	<scm>
+		<connection>scm:git:git@github.com:evandor/skysail-server.git</connection>
+		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
+		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
+	</scm>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<version>2.3.4</version>
+				<configuration>
+					<instructions>
+						<_include>-osgi.bnd</_include>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>de.twenty11.skysail</groupId>
+			<artifactId>skysail.server</artifactId>
+			<version>[0.1.8-SNAPSHOT, 0.2)</version>
+		</dependency>
+
+        <dependency>
+            <groupId>de.twenty11.skysail</groupId>
+            <artifactId>skysail.server.servicedefinitions</artifactId>
+            <version>[0.1.0-SNAPSHOT, 0.2)</version>
+        </dependency>
+
+        <dependency>
+        	<groupId>de.twenty11.skysail</groupId>
+        	<artifactId>skysail.server.eclipselink</artifactId>
+        	<version>0.0.1-SNAPSHOT</version>
+        	<type>bundle</type>
+        </dependency>
+	</dependencies>
+
+</project>

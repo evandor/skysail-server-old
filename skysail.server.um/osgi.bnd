@@ -1,0 +1,8 @@
+Import-Package:
+ *
+FtlTemplates: /freemarker/ftls/
+Bundle-SymbolicName: skysail.server.um
+Include-Resource: {maven-resources}
+Service-Component: OSGI-INF/*.xml
+
+
