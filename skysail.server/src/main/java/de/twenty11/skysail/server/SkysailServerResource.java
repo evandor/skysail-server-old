@@ -2,7 +2,6 @@ package de.twenty11.skysail.server;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 
 import org.restlet.data.MediaType;
 import org.restlet.ext.freemarker.TemplateRepresentation;
@@ -16,8 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.SkysailData;
 import de.twenty11.skysail.common.filters.Filter;
-import de.twenty11.skysail.common.grids.ColumnDefinition;
-import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SkysailSuccessResponse;
 import de.twenty11.skysail.server.communication.CommunicationUtils;
