@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="skysail.server.ext.eclipselink" default="createConfigurations" basedir=".." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+<project name="skysail.server.eclipselink" default="createConfigurations" basedir=".." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
 	<description>
 	This file creates the config.ini files

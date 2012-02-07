@@ -3,7 +3,7 @@ project "projectName"
 depends on 
 
  	// === skysail server ext eclipselink bundles =====================
- 	group "/de/twenty11/skysail"		artifact "skysail.server.ext.eclipselink" 		version "0.0.1-SNAPSHOT" starting yes,
+ 	group "/de/twenty11/skysail"		artifact "skysail.server.eclipselink" 		version "0.0.1-SNAPSHOT" starting yes,
  	group "/org/eclipse/persistence"    artifact "javax.persistence"                    version "2.0.3" starting yes,
     group "/org/eclipse/persistence"    artifact "org.eclipse.persistence.jpa"          version "2.2.0" starting yes,
     group "/org/eclipse/persistence"    artifact "org.eclipse.persistence.core"         version "2.2.0" starting yes,

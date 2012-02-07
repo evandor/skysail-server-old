@@ -11,14 +11,14 @@
 
 	<scm>
 		<!-- read access -->
-		<connection>scm:git:git@github.com:evandor/skysail-server-ext.git</connection>
+		<connection>scm:git:git@github.com:evandor/skysail-server.git</connection>
 		<!-- write access -->
-		<developerConnection>scm:git:git@github.com:evandor/skysail-server-ext.git</developerConnection>
+		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
 		<!-- A publicly browsable repository. For example, via ViewCVS. -->
-		<url>scm:git:git@github.com:evandor/skysail-server-ext.git</url>
+		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
 	</scm>
 
-	<artifactId>skysail.server.ext.eclipselink</artifactId>
+	<artifactId>skysail.server.eclipselink</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>skysail server eclipselink extension</name>
 	<packaging>bundle</packaging>
