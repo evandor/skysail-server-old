@@ -11,7 +11,7 @@
 
 	<artifactId>skysail.server.servicedefinitions</artifactId>
 	<version>0.1.1-SNAPSHOT</version>
-	<name>skysail server</name>
+	<name>skysail server servicedefinitions</name>
 	<packaging>bundle</packaging>
 
 	<scm>
