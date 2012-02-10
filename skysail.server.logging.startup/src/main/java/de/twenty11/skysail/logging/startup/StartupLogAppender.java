@@ -182,7 +182,7 @@ public class StartupLogAppender extends AppenderBase<ILoggingEvent> {
         return logList.getErrorLog();
     }
 
-    public static Set<String> getBundleNames() {
+    public static Set<String> getLoggerNames() {
         return logs.keySet();
     }
 

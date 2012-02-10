@@ -86,7 +86,7 @@ public class StartupLogProvider implements StartupLogProviderService {
 
     @Override
     public Set<String> getBundleNames() {
-        return StartupLogAppender.getBundleNames();
+        return StartupLogAppender.getLoggerNames();
     }
 
 }
