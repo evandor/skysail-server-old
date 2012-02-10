@@ -14,35 +14,20 @@
  *  limitations under the License.
  * 
  */
+package de.twenty11.skysail.server.servicedefinitions;
 
-package de.twenty11.skysail.logging.startup;
-
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Pattern;
+import java.util.Properties;
 
 
 /**
- * someone wants to know, if a bundle, identified by its name, and (somehow) providing a list of 
- * expected and unexpected log pattern - based on those patterns and the actual log - was started 
- * successfully.
- * 
+ *
  * @author carsten
  *
  */
-public interface StartupLogProviderService {
-    
+public interface LogValidationInputProvider {
+
     /**
-     * @return
      */
-    Set<String> getBundleNames ();
-    
-    /**
-     * @param bundle
-     * @param expected
-     * @param unexpected
-     * @return
-     */
-    Status getStartupStatus (String bundle, List<Pattern> expected, List<Pattern> unexpected);
+    Properties getExpectedMessages();
 
 }

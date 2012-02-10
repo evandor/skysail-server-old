@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server;
+package de.twenty11.skysail.server.listener;
 
 import java.util.Map;
 
@@ -12,6 +12,7 @@ import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.server.RestletOsgiApplication;
 import de.twenty11.skysail.server.servicedefinitions.UrlMapper;
 
 /**

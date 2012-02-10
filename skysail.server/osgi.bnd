@@ -2,6 +2,9 @@ Import-Package:	de.twenty11.skysail.common;version="[0.2.0, 1.0.0)",\
  de.twenty11.skysail.common.filters;version="[0.0.1, 0.1.0)",\
  de.twenty11.skysail.common.messages;version="[0.1.0, 1.0.0)",\
  de.twenty11.skysail.common.responses;version="[0.1.0, 1.0.0)",\
+ freemarker.template;resolution:=optional,\
+ org.restlet.ext.jackson;resolution:=optional,\
+ org.restlet.ext.xstream;resolution:=optional,\
  *
 DynamicImport-Package: *
 Bundle-Activator: de.twenty11.skysail.server.internal.Activator

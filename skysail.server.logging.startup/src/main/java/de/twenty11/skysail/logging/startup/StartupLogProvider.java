@@ -18,6 +18,7 @@
 package de.twenty11.skysail.logging.startup;
 
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -81,6 +82,11 @@ public class StartupLogProvider implements StartupLogProviderService {
         }
 
         return Status.OK;
+    }
+
+    @Override
+    public Set<String> getBundleNames() {
+        return StartupLogAppender.getBundleNames();
     }
 
 }

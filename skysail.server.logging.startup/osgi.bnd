@@ -1,2 +1,3 @@
 Bundle-SymbolicName: skysail.server.logging.startup
+Bundle-Activator: de.twenty11.skysail.logging.startup.internal.Activator
 Service-Component: OSGI-INF/*.xml
