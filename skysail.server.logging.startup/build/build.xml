@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="skysail.server.logging.startup" default="createConfigurations" basedir=".." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+	<description>
+	This file creates the config.ini files
+	</description>
+
+	<target name="createConfigurations" depends="cleanConfigurations">
+		<copy file="src-gen/config.ini" tofile="build/osgiRuntime/configuration/config.ini" overwrite="true"/>
+	</target>
+
+	<target name="cleanConfigurations">
+		<!-- local
+		<clean dir="build/osgiRuntime/configuration/local" /> -->
+		<!-- prod -->
+		<clean dir="build/osgiRuntime/configuration" />
+	</target>
+	
+	<macrodef name="clean">
+		<attribute name="dir" />
+		<sequential>
+			<delete>
+				<fileset dir="@{dir}" includes="**/*.log" />
+			</delete>
+			<delete dir="@{dir}/org.eclipse.osgi" />
+			<delete dir="@{dir}/org.eclipse.core.runtime" />
+			<delete dir="@{dir}/org.eclipse.equinox.app" />
+		</sequential>
+	</macrodef>
+
+	
+</project>

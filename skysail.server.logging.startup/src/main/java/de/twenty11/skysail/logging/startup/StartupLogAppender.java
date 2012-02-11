@@ -34,7 +34,7 @@ import ch.qos.logback.core.AppenderBase;
 /**
  * the idea: this is a logback appender, which will log the first n messages of
  * a bundle - those messages can afterwards be compared to a set of
- * what-was-expected and what-should-not-happen patterns provided by the actual
+ * what-was-expected (and maybe sometime what-should-not-happen patterns) provided by the actual
  * bundle.
  * 
  * As a result, a bundle can provide a list of patterns to check if things went
