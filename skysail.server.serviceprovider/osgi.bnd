@@ -1,0 +1,5 @@
+Import-Package: *
+Bundle-SymbolicName: skysail.server.serviceprovider
+Include-Resource: {maven-resources}
+Service-Component: OSGI-INF/*.xml
+

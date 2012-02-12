@@ -1,0 +1,91 @@
+project "projectName" 
+
+depends on 
+
+ 	// === 'this' bundle ' ============================================
+    group "/de/twenty11/skysail"        artifact "skysail.server.serviceprovider"               version "0.1.1-SNAPSHOT" starting yes,
+
+
+// 	group "/org/jsoup"                  artifact "jsoup"                                version "1.6.1" starting yes,
+//
+//    // === logging bundles =====================
+    group "/ch/qos/logback"             artifact "logback-core"                                 version "0.9.29"    starting yes,
+    group "/ch/qos/logback"             artifact "skysail.bundles.logback-classic"              version "0.9.29"    starting yes,
+    group "/org/slf4j"                  artifact "slf4j-api"                                    version "1.6.3"     starting yes,
+// 
+//    // === optional logging bundles ============
+//    group "/org/eclipse/equinox"        artifact "org.eclipse.equinox.log"                      version "1.2.100.v20100503" starting yes,
+//    group "/org/slf4j"                  artifact "jcl-over-slf4j"                               version "1.6.1"     starting yes,
+//    group "/org/slf4j"                  artifact "jul-to-slf4j"                                 version "1.6.3"     starting yes,
+//    group "/org/slf4j"                  artifact "log4j-over-slf4j"                             version "1.6.1"     starting yes,
+//    group "/de/twenty11/skysail"        artifact "skysail.server.osgi.logging.osgi-over-slf4j"  version "0.0.3"     starting level_2,
+//    group "/de/twenty11/skysail"        artifact "skysail.server.osgi.logback.config"           version "0.0.4"     starting no,
+// 	
+//    // === skysail bundles ============================================
+//    group "/de/twenty11/skysail"        artifact "skysail.common"                       version "0.2.4-SNAPSHOT" starting yes,
+//    group "/de/twenty11/skysail"        artifact "skysail.server"                       version "0.1.8-SNAPSHOT" starting yes,
+//
+//    group "/de/twenty11/skysail"        artifact "skysail.server.servicedefinitions"    version "0.1.1-SNAPSHOT" starting yes
+//    group "/de/twenty11/skysail"        artifact "skysail.server.osgi.logging.memoryAppender"   version "0.0.3"          starting yes,
+//
+    group "/de/twenty11/skysail"        artifact "skysail.server.configuration.byPropertiesService"    version "0.0.5-SNAPSHOT" starting yes,
+//
+// 	// === skysail server ext eclipselink bundles =====================
+//
+//    // to use declarative services 	
+    group "/osgi/enterprise"            artifact "osgi.enterprise"                      version "4.2.0.201003190513" starting yes,
+    group "/org/eclipse/equinox"        artifact "org.eclipse.equinox.ds"               version "1.2.1"     starting level_1,
+    group "/org/eclipse/equinox"        artifact "org.eclipse.equinox.util"             version "1.0.200"   starting yes
+// 	
+// 	// === restlet==============================
+//    group "/org/restlet/jee"            artifact "org.restlet.ext.slf4j"                        version "2.0.9"     starting yes,
+//    group "/org/restlet/jee"            artifact "org.restlet.ext.freemarker"                   version "2.0.9"     starting yes,
+//    group "/org/restlet/jee"            artifact "org.restlet.ext.servlet"                      version "2.0.9"     starting yes,
+//    group "/org/restlet/jee"            artifact "org.restlet.ext.xstream"                      version "2.0.9"     starting yes,
+//    group "/org/restlet/jee"            artifact "org.restlet.ext.jackson"                      version "2.0.9"     starting yes,
+//    group "/org/restlet/jee"            artifact "org.restlet.ext.wadl"                         version "2.0.9"     starting yes,
+//    group "/org/restlet/jee"            artifact "org.restlet.ext.xml"                          version "2.0.9"     starting yes,
+//    group "/org/restlet/jee"            artifact "org.restlet"                                  version "2.0.9"     starting yes,
+// 	
+// 	group "/org/freemarker"             artifact "com.springsource.freemarker"                  version "2.3.18"    starting yes,
+// 	
+//
+//    // === http ================================
+//    group "/javax/servlet"              artifact "com.springsource.javax.servlet"               version "2.5.0"     starting yes,
+//
+//    // provides the http service
+//    group "/org/eclipse/equinox"        artifact "org.eclipse.equinox.http"                     version "1.0.400.v20100503" starting yes,
+//    //group "/org/eclipse/equinox"      artifact "org.eclipse.equinox.http.jetty"               version "2.0.0.v20100503" starting yes,
+//    //group "/org/eclipse/equinox"      artifact "org.eclipse.equinox.http.servlet"             version "1.1.0"     starting yes,
+//    // jetty server with dependencies
+//    group "/org/eclipse/jetty"          artifact "jetty-server"                                 version "7.5.4.v20111024" starting yes,
+//    group "/org/eclipse/jetty"          artifact "jetty-util"                                   version "7.5.4.v20111024" starting yes,
+//    group "/org/eclipse/jetty"          artifact "jetty-continuation"                           version "7.5.4.v20111024" starting yes,
+//    group "/org/eclipse/jetty"          artifact "jetty-http"                                   version "7.5.4.v20111024" starting yes,
+//    group "/org/eclipse/jetty"          artifact "jetty-io"                                     version "7.5.4.v20111024" starting yes,
+//    group "/org/eclipse/jetty"          artifact "jetty-ajp"                                    version "7.5.4.v20111024" starting yes,
+//    group "/org/eclipse/jetty"          artifact "jetty-security"                               version "7.5.4.v20111024" starting yes,
+//    group "/org/eclipse/jetty"          artifact "jetty-deploy"                                 version "7.5.4.v20111024" starting yes,
+//    group "/org/eclipse/jetty"          artifact "jetty-webapp"                                 version "7.5.4.v20111024" starting yes,
+//    group "/org/eclipse/jetty"          artifact "jetty-servlet"                                version "7.5.4.v20111024" starting yes,
+//    group "/org/eclipse/jetty"          artifact "jetty-servlets"                               version "7.5.4.v20111024" starting yes,
+//    group "/org/eclipse/jetty"          artifact "jetty-client"                                 version "7.5.4.v20111024" starting yes,
+//    group "/org/eclipse/jetty"          artifact "jetty-xml"                                    version "7.5.4.v20111024" starting yes,
+//    group "/org/eclipse/jetty"          artifact "jetty-jmx"                                    version "7.5.4.v20111024" starting yes,
+//
+//    group "/org/eclipse/jetty/osgi"     artifact "jetty-osgi-boot"                              version "7.5.4.v20111024" starting yes,
+//
+//    // jetty/restlet
+//    //  - this one needs jetty >= 7.1
+//    group "/org/restlet/jee"            artifact "org.restlet.ext.jetty"                        version "2.0-M6"    starting yes,
+//
+//    // other bundles
+//    group "/javax/xml/stream"           artifact "com.springsource.javax.xml.stream"            version "1.0.1"     starting yes,
+//    group "/com/thoughtworks/xstream"   artifact "com.springsource.com.thoughtworks.xstream"    version "1.3.1"     starting yes,
+//    group "/org/codehaus/jackson"       artifact "jackson-core-lgpl"                            version "1.6.3"     starting yes,
+//    group "/org/codehaus/jackson"       artifact "jackson-mapper-lgpl"                          version "1.6.3"     starting yes,
+//    group "/org/codehaus/jettison"      artifact "com.springsource.org.codehaus.jettison"       version "1.0.1"     starting yes,
+//    group "/org/xmlpull"                artifact "com.springsource.org.xmlpull"                 version "1.1.4.c"   starting no
+
+
+found in "file:///home/carsten/.m2/repository"

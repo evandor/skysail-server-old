@@ -1,0 +1,11 @@
+issues with release plugin: have to release this locally like
+
+cd ~/git/skysail-server/skysail.server.serviceprovider
+
+optional: mvn3 dependency:analyze
+
+mvn3 clean install
+mvn3 -Dresume=false release:prepare 
+mvn3 release:perform
+
+then commit and let jenkins build the proper tag (skysail.server-0.x.y)
