@@ -16,6 +16,8 @@
  */
 package de.twenty11.skysail.server.servicedefinitions;
 
+import org.osgi.service.component.ComponentContext;
+
 
 
 /**
@@ -24,24 +26,41 @@ package de.twenty11.skysail.server.servicedefinitions;
  * @author carsten
  *
  */
-public class SkysailServiceProvider {
+public abstract class SkysailServiceProvider {
 
+    /** the skysail config service. */
+    private ConfigService configService;
     
-    private static ConfigService configService;
     
-    //protected abstract void activate(ComponentContext ctxt);
+    /**
+     * To be implemented according to their specific needs by subclasses.
+     * @param ctxt provided by framework
+     */
+    protected abstract void activate(ComponentContext ctxt);
 
-    //protected abstract void deactivate(ComponentContext ctxt);
+    /**
+     * To be implemented according to their specific needs by subclasses.
+     * @param ctxt provided by framework
+     */
+    protected abstract void deactivate(ComponentContext ctxt);
 
-    public void setConfigService(ConfigService configService) {
-        SkysailServiceProvider.configService = configService;
+    public void setConfigService(final ConfigService service) {
+        configService = service;
     }
     
-    public void unsetConfigService(ConfigService configService) {
-        SkysailServiceProvider.configService = null;
+    /**
+     * called by the framework when the config service becomes unavailable.
+     * @param service 
+     */
+    public void unsetConfigService(final ConfigService service) {
+        configService = null;
     }
     
-    public static ConfigService getConfigService() {
+    /**
+     * provides access to the skysail config service.
+     * @return the skysail config service
+     */
+    public ConfigService getConfigService() {
         return configService;
     }
     

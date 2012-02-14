@@ -32,12 +32,14 @@ import org.ops4j.pax.exam.junit.Configuration;
 import org.ops4j.pax.exam.junit.JUnit4TestRunner;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
 import de.twenty11.skysail.server.servicedefinitions.ConfigService;
+import de.twenty11.skysail.server.servicedefinitions.SkysailServiceProvider;
 
 @RunWith(JUnit4TestRunner.class)
 public class ServiceProviderTest {
@@ -67,11 +69,33 @@ public class ServiceProviderTest {
     }
     
     @Test
-    public void checkService() {
+    public void checkConfigServiceExists() {
         ServiceReference serviceReference = context.getServiceReference(ConfigService.class.getName());
         Object service = context.getService(serviceReference);
         assertTrue(service != null);
         assertTrue(service instanceof ConfigService);
+    }
+    
+    @Test
+    public void getConfigServiceFromSkysailServiceProvider() {
+        ServiceReference serviceReference = context.getServiceReference(ConfigService.class.getName());
+        ConfigService service = (ConfigService)context.getService(serviceReference);
+        SkysailServiceProvider provider = new SkysailServiceProvider() {
+            
+            @Override
+            protected void deactivate(ComponentContext ctxt) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            protected void activate(ComponentContext ctxt) {
+                // TODO Auto-generated method stub
+                
+            }
+        };
+        provider.setConfigService(service);
+        assertTrue(provider.getConfigService() == service);
     }
 }
 
