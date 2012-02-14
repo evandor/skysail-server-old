@@ -83,17 +83,12 @@ public class ServiceProviderTest {
         SkysailServiceProvider provider = new SkysailServiceProvider() {
             
             @Override
-            protected void deactivate(ComponentContext ctxt) {
-                // TODO Auto-generated method stub
-                
-            }
+            protected void deactivate(ComponentContext ctxt) {}
             
             @Override
-            protected void activate(ComponentContext ctxt) {
-                // TODO Auto-generated method stub
-                
-            }
+            protected void activate(ComponentContext ctxt) {}
         };
+        
         provider.setConfigService(service);
         assertTrue(provider.getConfigService() == service);
     }
