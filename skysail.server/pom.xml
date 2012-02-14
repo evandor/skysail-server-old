@@ -51,6 +51,12 @@
             <version>[0.1.0-SNAPSHOT, 0.2)</version>
         </dependency>
 
+        <dependency>
+            <groupId>de.twenty11.skysail</groupId>
+            <artifactId>skysail.server.serviceprovider</artifactId>
+            <version>[0.1.0-SNAPSHOT, 0.2)</version>
+        </dependency>
+
 		<!-- osgi -->
 		<dependency>
 			<groupId>org.osgi</groupId>
