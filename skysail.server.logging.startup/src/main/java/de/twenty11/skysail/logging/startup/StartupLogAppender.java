@@ -34,8 +34,8 @@ import ch.qos.logback.core.AppenderBase;
 /**
  * the idea: this is a logback appender, which will log the first n messages of
  * a bundle - those messages can afterwards be compared to a set of
- * what-was-expected (and maybe sometime what-should-not-happen patterns) provided by the actual
- * bundle.
+ * what-was-expected (and maybe sometime what-should-not-happen patterns)
+ * provided by the actual bundle.
  * 
  * As a result, a bundle can provide a list of patterns to check if things went
  * according to plan when it was started. If the bundle gets uninstalled again,
@@ -55,6 +55,9 @@ public class StartupLogAppender extends AppenderBase<ILoggingEvent> {
     /** slf4j based logger implementation. */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /** how many entries to log for given logger name. */
+    private static final int DEFAULT_MAX_ENTRIES = 50;
+    
     /**
      * Helper class to keep track of LoggingEvents.
      * 
@@ -68,8 +71,8 @@ public class StartupLogAppender extends AppenderBase<ILoggingEvent> {
          * events are warnings, info or errors, the number of all events is
          * taken into account.
          */
-        private int max = 50; // default
-
+        private int max = DEFAULT_MAX_ENTRIES; 
+        
         /** container for info events. */
         private List<ILoggingEvent> infoLog = new ArrayList<ILoggingEvent>();
 
@@ -85,14 +88,21 @@ public class StartupLogAppender extends AppenderBase<ILoggingEvent> {
         /**
          * constructor allown overwriting the default for "max".
          * 
-         * @param max
+         * @param maxEntries
          *            maximum number of events to track
          */
-        public LogEventsHolder(final int max) {
-            this.max = max;
+        public LogEventsHolder(final int maxEntries) {
+            this.max = maxEntries;
         }
 
-        public void log(ILoggingEvent event) {
+        /**
+         * actually handles the log event by adding it to the logger lists
+         * matching their level.
+         * 
+         * @param event
+         *            the passed event
+         */
+        public void log(final ILoggingEvent event) {
 
             // logs are full? then return...
             if (counter.intValue() > max) {
@@ -143,42 +153,54 @@ public class StartupLogAppender extends AppenderBase<ILoggingEvent> {
         if (logs.containsKey(loggerName)) {
             startupLog = logs.get(loggerName);
         } else {
-            startupLog = new LogEventsHolder(50);
+            startupLog = new LogEventsHolder(DEFAULT_MAX_ENTRIES);
             logs.put(loggerName, startupLog);
         }
         startupLog.log(event);
     }
 
     /**
-     * @param bundleName
-     * @return
+     * static getter for info level log.
+     * 
+     * @param loggerName
+     *            the name of the logger
+     * @return a list of events for the given logger name
      */
-    public static List<ILoggingEvent> getInfoLog(String bundleName) {
-        LogEventsHolder logList = logs.get(bundleName);
-        if (logList == null)
+    public static List<ILoggingEvent> getInfoLog(final String loggerName) {
+        LogEventsHolder logList = logs.get(loggerName);
+        if (logList == null) {
             return null;
+        }
         return logList.getInfoLog();
     }
 
     /**
-     * @param bundleName
-     * @return
+     * static getter for warning level log.
+     * 
+     * @param loggerName
+     *            the name of the logger
+     * @return a list of events for the given logger name
      */
-    public static List<ILoggingEvent> getWarningLog(String bundleName) {
-        LogEventsHolder logList = logs.get(bundleName);
-        if (logList == null)
+    public static List<ILoggingEvent> getWarningLog(final String loggerName) {
+        LogEventsHolder logList = logs.get(loggerName);
+        if (logList == null) {
             return null;
+        }
         return logList.getWarningLog();
     }
 
     /**
-     * @param bundleName
-     * @return
+     * static getter for error level log.
+     * 
+     * @param loggerName
+     *            the name of the logger
+     * @return a list of events for the given logger name
      */
-    public static List<ILoggingEvent> getErrorLog(String bundleName) {
-        LogEventsHolder logList = logs.get(bundleName);
-        if (logList == null)
+    public static List<ILoggingEvent> getErrorLog(final String loggerName) {
+        LogEventsHolder logList = logs.get(loggerName);
+        if (logList == null) {
             return null;
+        }
         return logList.getErrorLog();
     }
 

@@ -17,12 +17,13 @@
 
 	<modules>
 		<module>../skysail.server</module>
-		<module>../skysail.server.osgi.bundles</module>
+		<module>../skysail.server.servicedefinitions</module>
+		<module>../skysail.server.serviceprovider</module>
 		<module>../skysail.server.configuration.byPropertiesService</module>
 		<module>../skysail.server.logging.startup</module>
 		<module>../skysail.server.osgi.logback.config</module>
 		<module>../skysail.server.osgi.logging.memoryAppender</module>
-		<module>../skysail.server.osgi.logging.osgi-over-slf4j</module>
+		<!--module>../skysail.server.osgi.logging.osgi-over-slf4j</module-->
 	</modules>
 
 </project>

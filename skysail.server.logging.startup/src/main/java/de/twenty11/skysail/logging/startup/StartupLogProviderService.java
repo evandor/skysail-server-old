@@ -35,7 +35,7 @@ public interface StartupLogProviderService {
     /**
      * @return
      */
-    Set<String> getBundleNames ();
+    Set<String> getBundleNames();
     
     /**
      * @param bundle
@@ -43,6 +43,6 @@ public interface StartupLogProviderService {
      * @param unexpected
      * @return
      */
-    Status getStartupStatus (String bundle, List<Pattern> expected, List<Pattern> unexpected);
+    Status getStartupStatus(String bundle, List<Pattern> expected, List<Pattern> unexpected);
 
 }

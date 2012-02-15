@@ -17,22 +17,34 @@
 
 package de.twenty11.skysail.server.logging.startup.tests;
 
+import static org.ops4j.pax.exam.CoreOptions.equinox;
 import static org.ops4j.pax.exam.CoreOptions.junitBundles;
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 import static org.ops4j.pax.exam.CoreOptions.options;
-import static org.ops4j.pax.exam.CoreOptions.equinox;
+import static org.ops4j.pax.exam.CoreOptions.systemProperty;
 
-import java.io.IOException;
+import java.util.Properties;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.junit.Configuration;
 import org.ops4j.pax.exam.junit.JUnit4TestRunner;
-import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.twenty11.skysail.logging.startup.StartupLogAppender;
+import de.twenty11.skysail.logging.startup.internal.Activator;
 
 @RunWith(JUnit4TestRunner.class)
 public class PaxTest {
+    
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+//  group "/osgi/enterprise"            artifact "osgi.enterprise"                      version "4.2.0.201003190513" starting yes,
+//  group "/org/eclipse/equinox"        artifact "org.eclipse.equinox.ds"               version "1.2.1"     starting level_1,
+//  group "/org/eclipse/equinox"        artifact "org.eclipse.equinox.util"             version "1.0.200"   starting yes,
 
     @Configuration
     public final Option[] config() {
@@ -42,25 +54,27 @@ public class PaxTest {
                 mavenBundle("de.twenty11.skysail", "skysail.server.servicedefinitions", "0.1.1-SNAPSHOT"),
                 mavenBundle("ch.qos.logback",      "logback-core",                      "0.9.29"),
                 mavenBundle("ch.qos.logback",      "skysail.bundles.logback-classic",   "0.9.29"),
-                mavenBundle("org.slf4j",           "slf4j-api",                         "1.6.3"),
-                // mavenBundle("org.ops4j.pax.exam","pax-exam-junit","2.2.0"),
-                // TODO make maven bundle
-                // bundle("file:///home/carsten/workspaces/skysale2/skysail.server.restlet/src/main/webapp/WEB-INF/eclipse/plugins/freemarker_2.3.16.jar"),
-                // scanDir("/home/carsten/workspaces/skysale2/skysail.server.osgi.ext.freemarker"),
+                mavenBundle("osgi.enterprise",     "osgi.enterprise",                   "4.2.0.201003190513"),
+                mavenBundle("org.eclipse.equinox", "org.eclipse.equinox.ds",            "1.2.1"),
+                mavenBundle("org.eclipse.equinox", "org.eclipse.equinox.util",          "1.0.200"),
                 junitBundles(),
+                systemProperty("osgi.console").value("6666"),
                 equinox().version("3.6.2")
         );
         // @formatter:on
-//        return options(
-//                scanDir("C:/workspaces/skysail/skysail.server.restlet/src/main/webapp/WEB-INF/eclipse/plugins/skysail/").filter("*.jar"),
-//                junitBundles()
-//        // equinox().version("3.6.2")
-//        );
     }
     
     @Test
-    public void getDefaultTemplate() {
-       
-        System.out.println("hi");
+    public void dumpLogs() {
+        logger.info("testing");
+        // these are the loggers something was logged to during startup
+//        Set<String> loggerNames = StartupLogAppender.getLoggerNames();
+//        // these are the messages we expect to find in the logs
+//        Properties expectedMessages = Activator.getExpectedLogMessages();
+//
+//        // first make sure we have logs for all expected messages
+//        Activator.checkLogExistsForAllExpectedMessages(loggerNames, expectedMessages);
+//
+//        Activator.dumpResults(loggerNames, expectedMessages);
     }
 }

@@ -1,0 +1,17 @@
+<configuration scan="true" debug="true">
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread{20}] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="STARTUP"
+		class="de.twenty11.skysail.logging.startup.StartupLogAppender" />
+
+	<root level="info">
+		<appender-ref ref="STARTUP" />
+	</root>
+
+</configuration>

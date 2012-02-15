@@ -25,7 +25,7 @@ depends on
 //    group "/de/twenty11/skysail"        artifact "skysail.common"                       version "0.2.4-SNAPSHOT" starting yes,
 //    group "/de/twenty11/skysail"        artifact "skysail.server"                       version "0.1.8-SNAPSHOT" starting yes,
 //
-    group "/de/twenty11/skysail"        artifact "skysail.server.servicedefinitions"    version "0.1.1-SNAPSHOT" starting yes
+    group "/de/twenty11/skysail"        artifact "skysail.server.servicedefinitions"    version "0.1.1-SNAPSHOT" starting yes,
 //    group "/de/twenty11/skysail"        artifact "skysail.server.osgi.logging.memoryAppender"   version "0.0.3"          starting yes,
 //
 //    group "/de/twenty11/skysail"        artifact "skysail.server.configuration.byPropertiesService"    version "0.0.5-SNAPSHOT" starting yes,
@@ -33,9 +33,9 @@ depends on
 // 	// === skysail server ext eclipselink bundles =====================
 //
 //    // to use declarative services 	
-//    group "/osgi/enterprise"            artifact "osgi.enterprise"                      version "4.2.0.201003190513" starting yes,
-//    group "/org/eclipse/equinox"        artifact "org.eclipse.equinox.ds"               version "1.2.1"     starting level_1,
-//    group "/org/eclipse/equinox"        artifact "org.eclipse.equinox.util"             version "1.0.200"   starting yes,
+    group "/osgi/enterprise"            artifact "osgi.enterprise"                      version "4.2.0.201003190513" starting yes,
+    group "/org/eclipse/equinox"        artifact "org.eclipse.equinox.ds"               version "1.2.1"     starting level_1,
+    group "/org/eclipse/equinox"        artifact "org.eclipse.equinox.util"             version "1.0.200"   starting yes
 // 	
 // 	// === restlet==============================
 //    group "/org/restlet/jee"            artifact "org.restlet.ext.slf4j"                        version "2.0.9"     starting yes,
