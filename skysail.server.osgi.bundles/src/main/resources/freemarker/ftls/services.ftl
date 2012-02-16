@@ -1,20 +1,12 @@
 <#include "skysail.server.osgi.bundles:head.ftl">
-<body>
 
-    <script src="${contextPath}static/js/jquery-1.7.1.min.js"></script>
-    <script>
-    
-   </script>
+<body>
 
   <#include "skysail.server:navigation.ftl">
   <div id="container">
-    <#assign info = "List of all available Services" />
+    <#assign info = "List of all available Services (found ${totalResults})" />
     <#include "skysail.server.osgi.bundles:title.ftl">
     
-    <div id="fsi"><h2>
-            <span>&nbsp;&nbsp;total of ${totalResults} hits for your query, showing page ${page}</span></h2>
-    </div>
-
     <#list data as component>
       
       <#if component.class.simpleName == "GridData">
@@ -73,9 +65,6 @@
     
     
     <#include "skysail.server:debug.ftl">
-    
-    
-    
   </div>
 
 </body>

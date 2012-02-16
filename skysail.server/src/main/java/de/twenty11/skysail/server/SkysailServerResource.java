@@ -36,16 +36,16 @@ import freemarker.template.Template;
  */
 public abstract class SkysailServerResource<T extends SkysailData> extends WadlServerResource {
 
-    /** slf4j based logger implementation */
+    /** slf4j based logger implementation. */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    /** short message to be passed to the client */
+    /** short message to be passed to the client. */
     private String message = "";
 
     /** template to be shown. */
     private String template = "skysail.product.twindir:accounts.ftl";
 
-    /** the payload */
+    /** the payload. */
     private T skysailData;
     
     private int totalResults;
@@ -72,6 +72,8 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     
     public abstract T currentPageResults(List<?> filterResults, int pageSize);
     
+    //public abstract void sort(T data, List<?> filterResults);
+    
     /**
      * Implementors of this class have to provide skysailData which will be used to create
      * a restlet representation. Which type of representation (json, xml, ...) will
@@ -81,10 +83,16 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
      *
      */
     private final T getData() {
+        
         // define the columns for the result (for grids)
         setColumns(skysailData); 
+        
         // get actual data, applying the current filter
         List<?> filterResults = getFilteredData();
+        
+        // sort filtered results
+        //sort(skysailData, filterResults);
+        
         // handle Page size and pagination
         int pageSize = handlePagination();
         setPageSize(pageSize);

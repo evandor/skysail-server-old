@@ -2,6 +2,8 @@ package de.twenty11.skysail.server.osgi.bundles;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.filters.LdapSearchFilter;
+import de.twenty11.skysail.common.grids.ColumnDefinition;
 import de.twenty11.skysail.common.grids.ColumnsBuilder;
 import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.common.messages.GridData;
@@ -37,10 +40,10 @@ public class ServicesResource extends SkysailServerResource<GridData> {
             @Override
             public void configure() {
                 addColumn("id").setWidth(0).
-                addColumn("serviceName").sortDesc(1).setWidth(200).
+                addColumn("serviceName").sortDesc(1).setWidth(230).
                 addColumn("implementingBundle").setWidth(200).
                 addColumn("version").setWidth(100).
-                addColumn("usingBundles").setWidth(300);
+                addColumn("usingBundles").setWidth(330);
             }
         });
         // @formatter:on
@@ -81,14 +84,14 @@ public class ServicesResource extends SkysailServerResource<GridData> {
             throw new RuntimeException("Invalid Syntax for filter", e);
         }
     }
-    
+
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public GridData currentPageResults(List<?> filterResults, int pageSize) {
         GridData grid = getSkysailData();
         int max = Math.min(filterResults.size(), (getCurrentPage() * pageSize));
         for (int j = ((getCurrentPage() - 1) * pageSize); j < max; j++) {
-            ServiceReference service = (ServiceReference)filterResults.get(j);
+            ServiceReference service = (ServiceReference) filterResults.get(j);
             RowData rowData = new RowData();
             Map<String, String> columnData = putColumnData(service);
             rowData.setColumnData(new ArrayList(columnData.values()));
@@ -96,7 +99,6 @@ public class ServicesResource extends SkysailServerResource<GridData> {
         }
         return grid;
     }
-
 
     private Map<String, String> putColumnData(ServiceReference service) {
         Map<String, String> columnData = new LinkedHashMap<String, String>();
@@ -128,6 +130,23 @@ public class ServicesResource extends SkysailServerResource<GridData> {
         }
         columnData.put("usingBundles", sb.toString());
         return columnData;
+    }
+
+    public void sort(GridData data, List<?> filterResults) {
+        Map<String, ColumnDefinition> columnsInSortOrder = data.getColumnsFromBuilder(true);
+        for (String columnName : columnsInSortOrder.keySet()) {
+            ColumnDefinition colDef = columnsInSortOrder.get(columnName);
+            if (colDef.getSorting() != 0) {
+                Collections.sort(filterResults, new Comparator() {
+                    @Override
+                    public int compare(Object o1, Object o2) {
+                        // TODO Auto-generated method stub
+                        return 0;
+                    }
+                });
+            }
+        }
+
     }
 
 }
