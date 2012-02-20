@@ -67,52 +67,65 @@ public class PackagesResource extends SkysailServerResource<GridData> {
         // }
         return grid;
     }
+    
+    @Override
+    public void sort() {
+        // TODO Auto-generated method stub
+        
+    }
 
     @Override
-    public void setColumns(GridData data) {
+    public void configureColumns(ColumnsBuilder builder) {
         // @formatter:off
-        data.setColumnsBuilder(new ColumnsBuilder(getQuery().getValuesMap()) {
-            @Override
-            public void configure() {
-                addColumn("Package").
+        builder.addColumn("Package").
                 addColumn("Version").
                 addColumn("Exporting Bundle").
                 addColumn("Importing Bundles");
-            }
-        });
         // @formatter:on
     }
 
-    @Override
-    public List<?> getFilteredData() {
-        // get the package admin service
-        ServiceReference packageAdminRef = Bundles.getInstance().getServiceReference(
-                        "org.osgi.service.packageadmin.PackageAdmin"); //$NON-NLS-1$
-
-        if (packageAdminRef != null) {
-            PackageAdmin packageAdmin = (PackageAdmin) Bundles.getInstance().getService(packageAdminRef);
-            if (packageAdmin != null) {
-                ExportedPackage[] packages = null;
-                Bundle bundle = null;
-                packages = packageAdmin.getExportedPackages(bundle);
-                if (packages != null) {
-                    return Arrays.asList(packages);
-                }
-            }
-        }
-        return Collections.EMPTY_LIST;
-    }
+//    @Override
+//    public List<?> getFilteredData() {
+//        // get the package admin service
+//        ServiceReference packageAdminRef = Bundles.getInstance().getServiceReference(
+//                        "org.osgi.service.packageadmin.PackageAdmin"); //$NON-NLS-1$
+//
+//        if (packageAdminRef != null) {
+//            PackageAdmin packageAdmin = (PackageAdmin) Bundles.getInstance().getService(packageAdminRef);
+//            if (packageAdmin != null) {
+//                ExportedPackage[] packages = null;
+//                Bundle bundle = null;
+//                packages = packageAdmin.getExportedPackages(bundle);
+//                if (packages != null) {
+//                    return Arrays.asList(packages);
+//                }
+//            }
+//        }
+//        return Collections.EMPTY_LIST;
+//    }
 
     @Override
     public int handlePagination() {
         return 15;
     }
 
-    @Override
-    public GridData currentPageResults(List<?> filteredResults, int pageSize) {
-        GridData grid = getSkysailData();
+//    @Override
+//    public GridData currentPageResults(List<?> filteredResults, int pageSize) {
+//        GridData grid = getSkysailData();
+//
+//        return grid;
+//    }
 
-        return grid;
+    @Override
+    public void filterData() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public GridData currentPageResults(int pageSize) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

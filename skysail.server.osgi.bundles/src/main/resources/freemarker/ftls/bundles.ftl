@@ -15,7 +15,7 @@
 	  
 	  <#if component.class.simpleName == "GridData">
 		<#assign gridColumns = component.columns>
-		<#assign request = origRequest?split("?")[0] />
+		
 		<form action="#">
 		<table>
 		<#include "skysail.server.osgi.bundles:caption.ftl">

@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.osgi.framework.Bundle;
 
+import de.twenty11.skysail.common.grids.ColumnsBuilder;
 import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.server.SkysailServerResource;
@@ -59,7 +60,7 @@ public class BundleHeaderResource extends SkysailServerResource<GridData> {
     }
 
     @Override
-    public void setColumns(GridData data) {
+    public void configureColumns(ColumnsBuilder builder) {
         // TODO Auto-generated method stub
         
     }
@@ -67,11 +68,10 @@ public class BundleHeaderResource extends SkysailServerResource<GridData> {
     
 
     @Override
-    public List<Object> getFilteredData() {
+    public void sort() {
         // TODO Auto-generated method stub
-        return null;
+        
     }
-
    
 
     @Override
@@ -80,8 +80,15 @@ public class BundleHeaderResource extends SkysailServerResource<GridData> {
         return 0;
     }
 
+   
     @Override
-    public GridData currentPageResults(List<?> filterResults, int pageSize) {
+    public void filterData() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public GridData currentPageResults(int pageSize) {
         // TODO Auto-generated method stub
         return null;
     }

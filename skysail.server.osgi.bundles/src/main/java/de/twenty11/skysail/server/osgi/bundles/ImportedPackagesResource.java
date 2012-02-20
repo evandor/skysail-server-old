@@ -28,6 +28,7 @@ import org.eclipse.osgi.service.resolver.StateHelper;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
+import de.twenty11.skysail.common.grids.ColumnsBuilder;
 import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.server.SkysailServerResource;
@@ -127,6 +128,12 @@ public class ImportedPackagesResource extends SkysailServerResource<GridData> {
         }
         return grid;
     }
+    
+    @Override
+    public void sort() {
+        // TODO Auto-generated method stub
+        
+    }
 
     private ArrayList getFragmentImports(BundleDescription[] fragments) {
         ArrayList fragmentsImportPackages = new ArrayList();
@@ -140,17 +147,17 @@ public class ImportedPackagesResource extends SkysailServerResource<GridData> {
     }
 
     @Override
-    public void setColumns(GridData data) {
+    public void configureColumns(ColumnsBuilder builder) {
         // TODO Auto-generated method stub
         
     }
 
   
-    @Override
-    public List<Object> getFilteredData() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+//    @Override
+//    public List<Object> getFilteredData() {
+//        // TODO Auto-generated method stub
+//        return null;
+//    }
 
    
 
@@ -160,8 +167,20 @@ public class ImportedPackagesResource extends SkysailServerResource<GridData> {
         return 0;
     }
 
+//    @Override
+//    public GridData currentPageResults(List<?> filterResults, int pageSize) {
+//        // TODO Auto-generated method stub
+//        return null;
+//    }
+
     @Override
-    public GridData currentPageResults(List<?> filterResults, int pageSize) {
+    public void filterData() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public GridData currentPageResults(int pageSize) {
         // TODO Auto-generated method stub
         return null;
     }

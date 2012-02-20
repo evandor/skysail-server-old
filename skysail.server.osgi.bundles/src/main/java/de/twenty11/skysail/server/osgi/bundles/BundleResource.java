@@ -22,23 +22,28 @@ public class BundleResource extends SkysailServerResource<GridData> {
     }
 
     @Override
-    public void setColumns(GridData data) {
-        data.setColumnsBuilder(new ColumnsBuilder(getQuery().getValuesMap()) {
-            @Override
-            public void configure() {
-                addColumn("Key").addColumn("Value");
-            }
-        });
+    public void configureColumns(ColumnsBuilder builder) {
+//        data.setColumnsBuilder(new ColumnsBuilder(getQuery().getValuesMap()) {
+//            @Override
+//            public void configure() {
+//                addColumn("Key").addColumn("Value");
+//            }
+//        });
+    }
+    @Override
+    public void sort() {
+        // TODO Auto-generated method stub
+        
     }
 
-    @Override
-    public List<?> getFilteredData() {
-        String bundleId = (String) getRequest().getAttributes().get(Constants.BUNDLE_ID);
-        Bundle bundle = Bundles.getInstance().getBundle(Long.parseLong(bundleId));
-        List<Bundle> result = new ArrayList<Bundle>();
-        result.add(bundle);
-        return result;
-    }
+//    @Override
+//    public List<?> getFilteredData() {
+//        String bundleId = (String) getRequest().getAttributes().get(Constants.BUNDLE_ID);
+//        Bundle bundle = Bundles.getInstance().getBundle(Long.parseLong(bundleId));
+//        List<Bundle> result = new ArrayList<Bundle>();
+//        result.add(bundle);
+//        return result;
+//    }
 
     @Override
     public int handlePagination() {
@@ -46,17 +51,17 @@ public class BundleResource extends SkysailServerResource<GridData> {
         return 15;
     }
 
-    @Override
-    public GridData currentPageResults(List<?> filterResults, int pageSize) {
-        GridData grid = getSkysailData();
-        Bundle bundle = (Bundle)filterResults.get(0);
-        addRow(grid, "id", Long.toString(bundle.getBundleId()));
-        addRow(grid, "state", Bundles.translateStatus(bundle.getState()));
-        addRow(grid, "lastModified", Long.toString(bundle.getLastModified()));
-        addRow(grid, "version", bundle.getVersion().toString());
-        addRow(grid, "location", bundle.getLocation());
-        return grid;
-    }
+//    @Override
+//    public GridData currentPageResults(List<?> filterResults, int pageSize) {
+//        GridData grid = getSkysailData();
+//        Bundle bundle = (Bundle)filterResults.get(0);
+//        addRow(grid, "id", Long.toString(bundle.getBundleId()));
+//        addRow(grid, "state", Bundles.translateStatus(bundle.getState()));
+//        addRow(grid, "lastModified", Long.toString(bundle.getLastModified()));
+//        addRow(grid, "version", bundle.getVersion().toString());
+//        addRow(grid, "location", bundle.getLocation());
+//        return grid;
+//    }
 
     private void addRow(GridData grid, String key, Object value) {
         RowData rowData = new RowData();
@@ -65,6 +70,18 @@ public class BundleResource extends SkysailServerResource<GridData> {
         columnData.add(value);
         rowData.setColumnData(columnData );
         grid.addRowData(rowData);
+    }
+
+    @Override
+    public void filterData() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public GridData currentPageResults(int pageSize) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

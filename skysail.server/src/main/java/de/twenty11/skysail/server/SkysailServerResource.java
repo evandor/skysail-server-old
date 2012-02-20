@@ -1,7 +1,6 @@
 package de.twenty11.skysail.server;
 
 import java.net.URL;
-import java.util.List;
 
 import org.restlet.data.MediaType;
 import org.restlet.ext.freemarker.TemplateRepresentation;
@@ -15,6 +14,8 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.SkysailData;
 import de.twenty11.skysail.common.filters.Filter;
+import de.twenty11.skysail.common.grids.ColumnsBuilder;
+import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SkysailSuccessResponse;
 import de.twenty11.skysail.server.communication.CommunicationUtils;
@@ -56,6 +57,8 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
 
     private Integer pageSize;
 
+    private String sortingRepresentation;
+
     /**
      * Constructor expecting an object of type T (which will become the payload of the resource representation.
      * @param data for example new GridData()
@@ -64,15 +67,17 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
         this.skysailData = data;
     }
 
-    public abstract void setColumns(T data);
+    //public abstract void setColumns(T data);
     
-    public abstract List<?> getFilteredData();
+    public abstract void filterData();
 
     public abstract int handlePagination();
     
-    public abstract T currentPageResults(List<?> filterResults, int pageSize);
+    public abstract T currentPageResults(int pageSize);
     
-    //public abstract void sort(T data, List<?> filterResults);
+    public abstract void sort();
+    
+    public abstract void configureColumns(ColumnsBuilder builder);
     
     /**
      * Implementors of this class have to provide skysailData which will be used to create
@@ -84,22 +89,31 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
      */
     private final T getData() {
         
-        // define the columns for the result (for grids)
-        setColumns(skysailData); 
+        // define the columns for the result (for grids and assign to grid)
+        ColumnsBuilder columnsBuilder = new ColumnsBuilder(getQuery().getValuesMap()) {
+            @Override
+            public void configure() {
+                configureColumns(this);
+            }
+        };
+        if (getSkysailData() instanceof GridData) {
+            ((GridData)getSkysailData()).setColumnsBuilder(columnsBuilder);
+        }
+
+        // get the data, applying the current filter
+        filterData();
         
-        // get actual data, applying the current filter
-        List<?> filterResults = getFilteredData();
-        
-        // sort filtered results
-        //sort(skysailData, filterResults);
+        // sort the results
+        sort();
         
         // handle Page size and pagination
         int pageSize = handlePagination();
         setPageSize(pageSize);
         // how many results do we have (all pages)
-        setTotalResults(filterResults != null ? filterResults.size() : 0);
+        setTotalResults(getSkysailData().getSize());
+        
         // get results for current page
-        return currentPageResults(filterResults, pageSize);
+        return currentPageResults(pageSize);
     }
 
     @Get("json")
@@ -142,9 +156,11 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
         response.setPage(getCurrentPage());
         response.setPageSize(getPageSize());
         response.setOrigRequest(getRequest().getOriginalRef().toUrl());
+        response.setRequest(getRequest().getOriginalRef().toUrl());
         response.setParent(getParent());
         response.setContextPath("/rest/");
         response.setFilter(getFilter() != null ? getFilter().toString() : "");
+        response.setSortingRepresentation(getSorting());
         if (getQuery() != null && getQuery().getNames().contains("debug")) {
             response.setDebug(true);
         }
@@ -197,6 +213,14 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     private URL getParent() {
         URL origRequest = getRequest().getOriginalRef().getParentRef().toUrl();
         return origRequest;
+    }
+    
+    public void setSorting(String str) {
+        sortingRepresentation = str;
+    }
+    
+    private String getSorting () {
+        return sortingRepresentation != null ? sortingRepresentation : "";
     }
     
     public T getSkysailData() {

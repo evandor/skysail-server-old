@@ -1,9 +1,6 @@
 package de.twenty11.skysail.server.osgi.bundles;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,54 +13,62 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.filters.LdapSearchFilter;
-import de.twenty11.skysail.common.grids.ColumnDefinition;
 import de.twenty11.skysail.common.grids.ColumnsBuilder;
 import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.common.messages.GridData;
-import de.twenty11.skysail.server.SkysailServerResource;
+import de.twenty11.skysail.server.GridDataServerResource;
 import de.twenty11.skysail.server.osgi.bundles.internal.Activator;
 
-public class ServicesResource extends SkysailServerResource<GridData> {
+/**
+ * @author carsten
+ * 
+ */
+public class ServicesResource extends GridDataServerResource {
 
-    /** slf4j based logger implementation */
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+    /** slf4j based logger implementation. */
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * constructor providing the freemarker template.
+     */
     public ServicesResource() {
         super(new GridData());
         setTemplate("skysail.server.osgi.bundles:services.ftl");
     }
 
     @Override
-    public void setColumns(GridData gridData) {
-        // @formatter:off
-        gridData.setColumnsBuilder(new ColumnsBuilder(getQuery().getValuesMap()) {
-            @Override
-            public void configure() {
-                addColumn("id").setWidth(0).
-                addColumn("serviceName").sortDesc(1).setWidth(230).
-                addColumn("implementingBundle").setWidth(200).
-                addColumn("version").setWidth(100).
-                addColumn("usingBundles").setWidth(330);
-            }
-        });
-        // @formatter:on
+    public void configureColumns(final ColumnsBuilder builder) {
+        // @formatter:off CHECKSTYLE:OFF
+        builder.
+        addColumn("id").setWidth(0).
+        addColumn("serviceName").sortDesc(1).setWidth(500).
+        addColumn("implementingBundle").setWidth(240).
+        addColumn("version").setWidth(80).
+        addColumn("usingBundles").sortAsc(null).setWidth(400);
+        // @formatter:on CHECKSTYLE:ON
     }
 
     @Override
-    public int handlePagination() {
-        return doHandlePagination("skysail.server.osgi.bundles.entriesPerPage", 15);
+    public void filterData() {
+        ServiceReference[] services = getMatchingServices(getSkysailData().getFilter());
+        GridData grid = getSkysailData();
+        for (ServiceReference service : services) {
+            RowData rowData = new RowData();
+            Map<String, String> columnData = putColumnData(service);
+            rowData.setColumnData(new ArrayList<Object>(columnData.values()));
+            grid.addRowData(rowData);
+        }
     }
 
-    @Override
-    public List<Object> getFilteredData() {
-
-        Filter filter = getSkysailData().getFilter();
-        Object[] services;
-
+    /**
+     * @param filter
+     * @return
+     */
+    private ServiceReference[] getMatchingServices(Filter filter) {
+        ServiceReference[] services;
         try {
             if (filter instanceof LdapSearchFilter) {
                 services = Activator.getContext().getServiceReferences(null, filter.toString());
-                return Arrays.asList(services);
             } else {
                 // need to filter "manually"
                 services = Activator.getContext().getServiceReferences(null, null);
@@ -78,34 +83,25 @@ public class ServicesResource extends SkysailServerResource<GridData> {
                     }
                 }
                 services = filteredReferences.toArray(new ServiceReference[filteredReferences.size()]);
-                return Arrays.asList(services);
             }
         } catch (InvalidSyntaxException e) {
             throw new RuntimeException("Invalid Syntax for filter", e);
         }
+        logger.debug("found {} matching services for request", services.length);
+        return services;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    @Override
-    public GridData currentPageResults(List<?> filterResults, int pageSize) {
-        GridData grid = getSkysailData();
-        int max = Math.min(filterResults.size(), (getCurrentPage() * pageSize));
-        for (int j = ((getCurrentPage() - 1) * pageSize); j < max; j++) {
-            ServiceReference service = (ServiceReference) filterResults.get(j);
-            RowData rowData = new RowData();
-            Map<String, String> columnData = putColumnData(service);
-            rowData.setColumnData(new ArrayList(columnData.values()));
-            grid.addRowData(rowData);
-        }
-        return grid;
-    }
-
+    /**
+     * @param service
+     * @return
+     */
     private Map<String, String> putColumnData(ServiceReference service) {
         Map<String, String> columnData = new LinkedHashMap<String, String>();
         // for now, not too nice
         // to string gives something like
         // {org.eclipse.osgi.framework.console.CommandProvider}={service.ranking=2147483647,
         // service.id=2}
+        // TODO Revisit
         String[] serviceSplit = service.toString().split("\\}=\\{");
         String serviceId = "";
         String[] values = serviceSplit[1].replace("}", "").replace("{", "").split(",");
@@ -130,23 +126,6 @@ public class ServicesResource extends SkysailServerResource<GridData> {
         }
         columnData.put("usingBundles", sb.toString());
         return columnData;
-    }
-
-    public void sort(GridData data, List<?> filterResults) {
-        Map<String, ColumnDefinition> columnsInSortOrder = data.getColumnsFromBuilder(true);
-        for (String columnName : columnsInSortOrder.keySet()) {
-            ColumnDefinition colDef = columnsInSortOrder.get(columnName);
-            if (colDef.getSorting() != 0) {
-                Collections.sort(filterResults, new Comparator() {
-                    @Override
-                    public int compare(Object o1, Object o2) {
-                        // TODO Auto-generated method stub
-                        return 0;
-                    }
-                });
-            }
-        }
-
     }
 
 }
