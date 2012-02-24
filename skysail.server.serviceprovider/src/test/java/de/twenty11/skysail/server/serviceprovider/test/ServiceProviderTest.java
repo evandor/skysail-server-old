@@ -65,7 +65,7 @@ public class ServiceProviderTest {
                 mavenBundle("org.slf4j","slf4j-api","1.6.3"),
                 mavenBundle("de.twenty11.skysail","skysail.server.servicedefinitions","0.1.1"),
                 mavenBundle("de.twenty11.skysail","skysail.server.configuration.byPropertiesService","0.0.5-SNAPSHOT"),
-                mavenBundle("osgi.enterprise","osgi.enterprise","4.2.0.201003190513"),
+                //mavenBundle("osgi.enterprise","osgi.enterprise","4.2.0.201003190513"),
                 mavenBundle("org.eclipse.equinox","org.eclipse.equinox.ds","1.2.1"),
                 mavenBundle("org.eclipse.equinox","org.eclipse.equinox.util","1.0.200"),
                 junitBundles(),
