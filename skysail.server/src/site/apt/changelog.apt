@@ -1,4 +1,16 @@
- <<0.1.6-SNAPSHOT>>
+ <<0.1.8 (Feb. 2012)>>
+ 
+  * added dependencies to skysail.server.servicedefinitions and skysail.server.serviceprovider
+  
+  * cleanups
+  
+  * moved URLMapper and UrlMapperServiceListener
+
+ <<0.1.7>>
+ 
+  * various fixes
+
+ <<0.1.6>>
  
   * switch from spring-context to service-component
 
