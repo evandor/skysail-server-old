@@ -70,9 +70,9 @@ public class ServiceProviderTest {
                 mavenBundle("org.eclipse.equinox","org.eclipse.equinox.ds","1.2.1"),
                 mavenBundle("org.eclipse.equinox","org.eclipse.equinox.util","1.0.200"),
                 junitBundles(),
-                //systemProperty("osgi.console").value("6666"),
-                equinox().version("3.6.2"),
-                bootDelegationPackage("app")
+                systemProperty("osgi.console").value("6666"),
+                equinox().version("3.6.2")
+                //,bootDelegationPackage("app")
         );
         // @formatter:on
     }
