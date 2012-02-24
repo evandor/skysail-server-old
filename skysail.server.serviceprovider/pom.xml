@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>de.twenty11.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.1.0</version>
+		<version>0.1.2</version>
 		<relativePath />
 	</parent>
 
