@@ -1,10 +1,14 @@
- <<0.1.8 (Feb. 2012)>>
+ <<0.1.9 (Feb. 2012)>>
  
   * added dependencies to skysail.server.servicedefinitions and skysail.server.serviceprovider
   
   * cleanups
   
   * moved URLMapper and UrlMapperServiceListener
+
+ <<0.1.8 (Feb. 2012)>>
+
+  * same as 0.1.9
 
  <<0.1.7>>
  
