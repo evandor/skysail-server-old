@@ -53,7 +53,8 @@ public class ServiceProviderTest {
         // @formatter:off
         return options(
                 //bundle("reference:file:/home/carsten/git/skysail-server/skysail.server.serviceprovider/"),
-                mavenBundle("de.twenty11.skysail","skysail.server.serviceprovider","0.1.1-SNAPSHOT"),
+                //mavenBundle("de.twenty11.skysail","skysail.server.serviceprovider","0.1.1-SNAPSHOT"),
+                bundle("file:target/skysail.server.serviceprovider-0.1.1-SNAPSHOT.jar"),
                 mavenBundle("ch.qos.logback","logback-core","0.9.29"),
                 mavenBundle("ch.qos.logback","skysail.bundles.logback-classic","0.9.29"),
                 mavenBundle("org.slf4j","slf4j-api","1.6.3"),
