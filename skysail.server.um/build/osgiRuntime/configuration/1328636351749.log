@@ -1,0 +1,35 @@
+!SESSION 2012-02-07 18:39:11.428 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.6.0_18
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  /home/carsten/workspaces/twenty11
+Command-line arguments:  -dev file:/home/carsten/workspaces/twenty11/.metadata/.plugins/org.eclipse.pde.core/skysail.server.um_dev/dev.properties /home/carsten/workspaces/twenty11 -os linux -ws gtk -arch x86_64 -consoleLog -console
+
+!ENTRY org.eclipse.osgi 4 0 2012-02-07 18:39:42.201
+!MESSAGE 
+!STACK 0
+java.io.IOException: No such file or directory
+	at java.io.UnixFileSystem.createFileExclusively(Native Method)
+	at java.io.File.checkAndCreate(File.java:1704)
+	at java.io.File.createTempFile(File.java:1792)
+	at org.eclipse.osgi.storagemanager.StorageManager.createTempFile(StorageManager.java:714)
+	at org.eclipse.osgi.storagemanager.StorageManager.getOutputStream(StorageManager.java:776)
+	at org.eclipse.osgi.internal.baseadaptor.BaseStorage.saveBundleDatas(BaseStorage.java:558)
+	at org.eclipse.osgi.internal.baseadaptor.BaseStorage.saveAllData(BaseStorage.java:447)
+	at org.eclipse.osgi.internal.baseadaptor.BaseStorage.access$1(BaseStorage.java:435)
+	at org.eclipse.osgi.internal.baseadaptor.BaseStorage$StateSaver.run(BaseStorage.java:1227)
+	at java.lang.Thread.run(Thread.java:619)
+
+!ENTRY org.eclipse.osgi 4 0 2012-02-07 18:39:42.202
+!MESSAGE 
+!STACK 0
+java.io.IOException: No such file or directory
+	at java.io.UnixFileSystem.createFileExclusively(Native Method)
+	at java.io.File.checkAndCreate(File.java:1704)
+	at java.io.File.createTempFile(File.java:1792)
+	at org.eclipse.osgi.internal.baseadaptor.BaseStorage.saveStateData(BaseStorage.java:615)
+	at org.eclipse.osgi.internal.baseadaptor.BaseStorage.saveAllData(BaseStorage.java:448)
+	at org.eclipse.osgi.internal.baseadaptor.BaseStorage.access$1(BaseStorage.java:435)
+	at org.eclipse.osgi.internal.baseadaptor.BaseStorage$StateSaver.run(BaseStorage.java:1227)
+	at java.lang.Thread.run(Thread.java:619)
