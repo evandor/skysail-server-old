@@ -4,7 +4,7 @@
    <reference 
         bind="setConfigService" 
         cardinality="1..1" 
-        interface="de.twenty11.skysail.server.servicedefinitions.ConfigService" 
+        interface="de.twenty11.skysail.server.serviceprovider.ConfigService" 
         name="ConfigService" 
         policy="static"/>
 </scr:component>

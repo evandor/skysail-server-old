@@ -31,7 +31,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 
 import de.twenty11.skysail.logging.startup.StartupLogAppender;
 import de.twenty11.skysail.server.servicedefinitions.LogValidationInputProvider;
-import de.twenty11.skysail.server.servicedefinitions.SkysailServiceProvider;
+import de.twenty11.skysail.server.serviceprovider.SkysailServiceProvider;
 
 public class ServiceProvider extends SkysailServiceProvider implements LogValidationInputProvider {
 

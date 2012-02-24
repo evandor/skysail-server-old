@@ -2,6 +2,6 @@
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="skysail.server.logging.startup.logvalidator">
    <implementation class="de.twenty11.skysail.logging.startup.internal.ServiceProvider"/>
    <service>
-      <provide interface="de.twenty11.skysail.server.servicedefinitions.LogValidationInputProvider"/>
+      <provide interface="de.twenty11.skysail.server.serviceprovider.LogValidationInputProvider"/>
    </service>
 </scr:component>
