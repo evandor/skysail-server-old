@@ -40,6 +40,19 @@
 					</instructions>
 				</configuration>
 			</plugin>
+			<!-- <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.12</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin> -->
 		</plugins>
 	</build>
 
@@ -48,7 +61,7 @@
 		<dependency>
 			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.server.servicedefinitions</artifactId>
-			<version>[0.1.1,0.2)</version>
+			<version>0.1.1</version>
 			<type>bundle</type>
 		</dependency>
 		<dependency>
@@ -84,6 +97,12 @@
 			<artifactId>pax-url-aether</artifactId>
 			<version>${url.version}</version>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ops4j.pax.tinybundles</groupId>
+			<artifactId>tinybundles</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>

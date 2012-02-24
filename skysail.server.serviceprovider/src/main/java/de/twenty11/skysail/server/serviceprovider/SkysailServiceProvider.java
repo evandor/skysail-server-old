@@ -14,9 +14,11 @@
  *  limitations under the License.
  * 
  */
-package de.twenty11.skysail.server.servicedefinitions;
+package de.twenty11.skysail.server.serviceprovider;
 
 import org.osgi.service.component.ComponentContext;
+
+import de.twenty11.skysail.server.servicedefinitions.ConfigService;
 
 
 
