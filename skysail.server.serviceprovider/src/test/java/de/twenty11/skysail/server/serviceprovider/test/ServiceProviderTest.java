@@ -87,8 +87,8 @@ public class ServiceProviderTest {
 
     @Test
     public void checkConfigServiceExists() {
-        logger.error("testing testing");
         ServiceReference serviceReference = context.getServiceReference(ConfigService.class.getName());
+        logger.debug("found serviceReference {}", serviceReference);
         Object service = context.getService(serviceReference);
         assertTrue(service != null);
         assertTrue(service instanceof ConfigService);
