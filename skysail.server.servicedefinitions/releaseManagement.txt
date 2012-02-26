@@ -1,9 +1,0 @@
-issues with release plugin: have to release this locally like
-
-cd ~/git/skysail-server/skysail.server.servicedefinitions
-
-optional: mvn3 dependency:analyze
-
-mvn3 clean install
-mvn3 -Dresume=false release:prepare -Ddependency.locations.enabled=false
-mvn3 release:perform -Ddependency.locations.enabled=false
