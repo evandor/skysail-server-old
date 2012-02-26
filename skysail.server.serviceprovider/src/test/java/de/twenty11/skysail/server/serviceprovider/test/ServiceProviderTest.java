@@ -72,7 +72,7 @@ public class ServiceProviderTest {
                 junitBundles(),
                 systemProperty("osgi.console").value("6666"),
                 equinox().version("3.6.2")
-                //,bootDelegationPackage("app")
+                ,bootDelegationPackage("app")
         );
         // @formatter:on
     }
