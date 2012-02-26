@@ -79,6 +79,8 @@ public class ServiceProviderTest {
                 mavenBundle("org.eclipse.equinox","org.eclipse.equinox.util","1.0.200"),
                 junitBundles(),
                 systemProperty("osgi.console").value("6666"),
+                systemProperty("equinox.ds.debug").value("true"),
+                systemProperty("equinox.ds.print").value("true"),
                 equinox().version("3.6.2")
                 
         );
