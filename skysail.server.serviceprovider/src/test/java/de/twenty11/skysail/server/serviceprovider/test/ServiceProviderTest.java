@@ -18,6 +18,7 @@
 package de.twenty11.skysail.server.serviceprovider.test;
 
 import static org.junit.Assert.assertTrue;
+import static org.ops4j.pax.exam.CoreOptions.cleanCaches;
 import static org.ops4j.pax.exam.CoreOptions.equinox;
 import static org.ops4j.pax.exam.CoreOptions.junitBundles;
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
@@ -60,9 +61,11 @@ public class ServiceProviderTest {
 
         // @formatter:off
         return options(
+                bootDelegationPackage( "sun.*" ),
+                cleanCaches(),
                 provision(bundleUnderTest),
-                mavenBundle("ch.qos.logback","logback-core","0.9.29"),
-                mavenBundle("ch.qos.logback","skysail.bundles.logback-classic","0.9.29"),
+                //mavenBundle("ch.qos.logback","logback-core","0.9.29"),
+                //mavenBundle("ch.qos.logback","skysail.bundles.logback-classic","0.9.29"),
                 //mavenBundle("org.slf4j","slf4j-api","1.6.3"),
                 mavenBundle("de.twenty11.skysail","skysail.server.servicedefinitions","0.1.1"),
                 mavenBundle("de.twenty11.skysail","skysail.server.configuration.byPropertiesService","0.0.5-SNAPSHOT"),
@@ -72,7 +75,7 @@ public class ServiceProviderTest {
                 junitBundles(),
                 systemProperty("osgi.console").value("6666"),
                 equinox().version("3.6.2")
-                ,bootDelegationPackage("app")
+                
         );
         // @formatter:on
     }
