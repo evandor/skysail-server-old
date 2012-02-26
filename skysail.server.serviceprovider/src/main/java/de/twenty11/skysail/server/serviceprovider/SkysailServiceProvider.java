@@ -17,6 +17,8 @@
 package de.twenty11.skysail.server.serviceprovider;
 
 import org.osgi.service.component.ComponentContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.server.servicedefinitions.ConfigService;
 
@@ -30,6 +32,9 @@ import de.twenty11.skysail.server.servicedefinitions.ConfigService;
  */
 public abstract class SkysailServiceProvider {
 
+    /** slf4j based logging implementation. */
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+    
     /** the skysail config service. */
     private ConfigService configService;
     
@@ -47,6 +52,7 @@ public abstract class SkysailServiceProvider {
     protected abstract void deactivate(ComponentContext ctxt);
 
     public void setConfigService(final ConfigService service) {
+        logger.info("skysail service provider: ConfigService set to {}", service);
         configService = service;
     }
     
@@ -55,6 +61,7 @@ public abstract class SkysailServiceProvider {
      * @param service 
      */
     public void unsetConfigService(final ConfigService service) {
+        logger.info("skysail service provider: ConfigService unset");
         configService = null;
     }
     
