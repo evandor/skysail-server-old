@@ -50,11 +50,11 @@ public class PaxTest {
     public final Option[] config() {
         // @formatter:off
         return options(
-                mavenBundle("de.twenty11.skysail", "skysail.server.logging.startup",    "0.0.4-SNAPSHOT"),
-                mavenBundle("de.twenty11.skysail", "skysail.server.servicedefinitions", "0.1.1-SNAPSHOT"),
+                //mavenBundle("de.twenty11.skysail", "skysail.server.logging.startup",    "0.0.4-SNAPSHOT"),
+                //mavenBundle("de.twenty11.skysail", "skysail.server.servicedefinitions", "0.1.1-SNAPSHOT"),
                 mavenBundle("ch.qos.logback",      "logback-core",                      "0.9.29"),
                 mavenBundle("ch.qos.logback",      "skysail.bundles.logback-classic",   "0.9.29"),
-                mavenBundle("osgi.enterprise",     "osgi.enterprise",                   "4.2.0.201003190513"),
+                //mavenBundle("osgi.enterprise",     "osgi.enterprise",                   "4.2.0.201003190513"),
                 mavenBundle("org.eclipse.equinox", "org.eclipse.equinox.ds",            "1.2.1"),
                 mavenBundle("org.eclipse.equinox", "org.eclipse.equinox.util",          "1.0.200"),
                 junitBundles(),
