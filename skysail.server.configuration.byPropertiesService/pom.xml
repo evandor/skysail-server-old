@@ -42,7 +42,7 @@
 		<dependency>
 			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.server</artifactId>
-			<version>[0.1.8-SNAPSHOT,0.2)</version>
+			<version>[0.1.10,0.2)</version>
 		</dependency>
 	</dependencies>
 
