@@ -16,9 +16,12 @@
 	<packaging>bundle</packaging>
 
 	<scm>
+		<!-- read access -->
 		<connection>scm:git:git@github.com:evandor/skysail-server.git</connection>
-		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
+		<!-- write access -->
 		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
+		<!-- A publicly browsable repository. For example, via ViewCVS. -->
+		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
 	</scm>
 
 	<build>
