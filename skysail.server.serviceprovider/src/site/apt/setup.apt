@@ -1,0 +1,55 @@
+  -----
+ skysail Server: DbViewer
+ -----
+ evandor
+ -----
+ January 2011
+ 
+skysail Server Restlet
+
+
+ This page describes the steps needed to setup skysail server as a developer
+
+* Prerequisites
+
+ Java (1.6 preferred)
+ 
+ Eclipse (Helios preferred) with 
+ 
+ SVN plugin 
+ 
+ m2eclipse (update site http://m2eclipse.sonatype.org/sites/m2e)
+
+ if you dont have the JEE Edition:
+   all JST projects and "wst server adapters" ("install new software, all available sites...) 
+   3.2.2 of http://download.eclipse.org/webtools/repository/helios/
+ 	
+ local Tomcat(or other container) installation 
+
+* Steps
+
+** get the code
+
+ to do
+
+** check the code
+
+ to do
+ 
+** prepare the database
+
+ to do
+
+** run tomcat
+
+ to do
+ 
+** testing the installation
+
+ to do
+ 
+
+  
+ 
+
+ 
