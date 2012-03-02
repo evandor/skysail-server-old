@@ -45,7 +45,6 @@
 			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.server</artifactId>
 			<version>[0.1.10,0.2)</version>
-			<type>bundle</type>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
