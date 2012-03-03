@@ -33,6 +33,8 @@ import de.twenty11.skysail.server.servicedefinitions.ConfigService;
  */
 public class Configuration implements ConfigService {
     
+    private static final String DEFAULT_CONF_LOCATION = "./conf/skysail.properties";
+
     /**slf4j based logging implementation. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -40,7 +42,14 @@ public class Configuration implements ConfigService {
     private Properties props = new Properties();
 
     public Configuration() throws FileNotFoundException, IOException {
-        File propFile = new File("./conf/skysail.properties");
+        String confLocation = Configuration.DEFAULT_CONF_LOCATION;
+        // 1. try system property // TODO constants
+        String locationFromSystemProperty = System.getProperty("skysail.conf"); 
+        logger.info("checking system property 'skysail.conf', found value {}", locationFromSystemProperty);
+        if (locationFromSystemProperty != null) {
+            confLocation = locationFromSystemProperty;
+        }
+        File propFile = new File(confLocation);
         logger.info("trying to load the configuration from file '{}'", propFile.getAbsolutePath());
         props.load(new FileReader(propFile));
     }
