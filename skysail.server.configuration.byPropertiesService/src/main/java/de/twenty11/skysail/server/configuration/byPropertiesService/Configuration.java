@@ -44,10 +44,10 @@ public class Configuration implements ConfigService {
     public Configuration() throws FileNotFoundException, IOException {
         String confLocation = Configuration.DEFAULT_CONF_LOCATION;
         // 1. try system property // TODO constants
-        String locationFromSystemProperty = System.getProperty("skysail.conf"); 
-        logger.info("checking system property 'skysail.conf', found value {}", locationFromSystemProperty);
+        String locationFromSystemProperty = System.getProperty("skysail.confDir"); 
+        logger.info("checking system property 'skysail.confDir', found value {}", locationFromSystemProperty);
         if (locationFromSystemProperty != null) {
-            confLocation = locationFromSystemProperty;
+            confLocation = locationFromSystemProperty + "/skysail.properties";
         }
         File propFile = new File(confLocation);
         logger.info("trying to load the configuration from file '{}'", propFile.getAbsolutePath());
