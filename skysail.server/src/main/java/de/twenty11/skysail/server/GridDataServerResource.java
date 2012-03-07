@@ -19,7 +19,6 @@ package de.twenty11.skysail.server;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -27,9 +26,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.ColumnSortOrderComparator;
+import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.grids.ColumnDefinition;
+import de.twenty11.skysail.common.grids.ColumnsBuilder;
 import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.common.messages.GridData;
+import de.twenty11.skysail.common.responses.SkysailResponse;
+import de.twenty11.skysail.server.internal.ConfigServiceProvider;
+import de.twenty11.skysail.server.servicedefinitions.ConfigService;
 
 /**
  * An abstract class dealing with common functionality for a skysail server
@@ -43,6 +47,16 @@ public abstract class GridDataServerResource extends SkysailServerResource<GridD
     /** slf4j based logger implementation. */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private Filter filter;
+    
+    private String sortingRepresentation;
+
+    private Integer currentPage = 1;
+
+    private Integer pageSize;
+
+    private int totalResults;
+
     /**
      * @param data
      *            the skysail data backing up the resource.
@@ -51,13 +65,53 @@ public abstract class GridDataServerResource extends SkysailServerResource<GridD
         super(data);
     }
 
-    @Override
+    public abstract void filterData();
+    
+    public abstract void configureColumns(ColumnsBuilder builder);
+
     public int handlePagination() {
         return doHandlePagination("skysail.server.osgi.bundles.entriesPerPage", 15);
     }
+    
+    /**
+     * Implementors of this class have to provide skysailData which will be used to create
+     * a restlet representation. Which type of representation (json, xml, ...) will
+     * be returned depends on the request details.
+     * 
+     * @return Type extending SkysailData
+     *
+     */
+    public final GridData getData() {
+        
+        // define the columns for the result (for grids and assign to grid)
+        ColumnsBuilder columnsBuilder = new ColumnsBuilder(getQuery().getValuesMap()) {
+            @Override
+            public void configure() {
+                configureColumns(this);
+            }
+        };
+        if (getSkysailData() instanceof GridData) {
+            ((GridData)getSkysailData()).setColumnsBuilder(columnsBuilder);
+        }
+
+        // get the data, applying the current filter
+        filterData();
+        
+        // sort the results
+        sort();
+        
+        // handle Page size and pagination
+        int pageSize = handlePagination();
+        setPageSize(pageSize);
+        // how many results do we have (all pages)
+        setTotalResults(getSkysailData().getSize());
+        
+        // get results for current page
+        return currentPageResults(pageSize);
+    }
+
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    @Override
     public GridData currentPageResults(final int pageSize) {
         GridData grid = getSkysailData();
         int max = Math.min(grid.getSize(), (getCurrentPage() * pageSize));
@@ -65,7 +119,7 @@ public abstract class GridDataServerResource extends SkysailServerResource<GridD
         for (int j = grid.getSize() - 1; j > max; j--) {
             grid.removeRow(j);
         }
-        for (int j = ((getCurrentPage() - 1) * pageSize); j >= 0; j--) {
+        for (int j = ((getCurrentPage() - 1) * pageSize)-1; j >= 0; j--) {
             grid.removeRow(j);
         }
         return grid;
@@ -188,6 +242,79 @@ public abstract class GridDataServerResource extends SkysailServerResource<GridD
             return null;
         }
  
+    }
+    
+    public void setResponseDetails(SkysailResponse<GridData> response) {
+        response.setMessage(getMessage());
+        response.setTotalResults(getTotalResults());
+        response.setPage(getCurrentPage());
+        response.setPageSize(getPageSize());
+        response.setOrigRequest(getRequest().getOriginalRef().toUrl());
+        response.setRequest(getRequest().getOriginalRef().toUrl());
+        response.setParent(getParent());
+        response.setContextPath("/rest/");
+        response.setFilter(getFilter() != null ? getFilter().toString() : "");
+        response.setSortingRepresentation(getSorting());
+        if (getQuery() != null && getQuery().getNames().contains("debug")) {
+            response.setDebug(true);
+        }
+    }
+
+    protected int doHandlePagination(String configIdentifier, int defaultSize) {
+        int pageSize = 20;
+        String firstValue = getQuery().getFirstValue("page", "1");
+        int page = Integer.parseInt(firstValue);
+        setCurrentPage(page);
+        
+        ConfigService configService = ConfigServiceProvider.getConfigService();
+        String pageSizeFromProperties = configService.getString(configIdentifier);
+        if (pageSizeFromProperties != null && pageSizeFromProperties.trim().length() > 0) {
+            pageSize = Integer.parseInt(pageSizeFromProperties);
+        } else {
+            pageSize = defaultSize;
+        }
+        
+        return pageSize;
+    }
+    
+    public Filter getFilter() {
+        return filter;
+    }
+    
+    public void setFilter(Filter filter) {
+        this.filter = filter;
+    }
+    
+    public void setSorting(String str) {
+        sortingRepresentation = str;
+    }
+    
+    private String getSorting () {
+        return sortingRepresentation != null ? sortingRepresentation : "";
+    }
+
+    protected Integer getPageSize() {
+        return this.pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+    
+    protected Integer getCurrentPage() {
+        return this.currentPage;
+    }
+    
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    protected void setTotalResults(int length) {
+        this.totalResults = length;        
+    }
+    
+    public int getTotalResults() {
+        return totalResults;
     }
 
 }
