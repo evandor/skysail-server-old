@@ -43,11 +43,11 @@
               </#list>
               </td>
               <#elseif columnData_index == 2>
-                <td><img src="${contextPath}static/img/bundle.gif" align="top">&nbsp;${columnData}</td>
+                <td><img src="${contextPath}static/img/bundle.gif" align="top">&nbsp;<a href="../bundles/${columns[0]}/">${columnData}</a></td>
               <#elseif columnData_index == 3>
                 <td>${columnData}</td>
               <#elseif columnData_index == 4>
-                   <td>${columnData?replace(";","<br>\n")}</td>
+                   <td>${columnData?replace(";","<br>\n")?replace("\\[(.)*\\]","[<a href='../bundles/${columns[0]}/'>${columns[0]}</a>]","r")}</td>
               <#else>
                 
               </#if>

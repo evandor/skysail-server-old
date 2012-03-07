@@ -1,69 +1,71 @@
 <#include "skysail.server.osgi.bundles:head.ftl">
 <body>
-  <#include "skysail.server:header.ftl">
+
+  <#include "skysail.server:navigation.ftl">
   <div id="container">
+    <#assign info = "List of all available Packages (found ${totalResults})" />
     <#include "skysail.server.osgi.bundles:title.ftl">
 	
-	<h3>${message} - ${totalResults} hits</h3>
 	
 
-	<h3>Data</h3>
-	
-	<#include "skysail.server:debug.ftl">
 	
 	<#list data as component>
 	  
 	  <#if component.class.simpleName == "GridData">
-		<#assign columns = component.columns>
+        <#assign gridColumns = component.columns>
+        
 		<form action="#">
 		<table>
-		<tr>
-		  <#list columns as column>
-			<th>${column.columnName}</th>  
-		  </#list>
-		  <th>Packages</th>
-		</tr>
-		<tr>
-		  <#list columns as column>
-			<td>
-			<#if column.columnName == "Package">
-			<input type="text" name="filterPackage" value="" />
-			<input type="submit" value="filter"/>
-			</#if>
-			</td>  
-		  </#list>
-		  <td>&nbsp;</td>
-		</tr>
-	    <#list component.gridData as row>
-		  <#assign columns = row.columnData>
-		  <tr>
-		    <#list columns as columnData>
-			<td>
-			  <#if columnData_index == 0>
-				  <img src="${contextPath}static/img/package.gif">&nbsp;<b>${columnData}</b>
-			  <#elseif columnData_index == 2>
-			      <#assign bundle = columnData?split(" ") />
-			      <#if (bundle?size > 1)>
-				      <#assign bundleId = bundle[2] />
-				      <a href='../bundles/${bundleId}/'>${columnData}</a>
-				  <#else>
-					<img src="${contextPath}static/img/bundle.gif">&nbsp;${columnData}
-				  </#if>
-			  <#elseif columnData_index == 3>
-			      ${columnData?replace(";","<br>\n")}
-			  <#else>
-				  ${columnData}
-			  </#if>
-			</td>
-			</#list>
-		  </tr>  
-		</#list>
-		
+        <#include "skysail.server.osgi.bundles:caption.ftl">
+        <#include "skysail.server.osgi.bundles:colgroup.ftl">
+        <#include "skysail.server.osgi.bundles:thead.ftl">
+        <#include "skysail.server.osgi.bundles:tfoot.ftl">
+
+        <tbody>
+
+        <#include "skysail.server.osgi.bundles:search.ftl">
+
+        <#assign counter = 0 />
+        <#list component.gridData as row>
+          <#assign columns = row.columnData>
+          <#assign counter = counter + 1 />
+          <#if (counter % 2 == 1)>
+            <tr>
+          <#else>
+            <tr class="odd" />
+          </#if>
+            
+          <#list columns as columnData>
+            <#if columnData_index == 0>
+               <td><img src="${contextPath}static/img/package.gif" align="top">${columnData}</td>
+            <#elseif columnData_index == 1>
+              <td>
+              <#list columnData?split(",") as links>
+                <img src="${contextPath}static/img/service.gif" align="top">&nbsp;<a href="${columns[0]}/">${links}</a></br>
+              </#list>
+              </td>
+              <#elseif columnData_index == 2>
+                <td><img src="${contextPath}static/img/bundle.gif" align="top">&nbsp;${columnData}</td>
+              <#elseif columnData_index == 3>
+                <td>${columnData}</td>
+              <#elseif columnData_index == 4>
+                   <td>${columnData?replace(";","<br>\n")}</td>
+              <#else>
+                
+              </#if>
+            </#list>
+            <td>to be done</td>
+          </tr>  
+        </#list>
+ 		
 		</table>  
 		</form>
 	  </#if>  
 	
 	</#list>
+    
+    
+    <#include "skysail.server:debug.ftl">
   </div>
 
 </body>

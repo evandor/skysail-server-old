@@ -4,12 +4,8 @@
   <#include "skysail.server:navigation.ftl">
 
   <div id="container">
-    <#assign info = "List of all available Services" />
+    <#assign info = "List of all available Bundles (found ${totalResults})" />
     <#include "skysail.server.osgi.bundles:title.ftl">
-	
-	<div id="fsi"><h2>
-		<span>&nbsp;&nbsp;total of ${totalResults} hits for your query, showing page ${page}</span></h2>
-    </div>
 	
 	<#list data as component>
 	  
@@ -24,20 +20,9 @@
 		<#include "skysail.server.osgi.bundles:tfoot.ftl">
 
 		<tbody>
-		<tr>
-		  <td class="search">
-			<input type="text" name="id" value='<#if gridColumns["id"]??>${gridColumns["id"].filterValue}</#if>' />
-		  </td>
-		  <td class="search">
-			<input type="text" name="f_ImplementingBundle" value='<#if gridColumns["implementingBundle"]??>${gridColumns["implementingBundle"].filterValue}</#if>' />
-		  </td>  
-		  <td class="search">
-			<input type="text" name="f_UsingBundle" value='<#if gridColumns["serviceName"]??>${gridColumns["serviceName"].filterValue}</#if>' />
-		  </td>  
-		   <td class="search">
-			<input type="submit" value="Search"/>
-		  </td>  
-		</tr>
+
+        <#include "skysail.server.osgi.bundles:search.ftl">
+
 		<#assign counter = 0 />
 	    <#list component.gridData as row>
 		  <#assign columns = row.columnData>
@@ -52,7 +37,7 @@
 		    <#if columnData_index == 0>
 			  <td>${columnData}</td>
 		    <#elseif columnData_index == 1>
-			  <td><a href='/bundles/${columns[0]}/'>${columnData}</a></td>
+			  <td><a href='/rest/bundles/${columns[0]}/'>${columnData}</a></td>
 			<#elseif columnData_index == 2>
 		        <td><img src="${contextPath}static/img/bundle.gif">&nbsp;${columnData}</td>
 			<#elseif columnData_index == 3>
@@ -71,7 +56,6 @@
 	  </#if>  
 	
 	</#list>
-  </div>
 
   <#include "skysail.server:debug.ftl">
 

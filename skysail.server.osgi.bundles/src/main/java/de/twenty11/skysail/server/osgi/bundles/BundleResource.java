@@ -5,83 +5,46 @@ import java.util.List;
 
 import org.osgi.framework.Bundle;
 
-import de.twenty11.skysail.common.grids.ColumnsBuilder;
-import de.twenty11.skysail.common.grids.RowData;
-import de.twenty11.skysail.common.messages.GridData;
-import de.twenty11.skysail.server.SkysailServerResource;
+import de.twenty11.skysail.common.forms.FieldType;
+import de.twenty11.skysail.common.forms.FormBuilder;
+import de.twenty11.skysail.common.messages.FormData;
+import de.twenty11.skysail.server.FormDataServerResource;
 import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
 
-public class BundleResource extends SkysailServerResource<GridData> {
+public class BundleResource extends FormDataServerResource {
 
     /** slf4j based logger implementation */
-    //private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    // private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public BundleResource() {
-        super(new GridData());
+        super(null);
         setTemplate("skysail.server.osgi.bundles:bundle.ftl");
     }
 
     @Override
-    public void configureColumns(ColumnsBuilder builder) {
-//        data.setColumnsBuilder(new ColumnsBuilder(getQuery().getValuesMap()) {
-//            @Override
-//            public void configure() {
-//                addColumn("Key").addColumn("Value");
-//            }
-//        });
-    }
-    @Override
-    public void sort() {
-        // TODO Auto-generated method stub
-        
-    }
-
-//    @Override
-//    public List<?> getFilteredData() {
-//        String bundleId = (String) getRequest().getAttributes().get(Constants.BUNDLE_ID);
-//        Bundle bundle = Bundles.getInstance().getBundle(Long.parseLong(bundleId));
-//        List<Bundle> result = new ArrayList<Bundle>();
-//        result.add(bundle);
-//        return result;
-//    }
-
-    @Override
-    public int handlePagination() {
-        // TODO Auto-generated method stub
-        return 15;
-    }
-
-//    @Override
-//    public GridData currentPageResults(List<?> filterResults, int pageSize) {
-//        GridData grid = getSkysailData();
-//        Bundle bundle = (Bundle)filterResults.get(0);
-//        addRow(grid, "id", Long.toString(bundle.getBundleId()));
-//        addRow(grid, "state", Bundles.translateStatus(bundle.getState()));
-//        addRow(grid, "lastModified", Long.toString(bundle.getLastModified()));
-//        addRow(grid, "version", bundle.getVersion().toString());
-//        addRow(grid, "location", bundle.getLocation());
-//        return grid;
-//    }
-
-    private void addRow(GridData grid, String key, Object value) {
-        RowData rowData = new RowData();
-        List<Object> columnData = new ArrayList<Object>();
-        columnData.add(key);
-        columnData.add(value);
-        rowData.setColumnData(columnData );
-        grid.addRowData(rowData);
+    public FormData fillForm(FormData formData) {
+        String bundleId = (String) getRequest().getAttributes().get(Constants.BUNDLE_ID);
+        Bundle bundle = Bundles.getInstance().getBundle(Long.parseLong(bundleId));
+        formData.set("id", Long.toString(bundle.getBundleId()));
+        formData.set("name", bundle.getSymbolicName());
+        formData.set("state", new Integer(bundle.getState()).toString());
+        formData.set("lastModified", new Long(bundle.getLastModified()).toString());
+        formData.set("version", bundle.getVersion().toString());
+        formData.set("location", bundle.getLocation());
+        return formData;
     }
 
     @Override
-    public void filterData() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public GridData currentPageResults(int pageSize) {
-        // TODO Auto-generated method stub
-        return null;
+    public void configureForm(FormBuilder builder) {
+        // @formatter:off
+        builder.addField("id",FieldType.TEXT)
+        .addField("name", FieldType.TEXT)
+        .addField("state", FieldType.TEXT)
+        .addField("lastModified",  FieldType.TEXT)
+        .addField("version",  FieldType.TEXT)
+        .addField("location",  FieldType.TEXT)
+        ;
+        // @formatter:on
     }
 
 }

@@ -30,7 +30,7 @@ public class Bundles {
         return SingletonHolder.instance;
     }
 
-    public List<?> getBundles() {
+    public List<Bundle> getBundles() {
         Bundle[] bundles = bundleContext.getBundles();
         return Arrays.asList(bundles);
     }

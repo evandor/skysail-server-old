@@ -3,17 +3,17 @@
 
 <#include "skysail.server:navigation.ftl">
   <div id="container">
-    <#assign info = "List of all available Services" />
+    <#assign info = "Bundle Details" />
     <#include "skysail.server.osgi.bundles:title.ftl">
 
   <#list data as component>
   
-  	  <#if component.class.simpleName == "GridData">
-		<#assign gridColumns = component.columns>
+  	  <#if component.class.simpleName == "FormData">
+		<#assign entries = component.getFields() />
 		
         <form action="#">
 		<table>
-		<#include "skysail.server.osgi.bundles:caption.ftl">
+		
 		<thead>
 		  <tr>
 			<th scope="col" width="400px">Key</th>  
@@ -29,22 +29,15 @@
 
 		<tbody>
 		<#assign counter = 0 />
-	    <#list component.gridData as row>
-		  <#assign columns = row.columnData>
+	    <#list entries?keys as key>
+	      <#assign field = entries[key] />
 		  <#assign counter = counter + 1 />
 		  <#if (counter % 2 == 1)>
 		    <tr>
 		  <#else>
 		    <tr class="odd" />
 		  </#if>
-		    
-		  <#list columns as columnData>
-		    <#if columnData_index == 0>
-			  <th>${columnData}</th>
-		    <#elseif columnData_index == 1>
-			  <td>${columnData}</td>
-  		    </#if>
-			</#list>
+            <td>${key}</td><td>${field}</td>
 		  </tr>  
 		</#list>
 		</tbody>
