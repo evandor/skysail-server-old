@@ -3,6 +3,7 @@ package de.twenty11.skysail.server.listener;
 import java.util.Map;
 
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;
@@ -49,6 +50,10 @@ public class UrlMappingServiceListener implements ServiceListener {
 
     private boolean addBundleName;
 
+    public UrlMappingServiceListener(final RestletOsgiApplication restletApp) {
+        this(FrameworkUtil.getBundle(RestletOsgiApplication.class).getBundleContext(), restletApp, false);
+    }
+    
     /**
      * Constructor which needs the bundleContext and the RestletOsgiApplication.
      * 

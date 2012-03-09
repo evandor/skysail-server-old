@@ -1,8 +1,13 @@
  <<0.1.13 (March 2012)>>
 
   * starting FormDataServerResource
+  
   * starting versioning of de.twenty11.skysail.server, setting to 0.1.0
+  
   * min dependency on skysail common now 0.2.7(SNAPSHOT)
+  
+  * new constructor without bundleContext "public UrlMappingServiceListener(final RestletOsgiApplication restletApp)"
+  
 
  <<0.1.10-12 (Feb. 2012)>>
 

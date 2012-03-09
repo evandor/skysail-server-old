@@ -13,7 +13,7 @@ Export-Package: de.twenty11.skysail.server;version="0.1.0",\
  de.twenty11.skysail.server.listener,\
  de.twenty11.skysail.server.security 
 Bundle-Activator: de.twenty11.skysail.server.internal.Activator
-FtlTemplates: /freemarker/ftls/
+FtlTemplates: /freemarker/
 Bundle-SymbolicName: skysail.server
 Include-Resource: {maven-resources}
 Service-Component: OSGI-INF/*.xml
