@@ -1,3 +1,11 @@
+ <<0.1.5 (March 2012)>>
+ 
+  * fix in dependency type
+  
+  * Import-Package: de.twenty11.skysail.server.servicedefinitions;version="[0.2.0, 0.3.0)",\
+
+  * fixed test
+    
  <<0.1.4 (Feb. 2012)>>
  
   * fix in dependency type
