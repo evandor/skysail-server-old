@@ -14,10 +14,10 @@
 		
 		<form action="#">
 		<table>
-		<#include "skysail.server.osgi.bundles:caption.ftl">
-		<#include "skysail.server.osgi.bundles:colgroup.ftl">
-		<#include "skysail.server.osgi.bundles:thead.ftl">
-		<#include "skysail.server.osgi.bundles:tfoot.ftl">
+        <#include "skysail.server:grid/caption.ftl">
+        <#include "skysail.server:grid/colgroup.ftl">
+        <#include "skysail.server:grid/thead.ftl">
+        <#include "skysail.server:grid/tfoot.ftl">
 
 		<tbody>
 
@@ -37,7 +37,7 @@
 		    <#if columnData_index == 0>
 			  <td>${columnData}</td>
 		    <#elseif columnData_index == 1>
-			  <td><a href='/rest/bundles/${columns[0]}/'>${columnData}</a></td>
+			  <td><a href='${columns[0]}/'>${columnData}</a></td>
 			<#elseif columnData_index == 2>
 		        <td><img src="${contextPath}static/img/bundle.gif">&nbsp;${columnData}</td>
 			<#elseif columnData_index == 3>

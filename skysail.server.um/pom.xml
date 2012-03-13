@@ -42,20 +42,19 @@
 		<dependency>
 			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.server</artifactId>
-			<version>[0.1.8-SNAPSHOT, 0.2)</version>
+			<version>[0.1.11, 0.2)</version>
 		</dependency>
 
         <dependency>
             <groupId>de.twenty11.skysail</groupId>
             <artifactId>skysail.server.servicedefinitions</artifactId>
-            <version>[0.1.0-SNAPSHOT, 0.2)</version>
+            <version>[0.1.2, 0.2)</version>
         </dependency>
 
         <dependency>
         	<groupId>de.twenty11.skysail</groupId>
         	<artifactId>skysail.server.eclipselink</artifactId>
-        	<version>0.0.1-SNAPSHOT</version>
-        	<type>bundle</type>
+        	<version>0.0.2</version>
         </dependency>
 	</dependencies>
 

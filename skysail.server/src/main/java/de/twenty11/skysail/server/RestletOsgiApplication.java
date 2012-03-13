@@ -88,6 +88,7 @@ public class RestletOsgiApplication extends Application {
         return blocker;
     }
 
+    // TODO make abstract
     protected void attach() {
     }
 

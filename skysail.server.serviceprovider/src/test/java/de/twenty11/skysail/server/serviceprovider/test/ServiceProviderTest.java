@@ -26,6 +26,7 @@ import static org.ops4j.pax.exam.CoreOptions.options;
 import static org.ops4j.pax.exam.CoreOptions.provision;
 import static org.ops4j.pax.exam.CoreOptions.systemProperty;
 import static org.ops4j.pax.exam.CoreOptions.bootDelegationPackage;
+import static org.ops4j.pax.exam.CoreOptions.vmOption;
 import static org.ops4j.pax.tinybundles.core.TinyBundles.bundle;
 
 import java.io.InputStream;
@@ -47,6 +48,8 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.server.servicedefinitions.ConfigService;
 import de.twenty11.skysail.server.serviceprovider.SkysailServiceProvider;
 
+import static org.ops4j.pax.tinybundles.core.TinyBundles.*;
+
 @RunWith(JUnit4TestRunner.class)
 public class ServiceProviderTest {
 
@@ -62,7 +65,10 @@ public class ServiceProviderTest {
         InputStream bundleUnderTest = bundle().add(SkysailServiceProvider.class)
                         .set(Constants.BUNDLE_SYMBOLICNAME, "skysail.server.serviceprovider")
                         .set(Constants.EXPORT_PACKAGE, "de.twenty11.skysail.server.serviceprovider")
-                        .set(Constants.IMPORT_PACKAGE, "org.osgi.service.component;version=\"[1.1,2)\"").build();
+                        .set(Constants.DYNAMICIMPORT_PACKAGE, "*")
+                        .set(Constants.IMPORT_PACKAGE, 
+                                "de.twenty11.skysail.server.servicedefinitions;version=\"[0.2.0, 0.3.0)\"")
+                        .build();
 
         // @formatter:off
         return options(
@@ -72,12 +78,14 @@ public class ServiceProviderTest {
                 //mavenBundle("ch.qos.logback","logback-core","0.9.29"),
                 //mavenBundle("ch.qos.logback","skysail.bundles.logback-classic","0.9.29"),
                 //mavenBundle("org.slf4j","slf4j-api","1.6.3"),
-                mavenBundle("de.twenty11.skysail","skysail.server.servicedefinitions","0.1.2"),
-                mavenBundle("de.twenty11.skysail","skysail.server.configuration.byPropertiesService","0.0.5-SNAPSHOT"),
+                mavenBundle("de.twenty11.skysail","skysail.common","0.2.7-SNAPSHOT"),
+                mavenBundle("de.twenty11.skysail","skysail.server.servicedefinitions","0.1.3-SNAPSHOT"),
+                mavenBundle("de.twenty11.skysail","skysail.server.configuration.byPropertiesService","0.0.7-SNAPSHOT"),
                 //mavenBundle("osgi.enterprise","osgi.enterprise","4.2.0.201003190513"),
                 mavenBundle("org.eclipse.equinox","org.eclipse.equinox.ds","1.2.1"),
                 mavenBundle("org.eclipse.equinox","org.eclipse.equinox.util","1.0.200"),
                 junitBundles(),
+                vmOption("-consoleLog"),
                 systemProperty("osgi.console").value("6666"),
                 systemProperty("equinox.ds.debug").value("true"),
                 systemProperty("equinox.ds.print").value("true"),

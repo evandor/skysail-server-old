@@ -1,5 +1,5 @@
 Import-Package: *
 Bundle-SymbolicName: skysail.server.servicedefinitions
 Include-Resource: {maven-resources}
-Export-Package: de.twenty11.skysail.server.servicedefinitions;version="0.1.0"
+Export-Package: de.twenty11.skysail.server.servicedefinitions;version="0.2.0"
 

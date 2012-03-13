@@ -16,10 +16,10 @@
         
 		<form action="#">
 		<table>
-        <#include "skysail.server.osgi.bundles:caption.ftl">
-        <#include "skysail.server.osgi.bundles:colgroup.ftl">
-        <#include "skysail.server.osgi.bundles:thead.ftl">
-        <#include "skysail.server.osgi.bundles:tfoot.ftl">
+        <#include "skysail.server:grid/caption.ftl">
+        <#include "skysail.server:grid/colgroup.ftl">
+        <#include "skysail.server:grid/thead.ftl">
+        <#include "skysail.server:grid/tfoot.ftl">
 
         <tbody>
 

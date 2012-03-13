@@ -28,17 +28,17 @@ public class BundlesUrlMapper implements UrlMapper {
         Map<String, String> queue = Collections.synchronizedMap(new LinkedHashMap<String, String>());
 
         // @formatter:off
-        queue.put("/bundles/",                              BundlesResource.class.getName());
-        queue.put("/bundles/{bundleId}/",                   BundleResource.class.getName());
+        queue.put("/osgi/bundles/",                              BundlesResource.class.getName());
+        queue.put("/osgi/bundles/{bundleId}/",                   BundleResource.class.getName());
 //        queue.put("/bundles/{bundleId}/bundleHeader/",      BundleHeaderResource.class.getName());
 //        queue.put("/bundles/{bundleId}/importedPackages/",  ImportedPackagesResource.class.getName());
 //        queue.put("/bundles/{bundleId}/exportedPackages/",  ExportedPackagesResource.class.getName());
 //        queue.put("/bundles/{bundleId}/registeredService/", RegisteredServicesResource.class.getName());
 //        queue.put("/bundles/consumedServices/",             ConsumedServicesResource.class.getName());
 
-        queue.put("/packages/",                             PackagesResource.class.getName());
+        queue.put("/osgi/packages/",                             PackagesResource.class.getName());
 
-        queue.put("/services/",                             ServicesResource.class.getName());
+        queue.put("/osgi/services/",                             ServicesResource.class.getName());
 //        queue.put("/services/{serviceId}/",                 ServiceDetailsResource.class.getName());
 
         // This needs dependency on equinox.ds, should be put in a bundle of its
