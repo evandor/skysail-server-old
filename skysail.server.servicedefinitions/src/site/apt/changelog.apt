@@ -1,6 +1,8 @@
  <<0.1.3 (March 2012)>>
  
   * Adding ApplicationService
+  
+  * Export-Package: de.twenty11.skysail.server.servicedefinitions;version="0.2.0"
 
  <<0.1.2 (Feb. 2012)>>
  
