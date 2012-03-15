@@ -54,7 +54,7 @@ public abstract class FormDataServerResource extends SkysailServerResource<FormD
     public FormData getData() {
         
         // define the columns for the result (for grids and assign to grid)
-        FormBuilder formBuilder = new FormBuilder(getQuery().getValuesMap()) {
+        FormBuilder formBuilder = new FormBuilder() {
             @Override
             public void configure() {
                 configureForm(this);
