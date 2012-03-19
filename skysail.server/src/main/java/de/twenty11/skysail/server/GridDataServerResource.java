@@ -36,13 +36,16 @@ import de.twenty11.skysail.server.internal.ConfigServiceProvider;
 import de.twenty11.skysail.server.servicedefinitions.ConfigService;
 
 /**
- * An abstract class dealing with common functionality for a skysail server
+ * An class dealing with common functionality for a skysail server
  * resource which is backed-up by a GridData object.
+ * 
+ * The class is not abstract in order to let jackson deserialize json requests
+ * more easily.
  * 
  * @author carsten
  * 
  */
-public abstract class GridDataServerResource extends SkysailServerResource<GridData> {
+public class GridDataServerResource extends SkysailServerResource<GridData> {
 
     /** slf4j based logger implementation. */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -65,9 +68,13 @@ public abstract class GridDataServerResource extends SkysailServerResource<GridD
         super(data);
     }
 
-    public abstract void filterData();
+    public void filterData() {
+        logger.error("you should implement a subclass of GridDataServerResource and overwrite method filterData");
+    }
     
-    public abstract void configureColumns(ColumnsBuilder builder);
+    public void configureColumns(ColumnsBuilder builder) {
+        logger.error("you should implement a subclass of GridDataServerResource and overwrite method configureColumns");
+    }
 
     public int handlePagination() {
         return doHandlePagination("skysail.server.osgi.bundles.entriesPerPage", 15);

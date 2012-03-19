@@ -1,3 +1,7 @@
+ <<0.1.14 (2012)>>
+
+  * GridDataServerResource not abstract anymore (to let jackson deserialize on client side more easily)
+  
  <<0.1.13 (March 2012)>>
 
   * starting FormDataServerResource

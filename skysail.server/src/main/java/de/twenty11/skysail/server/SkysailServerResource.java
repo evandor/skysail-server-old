@@ -2,7 +2,9 @@ package de.twenty11.skysail.server;
 
 import java.net.URL;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.restlet.data.MediaType;
+import org.restlet.data.Reference;
 import org.restlet.ext.freemarker.TemplateRepresentation;
 import org.restlet.ext.jackson.JacksonRepresentation;
 import org.restlet.ext.wadl.WadlServerResource;
@@ -64,6 +66,23 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
      */
     public abstract T getData();
 
+    /**
+     * Reasoning: not overwriting those two (overloaded) methods gives me a jackson deserialization
+     * issue. I need to define which method I want to be ignored by jackson.
+     * 
+     * @see org.restlet.resource.ServerResource#setLocationRef(org.restlet.data.Reference)
+     */
+    @JsonIgnore
+    @Override
+    public void setLocationRef(Reference locationRef) {
+    	super.setLocationRef(locationRef);
+    }
+
+    @Override
+    public void setLocationRef(String locationUri) {
+    	super.setLocationRef(locationUri);
+    }
+    
     @Get("json")
     public Representation getJson() {
         try {
