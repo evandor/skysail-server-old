@@ -18,14 +18,13 @@
 package de.twenty11.skysail.server.osgi.bundles.internal;
 
 import de.twenty11.skysail.common.app.SkysailApplication;
-import de.twenty11.skysail.common.app.Version;
 import de.twenty11.skysail.server.servicedefinitions.ApplicationService;
 
 public class Application implements ApplicationService {
 
     @Override
     public SkysailApplication getApplication() {
-        return new SkysailApplication("OSGi", new Version("0.1.5.SNAPSHOT"), "osgi bundles monitor", "osgi");
+        return new SkysailApplication("OSGi", "osgi bundles monitor", "osgi");
     }
 
 }

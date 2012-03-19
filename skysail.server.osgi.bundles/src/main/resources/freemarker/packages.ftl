@@ -9,10 +9,10 @@
 	
 
 	
-	<#list data as component>
+	
 	  
-	  <#if component.class.simpleName == "GridData">
-        <#assign gridColumns = component.columns>
+	  <#if data.class.simpleName == "GridData">
+        <#assign gridColumns = data.columns>
         
 		<form action="#">
 		<table>
@@ -26,7 +26,7 @@
         <#include "skysail.server.osgi.bundles:search.ftl">
 
         <#assign counter = 0 />
-        <#list component.gridData as row>
+        <#list data.gridData as row>
           <#assign columns = row.columnData>
           <#assign counter = counter + 1 />
           <#if (counter % 2 == 1)>
@@ -62,7 +62,7 @@
 		</form>
 	  </#if>  
 	
-	</#list>
+	
     
     
     <#include "skysail.server:debug.ftl">
