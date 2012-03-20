@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.slf4j.Logger;
@@ -14,10 +16,9 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.filters.LdapSearchFilter;
 import de.twenty11.skysail.common.grids.ColumnsBuilder;
+import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.grids.RowData;
-import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.server.GridDataServerResource;
-import de.twenty11.skysail.server.osgi.bundles.internal.Activator;
 
 /**
  * @author carsten
@@ -66,12 +67,13 @@ public class ServicesResource extends GridDataServerResource {
      */
     private ServiceReference[] getMatchingServices(Filter filter) {
         ServiceReference[] services;
+        BundleContext bundleContext = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
         try {
             if (filter instanceof LdapSearchFilter) {
-                services = Activator.getContext().getServiceReferences(null, filter.toString());
+                services = bundleContext.getServiceReferences(null, filter.toString());
             } else {
                 // need to filter "manually"
-                services = Activator.getContext().getServiceReferences(null, null);
+                services = bundleContext.getServiceReferences(null, null);
                 List<ServiceReference> filteredReferences = new ArrayList<ServiceReference>();
                 if (services != null) {
                     for (int j = 0; j < services.length; j++) {

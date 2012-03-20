@@ -4,17 +4,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-import org.osgi.service.packageadmin.PackageAdmin;
 
-public class Bundles {
+public class BundleUtils {
 
-    private BundleContext bundleContext;
-
-    private static final String[] fields = { "ID","symbolicName", "version", "status" };
-
-    private Bundles() {
+    /**
+     * Singleton
+     */
+    private BundleUtils() {
     }
 
     /**
@@ -23,24 +21,20 @@ public class Bundles {
      * not before.
      */
     private static class SingletonHolder {
-        public static final Bundles instance = new Bundles();
+        public static final BundleUtils instance = new BundleUtils();
     }
 
-    public static Bundles getInstance() {
+    public static BundleUtils getInstance() {
         return SingletonHolder.instance;
     }
 
     public List<Bundle> getBundles() {
-        Bundle[] bundles = bundleContext.getBundles();
+        Bundle[] bundles = FrameworkUtil.getBundle(this.getClass()).getBundleContext().getBundles();
         return Arrays.asList(bundles);
     }
 
-    public void setContext(BundleContext context) {
-        this.bundleContext = context;
-    }
-
     public Bundle getBundle(String bundleName) {
-        Bundle[] bundles = this.bundleContext.getBundles();
+        Bundle[] bundles = FrameworkUtil.getBundle(this.getClass()).getBundleContext().getBundles();
         for (Bundle bundle : bundles) {
             if (bundle.getSymbolicName().equals(bundleName)) {
                 return bundle;
@@ -50,15 +44,15 @@ public class Bundles {
     }
 
     public Bundle getBundle(long id) {
-        return this.bundleContext.getBundle(id);
+        return FrameworkUtil.getBundle(this.getClass()).getBundleContext().getBundle(id);
     }
 
     public ServiceReference getServiceReference(String type) {
-        return this.bundleContext.getServiceReference(type);
+        return FrameworkUtil.getBundle(this.getClass()).getBundleContext().getServiceReference(type);
     }
 
     public Object getService(ServiceReference reference) {
-        return this.bundleContext.getService(reference);
+        return FrameworkUtil.getBundle(this.getClass()).getBundleContext().getService(reference);
     }
 
     public static String translateStatus(int state) {

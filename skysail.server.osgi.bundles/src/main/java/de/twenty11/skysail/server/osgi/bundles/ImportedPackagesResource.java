@@ -33,7 +33,7 @@
 //import de.twenty11.skysail.common.messages.GridData;
 //import de.twenty11.skysail.server.SkysailServerResource;
 //import de.twenty11.skysail.server.osgi.bundles.internal.Activator;
-//import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
+//import de.twenty11.skysail.server.osgi.bundles.internal.BundleUtils;
 //
 //public class ImportedPackagesResource extends SkysailServerResource<GridData> {
 //
@@ -49,7 +49,7 @@
 //        GridData grid = new GridData();
 //        
 //        // TODO equinox case only!
-//        AbstractBundle bundle =  (AbstractBundle)Bundles.getInstance().getBundle(Long.parseLong(bundleId));
+//        AbstractBundle bundle =  (AbstractBundle)BundleUtils.getInstance().getBundle(Long.parseLong(bundleId));
 //        
 //        setMessage("Imported Packages for bundle " + bundle.getSymbolicName());
 //        BundleContext context = Activator.getContext();

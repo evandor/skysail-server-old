@@ -27,7 +27,7 @@
 //import de.twenty11.skysail.common.grids.RowData;
 //import de.twenty11.skysail.common.messages.GridData;
 //import de.twenty11.skysail.server.SkysailServerResource;
-//import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
+//import de.twenty11.skysail.server.osgi.bundles.internal.BundleUtils;
 //
 //public class ConsumedServicesResource extends SkysailServerResource<GridData> {
 //
@@ -40,7 +40,7 @@
 ////    @Override
 //    public GridData getData() {
 //        String bundleId = (String) getRequest().getAttributes().get(Constants.BUNDLE_ID);
-//        Bundle bundle = Bundles.getInstance().getBundle(Long.parseLong(bundleId));
+//        Bundle bundle = BundleUtils.getInstance().getBundle(Long.parseLong(bundleId));
 //        setMessage("Used Services for bundle " + bundle.getSymbolicName());
 //
 //        GridData grid = new GridData();

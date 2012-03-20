@@ -6,10 +6,10 @@
     <#assign info = "Bundle Details" />
     <#include "skysail.server.osgi.bundles:title.ftl">
 
-  <#list data as component>
+ 
   
-  	  <#if component.class.simpleName == "FormData">
-		<#assign entries = component.getFields() />
+  	  <#if data.class.simpleName == "FormData">
+		<#assign entries = data.getFields() />
 		
         <form action="#">
 		<table>
@@ -44,7 +44,7 @@
 		</table>  
 		</form>
 	  </#if>  
-  </#list>
+ 
   </div>
 
 </body>

@@ -11,7 +11,7 @@
 //import de.twenty11.skysail.common.grids.RowData;
 //import de.twenty11.skysail.common.messages.GridData;
 //import de.twenty11.skysail.server.SkysailServerResource;
-//import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
+//import de.twenty11.skysail.server.osgi.bundles.internal.BundleUtils;
 //
 //public class ServiceDetailsResource extends SkysailServerResource<GridData> {
 //
@@ -53,7 +53,7 @@
 ////    @Override
 ////    public List<?> getFilteredData() {
 ////        String bundleId = (String) getRequest().getAttributes().get(Constants.SERVICE_ID);
-////        Bundle bundle = Bundles.getInstance().getBundle(Long.parseLong(bundleId));
+////        Bundle bundle = BundleUtils.getInstance().getBundle(Long.parseLong(bundleId));
 ////        List<Bundle> result = new ArrayList<Bundle>();
 ////        result.add(bundle);
 ////        return result;
@@ -77,7 +77,7 @@
 ////        GridData grid = getSkysailData();
 ////        Bundle bundle = (Bundle)filterResults.get(0);
 ////        addRow(grid, "id", Long.toString(bundle.getBundleId()));
-////        addRow(grid, "state", Bundles.translateStatus(bundle.getState()));
+////        addRow(grid, "state", BundleUtils.translateStatus(bundle.getState()));
 ////        addRow(grid, "lastModified", Long.toString(bundle.getLastModified()));
 ////        addRow(grid, "version", bundle.getVersion().toString());
 ////        addRow(grid, "location", bundle.getLocation());

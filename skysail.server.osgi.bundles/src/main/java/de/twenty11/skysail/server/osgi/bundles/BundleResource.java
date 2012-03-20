@@ -7,9 +7,9 @@ import org.osgi.framework.Bundle;
 
 import de.twenty11.skysail.common.forms.FieldType;
 import de.twenty11.skysail.common.forms.FormBuilder;
-import de.twenty11.skysail.common.messages.FormData;
+import de.twenty11.skysail.common.forms.FormData;
 import de.twenty11.skysail.server.FormDataServerResource;
-import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
+import de.twenty11.skysail.server.osgi.bundles.internal.BundleUtils;
 
 public class BundleResource extends FormDataServerResource {
 
@@ -24,7 +24,7 @@ public class BundleResource extends FormDataServerResource {
     @Override
     public FormData fillForm(FormData formData) {
         String bundleId = (String) getRequest().getAttributes().get(Constants.BUNDLE_ID);
-        Bundle bundle = Bundles.getInstance().getBundle(Long.parseLong(bundleId));
+        Bundle bundle = BundleUtils.getInstance().getBundle(Long.parseLong(bundleId));
         formData.set("id", Long.toString(bundle.getBundleId()));
         formData.set("name", bundle.getSymbolicName());
         formData.set("state", new Integer(bundle.getState()).toString());

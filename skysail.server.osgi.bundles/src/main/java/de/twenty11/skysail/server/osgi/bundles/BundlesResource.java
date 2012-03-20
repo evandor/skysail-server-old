@@ -8,10 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.grids.ColumnsBuilder;
+import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.grids.RowData;
-import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.server.GridDataServerResource;
-import de.twenty11.skysail.server.osgi.bundles.internal.Bundles;
+import de.twenty11.skysail.server.osgi.bundles.internal.BundleUtils;
 
 public class BundlesResource extends GridDataServerResource {
 
@@ -36,7 +36,7 @@ public class BundlesResource extends GridDataServerResource {
 
     @Override
     public void filterData() {
-        List<Bundle> bundles = Bundles.getInstance().getBundles();
+        List<Bundle> bundles = BundleUtils.getInstance().getBundles();
         GridData data = getSkysailData();
         for (Bundle bundle : bundles) {
             RowData rowData = new RowData();
@@ -44,7 +44,7 @@ public class BundlesResource extends GridDataServerResource {
             columnData.add(bundle.getBundleId());
             columnData.add(bundle.getSymbolicName());
             columnData.add(bundle.getVersion());
-            columnData.add(Bundles.translateStatus(bundle.getState()));
+            columnData.add(BundleUtils.translateStatus(bundle.getState()));
             rowData.setColumnData(columnData);
             getSkysailData().addRowData(rowData);
         }

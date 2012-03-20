@@ -15,7 +15,7 @@
  * 
  */
 
-package de.twenty11.skysail.server.osgi.bundles.internal;
+package de.twenty11.skysail.server.osgi.bundles;
 
 import org.osgi.service.component.ComponentContext;
 

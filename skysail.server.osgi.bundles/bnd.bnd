@@ -1,10 +1,9 @@
 Import-Package:	de.twenty11.skysail.common;version="[0.2.0, 1.0.0)",\
- de.twenty11.skysail.common.grids;version="[0.1,0.2)",\
+ de.twenty11.skysail.common.grids;version="[0.2,1.0)",\
  de.twenty11.skysail.common.filters;version="[0.0.0, 1.0.0)",\
  de.twenty11.skysail.server;version="[0.1,0.2)",\
  *
 Bundle-SymbolicName: skysail.server.osgi.bundles
-Bundle-Activator: de.twenty11.skysail.server.osgi.bundles.internal.Activator
 FtlTemplates: /freemarker/ftls/
 Include-Resource: {maven-resources}
 Service-Component: OSGI-INF/*.xml
