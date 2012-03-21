@@ -108,16 +108,19 @@
 			<groupId>org.ops4j.pax.tinybundles</groupId>
 			<artifactId>tinybundles</artifactId>
 			<version>1.0.0</version>
+            <scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.ops4j.pax.exam</groupId>
 			<artifactId>pax-exam-junit</artifactId>
 			<version>1.2.4</version>
+            <scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
+            <scope>test</scope>
 		</dependency>
 	</dependencies>
 
