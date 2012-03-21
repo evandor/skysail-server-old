@@ -3,7 +3,7 @@
           <#if 1 == page >
             <li class="previous-off">«Previous</li>
           <#else>
-            <li class="previous"><a href="${request}page=${page-1}&${sortingRepresentation}">«Previous</a></li>
+            <li class="previous"><a href="${request}page=${page-1}&${sortingRepresentation}&pageSize=${pageSize}">«Previous</a></li>
           </#if>
 
           <#assign pages = (totalResults / pageSize)?ceiling />
@@ -11,14 +11,14 @@
               <#if i == page >
                 <li class="active">${i}</li>
               <#else>
-                <li class="next"><a title="${request}" href="${request}page=${i}&${sortingRepresentation}">${i}</a></li>
+                <li class="next"><a title="${request}" href="${request}page=${i}&${sortingRepresentation}&pageSize=${pageSize}">${i}</a></li>
               </#if>
           </#list>
             
           <#if pages == page >
             <li class="next-off">Next »</li>
           <#else>
-            <li class="next"><a href="${request}page=${page+1}&${sortingRepresentation}">Next »</a></li>
+            <li class="next"><a href="${request}page=${page+1}&${sortingRepresentation}&pageSize=${pageSize}">Next »</a></li>
           </#if>
           
           <li class="next-off">&nbsp;</li>

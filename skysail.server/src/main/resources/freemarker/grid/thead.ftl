@@ -32,7 +32,7 @@
               <#if (!value.width?? || value.width > 0) >
                 <#assign visibleColumnCount = visibleColumnCount + 1 />
                 <#if (value.sorting??) >
-                  <th scope="col"><a href='${request}${sortingRepresentation}toggleSorting=${columnCounter}'>${value.name} ${sorting}</a></th>
+                  <th scope="col"><a href='${request}${sortingRepresentation}pageSize=${pageSize}&toggleSorting=${columnCounter}'>${value.name} ${sorting}</a></th>
                 <#else>
                   <th scope="col">${value.name} ${sorting}</th>
                 </#if>

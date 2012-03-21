@@ -21,9 +21,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.forms.FormBuilder;
+import de.twenty11.skysail.common.forms.FormData;
 import de.twenty11.skysail.common.grids.ColumnsBuilder;
-import de.twenty11.skysail.common.messages.FormData;
-import de.twenty11.skysail.common.messages.GridData;
+import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 
 /**
@@ -51,7 +51,7 @@ public abstract class FormDataServerResource extends SkysailServerResource<FormD
     public abstract void configureForm(FormBuilder builder);
     
     @Override
-    public FormData getData() {
+    public FormData getFilteredData() {
         
         // define the columns for the result (for grids and assign to grid)
         FormBuilder formBuilder = new FormBuilder() {

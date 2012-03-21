@@ -19,28 +19,37 @@ package de.twenty11.skysail.server;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.restlet.Restlet;
+import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.ColumnSortOrderComparator;
 import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.grids.ColumnDefinition;
+import de.twenty11.skysail.common.grids.ColumnSortOrderComparator;
 import de.twenty11.skysail.common.grids.ColumnsBuilder;
+import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.grids.RowData;
-import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.internal.ConfigServiceProvider;
 import de.twenty11.skysail.server.servicedefinitions.ConfigService;
 
 /**
- * An class dealing with common functionality for a skysail server
- * resource which is backed-up by a GridData object.
+ * An class dealing with common functionality for a skysail server resource
+ * which is backed-up by a GridData object.
  * 
  * The class is not abstract in order to let jackson deserialize json requests
  * more easily.
+ * 
+ * <br>
+ * Concurrency note from parent: contrary to the {@link org.restlet.Uniform}
+ * class and its main {@link Restlet} subclass where a single instance can
+ * handle several calls concurrently, one instance of {@link ServerResource} is
+ * created for each call handled and accessed by only one thread at a time.
  * 
  * @author carsten
  * 
@@ -51,7 +60,7 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private Filter filter;
-    
+
     private String sortingRepresentation;
 
     private Integer currentPage = 1;
@@ -68,10 +77,10 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
         super(data);
     }
 
-    public void filterData() {
+    public void buildGrid() {
         logger.error("you should implement a subclass of GridDataServerResource and overwrite method filterData");
     }
-    
+
     public void configureColumns(ColumnsBuilder builder) {
         logger.error("you should implement a subclass of GridDataServerResource and overwrite method configureColumns");
     }
@@ -79,77 +88,93 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
     public int handlePagination() {
         return doHandlePagination("skysail.server.osgi.bundles.entriesPerPage", 15);
     }
-    
+
     /**
-     * Implementors of this class have to provide skysailData which will be used to create
-     * a restlet representation. Which type of representation (json, xml, ...) will
-     * be returned depends on the request details.
+     * Implementors of this class have to provide skysailData which will be used
+     * to create a restlet representation. Which type of representation (json,
+     * xml, ...) will be returned depends on the request details.
      * 
      * @return Type extending SkysailData
-     *
+     * 
      */
-    public final GridData getData() {
-        
+    public final GridData getFilteredData() {
+
+        Map<String, String> params = new HashMap<String, String>();
+        if (getQuery() != null) {
+            params = getQuery().getValuesMap();
+        }
+
         // define the columns for the result (for grids and assign to grid)
-        ColumnsBuilder columnsBuilder = new ColumnsBuilder(getQuery().getValuesMap()) {
+        ColumnsBuilder columnsBuilder = new ColumnsBuilder(params) {
             @Override
             public void configure() {
                 configureColumns(this);
             }
         };
         if (getSkysailData() instanceof GridData) {
-            ((GridData)getSkysailData()).setColumnsBuilder(columnsBuilder);
+            ((GridData) getSkysailData()).setColumnsBuilder(columnsBuilder);
         }
 
         // get the data, applying the current filter
-        filterData();
-        
+        buildGrid();
+
         // sort the results
         sort();
-        
+
         // handle Page size and pagination
         int pageSize = handlePagination();
         setPageSize(pageSize);
         // how many results do we have (all pages)
         setTotalResults(getSkysailData().getSize());
-        
+
         // get results for current page
         return currentPageResults(pageSize);
     }
-
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public GridData currentPageResults(final int pageSize) {
         GridData grid = getSkysailData();
         int max = Math.min(grid.getSize(), (getCurrentPage() * pageSize));
         // for (int j = ((getCurrentPage() - 1) * pageSize); j < max; j++) {}
-        for (int j = grid.getSize() - 1; j > max; j--) {
+        for (int j = grid.getSize() - 1; j >= max; j--) {
             grid.removeRow(j);
         }
-        for (int j = ((getCurrentPage() - 1) * pageSize)-1; j >= 0; j--) {
+        for (int j = ((getCurrentPage() - 1) * pageSize) - 1; j >= 0; j--) {
             grid.removeRow(j);
         }
         return grid;
     }
 
     /**
+     * Sorting the grid. 
+     * 
+     * The steps involved are:
+     * 
+     * 1. As a default get the columns by which we should sort (in an ascending order by sort-weight)
+     * 2. Adjust that column sorting in case we have instructions to do so (via request)
+     * 3. Sort the rows of the grid, starting from the column with the lowest sort-weight
+     * 
      * @see de.twenty11.skysail.server.SkysailServerResource#sort()
+     * 
+     * // TODO whole implementation of sorting completely ugly, needs serious refactoring, specifically "sortingRequested"
      */
     public void sort() {
 
+        // 1.) get the default sorting for the grid by asking for the pre-sorted
+        // columns (ascending by sort weight)
         Map<String, ColumnDefinition> columnsInSortOrder = getSkysailData().getColumnsFromBuilder(true);
-        int maxSortValue = getSkysailData().getMaxSortValueFromBuilder();
+        int maxSortWeight = getSkysailData().getMaxSortValueFromBuilder();
 
-        // check if a sorting instruction exists on the request and resort the
+        // 2.) check if a sorting instruction exists on the request and re-sort the
         // columns in that case.
-        if (sortingRequested(columnsInSortOrder, maxSortValue)) {
+        if (sortingRequested(columnsInSortOrder, maxSortWeight)) {
             ColumnSortOrderComparator bvc = new ColumnSortOrderComparator(columnsInSortOrder);
             TreeMap<String, ColumnDefinition> result = new TreeMap<String, ColumnDefinition>(bvc);
             result.putAll(columnsInSortOrder);
             columnsInSortOrder = result;
         }
 
-        // now sort the rows
+        // 3.) now sort the rows, starting with the column with the lowest sort-weight
         for (String columnName : columnsInSortOrder.keySet()) {
             final ColumnDefinition colDef = columnsInSortOrder.get(columnName);
             if (colDef.getSorting() != null && colDef.getSorting() != 0) {
@@ -189,24 +214,31 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
      * @return whether or not the sorting has been changed
      */
     private boolean sortingRequested(final Map<String, ColumnDefinition> columnsInSortOrder, int maxSortValue) {
-        
-        boolean toggled = false;
-        Map<Integer, Integer> sortingMap = new TreeMap<Integer, Integer>(); 
+
+        boolean runReSort = false;
+        Map<Integer, Integer> sortingMap = new TreeMap<Integer, Integer>();
         setSorting("");
 
         Integer columnIdToToggle = getColumnToToggle();
         ColumnDefinition columnToToggle = getColumnDefinitionToToggle(columnsInSortOrder, columnIdToToggle);
-        String override = getQuery().getFirstValue("s", null);
-        
+        String override = getQuery() != null ? getQuery().getFirstValue("s", null) : null;
+        runReSort = validate(override, getSkysailData().getColumns().size());
+
         for (String currentColumnName : columnsInSortOrder.keySet()) {
             Integer sorting = columnsInSortOrder.get(currentColumnName).getSorting();
             if (override != null) {
                 String[] sortValuesFromRequest = override.split("\\|");
                 sorting = new Integer(sortValuesFromRequest[getSkysailData().getColumnId(currentColumnName)]);
+                sortingMap.put(getSkysailData().getColumnId(currentColumnName), sorting);
+                if (sorting > 0) {
+                    getColumnDefinitionToToggle(columnsInSortOrder, getSkysailData().getColumnId(currentColumnName)).sortDesc(sorting);
+                } else {
+                    getColumnDefinitionToToggle(columnsInSortOrder, getSkysailData().getColumnId(currentColumnName)).sortAsc(sorting);
+                }
                 maxSortValue = Math.max(maxSortValue, Math.abs(sorting));
             }
             if (columnToToggle != null && currentColumnName.equals(columnToToggle.getName())) {
-                toggled = true;
+                runReSort = true;
                 if (sorting > 0) {
                     columnToToggle.sortAsc((maxSortValue + 1));
                     sortingMap.put(getSkysailData().getColumnId(currentColumnName), -(maxSortValue + 1));
@@ -226,14 +258,42 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
             StringBuffer sb = new StringBuffer("s=");
             for (Integer position : sortingMap.keySet()) {
                 Integer value = sortingMap.get(position);
-                sb.append(value != null ? value + "|": 0 + "|");
+                sb.append(value != null ? value + "|" : 0 + "|");
             }
-            setSorting(sb.toString().substring(0, sb.length()-1) + "&");
+            setSorting(sb.toString().substring(0, sb.length() - 1) + "&");
         }
-        return toggled;
+        return runReSort;
     }
 
-    private ColumnDefinition getColumnDefinitionToToggle(Map<String, ColumnDefinition> columnsInSortOrder, Integer columnId) {
+    /**
+     * checks the sorting parameter and throws unchecked exception is not valid
+     * 
+     * @param override
+     * @param size
+     * @return
+     */
+    private boolean validate(String override, int size) {
+        if (override == null || override.trim().equals("")) {
+            return false;
+        }
+        String[] sortValuesFromRequest = override.split("\\|");
+        if (sortValuesFromRequest.length != size) {
+            throw new IllegalArgumentException("parameter 's' for sorting has " + sortValuesFromRequest.length
+                            + "parts, but should have " + size);
+        }
+        for (String part : sortValuesFromRequest) {
+            try {
+                Integer.valueOf(part);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("could not parse '" + part + "' of sorting parameter " + override
+                                + " as Integer");
+            }
+        }
+        return true;
+    }
+
+    private ColumnDefinition getColumnDefinitionToToggle(Map<String, ColumnDefinition> columnsInSortOrder,
+                    Integer columnId) {
         if (columnId == null) {
             return null;
         }
@@ -242,15 +302,15 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
     }
 
     private Integer getColumnToToggle() {
-        String toggleColumnAsString = getQuery().getFirstValue("toggleSorting", null);
+        String toggleColumnAsString = getQuery() != null ? getQuery().getFirstValue("toggleSorting", null) : null;
         try {
             return new Integer(toggleColumnAsString);
         } catch (Exception e) {
             return null;
         }
- 
+
     }
-    
+
     public void setResponseDetails(SkysailResponse<GridData> response) {
         response.setMessage(getMessage());
         response.setTotalResults(getTotalResults());
@@ -269,34 +329,41 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
 
     protected int doHandlePagination(String configIdentifier, int defaultSize) {
         int pageSize = 20;
-        String firstValue = getQuery().getFirstValue("page", "1");
+        String firstValue = getQuery() != null ? getQuery().getFirstValue("page", "1") : "1";
         int page = Integer.parseInt(firstValue);
         setCurrentPage(page);
-        
+
         ConfigService configService = ConfigServiceProvider.getConfigService();
-        String pageSizeFromProperties = configService.getString(configIdentifier);
+        String pageSizeFromProperties = null;
+        if (configService != null) {
+            pageSizeFromProperties = configService.getString(configIdentifier);
+        }
         if (pageSizeFromProperties != null && pageSizeFromProperties.trim().length() > 0) {
             pageSize = Integer.parseInt(pageSizeFromProperties);
         } else {
             pageSize = defaultSize;
         }
-        
+        String pageSizeParam = getQuery() != null ? getQuery().getFirstValue("pageSize", null) : null;
+        if (pageSizeParam != null) {
+            pageSize = Integer.parseInt(pageSizeParam);
+        }
+
         return pageSize;
     }
-    
+
     public Filter getFilter() {
         return filter;
     }
-    
+
     public void setFilter(Filter filter) {
         this.filter = filter;
     }
-    
+
     public void setSorting(String str) {
         sortingRepresentation = str;
     }
-    
-    private String getSorting () {
+
+    private String getSorting() {
         return sortingRepresentation != null ? sortingRepresentation : "";
     }
 
@@ -307,19 +374,19 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }
-    
+
     protected Integer getCurrentPage() {
         return this.currentPage;
     }
-    
+
     public void setCurrentPage(Integer currentPage) {
         this.currentPage = currentPage;
     }
 
     protected void setTotalResults(int length) {
-        this.totalResults = length;        
+        this.totalResults = length;
     }
-    
+
     public int getTotalResults() {
         return totalResults;
     }

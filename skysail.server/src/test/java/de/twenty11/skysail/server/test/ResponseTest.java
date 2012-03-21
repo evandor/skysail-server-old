@@ -36,8 +36,8 @@ import org.junit.Test;
 import org.restlet.data.CharacterSet;
 import org.restlet.ext.jackson.JacksonRepresentation;
 
+import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.grids.RowData;
-import de.twenty11.skysail.common.messages.GridData;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SkysailSuccessResponse;
 

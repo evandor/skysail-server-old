@@ -64,7 +64,7 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
      * to be implemented by extending classes.
      * @return SkysailData
      */
-    public abstract T getData();
+    public abstract T getFilteredData();
 
     /**
      * Reasoning: not overwriting those two (overloaded) methods gives me a jackson deserialization
@@ -86,7 +86,7 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     @Get("json")
     public Representation getJson() {
         try {
-            SkysailResponse<T> response = new SkysailSuccessResponse<T>(getData());
+            SkysailResponse<T> response = new SkysailSuccessResponse<T>(getFilteredData());
             setResponseDetails(response);
             return new JacksonRepresentation<SkysailResponse<T>>(response);
         } catch (Exception e) {
@@ -97,7 +97,7 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     @Get("xml")
     public Representation getXml() {
         try {
-            SkysailResponse<T> response = new SkysailSuccessResponse<T>(getData());
+            SkysailResponse<T> response = new SkysailSuccessResponse<T>(getFilteredData());
             setResponseDetails(response);
             return new XstreamRepresentation<SkysailResponse<T>>(response);
         } catch (Exception e) {
@@ -108,7 +108,7 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     @Get("html")
     public Representation getHtml() {
         try {
-            SkysailResponse<T> response = new SkysailSuccessResponse<T>(getData());
+            SkysailResponse<T> response = new SkysailSuccessResponse<T>(getFilteredData());
             setResponseDetails(response);
             Template ftlTemplate = CommunicationUtils.getFtlTemplate(template);
             return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);

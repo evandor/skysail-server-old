@@ -39,34 +39,48 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	   <!-- Shared version number properties -->
+    <properties>
+    <!--     <org.springframework.version>3.0.5.RELEASE</org.springframework.version>
+        <org.springframework.security.version>3.0.5.RELEASE</org.springframework.security.version>
+     -->    <org.restlet.version>2.0.11</org.restlet.version>
+    </properties>
+	
 
 	<dependencies>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.common</artifactId>
-			<version>[0.2.7, 0.3)</version>
-		</dependency>
+			<version>[0.2.13-SNAPSHOT, 0.3)</version>
+		</dependency> -->
 
         <dependency>
             <groupId>de.twenty11.skysail</groupId>
             <artifactId>skysail.server.serviceprovider</artifactId>
-            <version>[0.1.5, 0.2)</version>
+            <version>[0.1.7-SNAPSHOT, 0.2)</version>
         </dependency>
 
-		<!-- osgi -->
+		<!-- (pure) osgi -->
 		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.core</artifactId>
-			<version>4.2.0</version>
-		</dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>4.2.0</version>
+        </dependency>
 
-        <!-- TODO there is an equivalent for org.osgi.services? -->
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.enterprise</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+
+        <!-- TODO there is an equivalent for org.osgi.services? 
 		<dependency>
 			<groupId>org.eclipse.osgi</groupId>
 			<artifactId>org.eclipse.osgi.services</artifactId>
 			<version>3.2.100.v20100503</version>
-		</dependency>
+		</dependency>-->
 
 		<!-- restlet -->
 		<dependency>
@@ -163,11 +177,17 @@
 		<!--dependency> <groupId>javax.servlet</groupId> <artifactId>servlet-api</artifactId> 
 			<version>2.5</version> <type>jar</type> <scope>compile</scope> </dependency -->
 
-		<!-- can be removed with skysail.common 0.2.8 -->
 		<dependency>
-			<groupId>com.google.code.findbugs</groupId>
-			<artifactId>annotations</artifactId>
-			<version>1.3.9</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.5.8</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.9</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
