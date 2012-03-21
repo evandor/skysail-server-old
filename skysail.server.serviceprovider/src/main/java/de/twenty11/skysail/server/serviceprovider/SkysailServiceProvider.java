@@ -16,7 +16,6 @@
  */
 package de.twenty11.skysail.server.serviceprovider;
 
-import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,13 +42,15 @@ public abstract class SkysailServiceProvider {
      * To be implemented according to their specific needs by subclasses.
      * @param ctxt provided by framework
      */
-    protected abstract void activate(ComponentContext ctxt);
+    // removing to avoid dependency on org.osgi
+    //protected abstract void activate(ComponentContext ctxt);
 
     /**
      * To be implemented according to their specific needs by subclasses.
      * @param ctxt provided by framework
      */
-    protected abstract void deactivate(ComponentContext ctxt);
+    // removing to avoid dependency on org.osgi
+    //protected abstract void deactivate(ComponentContext ctxt);
 
     public void setConfigService(final ConfigService service) {
         logger.info("skysail service provider: ConfigService set to {}", service);

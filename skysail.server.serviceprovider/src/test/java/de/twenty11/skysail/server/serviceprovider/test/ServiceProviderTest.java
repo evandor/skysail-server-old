@@ -109,14 +109,6 @@ public class ServiceProviderTest {
         ServiceReference serviceReference = context.getServiceReference(ConfigService.class.getName());
         ConfigService service = (ConfigService) context.getService(serviceReference);
         SkysailServiceProvider provider = new SkysailServiceProvider() {
-
-            @Override
-            protected void deactivate(ComponentContext ctxt) {
-            }
-
-            @Override
-            protected void activate(ComponentContext ctxt) {
-            }
         };
 
         provider.setConfigService(service);
