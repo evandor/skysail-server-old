@@ -60,6 +60,13 @@
 		</dependency>
 
         <!-- for testing only, don't want dependency here on osgi otherwise -->
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>4.2.0</version>
+            <scope>test</scope>
+        </dependency>
+
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.enterprise</artifactId>
