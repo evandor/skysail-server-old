@@ -1,4 +1,4 @@
- <<0.1.14 (2012)>>
+ <<0.2.0.RC1 (March 2012)>>
 
   * GridDataServerResource not abstract anymore (to let jackson deserialize on client side more easily)
   
