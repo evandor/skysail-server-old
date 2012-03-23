@@ -18,7 +18,7 @@
   <#include "skysail.server:header.ftl">
   <div id="container">
     <#assign info = "Sorry, there has been an error processing your request ;(" />
-    <#include "skysail.server.osgi.bundles:title.ftl">
+   
 	
 	<div><h2><span>&nbsp;&nbsp;Please make sure to check the server error log as well for more details.</span></h2></div>
   

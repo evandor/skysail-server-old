@@ -80,7 +80,7 @@ public class CommunicationUtils {
             try {
                 return configuration.getTemplate(templatePath);
             } catch (IOException e) {
-                throw new RuntimeException("Problem accessing template '" + templatePath + "'");
+                throw new RuntimeException("Problem accessing template '" + templatePath + "'", e);
             }
 
         }
