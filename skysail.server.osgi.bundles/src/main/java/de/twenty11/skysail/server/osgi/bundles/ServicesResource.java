@@ -50,14 +50,17 @@ public class ServicesResource extends GridDataServerResource {
     }
 
     @Override
-    public void filterData() {
+    public void buildGrid() {
         ServiceReference[] services = getMatchingServices(getSkysailData().getFilter());
         GridData grid = getSkysailData();
         for (ServiceReference service : services) {
-            RowData rowData = new RowData();
+            RowData rowData = new RowData(getSkysailData().getColumns());
             Map<String, String> columnData = putColumnData(service);
-            rowData.setColumnData(new ArrayList<Object>(columnData.values()));
-            grid.addRowData(rowData);
+            //rowData.setColumnData(new ArrayList<Object>(columnData.values()));
+            for (String value : columnData.values()) {
+                rowData.add(value);
+            }
+            grid.addRowData(null, rowData);
         }
     }
 

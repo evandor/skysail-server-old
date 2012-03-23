@@ -7,6 +7,8 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 
+import de.twenty11.skysail.common.filters.Filter;
+
 public class BundleUtils {
 
     /**

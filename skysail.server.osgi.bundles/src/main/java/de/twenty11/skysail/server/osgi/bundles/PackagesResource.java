@@ -38,8 +38,8 @@ public class PackagesResource extends GridDataServerResource {
     }
 
     @Override
-    public void filterData() {
-        GridData data = getSkysailData();
+    public void buildGrid() {
+       // GridData data = getSkysailData();
         BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
         Bundle bundle = null;
 
@@ -51,9 +51,16 @@ public class PackagesResource extends GridDataServerResource {
                 packages = packageAdmin.getExportedPackages(bundle);
                 if (packages != null) {
                     for (int i = 0; i < packages.length; i++) {
-                        RowData rowData = new RowData();
+                        RowData rowData = new RowData(getSkysailData().getColumns());
                         List<Object> columnData = new ArrayList<Object>();
                         ExportedPackage pkg = packages[i];
+                        
+                        // @formatter:off
+                        rowData
+                            .add(pkg.getName())
+                            .add(pkg.getExportingBundle().getSymbolicName())
+                            .add(pkg.getVersion());
+                        // @formatter:on
 
                         columnData.add(pkg.getName());
                         columnData.add(pkg.getExportingBundle().getSymbolicName());
@@ -65,15 +72,14 @@ public class PackagesResource extends GridDataServerResource {
                                             .append(importingBundle.getVersion()).append(" )").append(" [")
                                             .append(importingBundle.getBundleId()).append("]").append(";");
                         }
-                        columnData.add(sb.toString());
+                        rowData.add(sb.toString());
 
-                        rowData.setColumnData(columnData);
-                        data.addRowData(rowData);
+                        //rowData.setColumnData(columnData);
+                        getSkysailData().addRowData(getSkysailData().getFilter(), rowData);
                     }
                 }
             }
         }
 
     }
-
 }
