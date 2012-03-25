@@ -3,6 +3,9 @@ package de.twenty11.skysail.server.ext.freemarker.internal;
 import java.net.URL;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import freemarker.cache.URLTemplateLoader;
 
 /**
@@ -14,6 +17,9 @@ import freemarker.cache.URLTemplateLoader;
  */
 public class MapBasedUrlTemplateLoader extends URLTemplateLoader {
 
+    /** slf4j based logger implementation. */
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    
     /** Map between an identifier and the associated TemplateInfo. */
     private Map<String, TemplateInfo> templates;
 
@@ -36,6 +42,8 @@ public class MapBasedUrlTemplateLoader extends URLTemplateLoader {
         TemplateInfo templateInfo = templates.get(identifier);
         if (templateInfo != null) {
             return templateInfo.getTemplateURL();
+        } else {
+            logger.warn("trying to access the template {}, but only those templates exist:\n {}", identifier, templates.keySet().toString().replace(",", ",\n"));
         }
         return null;
     }
