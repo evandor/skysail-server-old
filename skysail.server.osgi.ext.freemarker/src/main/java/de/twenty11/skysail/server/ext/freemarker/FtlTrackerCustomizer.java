@@ -22,6 +22,7 @@ import freemarker.template.DefaultObjectWrapper;
  * The FtlTrackerCustomizer 'hooks in' when a bundle containing the
  * BUNDLE_TEMPLATE_HEADER is added, modified or removed.
  * 
+ * original idea: see http://dani.calidos.com/2010/08/11/templating-the-osgi-way-with-freemarker/
  * 
  * @author carsten
  * 
