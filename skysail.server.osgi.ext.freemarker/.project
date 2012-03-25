@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>skysail.server.osgi.ext.freemarker</name>
+	<name>skysail.server.freemarker</name>
 	<comment></comment>
 	<projects>
 	</projects>

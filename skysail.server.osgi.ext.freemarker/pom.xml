@@ -10,7 +10,7 @@
 		<version>0.1.2</version>
 	</parent>
 
-	<artifactId>skysail.server.osgi.ext.freemarker</artifactId>
+	<artifactId>skysail.server.freemarker</artifactId>
 	<version>0.0.7-SNAPSHOT</version>
 	<name>skysail server freemarker extension</name>
 	<packaging>bundle</packaging>
