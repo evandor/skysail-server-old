@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.ext.freemarker.internal;
+package de.twenty11.skysail.server.freemarker.internal;
 
 import java.util.Hashtable;
 
@@ -11,7 +11,7 @@ import org.osgi.util.tracker.BundleTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.ext.freemarker.FtlTrackerCustomizer;
+import de.twenty11.skysail.server.freemarker.FtlTrackerCustomizer;
 import freemarker.template.Configuration;
 
 /**

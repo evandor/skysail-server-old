@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.ext.freemarker.internal;
+package de.twenty11.skysail.server.freemarker.internal;
 
 import java.net.URL;
 

@@ -1,5 +1,5 @@
-Bundle-Activator: de.twenty11.skysail.server.ext.freemarker.internal.Activator
+Bundle-Activator: de.twenty11.skysail.server.freemarker.internal.Activator
 FtlTemplates: /freemarker/ftls/
-Export-Package: de.twenty11.skysail.server.ext.freemarker;version="0.1.0"
+Export-Package: de.twenty11.skysail.server.freemarker;version="0.1.0"
 Bundle-SymbolicName: skysail.server.freemarker
 

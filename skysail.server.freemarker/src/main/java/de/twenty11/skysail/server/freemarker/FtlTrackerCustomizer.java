@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.ext.freemarker;
+package de.twenty11.skysail.server.freemarker;
 
 import java.net.URL;
 import java.util.Enumeration;
@@ -11,8 +11,8 @@ import org.osgi.util.tracker.BundleTrackerCustomizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.ext.freemarker.internal.MapBasedUrlTemplateLoader;
-import de.twenty11.skysail.server.ext.freemarker.internal.TemplateInfo;
+import de.twenty11.skysail.server.freemarker.internal.MapBasedUrlTemplateLoader;
+import de.twenty11.skysail.server.freemarker.internal.TemplateInfo;
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;

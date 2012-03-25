@@ -1,4 +1,4 @@
-package de.skysail.server.ext.freemarker.tests;
+package de.twenty11.skysail.server.freemarker.tests;
 
 import static org.junit.Assert.assertTrue;
 import static org.ops4j.pax.exam.CoreOptions.bundle;
