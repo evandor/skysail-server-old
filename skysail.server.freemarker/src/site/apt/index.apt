@@ -1,0 +1,26 @@
+ -----
+ skysail Server
+ -----
+ evandor
+ -----
+ October 2011
+ 
+Introduction
+
+
+ This project (skysail.server.osgi.ext.freemarker) provides a way to register freemarker templates within skysail.
+
+
+* Building and deployment
+
+ mvn clean install creates the project in the .m2 repository and 
+ copies it to ../skysail.server.restlet/src/main/webapp/WEB-INF/eclipse/plugins
+ 
+ this bundle is also build when running mvn install on skysail.bootstrap
+ 
+* Dependencies
+
+ mainly restlet and server-api 
+ 
+
+
