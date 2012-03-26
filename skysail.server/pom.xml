@@ -53,8 +53,8 @@
 		<dependency>
 			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.server.serviceprovider</artifactId>
-			<!-- <version>[0.1.8-SNAPSHOT, 0.2)</version> -->
-			<version>0.2.0.RC1</version>
+			<version>[0.2.0, 0.3)</version>
+			<!-- <version>0.2.0.RC1</version> -->
 		</dependency>
 
 		<!-- (pure) osgi -->

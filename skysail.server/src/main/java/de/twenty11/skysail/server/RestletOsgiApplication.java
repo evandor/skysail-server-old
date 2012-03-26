@@ -23,6 +23,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.server.internal.Blocker;
+import de.twenty11.skysail.server.internal.ConfigServiceProvider;
+import de.twenty11.skysail.server.servicedefinitions.ConfigService;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
@@ -56,8 +58,11 @@ public abstract class RestletOsgiApplication extends Application {
     }
 
     public RestletOsgiApplication(final String staticPathTemplate) {
+        ConfigService configService = ConfigServiceProvider.getConfigService();
+        String defaultUser = configService.getString("defaultUser", "scott");
+        String defaultPass = configService.getString("defaultPass", "tiger");
         MapVerifier verifier = new MapVerifier();
-        verifier.getLocalSecrets().put("scott", "tiger".toCharArray());
+        verifier.getLocalSecrets().put(defaultUser, defaultPass.toCharArray());
         this.verifier = verifier;
         this.staticPath = staticPathTemplate;
     }
