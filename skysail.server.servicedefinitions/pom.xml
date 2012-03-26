@@ -41,8 +41,8 @@
 		<dependency>
 			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.common</artifactId>
-<!-- 			<version>[0.3.0-SNAPSHOT, 0.4)</version>
- -->			<version>0.3.0.RC2</version>
+			<version>[0.3.0, 0.4)</version>
+			<!-- <version>0.3.0.RC2</version> -->
 		</dependency>
 	</dependencies>
 
