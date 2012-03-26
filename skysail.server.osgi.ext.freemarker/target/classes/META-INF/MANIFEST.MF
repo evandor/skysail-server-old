@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Export-Package: de.twenty11.skysail.server.ext.freemarker;uses:="freem
+ arker.cache,org.osgi.util.tracker,org.osgi.framework,freemarker.templ
+ ate,org.slf4j";version="0.1.0"
+Built-By: carsten
+Tool: Bnd-1.15.0
+Bundle-Name: skysail server freemarker extension
+Created-By: Apache Maven Bundle Plugin
+FtlTemplates: /freemarker/ftls/
+Build-Jdk: 1.6.0_26
+Bundle-Version: 0.0.7.SNAPSHOT
+Bnd-LastModified: 1332505302394
+Bundle-Activator: de.twenty11.skysail.server.ext.freemarker.internal.A
+ ctivator
+Bundle-ManifestVersion: 2
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-Description: This pom needs to be run with maven3!
+Import-Package: freemarker.cache;version="[2.3,3)",freemarker.template
+ ;version="[2.3,3)",org.osgi.framework;version="[1.5,2)",org.osgi.util
+ .tracker;version="[1.4,2)",org.slf4j;version="[1.6,2)"
+Bundle-SymbolicName: skysail.server.freemarker
+
