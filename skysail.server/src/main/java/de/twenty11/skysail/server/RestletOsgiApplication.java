@@ -36,15 +36,17 @@ import freemarker.template.Template;
  * @author carsten
  * 
  */
-public class RestletOsgiApplication extends Application {
+public abstract class RestletOsgiApplication extends Application {
 
-    /** slf4j based logger implementation */
+    /** slf4j based logger implementation. */
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /** the restlet router. */
     protected volatile Router router;
 
     private MapVerifier verifier;
+
+    private String staticPath;
 
     /** the osgi bundle context. */
     private static BundleContext bundleContext;
@@ -53,10 +55,11 @@ public class RestletOsgiApplication extends Application {
         RestletOsgiApplication.bundleContext = bundleContext;
     }
 
-    public RestletOsgiApplication() {
+    public RestletOsgiApplication(final String staticPathTemplate) {
         MapVerifier verifier = new MapVerifier();
         verifier.getLocalSecrets().put("scott", "tiger".toCharArray());
         this.verifier = verifier;
+        this.staticPath = staticPathTemplate;
     }
 
     @Override
@@ -71,7 +74,6 @@ public class RestletOsgiApplication extends Application {
         getConnectorService().getClientProtocols().add(Protocol.CLAP);
 
         LocalReference localReference = LocalReference.createClapReference(LocalReference.CLAP_THREAD, "/webapp/");
-
         CompositeClassLoader customCL = new CompositeClassLoader();
         // TODO check ordering
         // add "this" classloader first (this is usually the "product" bundle
@@ -82,7 +84,7 @@ public class RestletOsgiApplication extends Application {
 
         ClassLoaderDirectory directory = new ClassLoaderDirectory(getContext(), localReference, customCL);
 
-        router.attach("/static", directory);
+        router.attach(this.staticPath, directory);
 
         attach();
 
@@ -110,8 +112,7 @@ public class RestletOsgiApplication extends Application {
     }
 
     // TODO make abstract
-    protected void attach() {
-    }
+    abstract protected void attach();
 
     // TODO Duplication in communicationUtils
     protected static final Template getFtlTemplate(String templatePath) {
