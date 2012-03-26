@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>skysail.server.servicedefinitions</artifactId>
-	<version>0.2.0</version>
+	<version>0.2.1-SNAPSHOT</version>
 	<name>skysail server servicedefinitions</name>
 	<packaging>bundle</packaging>
 
