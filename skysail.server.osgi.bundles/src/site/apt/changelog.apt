@@ -1,9 +1,13 @@
- <<0.2.0.RC1 (March 2012)>>
+ <<0.2.1 (March 2012)>>
  
   * removing activator
   
   * various small fixes
 
+ <<0.2.0 (March 2012)>>
+ 
+  * don't use, corrupted
+  
  <<0.1.4 (Feb. 2012)>>
  
   * package name fix
