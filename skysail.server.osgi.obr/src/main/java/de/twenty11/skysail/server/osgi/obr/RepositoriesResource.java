@@ -25,7 +25,7 @@ public class RepositoriesResource extends GridDataServerResource {
 
     @Override
     public void configureColumns(final ColumnsBuilder builder) {
-        builder.addColumn("repositoryName").sortDesc(1).setWidth(300);
+        builder.addColumn("repositoryName").setWidth(300);
         builder.addColumn("repositoryLocation").setWidth(240);
     }
 
@@ -35,7 +35,7 @@ public class RepositoriesResource extends GridDataServerResource {
         Repository[] repositories = repAdmin.listRepositories();
         for (Repository repository : repositories) {
             RowData rowData = new RowData(getSkysailData().getColumns());
-            rowData.add(repository.getName());
+            rowData.add(repository.getName(), "unknown");
             rowData.add(repository.getURI());
             getSkysailData().addRowData(null, rowData);
         }

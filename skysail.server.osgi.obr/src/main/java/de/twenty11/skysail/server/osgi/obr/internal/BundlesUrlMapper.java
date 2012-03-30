@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import de.twenty11.skysail.server.osgi.obr.RepositoriesResource;
+import de.twenty11.skysail.server.osgi.obr.RepositoryResource;
 import de.twenty11.skysail.server.servicedefinitions.UrlMapper;
 
 /**
@@ -21,6 +22,7 @@ public class BundlesUrlMapper implements UrlMapper {
     public Map<String, String> getUrlMapping() {
         Map<String, String> queue = Collections.synchronizedMap(new LinkedHashMap<String, String>());
         queue.put("/osgirep/repositories/", RepositoriesResource.class.getName());
+        queue.put("/osgirep/repositories/{repositoryName}/", RepositoryResource.class.getName());
         return queue;
     }
 
