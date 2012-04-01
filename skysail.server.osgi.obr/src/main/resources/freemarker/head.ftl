@@ -24,5 +24,6 @@
     
     <script type="text/javascript" src="${contextPath}static/js/dojo/dojo.js.uncompressed.js"></script>
     <script type="text/javascript" src="${contextPath}static/js/serverload.js"></script>
+    <script type="text/javascript" src="${contextPath}static/js/servertime.js"></script>
    
 </head>

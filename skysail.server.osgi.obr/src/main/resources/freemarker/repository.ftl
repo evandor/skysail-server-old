@@ -38,6 +38,7 @@
               <td>${columnData}</td>
             </#if>
           </#list>
+            <td><a href="${columns[0]}/install/">install</a></td>
           </tr>  
         </#list>
         </tbody>

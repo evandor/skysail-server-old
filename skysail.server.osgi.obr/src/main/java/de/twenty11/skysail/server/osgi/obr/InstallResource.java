@@ -17,52 +17,51 @@
 
 package de.twenty11.skysail.server.osgi.obr;
 
+import org.apache.felix.bundlerepository.Reason;
 import org.apache.felix.bundlerepository.RepositoryAdmin;
+import org.apache.felix.bundlerepository.Requirement;
+import org.apache.felix.bundlerepository.Resolver;
 import org.apache.felix.bundlerepository.Resource;
 import org.osgi.framework.InvalidSyntaxException;
 
 import de.twenty11.skysail.common.grids.ColumnsBuilder;
 import de.twenty11.skysail.common.grids.GridData;
-import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.server.GridDataServerResource;
 import de.twenty11.skysail.server.osgi.obr.internal.RepositoryAdminService;
 
-public class RepositoryResource extends GridDataServerResource {
+public class InstallResource extends GridDataServerResource {
 
-    public RepositoryResource() {
+    public InstallResource() {
         super(new GridData());
-        setTemplate("skysail.server.osgi.obr:repository.ftl");
+        setTemplate("skysail.server.osgi.obr:install.ftl");
     }
-    
+
     @Override
     public void configureColumns(ColumnsBuilder builder) {
-        builder.addColumn("bundle").sortDesc(2).setWidth(150);
-        builder.addColumn("version").sortDesc(1).setWidth(100);
-        builder.addColumn("url").setWidth(900);
-        builder.addColumn("caps").setWidth(900);
+        builder.addColumn("result");
     }
-    
+
     @Override
     public void buildGrid() {
+        String bundle = (String) getRequest().getAttributes().get("bundle");
         RepositoryAdmin repAdmin = RepositoryAdminService.getInstance();
-        //String repositoryName = (String) getRequest().getAttributes().get("repositoryName");
+        Resolver resolver = repAdmin.resolver();
+        Resource[] resource;
         try {
-            String filter = null;
-            Resource[] resources = repAdmin.discoverResources(filter);
-            for (Resource resource : resources) {
-                RowData row = new RowData(getSkysailData().getColumns());
-                row.add(resource.getSymbolicName());
-                row.add(resource.getVersion());
-                row.add(resource.getURI());
-                row.add(resource.getCapabilities().toString());
-                getSkysailData().addRowData(null, row);
+            resource = repAdmin.discoverResources("(symbolicname=" + bundle + ")");
+            resolver.add(resource[0]);
+            if (resolver.resolve()) {
+                resolver.deploy(Resolver.NO_OPTIONAL_RESOURCES);
+            } else {
+                Reason[] reqs = resolver.getUnsatisfiedRequirements();
+                for (int i = 0; i < reqs.length; i++) {
+                    System.out.println("Unable to resolve: " + reqs[i]);
+                }
             }
-            
         } catch (InvalidSyntaxException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
     }
 
 }
