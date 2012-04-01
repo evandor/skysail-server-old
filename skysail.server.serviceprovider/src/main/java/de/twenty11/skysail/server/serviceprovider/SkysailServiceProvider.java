@@ -37,21 +37,6 @@ public abstract class SkysailServiceProvider {
     /** the skysail config service. */
     private ConfigService configService;
     
-    
-    /**
-     * To be implemented according to their specific needs by subclasses.
-     * @param ctxt provided by framework
-     */
-    // removing to avoid dependency on org.osgi
-    //protected abstract void activate(ComponentContext ctxt);
-
-    /**
-     * To be implemented according to their specific needs by subclasses.
-     * @param ctxt provided by framework
-     */
-    // removing to avoid dependency on org.osgi
-    //protected abstract void deactivate(ComponentContext ctxt);
-
     public void setConfigService(final ConfigService service) {
         logger.info("skysail service provider: ConfigService set to {}", service);
         configService = service;
