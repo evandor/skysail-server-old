@@ -20,6 +20,7 @@ package de.twenty11.skysail.server;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -146,17 +147,19 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
     }
 
     /**
-     * Sorting the grid. 
+     * Sorting the grid.
      * 
      * The steps involved are:
      * 
-     * 1. As a default get the columns by which we should sort (in an ascending order by sort-weight)
-     * 2. Adjust that column sorting in case we have instructions to do so (via request)
-     * 3. Sort the rows of the grid, starting from the column with the lowest sort-weight
+     * 1. As a default get the columns by which we should sort (in an ascending
+     * order by sort-weight) 2. Adjust that column sorting in case we have
+     * instructions to do so (via request) 3. Sort the rows of the grid,
+     * starting from the column with the lowest sort-weight
      * 
      * @see de.twenty11.skysail.server.SkysailServerResource#sort()
      * 
-     * // TODO whole implementation of sorting completely ugly, needs serious refactoring, specifically "sortingRequested"
+     *      // TODO whole implementation of sorting completely ugly, needs
+     *      serious refactoring, specifically "sortingRequested"
      */
     public void sort() {
 
@@ -165,7 +168,8 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
         Map<String, ColumnDefinition> columnsInSortOrder = getSkysailData().getColumnsFromBuilder(true);
         int maxSortWeight = getSkysailData().getMaxSortValueFromBuilder();
 
-        // 2.) check if a sorting instruction exists on the request and re-sort the
+        // 2.) check if a sorting instruction exists on the request and re-sort
+        // the
         // columns in that case.
         if (sortingRequested(columnsInSortOrder, maxSortWeight)) {
             ColumnSortOrderComparator bvc = new ColumnSortOrderComparator(columnsInSortOrder);
@@ -174,7 +178,8 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
             columnsInSortOrder = result;
         }
 
-        // 3.) now sort the rows, starting with the column with the lowest sort-weight
+        // 3.) now sort the rows, starting with the column with the lowest
+        // sort-weight
         for (String columnName : columnsInSortOrder.keySet()) {
             final ColumnDefinition colDef = columnsInSortOrder.get(columnName);
             if (colDef.getSorting() != null && colDef.getSorting() != 0) {
@@ -187,6 +192,7 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
     }
 
     /**
+     * // TODO this needs some refinement (comparing object.tostring() right now)
      * @param colDef
      *            the column which is used for sorting
      * @param columnIndex
@@ -196,13 +202,32 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
         Collections.sort(getSkysailData().getGridData(), new Comparator<RowData>() {
             @Override
             public int compare(final RowData o1, final RowData o2) {
+                List<Object> columnData1 = o1.getColumnData();
+                List<Object> columnData2 = o2.getColumnData();
+                
+                // make this null-safe for the columnData object
+                if (columnData1 == null ^ columnData2 == null) {
+                    return (columnData1 == null) ? -1 : 1;
+                }
+                if (columnData1 == null && columnData2 == null) {
+                    return 0;
+                }
+                
+                // make this null-safe for the actual entry
+                Object object1 = columnData1.get(columnIndex);
+                Object object2 = columnData2.get(columnIndex);
+                if (object1 == null ^ object2 == null) {
+                    return (object1 == null) ? -1 : 1;
+                }
+                if (object1 == null && object2 == null) {
+                    return 0;
+                }
+                // now, finally, compare
                 int sig = 1;
                 if (colDef.getSorting() < 0) {
                     sig = -1;
                 }
-                return sig
-                                * o1.getColumnData().get(columnIndex).toString()
-                                                .compareTo(o2.getColumnData().get(columnIndex).toString());
+                return sig * object1.toString().compareTo(object2.toString());
             }
         });
     }
@@ -231,9 +256,11 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
                 sorting = new Integer(sortValuesFromRequest[getSkysailData().getColumnId(currentColumnName)]);
                 sortingMap.put(getSkysailData().getColumnId(currentColumnName), sorting);
                 if (sorting > 0) {
-                    getColumnDefinitionToToggle(columnsInSortOrder, getSkysailData().getColumnId(currentColumnName)).sortDesc(sorting);
+                    getColumnDefinitionToToggle(columnsInSortOrder, getSkysailData().getColumnId(currentColumnName))
+                                    .sortDesc(sorting);
                 } else {
-                    getColumnDefinitionToToggle(columnsInSortOrder, getSkysailData().getColumnId(currentColumnName)).sortAsc(sorting);
+                    getColumnDefinitionToToggle(columnsInSortOrder, getSkysailData().getColumnId(currentColumnName))
+                                    .sortAsc(sorting);
                 }
                 maxSortValue = Math.max(maxSortValue, Math.abs(sorting));
             }

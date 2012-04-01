@@ -1,4 +1,8 @@
- <<0.2.0.RC2 (March 2012)>>
+ <<0.2.1 ()>>
+
+  * making sortRow "null-safe"
+
+ <<0.2.0 = 0.2.0.RC2 (March 2012)>>
 
   * RestletOsgiApplication now abstract (method attach) and with constructor taking the pathTemplate for the static resources
 
