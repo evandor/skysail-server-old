@@ -33,7 +33,6 @@ public class ServicesResource extends GridDataServerResource {
      * constructor providing the freemarker template.
      */
     public ServicesResource() {
-        super(new GridData());
         setTemplate("skysail.server.osgi.bundles:services.ftl");
     }
 

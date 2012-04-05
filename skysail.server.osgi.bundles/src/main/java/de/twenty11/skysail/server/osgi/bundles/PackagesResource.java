@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.grids.ColumnsBuilder;
-import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.server.GridDataServerResource;
 
@@ -23,7 +22,6 @@ public class PackagesResource extends GridDataServerResource {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public PackagesResource() {
-        super(new GridData());
         setTemplate("skysail.server.osgi.bundles:packages.ftl");
     }
 

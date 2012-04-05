@@ -19,20 +19,17 @@ package de.twenty11.skysail.server.osgi.obr;
 
 import org.apache.felix.bundlerepository.Reason;
 import org.apache.felix.bundlerepository.RepositoryAdmin;
-import org.apache.felix.bundlerepository.Requirement;
 import org.apache.felix.bundlerepository.Resolver;
 import org.apache.felix.bundlerepository.Resource;
 import org.osgi.framework.InvalidSyntaxException;
 
 import de.twenty11.skysail.common.grids.ColumnsBuilder;
-import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.server.GridDataServerResource;
 import de.twenty11.skysail.server.osgi.obr.internal.RepositoryAdminService;
 
 public class InstallResource extends GridDataServerResource {
 
     public InstallResource() {
-        super(new GridData());
         setTemplate("skysail.server.osgi.obr:install.ftl");
     }
 

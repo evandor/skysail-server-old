@@ -74,8 +74,8 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
      * @param data
      *            the skysail data backing up the resource.
      */
-    public GridDataServerResource(final GridData data) {
-        super(data);
+    public GridDataServerResource() {
+        super(new GridData());
     }
 
     public void buildGrid() {

@@ -48,7 +48,7 @@ public class GridDataServerResourceTest {
 
     @Before
     public void setUp() throws Exception {
-        gdsr = new GridDataServerResource(new GridData()) {
+        gdsr = new GridDataServerResource() {
 
             @Override
             public void configureColumns(final ColumnsBuilder builder) {

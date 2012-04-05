@@ -1,6 +1,8 @@
  <<0.2.1 ()>>
 
   * making sortRow "null-safe"
+  
+  * GridDataServerResource constructor doesn't take skysailData parameter any more
 
  <<0.2.0 = 0.2.0.RC2 (March 2012)>>
 

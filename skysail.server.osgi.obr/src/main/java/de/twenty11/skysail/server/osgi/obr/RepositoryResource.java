@@ -22,7 +22,6 @@ import org.apache.felix.bundlerepository.Resource;
 import org.osgi.framework.InvalidSyntaxException;
 
 import de.twenty11.skysail.common.grids.ColumnsBuilder;
-import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.server.GridDataServerResource;
 import de.twenty11.skysail.server.osgi.obr.internal.RepositoryAdminService;
@@ -30,7 +29,6 @@ import de.twenty11.skysail.server.osgi.obr.internal.RepositoryAdminService;
 public class RepositoryResource extends GridDataServerResource {
 
     public RepositoryResource() {
-        super(new GridData());
         setTemplate("skysail.server.osgi.obr:repository.ftl");
     }
     

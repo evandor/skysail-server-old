@@ -1,13 +1,11 @@
 package de.twenty11.skysail.server.osgi.bundles;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.osgi.framework.Bundle;
 
 import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.grids.ColumnsBuilder;
-import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.server.GridDataServerResource;
 import de.twenty11.skysail.server.osgi.bundles.internal.BundleUtils;
@@ -21,7 +19,6 @@ import de.twenty11.skysail.server.osgi.bundles.internal.BundleUtils;
 public class BundlesResource extends GridDataServerResource {
 
     public BundlesResource() {
-        super(new GridData());
         setTemplate("skysail.server.osgi.bundles:bundles.ftl");
     }
 

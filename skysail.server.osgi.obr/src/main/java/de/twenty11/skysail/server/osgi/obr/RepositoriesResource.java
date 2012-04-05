@@ -4,7 +4,6 @@ import org.apache.felix.bundlerepository.Repository;
 import org.apache.felix.bundlerepository.RepositoryAdmin;
 
 import de.twenty11.skysail.common.grids.ColumnsBuilder;
-import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.server.GridDataServerResource;
 import de.twenty11.skysail.server.osgi.obr.internal.RepositoryAdminService;
@@ -19,7 +18,6 @@ public class RepositoriesResource extends GridDataServerResource {
      * constructor providing the freemarker template.
      */
     public RepositoriesResource() {
-        super(new GridData());
         setTemplate("skysail.server.osgi.obr:repositories.ftl");
     }
 
