@@ -19,7 +19,7 @@ public class OriginalRequestFilter extends Filter {
 //        if (request.getf != null && query.getNames().contains("debug")) {
 //            response.setDebug(true);
 //        }
-        URL url = request.getOriginalRef().toUrl();
+        //URL url = request.getOriginalRef().toUrl();
         
         return CONTINUE;
     }

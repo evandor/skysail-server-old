@@ -33,11 +33,7 @@
           <#if debug>
                <li class="next"><a href="${request}?replace("&debug","").replace("?debug","")>debug off</a></li>
           <#else>
-              <#if origRequest?contains("?")>
                 <li class="next"><a href="${request}debug">debug</a></li>
-              <#else>
-                <li class="next"><a href="${request}debug">debug</a></li>
-              </#if>
           </#if>
           </ul> 
         </caption>

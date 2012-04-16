@@ -1,6 +1,6 @@
 
         <tr>
-          <#list gridColumns?values as value>
+          <#list gridColumns as value>
           <#-- ignore columns with width <= 0, but show column if width is not defined -->
           <#if (!value.width?? || value.width > 0) >
           <td class="search">

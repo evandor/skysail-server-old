@@ -132,7 +132,6 @@ public abstract class RestletOsgiApplication extends Application {
 
     public void attachToRouter(String key, Class<? extends ServerResource> executor) {
         router.attach(key, executor);
-
     }
 
     public void detachFromRouter(Class<?> executor) {

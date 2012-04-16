@@ -1,8 +1,8 @@
   <div class="nav">
     <a class="brightlink" href="/">Home</a>
-    <#if origRequest??>
+    <#if request??>
     <#assign link = "" />
-    <#assign splits = origRequest?split("/") />
+    <#assign splits = request?split("/") />
     <#list splits as part>
       <#assign link = link + part + "/"/>
       <#if (part_index < 3)>

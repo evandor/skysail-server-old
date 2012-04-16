@@ -5,7 +5,7 @@
         <thead>
           <tr>
           <#assign columnCounter = 0 />
-          <#list gridColumns?values as value>
+          <#list gridColumns as value>
               
               <#-- handle default -->
               <#assign sorting = "" />

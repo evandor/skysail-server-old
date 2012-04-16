@@ -75,8 +75,8 @@ public abstract class FormDataServerResource extends SkysailServerResource<FormD
         //response.setTotalResults(1);
         //response.setPage(getCurrentPage());
         //response.setPageSize(getPageSize());
-        response.setOrigRequest(getRequest().getOriginalRef().toUrl());
-        response.setRequest(getRequest().getOriginalRef().toUrl());
+        //response.setOrigRequest(getRequest().getOriginalRef().toUrl());
+        response.setRequest(getRequest().getOriginalRef().toString());
         response.setParent(getParent());
         response.setContextPath("/rest/");
         //response.setFilter(getFilter() != null ? getFilter().toString() : "");

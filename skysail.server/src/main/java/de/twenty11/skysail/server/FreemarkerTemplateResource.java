@@ -15,8 +15,8 @@ public class FreemarkerTemplateResource extends SkysailServerResource<SkysailDat
         response.setTotalResults(0);
         response.setPage(1);
         response.setPageSize(0);
-        response.setOrigRequest(getRequest().getOriginalRef().toUrl());
-        response.setRequest(getRequest().getOriginalRef().toUrl());
+        //response.setOrigRequest(getRequest().getOriginalRef().toUrl());
+        response.setRequest(getRequest().getOriginalRef().toString());
         response.setParent(getParent());
         response.setContextPath("/rest/");
         response.setFilter("");

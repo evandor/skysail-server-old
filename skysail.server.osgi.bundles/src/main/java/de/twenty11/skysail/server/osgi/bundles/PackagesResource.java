@@ -27,12 +27,10 @@ public class PackagesResource extends GridDataServerResource {
 
     @Override
     public void configureColumns(ColumnsBuilder builder) {
-        // @formatter:off
-        builder.addColumn("Package").sortDesc(1).setWidth(250).
-        addColumn("Exporting Bundle").setWidth(300).
-        addColumn("Version").
-        addColumn("Importing BundleUtils");
-        // @formatter:on
+        builder.addColumn("Package").sortDesc(1).setWidth(250);
+        builder.addColumn("Exporting Bundle").setWidth(300);
+        builder.addColumn("Version");
+        builder.addColumn("Importing BundleUtils");
     }
 
     @Override

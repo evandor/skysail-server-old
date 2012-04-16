@@ -24,13 +24,10 @@ public class BundlesResource extends GridDataServerResource {
 
     @Override
     public void configureColumns(final ColumnsBuilder builder) {
-        // @formatter:off
-       builder.
-       addColumn("id").setWidth(50).sortDesc(1).
-       addColumn("symbolicName").setWidth(350).setWidth(100).
-       addColumn("version").setWidth(100).
-       addColumn("state").setWidth(50);
-        // @formatter:on
+       builder.addColumn("id").setWidth(50).sortDesc(1);
+       builder.addColumn("symbolicName").setWidth(350).setWidth(100);
+       builder.addColumn("version").setWidth(100);
+       builder.addColumn("state").setWidth(50);
     }
 
     @Override
@@ -39,23 +36,11 @@ public class BundlesResource extends GridDataServerResource {
         Filter filter = getSkysailData().getFilter();
         for (Bundle bundle : bundles) {
             RowData rowData = new RowData(getSkysailData().getColumns());
-            // @formatter:off
-            rowData
-                .add(bundle.getBundleId())
-                .add(bundle.getSymbolicName())
-                .add(bundle.getVersion())
-                .add(BundleUtils.translateStatus(bundle.getState()));
-            // @formatter:on
-
-            // List<Object> columnData = new ArrayList<Object>();
-            // columnData.add(bundle.getBundleId());
-            // columnData.add(bundle.getSymbolicName());
-            // columnData.add(bundle.getVersion());
-            // columnData.add(BundleUtils.translateStatus(bundle.getState()));
-            // //if (filter.match(columnData)) {
-            // rowData.setColumnData(columnData);
+            rowData.add(bundle.getBundleId());
+            rowData.add(bundle.getSymbolicName());
+            rowData.add(bundle.getVersion());
+            rowData.add(BundleUtils.translateStatus(bundle.getState()));
             getSkysailData().addRowData(filter, rowData);
-            // //}
         }
     }
 }

@@ -164,31 +164,26 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
     public void sort() {
 
         // 1.) get the default sorting for the grid by asking for the pre-sorted
-        // columns (ascending by sort weight)
-        Map<String, ColumnDefinition> columnsInSortOrder = getSkysailData().getColumnsFromBuilder(true);
+        // columns (ascending by sort weight). The columns with the highest sort-order
+    	// come last. maxSortWeight is the maximum absolute sorting value of all columns.
+        List<ColumnDefinition> columnsInSortOrder = getSkysailData().getColumnsInSortOrder();
         int maxSortWeight = getSkysailData().getMaxSortValueFromBuilder();
 
         // 2.) check if a sorting instruction exists on the request and re-sort
-        // the
-        // columns in that case.
-        if (sortingRequested(columnsInSortOrder, maxSortWeight)) {
-            ColumnSortOrderComparator bvc = new ColumnSortOrderComparator(columnsInSortOrder);
-            TreeMap<String, ColumnDefinition> result = new TreeMap<String, ColumnDefinition>(bvc);
-            result.putAll(columnsInSortOrder);
-            columnsInSortOrder = result;
+        // the columns in that case.
+        if (calculateNewSorting(columnsInSortOrder, maxSortWeight)) {
+        	Collections.sort(columnsInSortOrder,new ColumnSortOrderComparator());
         }
 
         // 3.) now sort the rows, starting with the column with the lowest
         // sort-weight
-        for (String columnName : columnsInSortOrder.keySet()) {
-            final ColumnDefinition colDef = columnsInSortOrder.get(columnName);
+        for (ColumnDefinition colDef  : columnsInSortOrder) {
             if (colDef.getSorting() != null && colDef.getSorting() != 0) {
                 final int columnIndex = getSkysailData().getColumnId(colDef.getName());
                 logger.info("sorting grid with column '{}' ({})", colDef.getName(), colDef.getSorting());
                 sortRows(colDef, columnIndex);
             }
         }
-
     }
 
     /**
@@ -199,7 +194,7 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
      *            the index of that column
      */
     private void sortRows(final ColumnDefinition colDef, final int columnIndex) {
-        Collections.sort(getSkysailData().getGridData(), new Comparator<RowData>() {
+        Collections.sort(getSkysailData().getGrid(), new Comparator<RowData>() {
             @Override
             public int compare(final RowData o1, final RowData o2) {
                 List<Object> columnData1 = o1.getColumnData();
@@ -238,50 +233,73 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
      * @param maxSortValue
      * @return whether or not the sorting has been changed
      */
-    private boolean sortingRequested(final Map<String, ColumnDefinition> columnsInSortOrder, int maxSortValue) {
+    private boolean calculateNewSorting(final List<ColumnDefinition> columnsInSortOrder, int maxSortValue) {
 
         boolean runReSort = false;
         Map<Integer, Integer> sortingMap = new TreeMap<Integer, Integer>();
         setSorting("");
-
-        Integer columnIdToToggle = getColumnToToggle();
-        ColumnDefinition columnToToggle = getColumnDefinitionToToggle(columnsInSortOrder, columnIdToToggle);
+        
+        // is there any column the sorting of which should be toggled?
+        ColumnDefinition columnToToggle = getColumnDefinitionToToggle(columnsInSortOrder, getColumnToToggle());
         String override = getQuery() != null ? getQuery().getFirstValue("s", null) : null;
         runReSort = validate(override, getSkysailData().getColumns().size());
 
-        for (String currentColumnName : columnsInSortOrder.keySet()) {
-            Integer sorting = columnsInSortOrder.get(currentColumnName).getSorting();
+        for (ColumnDefinition currentColumnName : columnsInSortOrder) {
+            Integer sorting = currentColumnName.getSorting();
             if (override != null) {
-                String[] sortValuesFromRequest = override.split("\\|");
-                sorting = new Integer(sortValuesFromRequest[getSkysailData().getColumnId(currentColumnName)]);
-                sortingMap.put(getSkysailData().getColumnId(currentColumnName), sorting);
-                if (sorting > 0) {
-                    getColumnDefinitionToToggle(columnsInSortOrder, getSkysailData().getColumnId(currentColumnName))
-                                    .sortDesc(sorting);
-                } else {
-                    getColumnDefinitionToToggle(columnsInSortOrder, getSkysailData().getColumnId(currentColumnName))
-                                    .sortAsc(sorting);
-                }
+                sorting = setSortingAsByRequest(columnsInSortOrder, sortingMap,
+						override, currentColumnName);
                 maxSortValue = Math.max(maxSortValue, Math.abs(sorting));
             }
-            if (columnToToggle != null && currentColumnName.equals(columnToToggle.getName())) {
-                runReSort = true;
-                if (sorting > 0) {
-                    columnToToggle.sortAsc((maxSortValue + 1));
-                    sortingMap.put(getSkysailData().getColumnId(currentColumnName), -(maxSortValue + 1));
-                } else if (sorting == 0) {
-                    columnToToggle.sortDesc((maxSortValue + 1));
-                    sortingMap.put(getSkysailData().getColumnId(currentColumnName), (maxSortValue + 1));
-                } else {
-                    columnToToggle.sortDesc(0);
-                    sortingMap.put(getSkysailData().getColumnId(currentColumnName), 0);
-                }
-            } else {
-                sortingMap.put(getSkysailData().getColumnId(currentColumnName), sorting);
-            }
+            runReSort = toggleColumnsSorting(maxSortValue, runReSort,
+					sortingMap, columnToToggle, currentColumnName, sorting);
         }
 
-        if (sortingMap.size() > 0) {
+        calcAndSetSortingString(sortingMap);
+        return runReSort;
+    }
+
+	private boolean toggleColumnsSorting(int maxSortValue, boolean runReSort,
+			Map<Integer, Integer> sortingMap, ColumnDefinition columnToToggle,
+			ColumnDefinition currentColumnName, Integer sorting) {
+		if (columnToToggle != null && currentColumnName.equals(columnToToggle.getName())) {
+		    runReSort = true;
+		    if (sorting > 0) {
+		        columnToToggle.sortAsc((maxSortValue + 1));
+		        sortingMap.put(getSkysailData().getColumnId(currentColumnName.getName()), -(maxSortValue + 1));
+		    } else if (sorting == 0) {
+		        columnToToggle.sortDesc((maxSortValue + 1));
+		        sortingMap.put(getSkysailData().getColumnId(currentColumnName.getName()), (maxSortValue + 1));
+		    } else {
+		        columnToToggle.sortDesc(0);
+		        sortingMap.put(getSkysailData().getColumnId(currentColumnName.getName()), 0);
+		    }
+		} else {
+		    sortingMap.put(getSkysailData().getColumnId(currentColumnName.getName()), sorting);
+		}
+		return runReSort;
+	}
+
+	private Integer setSortingAsByRequest(
+			final List<ColumnDefinition> columnsInSortOrder,
+			Map<Integer, Integer> sortingMap, String override,
+			ColumnDefinition currentColumnName) {
+		Integer sorting;
+		String[] sortValuesFromRequest = override.split("\\|");
+		sorting = new Integer(sortValuesFromRequest[getSkysailData().getColumnId(currentColumnName.getName())]);
+		sortingMap.put(getSkysailData().getColumnId(currentColumnName.getName()), sorting);
+		if (sorting > 0) {
+		    getColumnDefinitionToToggle(columnsInSortOrder, getSkysailData().getColumnId(currentColumnName.getName()))
+		                    .sortDesc(sorting);
+		} else {
+		    getColumnDefinitionToToggle(columnsInSortOrder, getSkysailData().getColumnId(currentColumnName.getName()))
+		                    .sortAsc(sorting);
+		}
+		return sorting;
+	}
+
+	private void calcAndSetSortingString(Map<Integer, Integer> sortingMap) {
+		if (sortingMap.size() > 0) {
             StringBuffer sb = new StringBuffer("s=");
             for (Integer position : sortingMap.keySet()) {
                 Integer value = sortingMap.get(position);
@@ -289,8 +307,7 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
             }
             setSorting(sb.toString().substring(0, sb.length() - 1) + "&");
         }
-        return runReSort;
-    }
+	}
 
     /**
      * checks the sorting parameter and throws unchecked exception is not valid
@@ -319,13 +336,19 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
         return true;
     }
 
-    private ColumnDefinition getColumnDefinitionToToggle(Map<String, ColumnDefinition> columnsInSortOrder,
+    private ColumnDefinition getColumnDefinitionToToggle(List<ColumnDefinition> columnsInSortOrder,
                     Integer columnId) {
         if (columnId == null) {
             return null;
         }
         String columnNameToToggle = getSkysailData().getColumnName(columnId);
-        return columnsInSortOrder.get(columnNameToToggle);
+        //return columnsInSortOrder.get(columnNameToToggle);
+        for (ColumnDefinition columnDefinition : columnsInSortOrder) {
+			if (columnDefinition.getName().equals(columnNameToToggle)) {
+				return columnDefinition;
+			}
+		}
+        return null;
     }
 
     private Integer getColumnToToggle() {
@@ -343,8 +366,8 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
         response.setTotalResults(getTotalResults());
         response.setPage(getCurrentPage());
         response.setPageSize(getPageSize());
-        response.setOrigRequest(getRequest().getOriginalRef().toUrl());
-        response.setRequest(getRequest().getOriginalRef().toUrl());
+        //response.setOrigRequest(getRequest().getOriginalRef().toUrl());
+        response.setRequest(getRequest().getOriginalRef().toString());
         response.setParent(getParent());
         response.setContextPath("/rest/");
         response.setFilter(getFilter() != null ? getFilter().toString() : "");

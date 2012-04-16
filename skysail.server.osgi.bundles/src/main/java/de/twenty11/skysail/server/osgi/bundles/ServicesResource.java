@@ -38,14 +38,11 @@ public class ServicesResource extends GridDataServerResource {
 
     @Override
     public void configureColumns(final ColumnsBuilder builder) {
-        // @formatter:off CHECKSTYLE:OFF
-        builder.
-        addColumn("id").setWidth(0).
-        addColumn("serviceName").sortDesc(1).setWidth(500).
-        addColumn("implementingBundle").setWidth(240).
-        addColumn("version").setWidth(80).
-        addColumn("usingBundles").sortAsc(null).setWidth(400);
-        // @formatter:on CHECKSTYLE:ON
+        builder.addColumn("id").setWidth(0);
+        builder.addColumn("serviceName").sortDesc(1).setWidth(500);
+        builder.addColumn("implementingBundle").setWidth(240);
+        builder.addColumn("version").setWidth(80);
+        builder.addColumn("usingBundles").sortAsc(null).setWidth(400);
     }
 
     @Override
