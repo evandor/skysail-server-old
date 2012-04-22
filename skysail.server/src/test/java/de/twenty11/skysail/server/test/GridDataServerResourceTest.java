@@ -17,15 +17,9 @@
 
 package de.twenty11.skysail.server.test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.restlet.Request;
 
@@ -34,157 +28,204 @@ import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.server.GridDataServerResource;
 
+/**
+ * Testing GridDataServerResource class.
+ * @author carsten
+ *
+ */
 public class GridDataServerResourceTest {
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-    }
+	/** initialized in setup for testing. */
+	private GridDataServerResource gdsr;
 
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-    }
+	@Before
+	public void setUp() throws Exception {
+		gdsr = new GridDataServerResource() {
 
-    private GridDataServerResource gdsr;
+			@Override
+			public void configureColumns(final ColumnsBuilder builder) {
+				builder.addColumn("col0").setWidth(0);
+				builder.addColumn("col1").sortDesc(1).setWidth(500);
+				builder.addColumn("col2").setWidth(240);
+				builder.addColumn("col3").setWidth(80);
+				builder.addColumn("col4").sortAsc(null).setWidth(400);
+			}
 
-    @Before
-    public void setUp() throws Exception {
-        gdsr = new GridDataServerResource() {
+			@Override
+			public void buildGrid() {
+				GridData grid = getSkysailData();
+				setDummyData(grid, new String[] { "6", "e", "1.2.3", "ACTIVE" });
+				setDummyData(grid, new String[] { "5", "d", "10.11.12",
+						"ACTIVE" });
+				setDummyData(grid, new String[] { "4", "c", "4.5.6", "ACTIVE" });
+				setDummyData(grid, new String[] { "3", "b", "13.14.15",
+						"ACTIVE" });
+				setDummyData(grid, new String[] { "2", "a", "7.8.9", "ACTIVE" });
+				setDummyData(grid, new String[] { "1", "a", "16.17.18",
+						"ACTIVE" });
+			}
 
-            @Override
-            public void configureColumns(final ColumnsBuilder builder) {
-                builder.addColumn("id").setWidth(0);
-                builder.addColumn("serviceName").sortDesc(1).setWidth(500);
-                builder.addColumn("implementingBundle").setWidth(240);
-                builder.addColumn("version").setWidth(80);
-                builder.addColumn("usingBundles").sortAsc(null).setWidth(400);
-            }
-            
-            @Override
-            public void buildGrid() {
-                // @formatter:off CHECKSTYLE:OFF
-                GridData grid = getSkysailData();
-                setDummyData(grid, new String[] {"0",  "org.eclipse.osgi",                  "3.6.1.R36x_v20100806", "ACTIVE"});
-                setDummyData(grid, new String[] {"1",  "ch.qos.logback.core",               "0.9.29",               "ACTIVE"});
-                setDummyData(grid, new String[] {"5",  "skysail.common",                    "0.2.13.SNAPSHOT",      "ACTIVE"});
-                setDummyData(grid, new String[] {"9",  "skysail.server",                    "0.1.3",                "ACTIVE"});
-                setDummyData(grid, new String[] {"19", "skysail.server.servicedefinitions", "0.2.15.SNAPSHOT",      "ACTIVE"});
-                setDummyData(grid, new String[] {"11", "skysail.server.serviceprovider",    "0.3.1",                "ACTIVE"});
-                // @formatter:on CHECKSTYLE:ON
-            }
+			private void setDummyData(GridData grid, String[] a) {
+				RowData rowData = new RowData(getSkysailData().getColumns());
+				rowData.add(a[0]).add(a[1]).add(a[2]).add(a[3]);
+				grid.addRowData(null, rowData);
+			}
+		};
+	}
 
-            private void setDummyData(GridData grid, String[] a) {
-                RowData rowData = new RowData(getSkysailData().getColumns());
-                rowData.add(a[0]).add(a[1]).add(a[2]).add(a[3]);
-//                List<Object> columnData = new ArrayList<Object>();
-//                columnData.add(a[0]);columnData.add(a[1]);columnData.add(a[2]);columnData.add(a[3]);
-//                rowData.setColumnData(columnData);
-                grid.addRowData(null,rowData);
-            }
-        };
-    }
+	@Test
+	public void testHandlePagination() {
+		assertEquals(15,gdsr.handlePagination());
+	}
 
-    @After
-    public void tearDown() throws Exception {
-    }
+	@Test
+	public void testGetData() {
+		GridData data = gdsr.getFilteredData();
+		assertEquals(5, data.getColumns().getAsList().size());
+	}
 
-    @Test
-    public void testHandlePagination() {
-        assertTrue(gdsr.handlePagination() == 15);
-    }
+	@Test
+	public void testCurrentPageResults() {
+		gdsr.getFilteredData();
+		GridData currentPageResults = gdsr.currentPageResults(2);
+		assertEquals(2,currentPageResults.getGrid().size());
+	}
 
-    @Test
-    public void testGetData() {
-        GridData data = gdsr.getFilteredData();
-        // TODO
-        //assertTrue(data.getAvailableRowsCount() == 5);
-        assertTrue(data.getColumns().size() == 5);
-    }
+	/**
+	 * the search parameter s has only four parts (but there are five columns)
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSortSortingParameterTooShort() {
+		Request request = new Request();
+		request.setResourceRef("http://localhost:8099/rest/osgi/bundles/?s=0|0|0|0&pageSize=15&toggleSorting=1");
+		gdsr.setRequest(request);
+		gdsr.getFilteredData();
+	}
 
-    @Test
-    public void testCurrentPageResults() {
-        gdsr.getFilteredData();
-        GridData currentPageResults = gdsr.currentPageResults(2);
-        assertTrue(currentPageResults.getGrid().size() == 2);
-    }
+	/**
+	 * tests the sorting defined in column definition, i.e. desc by col1
+	 */
+	@Test
+	public void testPresorting() {
+		Request request = new Request();
+		request.setResourceRef("http://localhost:8099/rest/osgi/bundles/");
+		gdsr.setRequest(request);
+		int row = 0;
+		GridData data = gdsr.getFilteredData();
+		assertEquals("s=0|1|0|0|0&",data.getSortingRepresentation());
+		assertEquals(6, data.getGrid().size());
+		assertEquals("a", data.getGrid(row++, 1));
+		assertEquals("a", data.getGrid(row++, 1));
+		assertEquals("b", data.getGrid(row++, 1));
+		assertEquals("c", data.getGrid(row++, 1));
+		assertEquals("d", data.getGrid(row++, 1));
+		assertEquals("e", data.getGrid(row++, 1));
+	}
 
-    /**
-     * the search parameter s has only four parts (but there are five columns)
-     */
-//    @Test(expected=IllegalArgumentException.class)
-    public void testSortSortingParameterTooShort() {
-        Request request = new Request();
-        request.setResourceRef("http://localhost:8099/rest/osgi/bundles/?s=0%7C0%7C0%7C0&pageSize=15&toggleSorting=1");
-        gdsr.setRequest(request);
-        gdsr.getFilteredData();
-    }
+	/**
+	 * tests the sorting defined in column definition, i.e. desc by col1, plus
+	 * toggling of col0.
+	 */
+	@Test
+	public void testPresortingPlusToggling() {
+		Request request = new Request();
+		request.setResourceRef("http://localhost:8099/rest/osgi/bundles/?toggleSorting=0");
+		gdsr.setRequest(request);
+		int row = 0;
+		GridData data = gdsr.getFilteredData();
+		assertEquals("s=2|1|0|0|0&",data.getSortingRepresentation());
+		assertEquals(6, data.getGrid().size());
+		assertEquals("a", data.getGrid(row++, 1));
+		assertEquals("a", data.getGrid(row++, 1));
+		assertEquals("b", data.getGrid(row++, 1));
+		assertEquals("c", data.getGrid(row++, 1));
+		assertEquals("d", data.getGrid(row++, 1));
+		assertEquals("e", data.getGrid(row++, 1));
+	}
 
-    //@Test
-    public void testSortSymbolicName() {
-        Request request = new Request();
-        request.setResourceRef("http://localhost:8099/rest/osgi/bundles/?s=0|1|0|0|0&pageSize=15");
-        gdsr.setRequest(request);
-        GridData data = gdsr.getFilteredData();
-        assertTrue(data.getGrid().size() == 6);
-        assertTrue(data.getGrid().get(0).getColumnData().get(1).equals("ch.qos.logback.core"));
-        assertTrue(data.getGrid().get(1).getColumnData().get(1).equals("org.eclipse.osgi"));
-        assertTrue(data.getGrid().get(2).getColumnData().get(1).equals("skysail.common"));
-    }
-    
-    //@Test TODO
-    public void testSortId() {
-        Request request = new Request();
-        request.setResourceRef("http://localhost:8099/rest/osgi/bundles/?s=1|0|0|0|0&pageSize=15");
-        gdsr.setRequest(request);
-        GridData data = gdsr.getFilteredData();
-        assertTrue(data.getGrid().get(0).getColumnData().get(0).equals(0));
-        assertTrue(data.getGrid().get(1).getColumnData().get(0).equals(1));
-        assertTrue(data.getGrid().get(2).getColumnData().get(0).equals(5));
-    }
+	@Test
+	public void testSortSymbolicName() {
+		Request request = new Request();
+		request.setResourceRef("http://localhost:8099/rest/osgi/bundles/?s=0|1|0|0|0&pageSize=15");
+		gdsr.setRequest(request);
+		GridData data = gdsr.getFilteredData();
+		assertEquals(data.getSortingRepresentation(), "s=0|1|0|0|0&");
+		assertEquals(data.getGrid().size(), 6);
+		assertEquals(data.getGrid(0, 1), "a");
+		assertEquals(data.getGrid(1, 1), "a");
+		assertEquals(data.getGrid(2, 1), "b");
+	}
 
+	@Test
+	public void testToggleSymbolicName() {
+		Request request = new Request();
+		request.setResourceRef("http://localhost:8099/rest/osgi/bundles/?s=1|0|0|0|0&pageSize=15&toggleSorting=1");
+		gdsr.setRequest(request);
+		GridData data = gdsr.getFilteredData();
+		assertEquals("s=1|-2|0|0|0&",data.getSortingRepresentation());
+		assertEquals(6,data.getGrid().size());
+		assertEquals("e",data.getGrid(0, 1));
+		assertEquals("d",data.getGrid(1, 1));
+		assertEquals("c",data.getGrid(2, 1));
+		assertEquals("6",data.getGrid(0, 0));
+		assertEquals("5",data.getGrid(1, 0));
+		assertEquals("4",data.getGrid(2, 0));
+	}
 
-    @Test
-    public void testSetResponseDetailsSkysailResponseOfGridData() {
-        //fail("Not yet implemented");
-    }
+	// @Test TODO
+	public void testSortId() {
+		Request request = new Request();
+		request.setResourceRef("http://localhost:8099/rest/osgi/bundles/?s=1|0|0|0|0&pageSize=15");
+		gdsr.setRequest(request);
+		GridData data = gdsr.getFilteredData();
+		assertEquals(data.getGrid(0, 0), 0);
+		assertEquals(data.getGrid(1, 0), 1);
+		assertEquals(data.getGrid(2, 0), 5);
+	}
 
-    @Test
-    public void testGetFilter() {
-        //fail("Not yet implemented");
-    }
+	@Test
+	public void testSetResponseDetailsSkysailResponseOfGridData() {
+		// fail("Not yet implemented");
+	}
 
-    @Test
-    public void testSetSorting() {
-        //fail("Not yet implemented");
-    }
+	@Test
+	public void testGetFilter() {
+		// fail("Not yet implemented");
+	}
 
-    @Test
-    public void testGetPageSize() {
-        //fail("Not yet implemented");
-    }
+	@Test
+	public void testSetSorting() {
+		// fail("Not yet implemented");
+	}
 
-    @Test
-    public void testSetPageSize() {
-        //fail("Not yet implemented");
-    }
+	@Test
+	public void testGetPageSize() {
+		// fail("Not yet implemented");
+	}
 
-    @Test
-    public void testGetCurrentPage() {
-        //fail("Not yet implemented");
-    }
+	@Test
+	public void testSetPageSize() {
+		// fail("Not yet implemented");
+	}
 
-    @Test
-    public void testSetCurrentPage() {
-        //fail("Not yet implemented");
-    }
+	@Test
+	public void testGetCurrentPage() {
+		// fail("Not yet implemented");
+	}
 
-    @Test
-    public void testSetTotalResults() {
-        //fail("Not yet implemented");
-    }
+	@Test
+	public void testSetCurrentPage() {
+		// fail("Not yet implemented");
+	}
 
-    @Test
-    public void testGetTotalResults() {
-        //fail("Not yet implemented");
-    }
+	@Test
+	public void testSetTotalResults() {
+		// fail("Not yet implemented");
+	}
+
+	@Test
+	public void testGetTotalResults() {
+		// fail("Not yet implemented");
+	}
 
 }

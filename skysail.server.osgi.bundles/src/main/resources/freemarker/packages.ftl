@@ -12,7 +12,7 @@
 	
 	  
 	  <#if data.class.simpleName == "GridData">
-        <#assign gridColumns = data.columns>
+        <#assign gridColumns = data.columns.asList>
         
 		<form action="#">
 		<table>
