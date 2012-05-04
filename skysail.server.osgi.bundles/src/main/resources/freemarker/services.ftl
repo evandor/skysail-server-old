@@ -8,7 +8,7 @@
     <#include "skysail.server.osgi.bundles:title.ftl">
     
       <#if data.class.simpleName == "GridData">
-        <#assign gridColumns = data.columns>
+        <#assign gridColumns = data.columns.asList>
         
       <form action="#">
       <table>
@@ -22,7 +22,7 @@
         <#include "skysail.server.osgi.bundles:search.ftl">
 
         <#assign counter = 0 />
-        <#list data.gridData as row>
+        <#list data.grid as row>
           <#assign columns = row.columnData>
           <#assign counter = counter + 1 />
           <#if (counter % 2 == 1)>

@@ -256,7 +256,7 @@ public class FtlTrackerCustomizer implements BundleTrackerCustomizer {
         if (bundleTemplatesUrls == null) {
             return;
         }
-        log.info("Adding templates from bundle :{}", bundle.getSymbolicName());
+        log.info("Adding templates from bundle: {}", bundle.getSymbolicName());
         log.info("Relative location is '{}'", locationInBundle);
         while (bundleTemplatesUrls.hasMoreElements()) {
             URL bundleEntryUrl = bundleTemplatesUrls.nextElement();
