@@ -22,15 +22,17 @@ public class PackagesResource extends GridDataServerResource {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public PackagesResource() {
+    	super(new ColumnsBuilder() {
+			
+			@Override
+			public void configure() {
+		        addColumn("Package").sortDesc(1).setWidth(250);
+		        addColumn("Exporting Bundle").setWidth(300);
+		        addColumn("Version");
+		        addColumn("Importing BundleUtils");
+			}
+		});
         setTemplate("skysail.server.osgi.bundles:packages.ftl");
-    }
-
-    @Override
-    public void configureColumns(ColumnsBuilder builder) {
-        builder.addColumn("Package").sortDesc(1).setWidth(250);
-        builder.addColumn("Exporting Bundle").setWidth(300);
-        builder.addColumn("Version");
-        builder.addColumn("Importing BundleUtils");
     }
 
     @Override
@@ -71,7 +73,7 @@ public class PackagesResource extends GridDataServerResource {
                         rowData.add(sb.toString());
 
                         //rowData.setColumnData(columnData);
-                        getSkysailData().addRowData(getSkysailData().getFilter(), rowData);
+                        getSkysailData().addRowData(rowData);
                     }
                 }
             }

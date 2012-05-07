@@ -33,16 +33,18 @@ public class ServicesResource extends GridDataServerResource {
      * constructor providing the freemarker template.
      */
     public ServicesResource() {
+    	super (new ColumnsBuilder() {
+			
+			@Override
+			public void configure() {
+		        addColumn("id").setWidth(0);
+		        addColumn("serviceName").sortDesc(1).setWidth(500);
+		        addColumn("implementingBundle").setWidth(240);
+		        addColumn("version").setWidth(80);
+		        addColumn("usingBundles").sortAsc(null).setWidth(400);
+			}
+		});
         setTemplate("skysail.server.osgi.bundles:services.ftl");
-    }
-
-    @Override
-    public void configureColumns(final ColumnsBuilder builder) {
-        builder.addColumn("id").setWidth(0);
-        builder.addColumn("serviceName").sortDesc(1).setWidth(500);
-        builder.addColumn("implementingBundle").setWidth(240);
-        builder.addColumn("version").setWidth(80);
-        builder.addColumn("usingBundles").sortAsc(null).setWidth(400);
     }
 
     @Override
@@ -56,7 +58,7 @@ public class ServicesResource extends GridDataServerResource {
             for (String value : columnData.values()) {
                 rowData.add(value);
             }
-            grid.addRowData(null, rowData);
+            grid.addRowData(rowData);
         }
     }
 
