@@ -79,7 +79,7 @@ public class ServiceProviderTest {
                 //mavenBundle("ch.qos.logback","skysail.bundles.logback-classic","0.9.29"),
                 //mavenBundle("org.slf4j","slf4j-api","1.6.3"),
                 mavenBundle("de.twenty11.skysail","skysail.common","0.2.12"),
-                mavenBundle("de.twenty11.skysail","skysail.server.servicedefinitions","0.1.3"),
+                mavenBundle("de.twenty11.skysail","skysail.server.servicedefinitions","0.2.1-SNAPSHOT"),
                 mavenBundle("de.twenty11.skysail","skysail.server.configuration.byPropertiesService","0.0.7-SNAPSHOT"),
                 //mavenBundle("osgi.enterprise","osgi.enterprise","4.2.0.201003190513"),
                 mavenBundle("org.eclipse.equinox","org.eclipse.equinox.ds","1.2.1"),
