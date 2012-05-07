@@ -26,11 +26,9 @@ public class ConfigServiceProvider {
     private static ConfigService configService;
 
     protected void activate(ComponentContext ctxt) {
-        
     }
     
     protected void deactivate(ComponentContext ctxt) {
-        
     }
     
     public synchronized void setConfigService(ConfigService configService) {

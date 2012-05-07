@@ -1,8 +1,8 @@
 <class-diagram version="1.0.8" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" corner="BOTTOM_RIGHT" language="java" name="de.twenty11.skysail.server.osgi.bundles.BundleResource" 
-    project="skysail.server.osgi.bundles" 
-    file="/skysail.server.osgi.bundles/src/main/java/de/twenty11/skysail/server/osgi/bundles/BundleResource.java" 
+  <class id="1" corner="BOTTOM_RIGHT" language="java" 
+    name="de.twenty11.skysail.server.osgi.bundles.restlet.BundleResource" project="skysail.server.osgi.bundles" 
+    file="/skysail.server.osgi.bundles/src/main/java/de/twenty11/skysail/server/osgi/bundles/restlet/BundleResource.java" 
     binary="false">    
     <position height="-1" width="-1" x="170" y="-17"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
@@ -10,27 +10,27 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="2" corner="BOTTOM_RIGHT" language="java" name="de.twenty11.skysail.server.FormDataServerResource" 
-    project="skysail.server" file="/skysail.server/src/main/java/de/twenty11/skysail/server/FormDataServerResource.java" 
-    binary="false">    
+  <class id="2" corner="BOTTOM_RIGHT" language="java" name="de.twenty11.skysail.server.restlet.FormDataServerResource" 
+    project="skysail.server" 
+    file="/skysail.server/src/main/java/de/twenty11/skysail/server/restlet/FormDataServerResource.java" binary="false">    
     <position height="-1" width="-1" x="438" y="9"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="3" corner="BOTTOM_RIGHT" language="java" name="de.twenty11.skysail.server.GridDataServerResource" 
-    project="skysail.server" file="/skysail.server/src/main/java/de/twenty11/skysail/server/GridDataServerResource.java" 
-    binary="false">    
+  <class id="3" corner="BOTTOM_RIGHT" language="java" name="de.twenty11.skysail.server.restlet.GridDataServerResource" 
+    project="skysail.server" 
+    file="/skysail.server/src/main/java/de/twenty11/skysail/server/restlet/GridDataServerResource.java" binary="false">    
     <position height="-1" width="-1" x="739" y="137"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="false"/>    
     </display>  
   </class>  
-  <class id="4" corner="BOTTOM_RIGHT" language="java" name="de.twenty11.skysail.server.osgi.bundles.BundlesResource" 
-    project="skysail.server.osgi.bundles" 
-    file="/skysail.server.osgi.bundles/src/main/java/de/twenty11/skysail/server/osgi/bundles/BundlesResource.java" 
+  <class id="4" corner="BOTTOM_RIGHT" language="java" 
+    name="de.twenty11.skysail.server.osgi.bundles.restlet.BundlesResource" project="skysail.server.osgi.bundles" 
+    file="/skysail.server.osgi.bundles/src/main/java/de/twenty11/skysail/server/osgi/bundles/restlet/BundlesResource.java" 
     binary="false">    
     <position height="-1" width="-1" x="1038" y="-36"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
@@ -38,9 +38,9 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="5" corner="BOTTOM_RIGHT" language="java" name="de.twenty11.skysail.server.osgi.bundles.PackagesResource" 
-    project="skysail.server.osgi.bundles" 
-    file="/skysail.server.osgi.bundles/src/main/java/de/twenty11/skysail/server/osgi/bundles/PackagesResource.java" 
+  <class id="5" corner="BOTTOM_RIGHT" language="java" 
+    name="de.twenty11de.twenty11.skysail.server.osgi.bundles.restlet.PackagesResourceroject="skysail.server.osgi.bundles" 
+    file="/skysail.server.osgi.bundles/src/main/java/de/twenty11/skysail/server/osgi/bundles/restlet/PackagesResource.java" 
     binary="false">    
     <position height="-1" width="-1" x="1038" y="90"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
@@ -48,9 +48,9 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="6" corner="BOTTOM_RIGHT" language="java" name="de.twenty11.skysail.server.osgi.bundles.ServicesResource" 
-    project="skysail.server.osgi.bundles" 
-    file="/skysail.server.osgi.bundles/src/main/java/de/twenty11/skysail/server/osgi/bundles/ServicesResource.java" 
+  <class id="6" corner="BOTTOM_RIGHT" language="java" 
+    nde.twenty11.skysail.server.osgi.bundles.restlet.ServicesResourcevicesResource" project="skysail.server.osgi.bundles" 
+    file="/skysail.server.osgi.bundles/src/main/java/de/twenty11/skysail/server/osgi/bundles/restlet/ServicesResource.java" 
     binary="false">    
     <position height="-1" width="-1" x="1036" y="233"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      

@@ -26,7 +26,7 @@ import org.restlet.Request;
 import de.twenty11.skysail.common.grids.ColumnsBuilder;
 import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.grids.RowData;
-import de.twenty11.skysail.server.GridDataServerResource;
+import de.twenty11.skysail.server.restlet.GridDataServerResource;
 
 /**
  * Testing GridDataServerResource class.

@@ -1,17 +1,17 @@
 <class-diagram version="1.0.8" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" corner="BOTTOM_RIGHT" language="java" name="de.twenty11.skysail.server.GridDataServerResource" 
-    project="skysail.server" file="/skysail.server/src/main/java/de/twenty11/skysail/server/GridDataServerResource.java" 
-    binary="false">    
+  <class id="1" corner="BOTTOM_RIGHT" language="java" name="de.twenty11.skysail.server.restlet.GridDataServerResource" 
+    project="skysail.server" 
+    file="/skysail.server/src/main/java/de/twenty11/skysail/server/restlet/GridDataServerResource.java" binary="false">    
     <position height="501" width="304" x="122" y="-2"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
-      <operations public="true" package="true" protected="true" private="false"/>    
+      <operations public="true" package="false" protected="true" private="false"/>    
     </display>  
   </class>  
-  <class id="2" corner="BOTTOM_RIGHT" language="java" name="de.twenty11.skysail.server.SkysailServerResource" 
-    project="skysail.server" file="/skysail.server/src/main/java/de/twenty11/skysail/server/SkysailServerResource.java" 
-    binary="false">    
+  <class id="2" corner="BOTTOM_RIGHT" language="java" name="de.twentde.twenty11.skysail.server.restlet.SkysailServerResource" 
+    project="skysail.server" 
+    file="/skysail.server/src/main/java/de/twenty11/skysail/server/restlet/SkysailServerResource.java" binary="false">    
     <position height="-1" width="-1" x="691" y="182"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="false"/>      

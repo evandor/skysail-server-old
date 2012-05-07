@@ -4,10 +4,10 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import de.twenty11.skysail.server.osgi.bundles.BundleResource;
-import de.twenty11.skysail.server.osgi.bundles.BundlesResource;
-import de.twenty11.skysail.server.osgi.bundles.PackagesResource;
-import de.twenty11.skysail.server.osgi.bundles.ServicesResource;
+import de.twenty11.skysail.server.osgi.bundles.restlet.BundleResource;
+import de.twenty11.skysail.server.osgi.bundles.restlet.BundlesResource;
+import de.twenty11.skysail.server.osgi.bundles.restlet.PackagesResource;
+import de.twenty11.skysail.server.osgi.bundles.restlet.ServicesResource;
 import de.twenty11.skysail.server.servicedefinitions.UrlMapper;
 
 /**

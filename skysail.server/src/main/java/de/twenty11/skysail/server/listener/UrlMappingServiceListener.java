@@ -9,13 +9,12 @@ import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
 import org.restlet.resource.ServerResource;
-import org.restlet.routing.Route;
 import org.restlet.routing.TemplateRoute;
 import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.RestletOsgiApplication;
+import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
 import de.twenty11.skysail.server.servicedefinitions.UrlMapper;
 
 /**
@@ -154,7 +153,8 @@ public class UrlMappingServiceListener implements ServiceListener {
         for (Map.Entry<String, String> mapping : providedMapping.entrySet()) {
             try {
                 logger.debug("adding new mapping from '{}' to '{}'", mapping.getKey(), mapping.getValue());
-                Class<? extends ServerResource> resourceClass = (Class<? extends ServerResource>) Class.forName(mapping.getValue());
+                @SuppressWarnings("unchecked")
+				Class<? extends ServerResource> resourceClass = (Class<? extends ServerResource>) Class.forName(mapping.getValue());
                 application.attachToRouter(pathPrefix + mapping.getKey(), resourceClass);
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException("was not able to find class " + mapping.getValue(), e);
@@ -197,7 +197,7 @@ public class UrlMappingServiceListener implements ServiceListener {
      */
     private void logCurrentMapping(final RouteList routes) {
         logger.info("current mapping now is:");
-        for (Route route : routes) {
+        for (TemplateRoute route : routes) {
             logger.info(route.toString());
         }
     }
