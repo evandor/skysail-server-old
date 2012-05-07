@@ -136,7 +136,8 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     public T getSkysailData() {
         return skysailData;
     }
-
-
-
+    
+    public void setSkysailData(T skysailData) {
+		this.skysailData = skysailData;
+	}
 }

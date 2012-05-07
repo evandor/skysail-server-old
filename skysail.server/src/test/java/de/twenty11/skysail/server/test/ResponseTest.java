@@ -61,13 +61,13 @@ public class ResponseTest {
 
     //@Test
     public void test() {
-        GridData gridData = new GridData();
+        GridData gridData = new GridData(null);
         RowData rowData = new RowData(null);
         List<Object> columnData = new ArrayList<Object>();
         columnData.add("hier");
         columnData.add("dort");
 //        rowData.setColumnData(columnData );
-        gridData.addRowData(null,rowData );
+        gridData.addRowData(rowData );
         SkysailResponse<GridData> response = new SkysailSuccessResponse<GridData>(gridData);
         // setResponseDetails(response);
         JacksonRepresentation<SkysailResponse<GridData>> rep = new JacksonRepresentation<SkysailResponse<GridData>>(

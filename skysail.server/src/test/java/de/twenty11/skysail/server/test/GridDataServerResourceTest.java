@@ -40,16 +40,18 @@ public class GridDataServerResourceTest {
 
 	@Before
 	public void setUp() throws Exception {
-		gdsr = new GridDataServerResource() {
-
+		ColumnsBuilder builder = new ColumnsBuilder() {
+			
 			@Override
-			public void configureColumns(final ColumnsBuilder builder) {
-				builder.addColumn("col0").setWidth(0);
-				builder.addColumn("col1").sortDesc(1).setWidth(500);
-				builder.addColumn("col2").setWidth(240);
-				builder.addColumn("col3").setWidth(80);
-				builder.addColumn("col4").sortAsc(null).setWidth(400);
+			public void configure() {
+				addColumn("col0").setWidth(0);
+				addColumn("col1").sortDesc(1).setWidth(500);
+				addColumn("col2").setWidth(240);
+				addColumn("col3").setWidth(80);
+				addColumn("col4").sortAsc(null).setWidth(400);
 			}
+		};
+		gdsr = new GridDataServerResource(builder) {
 
 			@Override
 			public void buildGrid() {
@@ -68,7 +70,7 @@ public class GridDataServerResourceTest {
 			private void setDummyData(GridData grid, String[] a) {
 				RowData rowData = new RowData(getSkysailData().getColumns());
 				rowData.add(a[0]).add(a[1]).add(a[2]).add(a[3]);
-				grid.addRowData(null, rowData);
+				grid.addRowData(rowData);
 			}
 		};
 	}
@@ -88,7 +90,7 @@ public class GridDataServerResourceTest {
 	public void testCurrentPageResults() {
 		gdsr.getFilteredData();
 		GridData currentPageResults = gdsr.currentPageResults(2);
-		assertEquals(2,currentPageResults.getGrid().size());
+		assertEquals(2,currentPageResults.getRows().size());
 	}
 
 	/**
@@ -113,13 +115,13 @@ public class GridDataServerResourceTest {
 		int row = 0;
 		GridData data = gdsr.getFilteredData();
 		assertEquals("s=0|1|0|0|0&",data.getSortingRepresentation());
-		assertEquals(6, data.getGrid().size());
-		assertEquals("a", data.getGrid(row++, 1));
-		assertEquals("a", data.getGrid(row++, 1));
-		assertEquals("b", data.getGrid(row++, 1));
-		assertEquals("c", data.getGrid(row++, 1));
-		assertEquals("d", data.getGrid(row++, 1));
-		assertEquals("e", data.getGrid(row++, 1));
+		assertEquals(6, data.getRows().size());
+		assertEquals("a", data.getGridElement(row++, 1));
+		assertEquals("a", data.getGridElement(row++, 1));
+		assertEquals("b", data.getGridElement(row++, 1));
+		assertEquals("c", data.getGridElement(row++, 1));
+		assertEquals("d", data.getGridElement(row++, 1));
+		assertEquals("e", data.getGridElement(row++, 1));
 	}
 
 	/**
@@ -134,13 +136,13 @@ public class GridDataServerResourceTest {
 		int row = 0;
 		GridData data = gdsr.getFilteredData();
 		assertEquals("s=2|1|0|0|0&",data.getSortingRepresentation());
-		assertEquals(6, data.getGrid().size());
-		assertEquals("a", data.getGrid(row++, 1));
-		assertEquals("a", data.getGrid(row++, 1));
-		assertEquals("b", data.getGrid(row++, 1));
-		assertEquals("c", data.getGrid(row++, 1));
-		assertEquals("d", data.getGrid(row++, 1));
-		assertEquals("e", data.getGrid(row++, 1));
+		assertEquals(6, data.getRows().size());
+		assertEquals("a", data.getGridElement(row++, 1));
+		assertEquals("a", data.getGridElement(row++, 1));
+		assertEquals("b", data.getGridElement(row++, 1));
+		assertEquals("c", data.getGridElement(row++, 1));
+		assertEquals("d", data.getGridElement(row++, 1));
+		assertEquals("e", data.getGridElement(row++, 1));
 	}
 
 	@Test
@@ -150,10 +152,10 @@ public class GridDataServerResourceTest {
 		gdsr.setRequest(request);
 		GridData data = gdsr.getFilteredData();
 		assertEquals(data.getSortingRepresentation(), "s=0|1|0|0|0&");
-		assertEquals(data.getGrid().size(), 6);
-		assertEquals(data.getGrid(0, 1), "a");
-		assertEquals(data.getGrid(1, 1), "a");
-		assertEquals(data.getGrid(2, 1), "b");
+		assertEquals(data.getRows().size(), 6);
+		assertEquals(data.getGridElement(0, 1), "a");
+		assertEquals(data.getGridElement(1, 1), "a");
+		assertEquals(data.getGridElement(2, 1), "b");
 	}
 
 	@Test
@@ -163,13 +165,13 @@ public class GridDataServerResourceTest {
 		gdsr.setRequest(request);
 		GridData data = gdsr.getFilteredData();
 		assertEquals("s=1|-2|0|0|0&",data.getSortingRepresentation());
-		assertEquals(6,data.getGrid().size());
-		assertEquals("e",data.getGrid(0, 1));
-		assertEquals("d",data.getGrid(1, 1));
-		assertEquals("c",data.getGrid(2, 1));
-		assertEquals("6",data.getGrid(0, 0));
-		assertEquals("5",data.getGrid(1, 0));
-		assertEquals("4",data.getGrid(2, 0));
+		assertEquals(6,data.getRows().size());
+		assertEquals("e",data.getGridElement(0, 1));
+		assertEquals("d",data.getGridElement(1, 1));
+		assertEquals("c",data.getGridElement(2, 1));
+		assertEquals("6",data.getGridElement(0, 0));
+		assertEquals("5",data.getGridElement(1, 0));
+		assertEquals("4",data.getGridElement(2, 0));
 	}
 
 	// @Test TODO
@@ -178,9 +180,9 @@ public class GridDataServerResourceTest {
 		request.setResourceRef("http://localhost:8099/rest/osgi/bundles/?s=1|0|0|0|0&pageSize=15");
 		gdsr.setRequest(request);
 		GridData data = gdsr.getFilteredData();
-		assertEquals(data.getGrid(0, 0), 0);
-		assertEquals(data.getGrid(1, 0), 1);
-		assertEquals(data.getGrid(2, 0), 5);
+		assertEquals(data.getGridElement(0, 0), 0);
+		assertEquals(data.getGridElement(1, 0), 1);
+		assertEquals(data.getGridElement(2, 0), 5);
 	}
 
 	@Test

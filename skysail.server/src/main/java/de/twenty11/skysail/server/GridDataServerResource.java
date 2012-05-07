@@ -70,17 +70,17 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
 	 * @param data
 	 *            the skysail data backing up the resource.
 	 */
-	public GridDataServerResource() {
-		super(new GridData());
+	public GridDataServerResource(ColumnsBuilder builder) {
+		super(new GridData(builder));
 	}
 
 	public void buildGrid() {
 		logger.error("you should implement a subclass of GridDataServerResource and overwrite method filterData");
 	}
 
-	public void configureColumns(ColumnsBuilder builder) {
-		logger.error("you should implement a subclass of GridDataServerResource and overwrite method configureColumns");
-	}
+//	public void configureColumns(ColumnsBuilder builder) {
+//		logger.error("you should implement a subclass of GridDataServerResource and overwrite method configureColumns");
+//	}
 
 	public int handlePagination() {
 		return doHandlePagination("skysail.server.osgi.bundles.entriesPerPage", 15);
@@ -96,12 +96,12 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
 	 */
 	public final GridData getFilteredData() {
 
-		// define the columns for the result
-		getSkysailData().setColumnsBuilder(new ColumnsBuilder(getParamsFromRequest()) {
-			public void configure() {
-				configureColumns(this);
-			}
-		});
+//		// define the columns for the result
+//		setSkysailData(new GridData(new ColumnsBuilder(getParamsFromRequest()) {
+//			public void configure() {
+//				configureColumns(this);
+//			}
+//		}));
 
 		// get the data, applying the current filter
 		buildGrid();
@@ -119,7 +119,6 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
 		return currentPageResults(pageSize);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public GridData currentPageResults(final int pageSize) {
 		GridData grid = getSkysailData();
 		int max = Math.min(grid.getSize(), (getCurrentPage() * pageSize));
@@ -218,7 +217,7 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
 	 *            the index of that column
 	 */
 	private void sortRows(final ColumnDefinition colDef, final int columnIndex) {
-		Collections.sort(getSkysailData().getGrid(), new Comparator<RowData>() {
+		Collections.sort(getSkysailData().getRows(), new Comparator<RowData>() {
 			@Override
 			public int compare(final RowData o1, final RowData o2) {
 				List<Object> columnData1 = o1.getColumnData();
@@ -300,7 +299,7 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
 		return pageSize;
 	}
 
-	private Map<String, String> getParamsFromRequest() {
+	protected Map<String, String> getParamsFromRequest() {
 	    Map<String, String> params = new HashMap<String, String>();
 		if (getQuery() != null) {
 			params = getQuery().getValuesMap();
