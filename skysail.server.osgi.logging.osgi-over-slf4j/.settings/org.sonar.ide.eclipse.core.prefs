@@ -1,0 +1,7 @@
+analyseLocally=true
+eclipse.preferences.version=1
+projectArtifactId=skysail.server.osgi.logging.osgi-over-slf4j
+projectBranch=
+projectGroupId=de.twenty11.skysail
+serverUrl=http\://sonar.twentyeleven.de
+version=1

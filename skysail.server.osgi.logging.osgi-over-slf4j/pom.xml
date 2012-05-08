@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>de.twenty11.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.1.2</version>
+		<version>0.7.0</version>
 	</parent>
 
 	<artifactId>skysail.server.osgi.logging.osgi-over-slf4j</artifactId>
@@ -41,28 +41,7 @@
 		</plugins>
 	</build>
 
-
 	<dependencies>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.6.1</version>
-		</dependency>
-		<dependency>
-			<groupId>de.twenty11.skysail</groupId>
-			<artifactId>skysail.server</artifactId>
-			<version>[0.1.10, 0.2)</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.equinox</groupId>
-			<artifactId>org.eclipse.equinox.log</artifactId>
-			<version>1.2.100.v20100503</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jul-to-slf4j</artifactId>
-			<version>1.6.3</version>
-		</dependency>
-
 	</dependencies>
+
 </project>
