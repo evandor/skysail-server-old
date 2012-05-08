@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>skysail.server.osgi.logging.osgi-over-slf4j</name>
+	<name>skysail.server.logging.osgi-over-slf4j</name>
 	<comment></comment>
 	<projects>
 	</projects>
