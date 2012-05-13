@@ -22,7 +22,7 @@
         <#include "skysail.server.osgi.bundles:search.ftl">
 
         <#assign counter = 0 />
-        <#list data.grid as row>
+        <#list data.rows as row>
           <#assign columns = row.columnData>
           <#assign counter = counter + 1 />
           <#if (counter % 2 == 1)>
