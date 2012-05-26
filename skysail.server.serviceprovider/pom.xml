@@ -34,6 +34,7 @@
 				<extensions>true</extensions>
 				<version>2.3.4</version>
 				<configuration>
+					<manifestLocation>META-INF</manifestLocation>
 					<instructions>
 						<_include>-osgi.bnd</_include>
 					</instructions>
