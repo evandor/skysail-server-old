@@ -1,0 +1,6 @@
+needed to install eclipselink
+http://wiki.eclipse.org/EclipseLink/Installing_EclipseLink_OSGi_in_PDE
+
+needed to duplicate OSGI-INF/*:
+when running from eclipse, it wouldn't find src/main/resources/OSGI-INF stuff...
+but it seems to find src/main/resources/META-INF/persistence.xml (?!?!)

@@ -33,6 +33,9 @@
                     <manifestLocation>META-INF</manifestLocation>
 					<instructions>
 						<_include>-osgi.bnd</_include>
+                        <Include-Resource>
+                            OSGI-INF/=OSGI-INF/
+                        </Include-Resource>
 					</instructions>
 				</configuration>
 			</plugin>

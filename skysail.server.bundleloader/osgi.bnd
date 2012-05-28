@@ -1,0 +1,3 @@
+Bundle-SymbolicName: skysail.server.bundleloader
+Bundle-Activator: de.twenty11.skysail.server.bundleloader.Activator
+Service-Component: OSGI-INF/*.xml

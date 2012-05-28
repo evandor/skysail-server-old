@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Service-Component: OSGI-INF/*.xml
+Export-Package: de.twenty11.skysail.server.bundleloader;uses:="org.osg
+ i.framework,de.twenty11.skysail.server.servicedefinitions,org.osgi.se
+ rvice.component"
+Built-By: carsten
+Tool: Bnd-1.15.0
+Bundle-Name: skysail server bundleloader
+Created-By: Apache Maven Bundle Plugin
+Build-Jdk: 1.6.0_26
+Bundle-Version: 0.0.1.SNAPSHOT
+Bnd-LastModified: 1338195125499
+Bundle-ManifestVersion: 2
+Bundle-Activator: de.twenty11.skysail.server.bundleloader.Activator
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-Description: This pom needs to be run with maven3!
+Import-Package: de.twenty11.skysail.server.servicedefinitions;version=
+ "[0.2,1)",org.osgi.framework;version="[1.5,2)",org.osgi.service.compo
+ nent;version="[1.1,2)"
+Bundle-SymbolicName: skysail.server.bundleloader
+
