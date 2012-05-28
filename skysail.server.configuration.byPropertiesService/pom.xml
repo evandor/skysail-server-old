@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>de.twenty11.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.1.2</version>
+		<version>0.7.0</version>
 	</parent>
 
 	<artifactId>skysail.server.configuration.byPropertiesService</artifactId>
@@ -30,6 +30,7 @@
 				<extensions>true</extensions>
 				<version>2.3.4</version>
 				<configuration>
+                    <manifestLocation>META-INF</manifestLocation>
 					<instructions>
 						<_include>-osgi.bnd</_include>
 					</instructions>
