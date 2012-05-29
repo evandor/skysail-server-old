@@ -4,5 +4,4 @@
    <service>
       <provide interface="de.twenty11.skysail.server.servicedefinitions.ConfigService"/>
    </service>
-   <reference bind="getBundleLoaderService" cardinality="1..1" interface="de.twenty11.skysail.server.servicedefinitions.BundleLoaderService" name="BundleLoaderService" policy="static"/>
 </scr:component>

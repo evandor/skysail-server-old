@@ -19,10 +19,10 @@
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Declipse.ignoreApp=true -Dosgi.noShutdown=true -Dequinox.ds.print=true"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:skysail.server.ext.notes}"/>
 <stringAttribute key="pde.version" value="3.3"/>
-<booleanAttribute key="show_selected_only" value="false"/>
-<stringAttribute key="target_bundles" value="javax.transaction@default:false,org.apache.felix.gogo.command@default:default,org.apache.felix.gogo.runtime@default:default,org.apache.felix.gogo.shell@default:default,org.eclipse.equinox.console@default:default,org.eclipse.equinox.ds@1:true,org.eclipse.equinox.util@default:default,org.eclipse.osgi.services@default:default,org.eclipse.osgi@-1:true,org.eclipse.persistence.jpa.equinox.weaving@default:false,org.slf4j.api@default:default"/>
+<booleanAttribute key="show_selected_only" value="true"/>
+<stringAttribute key="target_bundles" value="javax.persistence@default:default,mysql.skysail.bundles.mysql-connector-java@default:default,org.apache.felix.gogo.command@default:default,org.apache.felix.gogo.runtime@default:default,org.apache.felix.gogo.shell@default:default,org.eclipse.equinox.console@default:default,org.eclipse.equinox.ds@1:true,org.eclipse.equinox.util@default:default,org.eclipse.osgi.services@default:default,org.eclipse.osgi@-1:true,org.eclipse.persistence.asm@default:default,org.eclipse.persistence.core*2.4.0.v20120509-r11325@default:default,org.eclipse.persistence.jpa*2.4.0.v20120509-r11325@default:default,org.eclipse.persistence.jpa.osgi@default:default,org.slf4j.api@default:default"/>
 <booleanAttribute key="tracing" value="false"/>
 <booleanAttribute key="useCustomFeatures" value="false"/>
 <booleanAttribute key="useDefaultConfigArea" value="true"/>
-<stringAttribute key="workspace_bundles" value="skysail.common@default:default,skysail.server.bundleloader@default:true,skysail.server.configuration.byPropertiesService@default:default,skysail.server.servicedefinitions@default:default"/>
+<stringAttribute key="workspace_bundles" value="skysail.common@default:default,skysail.server.bundleloader@default:true,skysail.server.configuration.byPropertiesService@default:default,skysail.server.eclipselink@default:default,skysail.server.servicedefinitions@default:default,skysail.server.serviceprovider@default:default"/>
 </launchConfiguration>
