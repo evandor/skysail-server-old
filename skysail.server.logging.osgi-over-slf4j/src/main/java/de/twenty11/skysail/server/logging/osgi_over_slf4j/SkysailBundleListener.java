@@ -20,14 +20,16 @@ package de.twenty11.skysail.server.logging.osgi_over_slf4j;
 import org.osgi.framework.BundleEvent;
 import org.osgi.framework.BundleListener;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SkysailBundleListener implements BundleListener {
 
-    private static Logger logger;
+    // private static Logger logger;
+    private final Logger logger = LoggerFactory.getLogger(SkysailBundleListener.class);
 
-    public SkysailBundleListener(final Logger myLogger) {
-        SkysailBundleListener.logger = myLogger;
-    }
+    // public SkysailBundleListener(final Logger myLogger) {
+    // SkysailBundleListener.logger = myLogger;
+    // }
     
     @Override
     public void bundleChanged(BundleEvent event) {

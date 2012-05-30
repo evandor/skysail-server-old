@@ -35,7 +35,7 @@ import org.slf4j.Marker;
 public class Activator implements BundleActivator {
 
     private static BundleContext context;
-    private static final Logger logger = LoggerFactory.getLogger("skysail.server.osgi.logger.osgi-over-slf4j");
+    // private static final Logger logger = LoggerFactory.getLogger("skysail.server.osgi.logger.osgi-over-slf4j");
 
     private LogServiceTracker logServiceTracker;
 
@@ -64,6 +64,8 @@ public class Activator implements BundleActivator {
     
     private class NLogListener implements LogListener {
 
+        private final Logger logger = LoggerFactory.getLogger("skysail.server.osgi.logger.osgi-over-slf4j");
+
         @Override
         public void logged(LogEntry entry) {
             logLogEntry (logger,
@@ -77,6 +79,8 @@ public class Activator implements BundleActivator {
     }
     
     private class XLogListener implements LogListener {
+
+        private final Logger logger = LoggerFactory.getLogger("skysail.server.osgi.logger.osgi-over-slf4j");
 
         @Override
         public void logged(LogEntry entry) {
@@ -130,11 +134,11 @@ public class Activator implements BundleActivator {
 
         Filter logFilter = context
                 .createFilter("(|(objectClass=org.osgi.service.log.LogReaderService)(objectClass=org.eclipse.equinox.log.ExtendedLogReaderService))");
-        logServiceTracker = new LogServiceTracker(context, logFilter);
-        logServiceTracker.open();
-        
-        context.addBundleListener(new SkysailBundleListener(logger));
-        context.addFrameworkListener(new SkysailFrameworkListener(logger) );
+        // logServiceTracker = new LogServiceTracker(context, logFilter);
+        // logServiceTracker.open();
+        //
+        // context.addBundleListener(new SkysailBundleListener());
+        // context.addFrameworkListener(new SkysailFrameworkListener());
     }
 
     /*
