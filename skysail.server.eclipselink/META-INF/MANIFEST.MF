@@ -1,25 +1,24 @@
 Manifest-Version: 1.0
-Service-Component: OSGI-INF/*.xml
-Export-Package: de.twenty11.skysail.server.eclipselink.service.definit
- ion;uses:="javax.persistence",de.twenty11.skysail.server.eclipselink;
- uses:="org.osgi.framework,org.eclipse.persistence.jpa.osgi,javax.pers
- istence"
-Built-By: graefca
-Tool: Bnd-1.15.0
-Bundle-Name: skysail server eclipselink extension
-Created-By: Apache Maven Bundle Plugin
-Meta-Persistence: META-INF/persistence.xml
-DynamicImport-Package: *
-Build-Jdk: 1.6.0_24
-Bundle-Version: 0.0.3.SNAPSHOT
-Bnd-LastModified: 1338288545487
+Bnd-LastModified: 1338584367778
+Build-Jdk: 1.6.0_26
+Built-By: carsten
 Bundle-Activator: de.twenty11.skysail.server.eclipselink.Activator
-Bundle-ManifestVersion: 2
 Bundle-Description: This pom needs to be run with maven3!
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
-Import-Package: com.mysql.jdbc,de.twenty11.skysail.server.eclipselink.
- service.definition,javax.persistence;jpa="2.0";version="1.1.0",org.ec
- lipse.persistence.jpa.osgi;version="[2.2,3)",org.osgi.framework;versi
- on="[1.5,2)"
+Bundle-ManifestVersion: 2
+Bundle-Name: skysail server eclipselink extension
 Bundle-SymbolicName: skysail.server.eclipselink
-
+Bundle-Version: 0.0.3.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+DynamicImport-Package: *
+Export-Package: de.twenty11.skysail.server.eclipselink;uses:="org.osgi.f
+ ramework,org.eclipse.persistence.jpa.osgi,javax.persistence";version="0
+ .0.3.SNAPSHOT",de.twenty11.skysail.server.eclipselink.service.definitio
+ n;uses:="javax.persistence";version="0.0.3.SNAPSHOT"
+Import-Package: com.mysql.jdbc,de.twenty11.skysail.server.eclipselink.se
+ rvice.definition,javax.persistence;jpa="2.0";version="1.1.0",org.eclips
+ e.persistence.jpa.osgi;version="[2.2,3)",org.osgi.framework;version="[1
+ .5,2)"
+Meta-Persistence: META-INF/persistence.xml
+Service-Component: OSGI-INF/*.xml
+Tool: Bnd-1.50.0
