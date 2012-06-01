@@ -1,0 +1,15 @@
+id	State       Bundle
+0	ACTIVE      org.eclipse.osgi_3.7.2.v20120110-1415
+1	ACTIVE      skysail.server_0.2.1.SNAPSHOT
+2	ACTIVE      org.restlet_2.1.0.snapshot-v20120324-2215
+3	ACTIVE      skysail.common_0.3.1.SNAPSHOT
+4	ACTIVE      org.eclipse.osgi.services_3.3.0.v20110513
+5	ACTIVE      ch.qos.logback.core_1.0.0.v20111214-2030
+6	ACTIVE      skysail.server.servicedefinitions_0.2.1.SNAPSHOT
+7	ACTIVE      slf4j.api_1.6.4
+8	ACTIVE      ch.qos.logback.skysail.bundles.logback-classic_0.9.29
+9	ACTIVE      org.restlet.ext.xml_2.1.0.snapshot-v20120324-2215
+10	ACTIVE      com.springsource.freemarker_2.3.18
+11	ACTIVE      jackson-core-lgpl_1.9.5
+12	ACTIVE      org.restlet.ext.wadl_2.1.0.snapshot-v20120324-2215
+13	ACTIVE      org.restlet.ext.freemarker_2.1.0.snapshot-v20120324-2215

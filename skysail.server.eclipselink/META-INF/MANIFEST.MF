@@ -1,18 +1,18 @@
 Manifest-Version: 1.0
 Service-Component: OSGI-INF/*.xml
-Export-Package: de.twenty11.skysail.server.eclipselink;uses:="org.osgi
- .framework,org.eclipse.persistence.jpa.osgi,javax.persistence",de.twe
- nty11.skysail.server.eclipselink.service.definition;uses:="javax.pers
+Export-Package: de.twenty11.skysail.server.eclipselink.service.definit
+ ion;uses:="javax.persistence",de.twenty11.skysail.server.eclipselink;
+ uses:="org.osgi.framework,org.eclipse.persistence.jpa.osgi,javax.pers
  istence"
-Built-By: carsten
+Built-By: graefca
 Tool: Bnd-1.15.0
 Bundle-Name: skysail server eclipselink extension
 Created-By: Apache Maven Bundle Plugin
 Meta-Persistence: META-INF/persistence.xml
 DynamicImport-Package: *
-Build-Jdk: 1.6.0_26
+Build-Jdk: 1.6.0_24
 Bundle-Version: 0.0.3.SNAPSHOT
-Bnd-LastModified: 1338032421217
+Bnd-LastModified: 1338288545487
 Bundle-Activator: de.twenty11.skysail.server.eclipselink.Activator
 Bundle-ManifestVersion: 2
 Bundle-Description: This pom needs to be run with maven3!
