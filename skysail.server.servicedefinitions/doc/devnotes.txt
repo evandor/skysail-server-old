@@ -1,0 +1,4 @@
+
+ Idea: merge with skysail.server
+ 
+ no need to have this as bundle of its own
