@@ -2,6 +2,9 @@ package de.twenty11.skysail.server.listener;
 
 import java.util.Map;
 
+import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
+import de.twenty11.skysail.server.servicedefinitions.UrlMapper;
+
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.InvalidSyntaxException;
@@ -9,13 +12,10 @@ import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
 import org.restlet.resource.ServerResource;
-import org.restlet.routing.TemplateRoute;
+import org.restlet.routing.Route;
 import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
-import de.twenty11.skysail.server.servicedefinitions.UrlMapper;
 
 /**
  * A service listener which takes care of UrlMapper related services. A
@@ -197,7 +197,7 @@ public class UrlMappingServiceListener implements ServiceListener {
      */
     private void logCurrentMapping(final RouteList routes) {
         logger.info("current mapping now is:");
-        for (TemplateRoute route : routes) {
+        for (Route route : routes) {
             logger.info(route.toString());
         }
     }
