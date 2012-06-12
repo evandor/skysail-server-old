@@ -22,8 +22,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-import de.twenty11.skysail.server.servicedefinitions.BundleLoaderService;
-import de.twenty11.skysail.server.servicedefinitions.ConfigService;
+import de.twenty11.skysail.server.services.BundleLoaderService;
+import de.twenty11.skysail.server.services.ConfigService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
