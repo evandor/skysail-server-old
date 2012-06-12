@@ -47,8 +47,8 @@
 
         <dependency>
             <groupId>de.twenty11.skysail</groupId>
-            <artifactId>skysail.server.serviceprovider</artifactId>
-            <version>[0.2.0, 0.3)</version>
+            <artifactId>skysail.common</artifactId>
+            <version>[0.3.1-SNAPSHOT, 1.0)</version>
             <!-- <version>0.2.0.RC1</version> -->
         </dependency>
 
@@ -56,13 +56,11 @@
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
-            <version>4.2.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.enterprise</artifactId>
-            <version>4.2.0</version>
         </dependency>
 
         <!-- restlet -->

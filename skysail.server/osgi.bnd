@@ -12,7 +12,8 @@ Export-Package: de.twenty11.skysail.server;version="0.2.0",\
  de.twenty11.skysail.server.communikation,\
  de.twenty11.skysail.server.internal,\
  de.twenty11.skysail.server.listener,\
- de.twenty11.skysail.server.security 
+ de.twenty11.skysail.server.security,\ 
+ de.twenty11.skysail.server.services;version="0.2.0" 
 Bundle-Activator: de.twenty11.skysail.server.internal.Activator
 FtlTemplates: /freemarker/
 Bundle-SymbolicName: skysail.server

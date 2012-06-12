@@ -3,7 +3,7 @@ package de.twenty11.skysail.server.listener;
 import java.util.Map;
 
 import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
-import de.twenty11.skysail.server.servicedefinitions.UrlMapper;
+import de.twenty11.skysail.server.services.UrlMapper;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;

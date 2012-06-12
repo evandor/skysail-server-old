@@ -35,7 +35,7 @@ import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.internal.ConfigServiceProvider;
-import de.twenty11.skysail.server.servicedefinitions.ConfigService;
+import de.twenty11.skysail.server.services.ConfigService;
 
 /**
  * An class dealing with common functionality for a skysail server resource

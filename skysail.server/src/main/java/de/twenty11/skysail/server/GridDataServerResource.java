@@ -30,7 +30,7 @@ import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.internal.ConfigServiceProvider;
-import de.twenty11.skysail.server.servicedefinitions.ConfigService;
+import de.twenty11.skysail.server.services.ConfigService;
 
 import org.restlet.Restlet;
 import org.restlet.resource.ServerResource;

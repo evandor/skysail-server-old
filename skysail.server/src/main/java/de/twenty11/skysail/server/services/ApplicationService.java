@@ -14,28 +14,24 @@
  *  limitations under the License.
  * 
  */
+package de.twenty11.skysail.server.services;
 
-package de.twenty11.skysail.server.internal;
+import de.twenty11.skysail.common.app.SkysailApplication;
 
-import org.osgi.service.component.ComponentContext;
 
-import de.twenty11.skysail.server.services.ConfigService;
 
-public class ConfigServiceProvider {
+/**
+ * 
+ * 
+ * @author carsten
+ *
+ */
+public interface ApplicationService {
 
-    private static ConfigService configService;
-
-    protected void activate(ComponentContext ctxt) {
-    }
+    /**
+     * @param identifier key
+     * @return the value for the identifier, null if not found
+     */
+    SkysailApplication getApplication();
     
-    protected void deactivate(ComponentContext ctxt) {
-    }
-    
-    public synchronized void setConfigService(ConfigService configService) {
-        ConfigServiceProvider.configService = configService;
-    }
-    
-    public static ConfigService getConfigService() {
-        return configService;
-    }
 }

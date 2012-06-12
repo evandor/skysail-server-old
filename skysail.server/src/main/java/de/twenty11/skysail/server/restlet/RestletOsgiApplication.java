@@ -26,7 +26,7 @@ import de.twenty11.skysail.server.internal.Blocker;
 import de.twenty11.skysail.server.internal.ClassLoaderDirectory;
 import de.twenty11.skysail.server.internal.CompositeClassLoader;
 import de.twenty11.skysail.server.internal.ConfigServiceProvider;
-import de.twenty11.skysail.server.servicedefinitions.ConfigService;
+import de.twenty11.skysail.server.services.ConfigService;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 

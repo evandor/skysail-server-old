@@ -14,28 +14,27 @@
  *  limitations under the License.
  * 
  */
+package de.twenty11.skysail.server.services;
 
-package de.twenty11.skysail.server.internal;
+import java.util.List;
 
-import org.osgi.service.component.ComponentContext;
+/**
+ * Defines a configuration service which will return values (strings, properties, ...) for a given
+ * identifier.
+ * 
+ * @author carsten
+ *
+ */
+public interface BundleLoaderService {
 
-import de.twenty11.skysail.server.services.ConfigService;
-
-public class ConfigServiceProvider {
-
-    private static ConfigService configService;
-
-    protected void activate(ComponentContext ctxt) {
-    }
+    /**
+     * tries to install the listed bundles.
+     * 
+     * @param identifiers
+     *            locations[@startlevel] for the bundles to install
+     * @return true if successful
+     */
+    boolean load(List<String> identifiers);
     
-    protected void deactivate(ComponentContext ctxt) {
-    }
     
-    public synchronized void setConfigService(ConfigService configService) {
-        ConfigServiceProvider.configService = configService;
-    }
-    
-    public static ConfigService getConfigService() {
-        return configService;
-    }
 }
