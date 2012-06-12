@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="skysail.server.serviceprovider.skysailservices">
    <implementation class="de.twenty11.skysail.server.serviceprovider.SkysailServiceProvider" />
-   <reference bind="setConfigService" cardinality="1..1" interface="de.twenty11.skysail.server.servicedefinitions.ConfigService" name="ConfigService" policy="static"/>
+   <reference bind="setConfigService" cardinality="1..1" interface="de.twenty11.skysail.server.services.ConfigService" name="ConfigService" policy="static"/>
    
 </scr:component>

@@ -45,8 +45,8 @@ import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.servicedefinitions.ConfigService;
 import de.twenty11.skysail.server.serviceprovider.SkysailServiceProvider;
+import de.twenty11.skysail.server.services.ConfigService;
 
 import static org.ops4j.pax.tinybundles.core.TinyBundles.*;
 
