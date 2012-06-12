@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>de.twenty11.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.7.1</version>
+		<version>0.7.2-SNAPSHOT</version>
 		<relativePath />
 	</parent>
 
@@ -43,6 +43,78 @@
 			<version>[0.3.0, 0.4)</version>
 			<!-- <version>0.3.0.RC2</version> -->
 		</dependency>
+		
+		
+		        <!-- testing with pax exam -->
+        <dependency>
+            <groupId>org.ops4j.pax.exam</groupId>
+            <artifactId>pax-exam-container-native</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.exam</groupId>
+            <artifactId>pax-exam-junit4</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.exam</groupId>
+            <artifactId>pax-exam-link-mvn</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.url</groupId>
+            <artifactId>pax-url-aether</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.tinybundles</groupId>
+            <artifactId>tinybundles</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--dependency> <groupId>org.ops4j.pax.exam</groupId> <artifactId>pax-exam-junit</artifactId> 
+            <scope>test</scope> </dependency -->
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.framework</artifactId>
+            <version>3.2.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- osgi for tests -->
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.enterprise</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- logging for tests -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+		
+		
+		
 	</dependencies>
 
 
