@@ -19,7 +19,7 @@ package de.twenty11.skysail.server.osgi.bundles;
 
 import org.osgi.service.component.ComponentContext;
 
-import de.twenty11.skysail.server.servicedefinitions.ConfigService;
+import de.twenty11.skysail.server.services.ConfigService;
 
 public class ConfigServiceProvider {
 

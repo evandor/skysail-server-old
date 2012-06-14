@@ -8,7 +8,7 @@ import de.twenty11.skysail.server.osgi.bundles.restlet.BundleResource;
 import de.twenty11.skysail.server.osgi.bundles.restlet.BundlesResource;
 import de.twenty11.skysail.server.osgi.bundles.restlet.PackagesResource;
 import de.twenty11.skysail.server.osgi.bundles.restlet.ServicesResource;
-import de.twenty11.skysail.server.servicedefinitions.UrlMapper;
+import de.twenty11.skysail.server.services.UrlMapper;
 
 /**
  * Maps urls to resource handlers.

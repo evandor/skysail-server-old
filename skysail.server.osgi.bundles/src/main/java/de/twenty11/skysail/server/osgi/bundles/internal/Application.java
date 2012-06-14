@@ -18,7 +18,7 @@
 package de.twenty11.skysail.server.osgi.bundles.internal;
 
 import de.twenty11.skysail.common.app.SkysailApplication;
-import de.twenty11.skysail.server.servicedefinitions.ApplicationService;
+import de.twenty11.skysail.server.services.ApplicationService;
 
 public class Application implements ApplicationService {
 

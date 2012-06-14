@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>de.twenty11.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.1.2</version>
+		<version>0.7.2-SNAPSHOT</version>
 	</parent>
 
 
@@ -35,7 +35,6 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<version>2.3.4</version>
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
@@ -52,7 +51,6 @@
 			<groupId>de.twenty11.skysail</groupId>
 			<artifactId>skysail.server</artifactId>
 			<version>[0.2.0,0.3)</version>
-			<!-- <version>0.2.0.RC1</version> -->
 		</dependency>
 		
 		<dependency>
@@ -65,28 +63,24 @@
 		<dependency>
 			<groupId>org.ops4j.pax.exam</groupId>
 			<artifactId>pax-exam-container-native</artifactId>
-			<version>${exam.version}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.ops4j.pax.exam</groupId>
 			<artifactId>pax-exam-junit4</artifactId>
-			<version>${exam.version}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.ops4j.pax.exam</groupId>
 			<artifactId>pax-exam-link-mvn</artifactId>
-			<version>${exam.version}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.ops4j.pax.url</groupId>
 			<artifactId>pax-url-aether</artifactId>
-			<version>${url.version}</version>
 			<scope>test</scope>
 		</dependency>
 
