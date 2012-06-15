@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features>
+
+	<!-- feature to be used with apache karaf -->
+    <feature name="skysail.server.feature" version="${pom.version}">
+
+		<!-- skysail.server feature -->    
+	    <feature>skysail.server.feature</feature>
+ 	
+ 		<!-- skysail.server with dependecies -->
+        <bundle>mvn:de.twenty11.skysail/skysail.server.osgi.bundles/${pom.version}</bundle>
+        
+    </feature>
+   
+</features>
