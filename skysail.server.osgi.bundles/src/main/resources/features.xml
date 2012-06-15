@@ -2,7 +2,7 @@
 <features>
 
 	<!-- feature to be used with apache karaf -->
-    <feature name="skysail.server.feature" version="${pom.version}">
+    <feature name="skysail.server.osgi.bundles.feature" version="${pom.version}">
 
 		<!-- skysail.server feature -->    
 	    <feature>skysail.server.feature</feature>
