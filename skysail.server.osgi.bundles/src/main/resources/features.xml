@@ -7,9 +7,11 @@
 		<!-- skysail.server feature -->    
 	    <feature>skysail.server.feature</feature>
  	
- 		<!-- skysail.server with dependecies -->
+ 		<!-- skysail.server.osgi.bundles with dependecies -->
         <bundle>mvn:de.twenty11.skysail/skysail.server.osgi.bundles/${pom.version}</bundle>
-        
+        <bundle>mvn:org.eclipse.equinox/org.eclipse.equinox.ds/1.2.1</bundle>
+        <bundle>mvn:org.eclipse.equinox/org.eclipse.equinox.util/1.0.200</bundle>
+        <bundle>mvn:org.eclipse.equinox/org.eclipse.equinox.log/1.2.100.v20100503</bundle>
     </feature>
    
 </features>
