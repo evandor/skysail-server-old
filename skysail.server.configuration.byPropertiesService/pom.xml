@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>de.twentyeleven.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.7.9-SNAPSHOT</version>
+		<version>0.7.10-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>skysail.server.configuration.byPropertiesService</artifactId>

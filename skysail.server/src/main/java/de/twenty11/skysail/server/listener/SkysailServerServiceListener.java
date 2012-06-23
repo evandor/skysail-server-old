@@ -34,6 +34,11 @@ public class SkysailServerServiceListener implements ServiceListener {
     
     @Override
     public final void serviceChanged(final ServiceEvent event) {
+    	String symbolicName = event.getServiceReference().getBundle().getSymbolicName();
+    	if (symbolicName.contains("skysail")) {
+            logger.info(event.toString());
+            System.out.println(event.toString());
+    	}
         logger.debug(event.toString());
     }
 
