@@ -4,11 +4,14 @@
 	<!-- feature to be used with apache karaf -->
     <feature name="skysail.server.feature" version="${pom.version}">
 
-		<!-- skysail.common feature -->    
+		<!-- skysail.common feature 
 	    <feature>skysail.common.feature</feature>
- 	
+ 	-->    
  		<!-- skysail.server with dependecies -->
         <bundle>mvn:de.twentyeleven.skysail/skysail.server/${pom.version}</bundle>
+        <bundle>mvn:org.freemarker/com.springsource.freemarker/2.3.18</bundle>
+        <bundle>mvn:org.codehaus.jettison/com.springsource.org.codehaus.jettison/1.0.1</bundle>
+        
         <bundle>mvn:org.osgi/org.osgi.compendium/4.2.0</bundle>
         <bundle>mvn:org.restlet.jee/org.restlet/2.0.11</bundle>
         <bundle>mvn:org.restlet.jee/org.restlet.ext.freemarker/2.0.11</bundle>
@@ -17,7 +20,6 @@
         <bundle>mvn:org.restlet.jee/org.restlet.ext.jackson/2.0.11</bundle>
         <bundle>mvn:org.restlet.jee/org.restlet.ext.xstream/2.0.11</bundle>
         <bundle>mvn:org.restlet.jee/org.restlet.ext.wadl/2.0.11</bundle>
-        <bundle>mvn:org.freemarker/com.springsource.freemarker/2.3.18</bundle>
         <bundle>mvn:de.twentyeleven.skysail/skysail.server.freemarker/0.1.1-SNAPSHOT</bundle>
     </feature>
    

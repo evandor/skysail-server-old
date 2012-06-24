@@ -1,0 +1,8 @@
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+	<repository>mvn:de.twentyeleven.skysail/skysail.common/0.3.2-SNAPSHOT/xml</repository>
+	<repository>mvn:de.twentyeleven.skysail/skysail.server/0.2.1-SNAPSHOT/xml</repository>
+	<feature name="skysail-server-feature">
+		<feature>skysail.common.feature</feature>
+		<feature>skysail.server.feature</feature>
+	</feature>
+</features>

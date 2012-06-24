@@ -4,9 +4,9 @@
 	<!-- feature to be used with apache karaf -->
     <feature name="skysail.server.osgi.bundles.feature" version="${pom.version}">
 
-		<!-- skysail.server feature -->    
+		<!-- skysail.server feature 
 	    <feature>skysail.server.feature</feature>
- 	
+ 	-->    
  		<!-- skysail.server.osgi.bundles with dependecies -->
         <bundle>mvn:de.twentyeleven.skysail/skysail.server.osgi.bundles/${pom.version}</bundle>
         <bundle>mvn:org.eclipse.equinox/org.eclipse.equinox.ds/1.2.1</bundle>
