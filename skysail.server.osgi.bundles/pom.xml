@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>de.twentyeleven.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.7.9-SNAPSHOT</version>
+		<version>0.7.10-SNAPSHOT</version>
 	</parent>
 
 
@@ -91,9 +91,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>de.twenty11.skysail</groupId>
+			<groupId>de.twentyeleven.skysail</groupId>
 			<artifactId>skysail.server</artifactId>
-			<version>[0.2.0,0.3)</version>
+			<version>[0.2.1-SNAPSHOT,0.3)</version>
 		</dependency>
 
 		<dependency>
