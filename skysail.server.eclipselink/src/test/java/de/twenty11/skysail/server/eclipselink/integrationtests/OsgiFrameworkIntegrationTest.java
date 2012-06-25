@@ -52,17 +52,17 @@ public class OsgiFrameworkIntegrationTest {
                 junitBundles(),
                 
                 // needed for console (equinox)
-                //bundle("mvn:http://nexus.twentyeleven.de/content/groups/public!org.eclipse.equinox.console/org.eclipse.equinox.console/1.0.0.v20120522-1841"),
+                //bundle("mvn:http://80.86.88.102:8081/nexus/content/groups/public!org.eclipse.equinox.console/org.eclipse.equinox.console/1.0.0.v20120522-1841"),
 
                 // needed for console (felix)
-                bundle("mvn:http://nexus.twentyeleven.de/content/groups/public!org.apache.felix/org.apache.felix.gogo.shell/0.10.0"),
-                bundle("mvn:http://nexus.twentyeleven.de/content/groups/public!org.apache.felix/org.apache.felix.gogo.runtime/0.10.0"),
-                bundle("mvn:http://nexus.twentyeleven.de/content/groups/public!org.apache.felix/org.apache.felix.gogo.command/0.12.0"),
-                bundle("mvn:http://nexus.twentyeleven.de/content/groups/public!org.apache.felix/org.apache.felix.shell/1.0.0"),
+                bundle("mvn:http://80.86.88.102:8081/nexus/content/groups/public!org.apache.felix/org.apache.felix.gogo.shell/0.10.0"),
+                bundle("mvn:http://80.86.88.102:8081/nexus/content/groups/public!org.apache.felix/org.apache.felix.gogo.runtime/0.10.0"),
+                bundle("mvn:http://80.86.88.102:8081/nexus/content/groups/public!org.apache.felix/org.apache.felix.gogo.command/0.12.0"),
+                bundle("mvn:http://80.86.88.102:8081/nexus/content/groups/public!org.apache.felix/org.apache.felix.shell/1.0.0"),
 
                 vmOption("-console"),
                 // http://team.ops4j.org/wiki/display/paxurl/Mvn+Protocol#MvnProtocol-configuration
-                systemProperty("org.ops4j.pax.url.mvn.repositories").value("http://nexus.twentyeleven.de/content/groups/public"),
+                systemProperty("org.ops4j.pax.url.mvn.repositories").value("http://80.86.88.102:8081/nexus/content/groups/public"),
                 systemProperty("osgi.console").value("6666"),
                 systemProperty("equinox.ds.debug").value("true"),
                 systemProperty("equinox.ds.print").value("true"),
