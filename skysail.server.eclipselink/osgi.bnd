@@ -2,8 +2,7 @@ Include-Resource: {maven-resources}
 Meta-Persistence: META-INF/persistence.xml
 DynamicImport-Package: *
 Bundle-SymbolicName: skysail.server.eclipselink
-Import-Package: com.mysql.jdbc,\
- javax.persistence;version="1.1.0";jpa="2.0",\
+Import-Package: javax.persistence;version="1.1.0";jpa="2.0",\
  *
 Service-Component: OSGI-INF/*.xml 
 Bundle-Activator: de.twenty11.skysail.server.eclipselink.Activator

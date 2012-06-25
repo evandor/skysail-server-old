@@ -1,0 +1,6 @@
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+	<repository>mvn:de.twentyeleven.skysail/skysail.server.eclipselink/0.0.3-SNAPSHOT/xml</repository>
+	<feature name="skysail-server-eclipselink-feature">
+		<feature>skysail.server.eclipselink.feature</feature>
+	</feature>
+</features>
