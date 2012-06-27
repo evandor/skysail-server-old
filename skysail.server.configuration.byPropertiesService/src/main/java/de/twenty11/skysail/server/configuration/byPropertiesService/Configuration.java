@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Configuration implements ConfigService {
     
-    private static final String DEFAULT_CONF_LOCATION = "./conf/skysail.properties";
+    private static final String DEFAULT_CONF_LOCATION = "./etc/de.twentyeleven.skysail.cfg";
 
     /**slf4j based logging implementation. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());

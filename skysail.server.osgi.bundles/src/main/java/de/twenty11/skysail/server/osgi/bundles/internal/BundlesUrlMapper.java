@@ -21,7 +21,7 @@ public class BundlesUrlMapper implements UrlMapper {
     /**
      * It is really easier reading this if I do _not_ use constants.
      * 
-     * @see de.twenty11.skysail.server.servicedefinitions.UrlMapper#getUrlMapping()
+     * @see de.twenty11.skysail.server.services.UrlMapper#getUrlMapping()
      */
     @Override
     public Map<String, String> getUrlMapping() {
