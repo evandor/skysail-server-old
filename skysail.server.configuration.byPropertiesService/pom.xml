@@ -1,24 +1,25 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>de.twentyeleven.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.7.10-SNAPSHOT</version>
+		<version>0.7.11</version>
 	</parent>
 
 	<artifactId>skysail.server.configuration.byPropertiesService</artifactId>
 	<version>0.1.1-SNAPSHOT</version>
 	<name>skysail server configuration byPropertiesService</name>
 	<packaging>bundle</packaging>
-	
+
 	<scm>
 		<!-- read access -->
 		<connection>scm:git:git@github.com:evandor/skysail-server.git</connection>
 		<!-- write access -->
 		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
-		<!-- A publicly browsable repository. For example, via ViewCVS.-->
+		<!-- A publicly browsable repository. For example, via ViewCVS. -->
 		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
 	</scm>
 
@@ -29,12 +30,12 @@
 				<artifactId>maven-bundle-plugin</artifactId>
 				<extensions>true</extensions>
 				<configuration>
-                    <manifestLocation>META-INF</manifestLocation>
+					<manifestLocation>META-INF</manifestLocation>
 					<instructions>
 						<_include>-osgi.bnd</_include>
-                        <Include-Resource>
-                            OSGI-INF/=OSGI-INF/
-                        </Include-Resource>
+						<Include-Resource>
+							OSGI-INF/=OSGI-INF/
+						</Include-Resource>
 					</instructions>
 				</configuration>
 			</plugin>
@@ -47,6 +48,52 @@
 			<artifactId>skysail.server</artifactId>
 			<version>[0.2.0,0.3)</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.ops4j.pax.exam</groupId>
+			<artifactId>pax-exam-container-native</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ops4j.pax.exam</groupId>
+			<artifactId>pax-exam-junit4</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ops4j.pax.exam</groupId>
+			<artifactId>pax-exam-link-mvn</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ops4j.pax.url</groupId>
+			<artifactId>pax-url-aether</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.framework</artifactId>
+			<version>3.2.2</version>
+			<scope>test</scope>
+		</dependency>
+
+
 	</dependencies>
 
 </project>
