@@ -1,9 +1,9 @@
 package de.twenty11.skysail.server.integrationtest;
 
 import static org.junit.Assert.assertTrue;
-import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 import static org.ops4j.pax.exam.CoreOptions.provision;
 import static org.ops4j.pax.tinybundles.core.TinyBundles.bundle;
+import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 
 import java.io.InputStream;
 import java.util.List;
@@ -21,34 +21,28 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 
-import de.twenty11.skysail.common.test.SkysailCommonOsgiTest;
+import de.twenty11.skysail.common.osgi.SkysailCommonOsgiSetup;
 import de.twenty11.skysail.server.internal.Activator;
 
 @RunWith(JUnit4TestRunner.class)
 @ExamReactorStrategy(AllConfinedStagedReactorFactory.class)
-public class SkysailServerOsgiTest extends SkysailCommonOsgiTest {
+public class SkysailServerOsgiTest {
 
     @Inject
     private BundleContext context;
 
-    @Override
-	public List<Option> getOptions() {
-        List<Option> options = super.getOptions();
-        options.add(mavenBundle("de.twentyeleven.skysail","skysail.common", "0.3.2-SNAPSHOT"));
-        return options;
-	}
-
     @Configuration
     public Option[] config() {
-        List<Option> options = getOptions();
+        SkysailCommonOsgiSetup setup = new SkysailCommonOsgiSetup();
+        List<Option> options = setup.getOptions();
         
+        options.add(mavenBundle("de.twentyeleven.skysail","skysail.common", "0.3.2-SNAPSHOT"));
+
         InputStream bundleUnderTest = bundle().add(Activator.class)
                 .set(Constants.BUNDLE_SYMBOLICNAME, "skysail.server")
-                .set(Constants.IMPORT_PACKAGE, "de.twenty11.skysail.common.test")
-                .build();
-
+                .set(Constants.IMPORT_PACKAGE, "de.twenty11.skysail.common.test").build();
         options.add(provision(bundleUnderTest));
-        return options.toArray(new Option[getOptions().size()]);
+        return options.toArray(new Option[options.size()]);
     }
 
     @Test
@@ -62,6 +56,7 @@ public class SkysailServerOsgiTest extends SkysailCommonOsgiTest {
         }
         assertTrue(skysailCommonBundle != null);
         assertTrue(skysailCommonBundle.getState() == 32);
+
     }
 
 }
