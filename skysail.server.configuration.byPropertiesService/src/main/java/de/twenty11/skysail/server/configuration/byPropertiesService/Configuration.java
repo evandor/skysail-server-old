@@ -25,6 +25,7 @@ import java.util.Properties;
 import de.twenty11.skysail.server.services.BundleLoaderService;
 import de.twenty11.skysail.server.services.ConfigService;
 
+import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,6 +83,16 @@ public class Configuration implements ConfigService {
 
     public void getBundleLoaderService(BundleLoaderService service) {
         System.out.println("go you");
+    }
+    
+    protected void activate(ComponentContext context)
+    {
+        System.out.println("active");
+    }
+    
+    protected void deactivate(ComponentContext context)
+    {
+        System.out.println("done");
     }
 
 }
