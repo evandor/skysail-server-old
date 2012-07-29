@@ -50,6 +50,14 @@
 		</dependency>
 
 		<dependency>
+			<groupId>de.twentyeleven.skysail</groupId>
+			<artifactId>skysail.server</artifactId>
+			<version>[0.2.0,0.3)</version>
+			<scope>test</scope>
+			<type>test-jar</type>
+		</dependency>
+
+		<dependency>
 			<groupId>org.ops4j.pax.exam</groupId>
 			<artifactId>pax-exam-container-native</artifactId>
 			<scope>test</scope>

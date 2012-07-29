@@ -1,9 +1,9 @@
 package de.twenty11.skysail.server.configuration.byProperties.test;
 
 import static org.junit.Assert.assertTrue;
+import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 import static org.ops4j.pax.exam.CoreOptions.provision;
 import static org.ops4j.pax.tinybundles.core.TinyBundles.bundle;
-import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 
 import java.io.InputStream;
 import java.util.List;
@@ -22,8 +22,8 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 
 import de.twenty11.skysail.common.osgi.SkysailCommonOsgiSetup;
+import de.twenty11.skysail.server.integrationtest.SkysailServerOsgiSetup;
 import de.twenty11.skysail.server.internal.Activator;
-import de.twenty11.skysail.server.osgi.SkysailServerOsgiSetup;
 
 @RunWith(JUnit4TestRunner.class)
 @ExamReactorStrategy(AllConfinedStagedReactorFactory.class)
