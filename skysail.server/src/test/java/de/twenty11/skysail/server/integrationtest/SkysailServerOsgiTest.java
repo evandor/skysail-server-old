@@ -40,7 +40,8 @@ public class SkysailServerOsgiTest {
 
         InputStream bundleUnderTest = bundle().add(Activator.class)
                 .set(Constants.BUNDLE_SYMBOLICNAME, "skysail.server")
-                .set(Constants.IMPORT_PACKAGE, "de.twenty11.skysail.common.test").build();
+                //.set(Constants.IMPORT_PACKAGE, "de.twenty11.skysail.common.test")
+                .build();
         options.add(provision(bundleUnderTest));
         return options.toArray(new Option[options.size()]);
     }
