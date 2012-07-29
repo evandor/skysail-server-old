@@ -1,7 +1,6 @@
 package de.twenty11.skysail.server.integrationtest;
 
 import static org.junit.Assert.assertTrue;
-import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 import static org.ops4j.pax.exam.CoreOptions.provision;
 import static org.ops4j.pax.tinybundles.core.TinyBundles.bundle;
 
@@ -35,7 +34,7 @@ public class SkysailServerOsgiTest {
         SkysailServerOsgiSetup setup = new SkysailServerOsgiSetup();
         List<Option> options = setup.getOptions();
         
-        options.add(mavenBundle("de.twentyeleven.skysail","skysail.common", "0.3.2-SNAPSHOT"));
+        //options.add(mavenBundle("de.twentyeleven.skysail","skysail.common", "0.3.2-SNAPSHOT"));
 
         InputStream bundleUnderTest = bundle().add(Activator.class)
                 .set(Constants.BUNDLE_SYMBOLICNAME, "skysail.server")
