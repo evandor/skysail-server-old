@@ -34,7 +34,7 @@
 					<instructions>
 						<_include>-osgi.bnd</_include>
 						<Include-Resource>
-							{maven-resources}, OSGI-INF/=OSGI-INF/
+							{maven-resources}, OSGI-INF/=OSGI-INF/, etc/=etc/
 						</Include-Resource>
 					</instructions>
 				</configuration>
