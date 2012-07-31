@@ -2,14 +2,16 @@ package de.twenty11.skysail.server.integrationtest;
 
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import org.ops4j.pax.exam.Option;
 
+import de.twenty11.skysail.common.osgi.PaxExamOptionSet;
 import de.twenty11.skysail.common.osgi.SkysailCommonOsgiSetup;
 
 /**
- * This class defines the bundles skysail.common depends on (used by pax-exam), i.e.
+ * This class defines the bundles skysail.server depends on (used by pax-exam), i.e.
  * the bundles to be used containing the non-optional packages imported by this bundle.
  * 
  * The provided List with options does not contain the current bundle itself!
@@ -20,8 +22,9 @@ import de.twenty11.skysail.common.osgi.SkysailCommonOsgiSetup;
 public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
 
     @Override
-	public List<Option> getOptions() {
-        List<Option> options = super.getOptions();
+	public List<Option> getOptions(EnumSet<PaxExamOptionSet> optionSets) {
+        List<Option> options = super.getOptions(optionSets);
+        
         options.add(mavenBundle("de.twentyeleven.skysail","skysail.common", "0.3.2-SNAPSHOT"));
 
         // restlet
@@ -34,6 +37,18 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.xml", "2.0.11"));
         options.add(mavenBundle("org.restlet.jee", "org.restlet", "2.0.11"));
 
+        options.add(mavenBundle("org.freemarker", "com.springsource.freemarker", "2.3.18"));
+
+        options.add(mavenBundle("com.thoughtworks.xstream", "com.springsource.com.thoughtworks.xstream", "1.3.1"));
+
+        options.add(mavenBundle("org.codehaus.jackson", "jackson-core-lgpl", "1.9.5"));
+        options.add(mavenBundle("org.codehaus.jackson", "jackson-mapper-lgpl", "1.9.5"));
+
+        options.add(mavenBundle("javax.xml.stream", "com.springsource.javax.xml.stream", "1.0.1"));
+        
+        options.add(mavenBundle("org.xmlpull","com.springsource.org.xmlpull", "1.1.4.c"));
+
+        options.add(mavenBundle("org.codehaus.jettison", "com.springsource.org.codehaus.jettison", "1.0.1"));
         
         return options;
 	}
