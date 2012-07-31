@@ -5,6 +5,7 @@ import static org.ops4j.pax.exam.CoreOptions.provision;
 import static org.ops4j.pax.tinybundles.core.TinyBundles.bundle;
 
 import java.io.InputStream;
+import java.util.EnumSet;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,6 +21,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 
+import de.twenty11.skysail.common.osgi.PaxExamOptionSet;
 import de.twenty11.skysail.server.internal.Activator;
 
 @RunWith(JUnit4TestRunner.class)
@@ -32,7 +34,7 @@ public class SkysailServerOsgiTest {
     @Configuration
     public Option[] config() {
         SkysailServerOsgiSetup setup = new SkysailServerOsgiSetup();
-        List<Option> options = setup.getOptions();
+        List<Option> options = setup.getOptions(EnumSet.noneOf(PaxExamOptionSet.class));
         
         //options.add(mavenBundle("de.twentyeleven.skysail","skysail.common", "0.3.2-SNAPSHOT"));
 
@@ -41,6 +43,7 @@ public class SkysailServerOsgiTest {
                 //.set(Constants.IMPORT_PACKAGE, "de.twenty11.skysail.common.test")
                 .build();
         options.add(provision(bundleUnderTest));
+        
         return options.toArray(new Option[options.size()]);
     }
 
