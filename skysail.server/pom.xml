@@ -25,6 +25,12 @@
 	</scm>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
@@ -34,7 +40,8 @@
 					<instructions>
 						<_include>-osgi.bnd</_include>
 						<Include-Resource>
-							{maven-resources}, OSGI-INF/=OSGI-INF/, etc/=etc/
+							{maven-resources}, OSGI-INF/=OSGI-INF/,
+							etc/=etc/
 						</Include-Resource>
 					</instructions>
 				</configuration>
@@ -189,8 +196,8 @@
 			<version>4.9</version>
 			<scope>test</scope>
 		</dependency>
-		
-				<!-- testing with pax exam -->
+
+		<!-- testing with pax exam -->
 		<dependency>
 			<groupId>org.ops4j.pax.exam</groupId>
 			<artifactId>pax-exam-container-native</artifactId>
@@ -216,8 +223,6 @@
 			<artifactId>tinybundles</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!--dependency> <groupId>org.ops4j.pax.exam</groupId> <artifactId>pax-exam-junit</artifactId> 
-			<scope>test</scope> </dependency -->
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.framework</artifactId>
@@ -237,8 +242,8 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- testing with pax exam - done -->
-		
-		
+
+
 	</dependencies>
 
 </project>

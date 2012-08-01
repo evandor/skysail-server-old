@@ -2,8 +2,10 @@ package de.twenty11.skysail.server.integrationtest;
 
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 
+import java.io.FileReader;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Properties;
 
 import org.ops4j.pax.exam.Option;
 
@@ -37,6 +39,9 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.xml", "2.0.11"));
         options.add(mavenBundle("org.restlet.jee", "org.restlet", "2.0.11"));
 
+        // osgi 
+        options.add(mavenBundle("org.osgi", "org.osgi.enterprise", "4.2.0"));
+        
         // other
         options.add(mavenBundle("org.freemarker", "com.springsource.freemarker", "2.3.18"));
         options.add(mavenBundle("com.thoughtworks.xstream", "com.springsource.com.thoughtworks.xstream", "1.3.1"));
@@ -48,6 +53,4 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         
         return options;
 	}
-   
-
 }
