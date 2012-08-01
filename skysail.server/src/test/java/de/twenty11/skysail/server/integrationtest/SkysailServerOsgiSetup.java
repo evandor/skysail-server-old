@@ -37,17 +37,13 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.xml", "2.0.11"));
         options.add(mavenBundle("org.restlet.jee", "org.restlet", "2.0.11"));
 
+        // other
         options.add(mavenBundle("org.freemarker", "com.springsource.freemarker", "2.3.18"));
-
         options.add(mavenBundle("com.thoughtworks.xstream", "com.springsource.com.thoughtworks.xstream", "1.3.1"));
-
         options.add(mavenBundle("org.codehaus.jackson", "jackson-core-lgpl", "1.9.5"));
         options.add(mavenBundle("org.codehaus.jackson", "jackson-mapper-lgpl", "1.9.5"));
-
         options.add(mavenBundle("javax.xml.stream", "com.springsource.javax.xml.stream", "1.0.1"));
-        
         options.add(mavenBundle("org.xmlpull","com.springsource.org.xmlpull", "1.1.4.c"));
-
         options.add(mavenBundle("org.codehaus.jettison", "com.springsource.org.codehaus.jettison", "1.0.1"));
         
         return options;

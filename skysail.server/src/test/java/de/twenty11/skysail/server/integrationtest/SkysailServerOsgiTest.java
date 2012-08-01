@@ -5,6 +5,7 @@ import static org.ops4j.pax.exam.CoreOptions.provision;
 import static org.ops4j.pax.tinybundles.core.TinyBundles.bundle;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -28,16 +29,20 @@ import de.twenty11.skysail.server.internal.Activator;
 @ExamReactorStrategy(AllConfinedStagedReactorFactory.class)
 public class SkysailServerOsgiTest {
 
+	private List<PaxExamOptionSet> dependencies = new ArrayList<PaxExamOptionSet>();
+
     @Inject
     private BundleContext context;
 
     @Configuration
     public Option[] config() {
-        SkysailServerOsgiSetup setup = new SkysailServerOsgiSetup();
-        List<Option> options = setup.getOptions(EnumSet.noneOf(PaxExamOptionSet.class));
-        
-        //options.add(mavenBundle("de.twentyeleven.skysail","skysail.common", "0.3.2-SNAPSHOT"));
+    	
+		dependencies.add(PaxExamOptionSet.BASE);
+		//dependencies.add(PaxExamOptionSet.DEBUGGING);
 
+        SkysailServerOsgiSetup setup = new SkysailServerOsgiSetup();
+        List<Option> options = setup.getOptions(EnumSet.copyOf(dependencies));
+        
         InputStream bundleUnderTest = bundle().add(Activator.class)
                 .set(Constants.BUNDLE_SYMBOLICNAME, "skysail.server")
                 //.set(Constants.IMPORT_PACKAGE, "de.twenty11.skysail.common.test")
