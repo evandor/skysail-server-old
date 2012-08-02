@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>de.twentyeleven.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.7.12-SNAPSHOT</version>
+		<version>0.8.0</version>
 	</parent>
 
 	<artifactId>skysail.server.configuration.byPropertiesService</artifactId>
@@ -54,50 +54,60 @@
 			<scope>test</scope>
 			<type>test-jar</type>
 		</dependency>
+		
+		<dependency>
+			<groupId>de.twentyeleven.skysail</groupId>
+			<artifactId>skysail.common</artifactId>
+			<version>[0.3.2,1.0)</version>
+			<scope>test</scope>
+			<type>test-jar</type>
+		</dependency>
 
+		<!-- testing with pax exam -->
 		<dependency>
 			<groupId>org.ops4j.pax.exam</groupId>
 			<artifactId>pax-exam-container-native</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.ops4j.pax.exam</groupId>
 			<artifactId>pax-exam-junit4</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.ops4j.pax.exam</groupId>
 			<artifactId>pax-exam-link-mvn</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.ops4j.pax.url</groupId>
 			<artifactId>pax-url-aether</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>1</version>
+			<groupId>org.ops4j.pax.tinybundles</groupId>
+			<artifactId>tinybundles</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<scope>test</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.framework</artifactId>
 			<version>3.2.2</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.sonatype.tycho</groupId>
+			<artifactId>org.eclipse.osgi</artifactId>
+			<version>3.6.2.R36x_v20110210</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- testing with pax exam - done -->
 
 	</dependencies>
 

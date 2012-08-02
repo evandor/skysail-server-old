@@ -1,0 +1,19 @@
+<configuration scan="true">
+
+	<!-- 
+	
+	This logging configuration is used when running mvn test or the junit tests defined in this project
+
+	-->
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>test>>> %d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<root level="info">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>
