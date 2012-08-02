@@ -3,13 +3,9 @@ package de.twenty11.skysail.server.integrationtest;
 import static org.junit.Assert.assertTrue;
 import static org.ops4j.pax.exam.CoreOptions.bundle;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Properties;
 
 import javax.inject.Inject;
 
@@ -45,7 +41,6 @@ public class SkysailServerOsgiIT {
         
         // _this_ bundle from target directory
         options.add(bundle("file:target/skysail.server-"+setup.getProjectVersion()+".jar"));
-        
         
         return options.toArray(new Option[options.size()]);
     }

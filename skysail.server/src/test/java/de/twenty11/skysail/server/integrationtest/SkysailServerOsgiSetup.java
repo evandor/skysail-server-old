@@ -2,10 +2,8 @@ package de.twenty11.skysail.server.integrationtest;
 
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 
-import java.io.FileReader;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Properties;
 
 import org.ops4j.pax.exam.Option;
 

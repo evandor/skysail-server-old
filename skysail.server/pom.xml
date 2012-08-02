@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>de.twentyeleven.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.7.12-SNAPSHOT</version>
+		<version>0.8.0</version>
 		<relativePath />
 	</parent>
 
@@ -25,12 +25,6 @@
 	</scm>
 
 	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
@@ -89,13 +83,13 @@
 		<dependency>
 			<groupId>de.twentyeleven.skysail</groupId>
 			<artifactId>skysail.common</artifactId>
-			<version>[0.3.2-SNAPSHOT, 1.0)</version>
+			<version>[0.3.2, 1.0)</version>
 		</dependency>
 
 		<dependency>
 			<groupId>de.twentyeleven.skysail</groupId>
 			<artifactId>skysail.common</artifactId>
-			<version>[0.3.2-SNAPSHOT, 1.0)</version>
+			<version>[0.3.2, 1.0)</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
