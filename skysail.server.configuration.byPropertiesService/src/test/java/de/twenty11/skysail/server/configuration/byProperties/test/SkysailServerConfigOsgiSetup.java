@@ -27,12 +27,6 @@ public class SkysailServerConfigOsgiSetup extends SkysailServerOsgiSetup {
         
         options.add(mavenBundle("de.twentyeleven.skysail","skysail.server", "0.2.1-SNAPSHOT"));
 
-        // ds:
-        //      options.add(mavenBundle("org.eclipse.equinox","org.eclipse.equinox.ds","1.2.1"));
-        //      options.add(mavenBundle("org.eclipse.equinox","org.eclipse.equinox.util","1.0.200"));
-        //      options.add(mavenBundle("org.eclipse.equinox","org.eclipse.equinox.log","1.2.100.v20100503"));
-        options.add(mavenBundle("org.apache.felix", "org.apache.felix.scr", "1.6.0"));
-
         return options;
 	}
 }

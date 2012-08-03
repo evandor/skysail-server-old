@@ -25,6 +25,7 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
 	public List<Option> getOptions(EnumSet<PaxExamOptionSet> optionSets) {
         List<Option> options = super.getOptions(optionSets);
         
+        // skysail.common
         options.add(mavenBundle("de.twentyeleven.skysail","skysail.common", "0.3.2-SNAPSHOT"));
 
         // restlet
@@ -40,6 +41,12 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         // osgi 
         options.add(mavenBundle("org.osgi", "org.osgi.enterprise", "4.2.0"));
         
+        // Declarative Services:
+        //      options.add(mavenBundle("org.eclipse.equinox","org.eclipse.equinox.ds","1.2.1"));
+        //      options.add(mavenBundle("org.eclipse.equinox","org.eclipse.equinox.util","1.0.200"));
+        //      options.add(mavenBundle("org.eclipse.equinox","org.eclipse.equinox.log","1.2.100.v20100503"));
+        options.add(mavenBundle("org.apache.felix", "org.apache.felix.scr", "1.6.0"));
+
         // other
         options.add(mavenBundle("org.freemarker", "com.springsource.freemarker", "2.3.18"));
         options.add(mavenBundle("com.thoughtworks.xstream", "com.springsource.com.thoughtworks.xstream", "1.3.1"));

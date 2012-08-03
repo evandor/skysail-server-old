@@ -72,7 +72,8 @@ public class SkysailServerConfigOsgiIT {
         String[] propertyKeys = sr.getPropertyKeys(); // [component.id, component.name, objectClass, service.id]
         Bundle[] usingBundles = sr.getUsingBundles();
         assertTrue(skysailCommonBundle.getRegisteredServices().length == 1);
-        assertTrue(sr.getProperty("objectClass").equals(new String[] {"de.twenty11.skysail.server.services.ConfigService"}));
+        String[] serviceInterfaces = (String[])sr.getProperty("objectClass");
+        assertTrue(serviceInterfaces[0].equals("de.twenty11.skysail.server.services.ConfigService"));
     }
 
 }

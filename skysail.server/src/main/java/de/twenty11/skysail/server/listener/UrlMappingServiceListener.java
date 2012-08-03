@@ -2,9 +2,6 @@ package de.twenty11.skysail.server.listener;
 
 import java.util.Map;
 
-import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
-import de.twenty11.skysail.server.services.UrlMapper;
-
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.InvalidSyntaxException;
@@ -16,6 +13,9 @@ import org.restlet.routing.Route;
 import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
+import de.twenty11.skysail.server.services.UrlMapper;
 
 /**
  * A service listener which takes care of UrlMapper related services. A
