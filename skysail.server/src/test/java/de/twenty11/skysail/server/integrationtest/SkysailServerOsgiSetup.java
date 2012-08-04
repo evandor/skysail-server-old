@@ -31,7 +31,7 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         // restlet
         options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.slf4j", "2.0.11"));
         options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.freemarker", "2.0.11"));
-        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.servlet", "2.0.11"));
+        //options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.servlet", "2.0.11"));
         options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.xstream", "2.0.11"));
         options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.jackson", "2.0.11"));
         options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.wadl", "2.0.11"));
