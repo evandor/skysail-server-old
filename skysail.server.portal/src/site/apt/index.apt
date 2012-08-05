@@ -1,0 +1,51 @@
+ -----
+ skysail osgimonitor
+ -----
+ evandor
+ -----
+ October 2011
+ 
+Introduction
+
+
+
+
+* Status
+
+* Contributing Bundles
+
+ skysail common - common bundles in all skysail installations
+ skysail server - skysail server basic classes
+ skysail server osgi - osgi layer
+ freemarker - used as template engine for the GUI
+ javax.servlet - dependency of skysail.server
+ org.restlet - dependency of skysail.server
+ org.restlet.ext.freemarker - bridge between restlet framework and freemarker
+ org.restlet.ext.jackson - bridge to jackson
+ org.restlet.ext.xstream - bridge to xstream
+ jackson-mapper-lgpl -   library to create/consume json messages
+ jackson-core-lgpl -   library to create/consume json messages
+ xstream - create XML representations  
+ javax.xml.stream - dependency of xstream
+ xmlpull - dependency of xstream
+ jettison - dependency of restlet.ext.xstream
+ slf4j - various bundles
+ logback - slf4j implementation
+ osgi.services - dependency of skysail.server.osgi
+ springframework.osgi.extender - to read OSGI-INF files
+ jcl-over-slf4j - needed by osgi.extender
+ springframework.beans - needed by springframework.extender
+ springframework.core - neede by springframework.beans
+ springframework.context - needed by springframework.extender
+ springframework.osgi.core - dito
+ aopalliance - needed by springframework.osgi.core 
+ 
+ seems we need 
+ 
+  http://62.75.235.75:8081/nexus/content/groups/public/org/dom4j/com.springsource.org.dom4j/1.6.1/com.springsource.org.dom4j-1.6.1.jar@start,\
+ http://62.75.235.75:8081/nexus/content/groups/public/commons-dbcp/skysail.bundles.commons-dbcp/1.4/skysail.bundles.commons-dbcp-1.4.jar@start,\
+ 
+ to make cglib work... ?
+ 
+* Next steps
+

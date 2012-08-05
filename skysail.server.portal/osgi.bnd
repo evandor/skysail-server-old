@@ -1,0 +1,3 @@
+Import-Package: *
+Bundle-SymbolicName: skysail.server.portal
+Service-Component: OSGI-INF/*.xml
