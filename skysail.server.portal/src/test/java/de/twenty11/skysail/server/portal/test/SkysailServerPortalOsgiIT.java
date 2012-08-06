@@ -43,7 +43,7 @@ public class SkysailServerPortalOsgiIT {
 
 		// options.add(systemProperty("org.osgi.service.http.port").value(
 		// "8888" ));
-		options.add(systemProperty("jetty.home.bundle").value("skysail.server"));
+		options.add(systemProperty("jetty.home.bundle").value("skysail.server.portal"));
 		options.add(systemProperty("ds.loglevel").value("4"));
 
 		Option[] options2Use = options.toArray(new Option[options.size()]);

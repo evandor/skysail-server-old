@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+
+	<display-name>Skysail OsgiMonitor</display-name>
+	
+	<!-- Skysail servlet and mapping -->
+    <servlet>
+        <servlet-name>SkysailApplication</servlet-name>
+        <servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+        <init-param>
+            <param-name>org.restlet.component</param-name>
+            <param-value>de.twenty11.skysail.portal.internal.PortalComponent</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SkysailApplication</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- cometd servlet and mapping 
+    <servlet>
+        <servlet-name>cometd</servlet-name>
+        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cometd</servlet-name>
+        <url-pattern>/cometd/*</url-pattern>
+    </servlet-mapping>-->
+
+    <!-- Bayeux Initializer 
+    <servlet>
+        <servlet-name>initializer</servlet-name>
+        <servlet-class>de.twenty11.skysail.product.osgimonitor.internal.BayeuxInitializer</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>initializer</servlet-name>
+        <url-pattern>/dummy/*</url-pattern>
+    </servlet-mapping>-->
+
+    <!-- Cross-Origin Filter for cometd 
+    <filter>
+        <filter-name>cross-origin</filter-name>
+        <filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>cross-origin</filter-name>
+        <url-pattern>/cometd/*</url-pattern>
+    </filter-mapping>-->
+
+
+</web-app>
