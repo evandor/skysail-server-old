@@ -6,6 +6,8 @@ import java.util.EnumSet;
 import java.util.List;
 
 import org.ops4j.pax.exam.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.osgi.PaxExamOptionSet;
 import de.twenty11.skysail.common.osgi.SkysailCommonOsgiSetup;
@@ -21,12 +23,14 @@ import de.twenty11.skysail.common.osgi.SkysailCommonOsgiSetup;
  */
 public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
 
+    private static Logger logger = LoggerFactory.getLogger(SkysailServerOsgiSetup.class.getName());
+
     @Override
 	public List<Option> getOptions(EnumSet<PaxExamOptionSet> optionSets) {
         List<Option> options = super.getOptions(optionSets);
         
         // skysail.common
-        options.add(mavenBundle("de.twentyeleven.skysail","skysail.common", "0.3.2-SNAPSHOT"));
+        options.add(mavenBundle("de.twentyeleven.skysail","skysail.common", "0.3.3-SNAPSHOT"));
 
         // restlet
         options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.slf4j", "2.0.11"));
@@ -55,7 +59,9 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("javax.xml.stream", "com.springsource.javax.xml.stream", "1.0.1"));
         options.add(mavenBundle("org.xmlpull","com.springsource.org.xmlpull", "1.1.4.c"));
         options.add(mavenBundle("org.codehaus.jettison", "com.springsource.org.codehaus.jettison", "1.0.1"));
-        
+
+        logger.info ("using options from {} for tests", this.getClass());
+
         return options;
 	}
 }

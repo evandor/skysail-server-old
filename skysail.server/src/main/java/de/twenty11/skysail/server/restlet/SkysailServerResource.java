@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.SkysailData;
+import de.twenty11.skysail.common.responses.SkysailFailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SkysailSuccessResponse;
 import de.twenty11.skysail.server.communication.CommunicationUtils;
@@ -88,7 +89,12 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
             setResponseDetails(response);
             return new JacksonRepresentation<SkysailResponse<T>>(response);
         } catch (Exception e) {
-            return CommunicationUtils.createErrorResponse(e, logger, MediaType.APPLICATION_JSON);
+            SkysailResponse<T> response = new SkysailFailureResponse<T>(e);
+            setResponseDetails(response);
+            logger.error(e.getMessage(), e);
+            return new JacksonRepresentation<SkysailResponse<T>>(response);
+//
+//            return CommunicationUtils.createErrorResponse(e, logger, MediaType.APPLICATION_JSON);
         }
     }
 

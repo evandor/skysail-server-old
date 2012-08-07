@@ -18,12 +18,16 @@ import org.ops4j.pax.exam.junit.JUnit4TestRunner;
 import org.ops4j.pax.exam.spi.reactors.AllConfinedStagedReactorFactory;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.osgi.PaxExamOptionSet;
 
 @RunWith(JUnit4TestRunner.class)
 @ExamReactorStrategy(AllConfinedStagedReactorFactory.class)
 public class SkysailServerOsgiIT {
+
+    private static Logger logger = LoggerFactory.getLogger(SkysailServerOsgiIT.class.getName());
 
 	private List<PaxExamOptionSet> dependencies = new ArrayList<PaxExamOptionSet>();
 
@@ -40,7 +44,9 @@ public class SkysailServerOsgiIT {
         List<Option> options = setup.getOptions(EnumSet.copyOf(dependencies));
         
         // _this_ bundle from target directory
-        options.add(bundle("file:target/skysail.server-"+setup.getProjectVersion()+".jar"));
+        String currentBundleSource = "file:target/skysail.server-"+setup.getProjectVersion()+".jar";
+        logger.info("adding {} to tests...", currentBundleSource);
+        options.add(bundle(currentBundleSource));
         
         return options.toArray(new Option[options.size()]);
     }

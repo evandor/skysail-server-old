@@ -78,10 +78,6 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
 		logger.error("you should implement a subclass of GridDataServerResource and overwrite method filterData");
 	}
 
-//	public void configureColumns(ColumnsBuilder builder) {
-//		logger.error("you should implement a subclass of GridDataServerResource and overwrite method configureColumns");
-//	}
-
 	public int handlePagination() {
 		return doHandlePagination("skysail.server.osgi.bundles.entriesPerPage", 15);
 	}
@@ -95,13 +91,6 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
 	 * 
 	 */
 	public final GridData getFilteredData() {
-
-//		// define the columns for the result
-//		setSkysailData(new GridData(new ColumnsBuilder(getParamsFromRequest()) {
-//			public void configure() {
-//				configureColumns(this);
-//			}
-//		}));
 
 		// get the data, applying the current filter
 		buildGrid();
@@ -153,34 +142,6 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
 	 */
 	private void sort() {
 
-//		Map<Integer, Integer> sortingMap = new TreeMap<Integer, Integer>();
-//
-//		// 1.) get the default sorting for the grid by asking for the pre-sorted
-//		// columns (ascending by sort weight). The columns with the highest
-//		// sort-order come last columns.
-//		List<ColumnDefinition> preSortedColumns = getSkysailData().getColumnsInSortOrder();
-//
-//		// 2.) check if a sorting instruction exists on the request and
-//		// overwrite the default sorting in that case
-//		String sortingInstructionFromRequest = getSortingFromRequest();
-//		for (ColumnDefinition currentColumn : preSortedColumns) {
-//			setSortingAsByRequest(sortingMap, sortingInstructionFromRequest, currentColumn);
-//		}
-//
-//		// is there any column the sorting of which should be toggled?
-//		ColumnDefinition columnToToggle = getColumnDefinitionToToggle(preSortedColumns, getColumnToToggle());
-//
-//		int maxSortWeight = getSkysailData().getMaxSortValueFromBuilder();
-//
-//		if (columnToToggle != null) {
-//			toggleColumnsSorting(maxSortWeight, sortingMap, columnToToggle);
-//		}
-//
-//		String sortingRepresentation = calcSortingRepresentation(sortingMap);
-//		setSorting(sortingRepresentation);
-//
-//		Collections.sort(preSortedColumns, new ColumnSortOrderComparator());
-
 		List<ColumnDefinition> preSortedColumns = getSkysailData().getColumns().sort(getSortingFromRequest(), getColumnToToggle());
 		
 		// 3.) now sort the rows, starting with the column with the lowest
@@ -197,10 +158,6 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
 	private String getSortingFromRequest() {
 		return getQuery() != null ? getQuery().getFirstValue("s", null) : null;
 	}
-
-//	public void setSorting(String str) {
-//		getSkysailData().setSortingRepresentation(str);
-//	}
 
 	private String getSorting() {
 		String sortingRepresentation = getSkysailData().getSortingRepresentation();

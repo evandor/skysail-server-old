@@ -25,7 +25,7 @@ public class SkysailServerConfigOsgiSetup extends SkysailServerOsgiSetup {
 	public List<Option> getOptions(EnumSet<PaxExamOptionSet> optionSets) {
         List<Option> options = super.getOptions(optionSets);
         
-        options.add(mavenBundle("de.twentyeleven.skysail","skysail.server", "0.2.1-SNAPSHOT"));
+        options.add(mavenBundle("de.twentyeleven.skysail","skysail.server", "0.2.3-SNAPSHOT"));
 
         return options;
 	}

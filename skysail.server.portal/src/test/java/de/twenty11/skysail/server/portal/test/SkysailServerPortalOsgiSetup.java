@@ -24,6 +24,10 @@ public class SkysailServerPortalOsgiSetup extends SkysailServerOsgiSetup {
 		// freemarker
 		options.add(mavenBundle("de.twentyeleven.skysail", "skysail.server.freemarker", "0.1.1-SNAPSHOT"));
 		
+		// missing restlet one:
+	    options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.servlet", "2.0.11"));
+		 
+		
 		// ok... jetty:
 		options.add(mavenBundle("org.eclipse.jetty",  "jetty-server","7.5.4.v20111024"));
 		options.add(mavenBundle("javax.servlet",	  "com.springsource.javax.servlet","2.5.0"));
@@ -40,11 +44,22 @@ public class SkysailServerPortalOsgiSetup extends SkysailServerOsgiSetup {
 		options.add(mavenBundle("org.eclipse.jetty", "jetty-webapp","7.5.4.v20111024"));
 		options.add(mavenBundle("org.eclipse.jetty", "jetty-xml","7.5.4.v20111024"));
 		//options.add(mavenBundle("org.apache.felix",	"org.apache.felix.http.bundle", "2.2.0"));
-
+		//git://git.eclipse.org/gitroot/jetty/org.eclipse.jetty.project.git
 		// felix config admin
 		options.add(mavenBundle("org.apache.felix", "org.apache.felix.configadmin", "1.4.0"));
 
 		options.add(mavenBundle("commons-dbcp", "skysail.bundles.commons-dbcp", "1.4"));
+
+		// felix webconsole
+		options.add(mavenBundle("commons-fileupload", "commons-fileupload",
+				"1.2.1"));
+		options.add(mavenBundle("commons-io", "commons-io", "1.4"));
+		options.add(mavenBundle("de.twentyeleven.bundled", "json", "20070829"));
+		options.add(mavenBundle("org.apache.felix",
+				"org.apache.felix.webconsole", "4.0.0"));
+		
+		// dbviewer
+		options.add(mavenBundle("de.twentyeleven.skysail", "skysail.server.ext.dbviewer", "0.0.4-SNAPSHOT"));
 
         return options;
 	}
