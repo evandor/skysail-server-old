@@ -56,8 +56,9 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     /**
      * to be implemented by extending classes.
      * @param response 
+     * @param applicationXml 
      */
-    public abstract void setResponseDetails(SkysailResponse<T> response);
+    public abstract void setResponseDetails(SkysailResponse<T> response, MediaType applicationXml);
     
     /**
      * to be implemented by extending classes.
@@ -84,25 +85,16 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     
     @Get("json")
     public Representation getJson() {
-        try {
-            SkysailResponse<T> response = new SkysailSuccessResponse<T>(getFilteredData());
-            setResponseDetails(response);
-            return new JacksonRepresentation<SkysailResponse<T>>(response);
-        } catch (Exception e) {
-            SkysailResponse<T> response = new SkysailFailureResponse<T>(e);
-            setResponseDetails(response);
-            logger.error(e.getMessage(), e);
-            return new JacksonRepresentation<SkysailResponse<T>>(response);
-//
-//            return CommunicationUtils.createErrorResponse(e, logger, MediaType.APPLICATION_JSON);
-        }
+        SkysailResponse<T> response = createResponse();
+        setResponseDetails(response, MediaType.APPLICATION_JSON);
+        return new JacksonRepresentation<SkysailResponse<T>>(response);
     }
 
     @Get("xml")
     public Representation getXml() {
         try {
             SkysailResponse<T> response = new SkysailSuccessResponse<T>(getFilteredData());
-            setResponseDetails(response);
+            setResponseDetails(response, MediaType.APPLICATION_XML);
             return new XstreamRepresentation<SkysailResponse<T>>(response);
         } catch (Exception e) {
             return CommunicationUtils.createErrorResponse(e, logger, MediaType.APPLICATION_XML);
@@ -113,7 +105,7 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     public Representation getHtml() {
         try {
             SkysailResponse<T> response = new SkysailSuccessResponse<T>(getFilteredData());
-            setResponseDetails(response);
+            setResponseDetails(response, MediaType.TEXT_HTML);
             Template ftlTemplate = CommunicationUtils.getFtlTemplate(template);
             return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
         } catch (Exception e) {
@@ -144,4 +136,16 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     public void setSkysailData(T skysailData) {
 		this.skysailData = skysailData;
 	}
+    
+    private SkysailResponse<T> createResponse() {
+        SkysailResponse<T> response;
+        try {
+            response = new SkysailSuccessResponse<T>(getFilteredData());
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            response = new SkysailFailureResponse<T>(e);
+        }
+        return response;
+    }
+
 }

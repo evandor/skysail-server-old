@@ -1,5 +1,7 @@
 package de.twenty11.skysail.server.restlet;
 
+import org.restlet.data.MediaType;
+
 import de.twenty11.skysail.common.SkysailData;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 
@@ -10,7 +12,7 @@ public class FreemarkerTemplateResource extends SkysailServerResource<SkysailDat
 	}
 
 	@Override
-	public void setResponseDetails(SkysailResponse<SkysailData> response) {
+	public void setResponseDetails(SkysailResponse<SkysailData> response, MediaType media) {
         response.setMessage(getMessage());
         response.setTotalResults(0);
         response.setPage(1);

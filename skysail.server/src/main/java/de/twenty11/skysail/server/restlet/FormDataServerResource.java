@@ -17,6 +17,7 @@
 
 package de.twenty11.skysail.server.restlet;
 
+import org.restlet.data.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +71,7 @@ public abstract class FormDataServerResource extends SkysailServerResource<FormD
     }
 
     @Override
-    public void setResponseDetails(SkysailResponse<FormData> response) {
+    public void setResponseDetails(SkysailResponse<FormData> response, MediaType media) {
         response.setMessage(getMessage());
         //response.setTotalResults(1);
         //response.setPage(getCurrentPage());
