@@ -35,7 +35,8 @@ import org.slf4j.LoggerFactory;
  */
 public class Configuration implements ConfigService {
     
-    private static final String DEFAULT_CONF_LOCATION = "./etc/de.twentyeleven.skysail.cfg";
+    private static final String DEFAULT_CONF_FILE = "de.twentyeleven.skysail.cfg";
+    private static final String DEFAULT_CONF_LOCATION = "./etc/";
 
     /**slf4j based logging implementation. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -44,12 +45,12 @@ public class Configuration implements ConfigService {
     private Properties props = new Properties();
 
     public Configuration() throws FileNotFoundException, IOException {
-        String confLocation = Configuration.DEFAULT_CONF_LOCATION;
+        String confLocation = Configuration.DEFAULT_CONF_LOCATION + "/" + Configuration.DEFAULT_CONF_FILE;
         // 1. try system property // TODO constants
         String locationFromSystemProperty = System.getProperty("skysail.confDir"); 
         logger.info("checking system property 'skysail.confDir', found value {}", locationFromSystemProperty);
         if (locationFromSystemProperty != null) {
-            confLocation = locationFromSystemProperty + "/skysail.properties";
+            confLocation = locationFromSystemProperty + "/" + DEFAULT_CONF_FILE;
         }
         File propFile = new File(confLocation);
         logger.info("trying to load the configuration from file '{}'", propFile.getAbsolutePath());
