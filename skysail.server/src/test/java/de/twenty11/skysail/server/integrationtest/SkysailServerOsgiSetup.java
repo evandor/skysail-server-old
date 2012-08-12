@@ -30,7 +30,7 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         List<Option> options = super.getOptions(optionSets);
         
         // skysail.common
-        options.add(mavenBundle("de.twentyeleven.skysail","skysail.common", "0.3.3-SNAPSHOT"));
+        options.add(mavenBundle("de.twentyeleven.skysail","skysail.common", "0.3.4"));
 
         // restlet
         options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.slf4j", "2.0.11"));
