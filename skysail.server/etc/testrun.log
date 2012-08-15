@@ -1,4 +1,4 @@
-DEBUG o.o.p.s.extender.BundleWatcher - Creating bundle watcher with scanner [org.ops4j.pax.swissbox.extender.BundleManifestScanner@4b7361e2]...
+DEBUG o.o.p.s.extender.BundleWatcher - Creating bundle watcher with scanner [org.ops4j.pax.swissbox.extender.BundleManifestScanner@da3b359]...
 DEBUG o.o.p.s.extender.BundleWatcher - Scanning bundle [org.eclipse.osgi]
 DEBUG o.o.p.s.extender.BundleWatcher - Scanning bundle [org.ops4j.pax.exam]
 DEBUG o.o.p.s.extender.BundleWatcher - Scanning bundle [org.ops4j.pax.exam.inject]
@@ -43,23 +43,23 @@ INFO  d.t.s.s.l.SkysailServerServiceListener - org.osgi.framework.ServiceEvent[s
 DEBUG d.t.s.s.l.SkysailServerServiceListener - org.osgi.framework.ServiceEvent[source={org.osgi.service.cm.ManagedService}={service.pid=de.twenty11.skysail.server.config.Configuration, component.name=de.twenty11.skysail.server.config.Configuration, component.id=1, service.id=66}]
 DEBUG d.t.s.s.l.SkysailServerBundleListener - org.osgi.framework.BundleEvent[source=skysail.server_0.2.4.SNAPSHOT [39]]
 DEBUG d.t.s.s.l.SkysailServerFrameworkListener - org.osgi.framework.FrameworkEvent[source=org.eclipse.osgi_3.6.2.R36x_v20110210 [0]]
-DEBUG d.t.s.s.l.SkysailServerBundleListener - org.osgi.framework.BundleEvent[source=PAXEXAM-PROBE-af13d001-7bb9-4ddf-b8f5-712dc228fc5a_0.0.0 [40]]
-DEBUG d.t.s.s.l.SkysailServerBundleListener - org.osgi.framework.BundleEvent[source=PAXEXAM-PROBE-af13d001-7bb9-4ddf-b8f5-712dc228fc5a_0.0.0 [40]]
-DEBUG o.o.p.s.extender.BundleWatcher - Scanning bundle [PAXEXAM-PROBE-af13d001-7bb9-4ddf-b8f5-712dc228fc5a]
-DEBUG o.o.p.s.extender.BundleWatcher - Found resources [ManifestEntry{ key=PaxExam-cdcbd81b-1ce8-4dc0-a918-9b700293c865, value=de.twenty11.skysail.server.integrationtest.SkysailServerOsgiIT;shouldFindCommonBundleInActiveState }, ManifestEntry{ key=PaxExam-Executable, value=PaxExam-cdcbd81b-1ce8-4dc0-a918-9b700293c865, }]
-DEBUG d.t.s.s.l.SkysailServerBundleListener - org.osgi.framework.BundleEvent[source=PAXEXAM-PROBE-af13d001-7bb9-4ddf-b8f5-712dc228fc5a_0.0.0 [40]]
-DEBUG o.o.p.e.raw.extender.intern.Probe - Test PaxExam-cdcbd81b-1ce8-4dc0-a918-9b700293c865 to be in PaxExam-cdcbd81b-1ce8-4dc0-a918-9b700293c865,
-DEBUG o.o.p.e.raw.extender.intern.Probe - Registering Service: org.ops4j.pax.exam.ProbeInvoker with Probe-Signature="PaxExam-cdcbd81b-1ce8-4dc0-a918-9b700293c865" and expression="de.twenty11.skysail.server.integrationtest.SkysailServerOsgiIT;shouldFindCommonBundleInActiveState"
-DEBUG o.o.p.e.raw.extender.intern.Probe - Test PaxExam-Executable to be in PaxExam-cdcbd81b-1ce8-4dc0-a918-9b700293c865,
-DEBUG d.t.s.s.l.SkysailServerServiceListener - org.osgi.framework.ServiceEvent[source={org.ops4j.pax.exam.ProbeInvoker}={Probe-Signature=PaxExam-cdcbd81b-1ce8-4dc0-a918-9b700293c865, service.id=67}]
+DEBUG d.t.s.s.l.SkysailServerBundleListener - org.osgi.framework.BundleEvent[source=PAXEXAM-PROBE-164aad4e-6fa5-4fbf-942e-8a408b003b94_0.0.0 [40]]
+DEBUG d.t.s.s.l.SkysailServerBundleListener - org.osgi.framework.BundleEvent[source=PAXEXAM-PROBE-164aad4e-6fa5-4fbf-942e-8a408b003b94_0.0.0 [40]]
+DEBUG o.o.p.s.extender.BundleWatcher - Scanning bundle [PAXEXAM-PROBE-164aad4e-6fa5-4fbf-942e-8a408b003b94]
+DEBUG o.o.p.s.extender.BundleWatcher - Found resources [ManifestEntry{ key=PaxExam-57b02426-e50e-4cf0-b403-67e003e4ae28, value=de.twenty11.skysail.server.integrationtest.SkysailServerOsgiIT;shouldFindCommonBundleInActiveState }, ManifestEntry{ key=PaxExam-Executable, value=PaxExam-57b02426-e50e-4cf0-b403-67e003e4ae28, }]
+DEBUG d.t.s.s.l.SkysailServerBundleListener - org.osgi.framework.BundleEvent[source=PAXEXAM-PROBE-164aad4e-6fa5-4fbf-942e-8a408b003b94_0.0.0 [40]]
+DEBUG o.o.p.e.raw.extender.intern.Probe - Test PaxExam-57b02426-e50e-4cf0-b403-67e003e4ae28 to be in PaxExam-57b02426-e50e-4cf0-b403-67e003e4ae28,
+DEBUG o.o.p.e.raw.extender.intern.Probe - Registering Service: org.ops4j.pax.exam.ProbeInvoker with Probe-Signature="PaxExam-57b02426-e50e-4cf0-b403-67e003e4ae28" and expression="de.twenty11.skysail.server.integrationtest.SkysailServerOsgiIT;shouldFindCommonBundleInActiveState"
+DEBUG o.o.p.e.raw.extender.intern.Probe - Test PaxExam-Executable to be in PaxExam-57b02426-e50e-4cf0-b403-67e003e4ae28,
+DEBUG d.t.s.s.l.SkysailServerServiceListener - org.osgi.framework.ServiceEvent[source={org.ops4j.pax.exam.ProbeInvoker}={Probe-Signature=PaxExam-57b02426-e50e-4cf0-b403-67e003e4ae28, service.id=67}]
 INFO  o.o.p.e.i.j.i.ContainerTestRunner - running shouldFindCommonBundleInActiveState in reactor
-DEBUG d.t.s.s.l.SkysailServerServiceListener - org.osgi.framework.ServiceEvent[source={org.ops4j.pax.exam.ProbeInvoker}={Probe-Signature=PaxExam-cdcbd81b-1ce8-4dc0-a918-9b700293c865, service.id=67}]
-DEBUG o.o.p.s.extender.BundleWatcher - Releasing bundle [PAXEXAM-PROBE-af13d001-7bb9-4ddf-b8f5-712dc228fc5a]
-DEBUG o.o.p.s.extender.BundleWatcher - Un-registering [ManifestEntry{ key=PaxExam-cdcbd81b-1ce8-4dc0-a918-9b700293c865, value=de.twenty11.skysail.server.integrationtest.SkysailServerOsgiIT;shouldFindCommonBundleInActiveState }, ManifestEntry{ key=PaxExam-Executable, value=PaxExam-cdcbd81b-1ce8-4dc0-a918-9b700293c865, }]
-INFO  o.o.p.e.r.e.i.TestBundleObserver - Unregistered testcase [org.ops4j.pax.exam.raw.extender.intern.Probe@114562c5.]
-DEBUG d.t.s.s.l.SkysailServerBundleListener - org.osgi.framework.BundleEvent[source=PAXEXAM-PROBE-af13d001-7bb9-4ddf-b8f5-712dc228fc5a_0.0.0 [40]]
-DEBUG d.t.s.s.l.SkysailServerBundleListener - org.osgi.framework.BundleEvent[source=PAXEXAM-PROBE-af13d001-7bb9-4ddf-b8f5-712dc228fc5a_0.0.0 [40]]
-DEBUG d.t.s.s.l.SkysailServerBundleListener - org.osgi.framework.BundleEvent[source=PAXEXAM-PROBE-af13d001-7bb9-4ddf-b8f5-712dc228fc5a_0.0.0 [40]]
+DEBUG d.t.s.s.l.SkysailServerServiceListener - org.osgi.framework.ServiceEvent[source={org.ops4j.pax.exam.ProbeInvoker}={Probe-Signature=PaxExam-57b02426-e50e-4cf0-b403-67e003e4ae28, service.id=67}]
+DEBUG o.o.p.s.extender.BundleWatcher - Releasing bundle [PAXEXAM-PROBE-164aad4e-6fa5-4fbf-942e-8a408b003b94]
+DEBUG o.o.p.s.extender.BundleWatcher - Un-registering [ManifestEntry{ key=PaxExam-57b02426-e50e-4cf0-b403-67e003e4ae28, value=de.twenty11.skysail.server.integrationtest.SkysailServerOsgiIT;shouldFindCommonBundleInActiveState }, ManifestEntry{ key=PaxExam-Executable, value=PaxExam-57b02426-e50e-4cf0-b403-67e003e4ae28, }]
+INFO  o.o.p.e.r.e.i.TestBundleObserver - Unregistered testcase [org.ops4j.pax.exam.raw.extender.intern.Probe@5dbbd583.]
+DEBUG d.t.s.s.l.SkysailServerBundleListener - org.osgi.framework.BundleEvent[source=PAXEXAM-PROBE-164aad4e-6fa5-4fbf-942e-8a408b003b94_0.0.0 [40]]
+DEBUG d.t.s.s.l.SkysailServerBundleListener - org.osgi.framework.BundleEvent[source=PAXEXAM-PROBE-164aad4e-6fa5-4fbf-942e-8a408b003b94_0.0.0 [40]]
+DEBUG d.t.s.s.l.SkysailServerBundleListener - org.osgi.framework.BundleEvent[source=PAXEXAM-PROBE-164aad4e-6fa5-4fbf-942e-8a408b003b94_0.0.0 [40]]
 DEBUG d.t.s.s.l.SkysailServerServiceListener - org.osgi.framework.ServiceEvent[source={org.eclipse.osgi.framework.console.CommandProvider}={service.ranking=2147483647, service.id=1}]
 INFO  d.t.s.s.l.SkysailServerServiceListener - org.osgi.framework.ServiceEvent[source={org.osgi.service.cm.ManagedService}={service.pid=de.twenty11.skysail.server.config.Configuration, component.name=de.twenty11.skysail.server.config.Configuration, component.id=1, service.id=66}]
 DEBUG d.t.s.s.l.SkysailServerServiceListener - org.osgi.framework.ServiceEvent[source={org.osgi.service.cm.ManagedService}={service.pid=de.twenty11.skysail.server.config.Configuration, component.name=de.twenty11.skysail.server.config.Configuration, component.id=1, service.id=66}]
@@ -99,7 +99,7 @@ DEBUG o.o.p.s.extender.BundleWatcher - Releasing bundle [org.ops4j.pax.swissbox.
 DEBUG o.o.p.s.extender.BundleWatcher - Releasing bundle [org.ops4j.pax.swissbox.extender]
 DEBUG o.o.p.s.extender.BundleWatcher - Releasing bundle [org.ops4j.pax.swissbox.core]
 DEBUG o.o.p.s.extender.BundleWatcher - Releasing bundle [org.ops4j.base]
+DEBUG o.o.p.s.extender.BundleWatcher - Releasing bundle [org.ops4j.pax.exam.inject]
 DEBUG o.o.p.s.extender.BundleWatcher - Releasing bundle [org.ops4j.pax.exam.extender.service]
 DEBUG o.o.p.s.extender.BundleWatcher - Releasing bundle [org.ops4j.pax.exam]
-DEBUG o.o.p.s.extender.BundleWatcher - Releasing bundle [org.ops4j.pax.exam.inject]
 DEBUG o.o.p.s.extender.BundleWatcher - Releasing bundle [org.eclipse.osgi]

@@ -7,7 +7,7 @@ import org.osgi.service.cm.ManagedService;
 
 public class Configuration implements ManagedService {
 
-    private String driverClassName = "default";
+    private static String driverClassName = "default";
 
     @Override
     public synchronized void updated(Dictionary properties) throws ConfigurationException {
@@ -23,6 +23,10 @@ public class Configuration implements ManagedService {
 
     protected synchronized void deactivate() {
         // to be filled when necessary
+    }
+    
+    public static String getDriverClassName() {
+        return driverClassName;
     }
 
 }
