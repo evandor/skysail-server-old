@@ -8,7 +8,8 @@ Import-Package:	de.twenty11.skysail.common;version="[0.2.0, 1.0.0)",\
  org.codehaus.jackson.*;resolution:=optional,\
  *
 DynamicImport-Package: *
-Export-Package: de.twenty11.skysail.server;version="0.2.0",\
+Export-Package: de.twenty11.skysail.server.config;version="0.1.0",\
+ de.twenty11.skysail.server;version="0.2.0",\
  de.twenty11.skysail.server.restlet;version="0.2.0",\
  de.twenty11.skysail.server.internal,\
  de.twenty11.skysail.server.listener,\

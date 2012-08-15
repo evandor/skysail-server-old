@@ -60,7 +60,7 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
 
     private Integer currentPage = 1;
 
-    private Integer pageSize;
+    private Integer pageSize = 0;
 
     private int totalResults;
 
