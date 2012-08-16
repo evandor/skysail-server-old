@@ -47,6 +47,9 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         //      options.add(mavenBundle("org.eclipse.equinox","org.eclipse.equinox.util","1.0.200"));
         //      options.add(mavenBundle("org.eclipse.equinox","org.eclipse.equinox.log","1.2.100.v20100503"));
         options.add(mavenBundle("org.apache.felix", "org.apache.felix.scr", "1.6.0"));
+        
+        // Felix file install
+        options.add(mavenBundle("org.apache.felix", "org.apache.felix.fileinstall", "3.2.4"));
 
         // other
         options.add(mavenBundle("org.freemarker", "com.springsource.freemarker", "2.3.18"));
@@ -58,7 +61,7 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("org.codehaus.jettison", "com.springsource.org.codehaus.jettison", "1.0.1"));
 
         // skysail.common
-        options.add(mavenBundle("de.twentyeleven.skysail","skysail.common", "0.3.4"));
+        options.add(mavenBundle("de.twentyeleven.skysail","skysail.common", "0.3.5-SNAPSHOT"));
 
         logger.info ("using options from {} for tests", this.getClass());
 
