@@ -45,7 +45,7 @@ public class SkysailServerOsgiIT {
         
         // _this_ bundle from target directory
         String currentBundleSource = "file:target/skysail.server-"+setup.getProjectVersion()+".jar";
-        logger.info("adding {} to tests...", currentBundleSource);
+        logger.error("adding {} to tests...", currentBundleSource);
         options.add(bundle(currentBundleSource));
         
         return options.toArray(new Option[options.size()]);
@@ -54,6 +54,7 @@ public class SkysailServerOsgiIT {
 
     @Test
     public void shouldFindCommonBundleInActiveState() {
+        logger.error(">>>loging in tests...");
         Bundle skysailCommonBundle = null;
         Bundle[] bundles = context.getBundles();
         for (Bundle bundle : bundles) {

@@ -22,6 +22,10 @@
 		<!-- A publicly browsable repository. For example, via ViewCVS. -->
 		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
 	</scm>
+	
+	<properties>
+		<skysail.common.version>[0.3.6-SNAPSHOT, 1.0)</skysail.common.version>
+	</properties>
 
 	<build>
 		<plugins>
@@ -82,13 +86,13 @@
 		<dependency>
 			<groupId>de.twentyeleven.skysail</groupId>
 			<artifactId>skysail.common</artifactId>
-			<version>[0.3.5-SNAPSHOT, 1.0)</version>
+			<version>${skysail.common.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>de.twentyeleven.skysail</groupId>
 			<artifactId>skysail.common</artifactId>
-			<version>[0.3.5-SNAPSHOT, 1.0)</version>
+			<version>${skysail.common.version}</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
@@ -212,22 +216,17 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.ops4j.pax.tinybundles</groupId>
-			<artifactId>tinybundles</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.framework</artifactId>
 			<version>3.2.2</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+<!-- 		<dependency>
 			<groupId>org.sonatype.tycho</groupId>
 			<artifactId>org.eclipse.osgi</artifactId>
 			<version>3.6.2.R36x_v20110210</version>
 			<scope>test</scope>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
@@ -236,6 +235,17 @@
 		</dependency>
 		<!-- testing with pax exam - done -->
 
+		<!-- logging for tests -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
