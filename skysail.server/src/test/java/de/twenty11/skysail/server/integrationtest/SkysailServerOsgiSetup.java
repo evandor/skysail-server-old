@@ -35,14 +35,15 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("de.twentyeleven.skysail","skysail.common"));
 
         // restlet
-        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.slf4j", "2.0.11"));
-        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.freemarker", "2.0.11"));
-        //options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.servlet", "2.0.11"));
-        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.xstream", "2.0.11"));
-        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.jackson", "2.0.11"));
-        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.wadl", "2.0.11"));
-        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.xml", "2.0.11"));
-        options.add(mavenBundle("org.restlet.jee", "org.restlet", "2.0.11"));
+        String restletVersion = "2.0.14";
+        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.slf4j", restletVersion));
+        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.freemarker", restletVersion));
+        //options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.servlet", restletVersion));
+        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.xstream", restletVersion));
+        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.jackson", restletVersion));
+        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.wadl", restletVersion));
+        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.xml", restletVersion));
+        options.add(mavenBundle("org.restlet.jee", "org.restlet", restletVersion));
 
         // osgi 
         options.add(mavenBundle("org.osgi", "org.osgi.enterprise", "4.2.0"));
