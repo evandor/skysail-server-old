@@ -1,6 +1,8 @@
 package de.twenty11.skysail.server.integrationtest;
 
+import static org.ops4j.pax.exam.Constants.START_LEVEL_SYSTEM_BUNDLES;
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
+import static org.ops4j.pax.exam.CoreOptions.systemProperty;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -53,6 +55,8 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         
         // Felix file install
         options.add(mavenBundle("org.apache.felix", "org.apache.felix.fileinstall", "3.2.4"));
+        options.add(systemProperty("felix.fileinstall.noInitialDelay").value("true"));
+        options.add(systemProperty("felix.fileinstall.dir").value("/home/carsten/git/skysail-server-ext/skysail.server.ext.dbviewer/etc/pax-runner/config"));
 
         // other
         options.add(mavenBundle("org.freemarker", "com.springsource.freemarker", "2.3.18"));

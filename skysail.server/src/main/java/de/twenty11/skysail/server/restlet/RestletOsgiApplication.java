@@ -61,8 +61,8 @@ public abstract class RestletOsgiApplication extends Application {
 
     public RestletOsgiApplication(final String staticPathTemplate) {
         ConfigService configService = ConfigServiceProvider.getConfigService();
-        String defaultUser = configService.getString("defaultUser", "scott");
-        String defaultPass = configService.getString("defaultPass", "tiger");
+        String defaultUser = "scott";//configService.getString("defaultUser", "scott");
+        String defaultPass = "tiger";//configService.getString("defaultPass", "tiger");
         MapVerifier verifier = new MapVerifier();
         verifier.getLocalSecrets().put(defaultUser, defaultPass.toCharArray());
         this.verifier = verifier;
