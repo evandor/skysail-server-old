@@ -57,8 +57,10 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         // Felix file install
         options.add(mavenBundle("org.apache.felix", "org.apache.felix.fileinstall", "3.2.4"));
         options.add(systemProperty("felix.fileinstall.noInitialDelay").value("true"));
-        options.add(systemProperty("felix.fileinstall.dir").value("/home/carsten/git/skysail-server-ext/skysail.server.ext.dbviewer/etc/pax-runner/config"));
-
+        ///home/carsten/git/skysail-server-ext/skysail.server.ext.dbviewer/etc/pax-runner/config
+        options.add(systemProperty("felix.fileinstall.dir").value(System.getProperty("skysailConfDir", "./conf/dev/")));
+        options.add(systemProperty("felix.fileinstall.log.level").value("4"));
+        
         // other
         options.add(mavenBundle("org.freemarker", "com.springsource.freemarker", "2.3.18"));
         options.add(mavenBundle("com.thoughtworks.xstream", "com.springsource.com.thoughtworks.xstream", "1.3.1"));
