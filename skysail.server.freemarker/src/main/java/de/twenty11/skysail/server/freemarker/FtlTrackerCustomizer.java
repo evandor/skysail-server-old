@@ -257,10 +257,10 @@ public class FtlTrackerCustomizer implements BundleTrackerCustomizer {
             return;
         }
         log.info("Adding templates from bundle: {}", bundle.getSymbolicName());
-        log.info("Relative location is '{}'", locationInBundle);
+        //log.info("Relative location is '{}'", locationInBundle);
         while (bundleTemplatesUrls.hasMoreElements()) {
             URL bundleEntryUrl = bundleTemplatesUrls.nextElement();
-            log.info(" >>> adding " + bundleEntryUrl);
+            //log.info(" >>> adding " + bundleEntryUrl);
             TemplateInfo newTemplate = new TemplateInfo(bundle, bundleEntryUrl, locationInBundle);
             String templateName = getTemplateName(bundleEntryUrl, locationInBundle);
             // createTemplateInfo(bundle, bundleEntryUrl, locationInBundle);
