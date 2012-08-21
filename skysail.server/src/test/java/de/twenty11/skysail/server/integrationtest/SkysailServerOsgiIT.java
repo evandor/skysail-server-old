@@ -1,5 +1,9 @@
 package de.twenty11.skysail.server.integrationtest;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+
+import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertTrue;
 import static org.ops4j.pax.exam.CoreOptions.bundle;
 
@@ -18,6 +22,7 @@ import org.ops4j.pax.exam.junit.JUnit4TestRunner;
 import org.ops4j.pax.exam.spi.reactors.AllConfinedStagedReactorFactory;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,17 +59,31 @@ public class SkysailServerOsgiIT {
 
     @Test
     public void shouldFindCommonBundleInActiveState() {
-        logger.error(">>>loging in tests...");
-        Bundle skysailCommonBundle = null;
+        Bundle skysailServerBundle = getBundleForSymbolicName("skysail.server");
+        assertTrue(skysailServerBundle != null);
+        assertTrue(skysailServerBundle.getState() == 32);
+
+    }
+
+    @Test
+    public void shouldFindSkysailDatasourceService() {
+        Bundle bundle = getBundleForSymbolicName("skysail.server");
+        ServiceReference[] servicesInUse = bundle.getServicesInUse();
+        ServiceReference skysailDatasourceReference = context.getServiceReference("javax.sql.DataSource");
+        assertThat(skysailDatasourceReference, not(nullValue()));
+
+    }
+
+
+    private Bundle getBundleForSymbolicName(String symbolicName) {
+        Bundle myBundle = null;
         Bundle[] bundles = context.getBundles();
         for (Bundle bundle : bundles) {
-            if (bundle.getSymbolicName().equals("skysail.server")) {
-                skysailCommonBundle = bundle;
+            if (bundle.getSymbolicName().equals(symbolicName)) {
+                myBundle = bundle;
             }
         }
-        assertTrue(skysailCommonBundle != null);
-        assertTrue(skysailCommonBundle.getState() == 32);
-
+        return myBundle;
     }
 
 }
