@@ -196,7 +196,7 @@ public class UrlMappingServiceListener implements ServiceListener {
      *            the url mapping
      */
     private void logCurrentMapping(final RouteList routes) {
-        logger.info("current mapping now is:");
+        logger.info("current mapping is:");
         for (Route route : routes) {
             logger.info(route.toString());
         }

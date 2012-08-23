@@ -37,7 +37,6 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         // restlet
         String restletVersion = "2.0.14";
         options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.slf4j", restletVersion));
-        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.freemarker", restletVersion));
         //options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.servlet", restletVersion));
         options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.xstream", restletVersion));
         options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.jackson", restletVersion));
@@ -62,7 +61,6 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(systemProperty("felix.fileinstall.log.level").value("4"));
         
         // other
-        options.add(mavenBundle("org.freemarker", "com.springsource.freemarker", "2.3.18"));
         options.add(mavenBundle("com.thoughtworks.xstream", "com.springsource.com.thoughtworks.xstream", "1.3.1"));
         options.add(mavenBundle("org.codehaus.jackson", "jackson-core-lgpl", "1.9.5"));
         options.add(mavenBundle("org.codehaus.jackson", "jackson-mapper-lgpl", "1.9.5"));

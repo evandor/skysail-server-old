@@ -19,7 +19,6 @@ package de.twenty11.skysail.server.communication;
 import java.io.IOException;
 
 import org.restlet.data.MediaType;
-import org.restlet.ext.freemarker.TemplateRepresentation;
 import org.restlet.ext.jackson.JacksonRepresentation;
 import org.restlet.representation.Representation;
 import org.slf4j.Logger;
@@ -28,8 +27,6 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.common.SkysailData;
 import de.twenty11.skysail.common.responses.SkysailFailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
 /**
  * @author Graef
@@ -41,23 +38,7 @@ public class CommunicationUtils {
 
     private static final Logger  logger = LoggerFactory.getLogger(CommunicationUtils.class);
 
-    private static Configuration configuration;
-
     private String template = SKYSAIL_SERVER_RESTLETOSGI_MENU_FTL;
-
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings(
-            value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD", 
-            justification = "Spring setter, object needed for all instances")
-    public void setConfiguration(Configuration freemarkerConfiguration) {
-        CommunicationUtils.configuration = freemarkerConfiguration;
-    }
-    
-    public CommunicationUtils() {    }
-    
-    public CommunicationUtils(String freemarkerTemplate) {
-        this.template = freemarkerTemplate;
-    }
-    
     
     public static Representation createErrorResponse(final Exception e, final org.slf4j.Logger logger, MediaType mediaType) {
         //logger.info("creating error representation for variant " + variant);
@@ -66,26 +47,13 @@ public class CommunicationUtils {
         if (mediaType.equals(MediaType.APPLICATION_JSON)) {
             return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
         } else if (mediaType.equals(MediaType.TEXT_HTML)) {
-            Template ftlTemplate = getFtlTemplate("skysail.server:errormessage.ftl");
-            return new TemplateRepresentation(ftlTemplate, res, MediaType.TEXT_HTML);
+//            Template ftlTemplate = getFtlTemplate("skysail.server:errormessage.ftl");
+//            return new TemplateRepresentation(ftlTemplate, res, MediaType.TEXT_HTML);
+            throw new RuntimeException("media type '" + mediaType + "' not supported");
         } else if (mediaType.equals(MediaType.TEXT_XML)) {
             return new JacksonRepresentation<SkysailResponse<SkysailData>>(res);
         } else {
             throw new RuntimeException("media type '" + mediaType + "' not supported");
         }
     }
-
-    public static final Template getFtlTemplate(String templatePath) {
-        if (configuration != null) {
-            try {
-                return configuration.getTemplate(templatePath);
-            } catch (IOException e) {
-                throw new RuntimeException("Problem accessing template '" + templatePath + "'", e);
-            }
-
-        }
-        return null;
-    }
-
-
 }

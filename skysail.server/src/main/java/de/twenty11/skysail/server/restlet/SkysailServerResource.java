@@ -3,7 +3,6 @@ package de.twenty11.skysail.server.restlet;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.restlet.data.MediaType;
 import org.restlet.data.Reference;
-import org.restlet.ext.freemarker.TemplateRepresentation;
 import org.restlet.ext.jackson.JacksonRepresentation;
 import org.restlet.ext.wadl.WadlServerResource;
 import org.restlet.ext.xstream.XstreamRepresentation;
@@ -17,7 +16,6 @@ import de.twenty11.skysail.common.responses.SkysailFailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SkysailSuccessResponse;
 import de.twenty11.skysail.server.communication.CommunicationUtils;
-import freemarker.template.Template;
 
 /**
  * By implementing this class you can provide RESTful access to a specific resource, i.e.
@@ -106,8 +104,8 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
         try {
             SkysailResponse<T> response = new SkysailSuccessResponse<T>(getFilteredData());
             setResponseDetails(response, MediaType.TEXT_HTML);
-            Template ftlTemplate = CommunicationUtils.getFtlTemplate(template);
-            return new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
+//            Template ftlTemplate = CommunicationUtils.getFtlTemplate(template);
+            return null;//new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
         } catch (Exception e) {
             return CommunicationUtils.createErrorResponse(e, logger, MediaType.TEXT_HTML);
         }

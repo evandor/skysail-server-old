@@ -1,11 +1,9 @@
 package de.twenty11.skysail.server.restlet;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 import org.restlet.Application;
 import org.restlet.Restlet;
 import org.restlet.data.ChallengeScheme;
@@ -27,8 +25,6 @@ import de.twenty11.skysail.server.internal.ClassLoaderDirectory;
 import de.twenty11.skysail.server.internal.CompositeClassLoader;
 import de.twenty11.skysail.server.internal.ConfigServiceProvider;
 import de.twenty11.skysail.server.services.ConfigService;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
 /**
  * 
@@ -120,17 +116,6 @@ public abstract class RestletOsgiApplication extends Application {
 
     // TODO make abstract
     abstract protected void attach();
-
-    // TODO Duplication in communicationUtils
-    protected static final Template getFtlTemplate(String templatePath) {
-        ServiceReference serviceRef = bundleContext.getServiceReference(Configuration.class.getName());
-        Configuration service = (Configuration) bundleContext.getService(serviceRef);
-        try {
-            return service.getTemplate(templatePath);
-        } catch (IOException e) {
-            throw new RuntimeException("Problem accessing template '" + templatePath + "'");
-        }
-    }
 
     public void attachToRouter(String key, Class<? extends ServerResource> executor) {
         router.attach(key, executor);
