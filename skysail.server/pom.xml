@@ -96,6 +96,12 @@
 			<scope>test</scope>
 		</dependency>
 
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>skysail.bundles.commons-dbcp</artifactId>
+            <version>1.4</version>
+        </dependency>
+
 		<!-- (pure) osgi -->
 		<dependency>
 			<groupId>org.osgi</groupId>

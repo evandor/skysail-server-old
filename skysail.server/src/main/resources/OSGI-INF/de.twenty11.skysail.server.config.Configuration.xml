@@ -4,6 +4,9 @@
   <service>
     <provide interface='org.osgi.service.cm.ManagedService'/>
   </service>
+  <service>
+        <provide interface='de.twenty11.skysail.server.services.DataSourceProvider' />
+    </service>
   <property name='service.pid' value='de.twenty11.skysail.server.config.Configuration'/>
 </component>
 

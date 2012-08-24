@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<component name='de.twenty11.skysail.server.config.Configuration'>
+	<implementation class='de.twenty11.skysail.server.config.Datasource' />
+	<service>
+		<provide interface='de.twenty11.skysail.server.services.DataSourceProvider' />
+	</service>
+</component>
+
+

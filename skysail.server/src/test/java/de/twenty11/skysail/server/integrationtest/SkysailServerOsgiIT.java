@@ -19,6 +19,7 @@ import org.ops4j.pax.exam.junit.JUnit4TestRunner;
 import org.ops4j.pax.exam.spi.reactors.AllConfinedStagedReactorFactory;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,11 +64,10 @@ public class SkysailServerOsgiIT {
     }
 
     @Test
-    @Ignore
     public void shouldFindSkysailDatasourceService() {
         Bundle bundle = getBundleForSymbolicName("skysail.server");
         ServiceReference[] servicesInUse = bundle.getServicesInUse();
-        ServiceReference skysailDatasourceReference = context.getServiceReference("javax.sql.DataSource");
+        ServiceReference skysailDatasourceReference = context.getServiceReference("de.twenty11.skysail.server.services.DataSourceProvider");
         assertTrue(skysailDatasourceReference != null);
     }
 
