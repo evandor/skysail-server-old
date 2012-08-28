@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.server.Constants;
 import de.twenty11.skysail.server.services.DataSourceProvider;
 
-public class Configuration implements ManagedService {
+public class Configuration implements ManagedService, DataSourceProvider {
 
     private final static Logger logger = LoggerFactory.getLogger(Configuration.class);
-    private BasicDataSource defaultDS;
+    private static BasicDataSource defaultDS;
 
     @Override
     public synchronized void updated(Dictionary properties) throws ConfigurationException {
@@ -45,4 +45,13 @@ public class Configuration implements ManagedService {
         }
     }
 
+    public static BasicDataSource getDefaultDS() {
+        return defaultDS;
+    }
+
+    @Override
+    public DataSource get() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
