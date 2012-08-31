@@ -142,7 +142,7 @@ public class UrlMappingServiceListener implements ServiceListener {
      */
     private void addNewMapping(final BundleContext context, final ServiceReference serviceReference) {
         UrlMapper urlMapper = (UrlMapper) context.getService(serviceReference);
-        Map<String, String> providedMapping = urlMapper.getUrlMapping();
+        Map<String, String> providedMapping = urlMapper.provideUrlMapping();
         if (providedMapping == null) {
             return;
         }
@@ -174,7 +174,7 @@ public class UrlMappingServiceListener implements ServiceListener {
      */
     private void removeMapping(final ServiceReference serviceRef) {
         UrlMapper urlMapper = (UrlMapper) bundleContext.getService(serviceRef);
-        Map<String, String> providedMapping = urlMapper.getUrlMapping();
+        Map<String, String> providedMapping = urlMapper.provideUrlMapping();
         if (providedMapping == null) {
             return;
         }

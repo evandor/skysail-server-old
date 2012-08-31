@@ -60,6 +60,15 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(systemProperty("felix.fileinstall.dir").value(System.getProperty("skysailConfDir", "./conf/dev/")));
         options.add(systemProperty("felix.fileinstall.log.level").value("4"));
         
+        // eclipselink
+        options.add(mavenBundle("org.eclipse.persistence", "javax.persistence", "2.0.3"));
+        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.osgi", "2.2.0"));
+        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.core", "2.2.0"));
+        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.jpa", "2.2.0"));
+        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.asm", "2.2.0"));
+        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.osgi", "2.2.0"));
+        options.add(mavenBundle("de.twentyeleven.skysail", "skysail.server.eclipselink", "0.0.3-SNAPSHOT"));
+        
         // other
         options.add(mavenBundle("com.thoughtworks.xstream", "com.springsource.com.thoughtworks.xstream", "1.3.1"));
         options.add(mavenBundle("org.codehaus.jackson", "jackson-core-lgpl", "1.9.5"));

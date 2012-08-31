@@ -1,11 +1,6 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
-Bnd-LastModified: 1341175066639
+Bnd-LastModified: 1346309144817
 Build-Jdk: 1.6.0_26
-=======
-Bnd-LastModified: 1341642423256
-Build-Jdk: 1.7.0_04
->>>>>>> e07099ce73971a2389bebea7090bfc1c72b4c2da
 Built-By: carsten
 Bundle-Activator: de.twenty11.skysail.server.eclipselink.Activator
 Bundle-Description: This is the parent pom for all skysail maven artifac

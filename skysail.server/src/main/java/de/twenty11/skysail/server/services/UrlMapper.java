@@ -20,7 +20,7 @@ import java.util.Map;
 
 
 /**
- * Implementors provide a <String,String> mapping via 'getUrlMapping' meant to describe a path -> classname relation.
+ * Implementors provide a <String,String> mapping via 'provideUrlMapping' meant to describe a path -> classname relation.
  * When a request for a specific path is received, the associated class is meant to "take care" of the request 
  *
  * @author carsten
@@ -42,6 +42,6 @@ public interface UrlMapper {
      *
      * @return a map of path / classname pairs
      */
-    Map<String, String> getUrlMapping();
+    Map<String, String> provideUrlMapping();
 
 }
