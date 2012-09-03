@@ -6,4 +6,7 @@
 	<reference bind="setConfigService" cardinality="1..1"
 		interface="de.twenty11.skysail.server.services.ConfigService" name="ConfigService"
 		policy="static" />
+    <reference bind="setEMP" cardinality="1..1" 
+        interface="de.twenty11.skysail.server.services.EntityManagerProvider" 
+        name="EntityManagerProvider" policy="static" />
 </scr:component>

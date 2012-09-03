@@ -20,10 +20,12 @@ package de.twenty11.skysail.server.internal;
 import org.osgi.service.component.ComponentContext;
 
 import de.twenty11.skysail.server.services.ConfigService;
+import de.twenty11.skysail.server.services.EntityManagerProvider;
 
 public class ConfigServiceProvider {
 
     private static ConfigService configService;
+    private EntityManagerProvider emp;
 
     protected void activate(ComponentContext ctxt) {
     }
@@ -37,5 +39,9 @@ public class ConfigServiceProvider {
     
     public static ConfigService getConfigService() {
         return configService;
+    }
+    
+    public void setEMP(EntityManagerProvider emp) {
+        this.emp = emp;
     }
 }
