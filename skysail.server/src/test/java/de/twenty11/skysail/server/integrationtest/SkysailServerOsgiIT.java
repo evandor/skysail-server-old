@@ -80,7 +80,7 @@ public class SkysailServerOsgiIT {
         assertTrue(skysailDatasourceReference != null);
         EntityManagerProvider service = (EntityManagerProvider)context.getService(skysailDatasourceReference);
         assertTrue(service != null);
-        EntityManager entityManager = service.getEntityManager("SkysailPU");
+        //EntityManager entityManager = service.getEntityManager("SkysailPU");
     }
     
     private Bundle getBundleForSymbolicName(String symbolicName) {

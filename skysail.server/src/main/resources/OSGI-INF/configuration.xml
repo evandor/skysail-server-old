@@ -3,9 +3,6 @@
 	name="Skysail Server Configuration Service Provider">
 	<implementation
 		class="de.twenty11.skysail.server.internal.ConfigServiceProvider" />
-	<reference bind="setConfigService" cardinality="1..1"
-		interface="de.twenty11.skysail.server.services.ConfigService" name="ConfigService"
-		policy="static" />
     <reference bind="setEMP" cardinality="1..1" 
         interface="de.twenty11.skysail.server.services.EntityManagerProvider" 
         name="EntityManagerProvider" policy="static" />
