@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.server.internal.Blocker;
 import de.twenty11.skysail.server.internal.ClassLoaderDirectory;
 import de.twenty11.skysail.server.internal.CompositeClassLoader;
-import de.twenty11.skysail.server.internal.ConfigServiceProvider;
 import de.twenty11.skysail.server.services.ConfigService;
 
 /**
@@ -56,7 +55,7 @@ public abstract class RestletOsgiApplication extends Application {
     }
 
     public RestletOsgiApplication(final String staticPathTemplate) {
-        ConfigService configService = ConfigServiceProvider.getConfigService();
+        ConfigService configService = null;//ConfigServiceProvider.getConfigService();
         String defaultUser = "scott";//configService.getString("defaultUser", "scott");
         String defaultPass = "tiger";//configService.getString("defaultPass", "tiger");
         MapVerifier verifier = new MapVerifier();
