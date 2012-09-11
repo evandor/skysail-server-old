@@ -14,21 +14,37 @@
  *  limitations under the License.
  * 
  */
-package de.twenty11.skysail.server.security;
 
-import java.security.Principal;
+package de.twenty11.skysail.server;
 
-public class UserPrincipal implements Principal {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-    private String username;
+@Entity
+public class LoginEvent2 {
 
-    public UserPrincipal(String name) {
-        this.username = name;
+    @Id
+    @GeneratedValue
+    private int id;
+
+    private String userid;
+    private long timestamp;
+
+    public int getId() {
+        return this.id;
     }
-    
-    @Override
-    public String getName() {
-        return username;
+    public String getUserid() {
+        return this.userid;
+    }
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+    public long getTimestamp() {
+        return this.timestamp;
+    }
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
 }

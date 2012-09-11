@@ -15,27 +15,23 @@
  * 
  */
 
-package de.twenty11.skysail.server.internal;
+package de.twenty11.skysail.server.services;
 
-import org.osgi.service.component.ComponentContext;
+import javax.persistence.EntityManager;
 
-import de.twenty11.skysail.server.services.ConfigService;
+/**
+ * The definition of a service providing a JPA EntityManager.
+ * 
+ * 
+ * @author carsten
+ *
+ */
+public interface EntityManagerProvider {
 
-public class ConfigServiceProvider {
-
-    private static ConfigService configService;
-
-    protected void activate(ComponentContext ctxt) {
-    }
+    /**
+     * @param persistenceUnit
+     * @return
+     */
+    EntityManager getEntityManager(String persistenceUnit);
     
-    protected void deactivate(ComponentContext ctxt) {
-    }
-    
-    public synchronized void setConfigService(ConfigService configService) {
-        ConfigServiceProvider.configService = configService;
-    }
-    
-    public static ConfigService getConfigService() {
-        return configService;
-    }
 }

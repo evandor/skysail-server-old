@@ -35,7 +35,6 @@ import de.twenty11.skysail.common.grids.ColumnsBuilder;
 import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.server.internal.ConfigServiceProvider;
 import de.twenty11.skysail.server.services.ConfigService;
 
 /**
@@ -233,7 +232,7 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
         int page = Integer.parseInt(firstValue);
         setCurrentPage(page);
 
-        ConfigService configService = ConfigServiceProvider.getConfigService();
+        ConfigService configService = null;//ConfigServiceProvider.getConfigService();
         String pageSizeFromProperties = null;
         if (configService != null) {
             pageSizeFromProperties = configService.getString(configIdentifier);

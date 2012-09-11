@@ -8,6 +8,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -25,6 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.osgi.PaxExamOptionSet;
+import de.twenty11.skysail.server.SkysailEntityManagerProvider;
+import de.twenty11.skysail.server.services.EntityManagerProvider;
 
 @RunWith(JUnit4TestRunner.class)
 @ExamReactorStrategy(AllConfinedStagedReactorFactory.class)
@@ -48,7 +51,7 @@ public class SkysailServerOsgiIT {
         
         // _this_ bundle from target directory
         String currentBundleSource = "file:target/skysail.server-"+setup.getProjectVersion()+".jar";
-        logger.error("adding {} to tests...", currentBundleSource);
+        logger.info("adding {} to tests...", currentBundleSource);
         options.add(bundle(currentBundleSource));
         
         return options.toArray(new Option[options.size()]);
@@ -66,12 +69,20 @@ public class SkysailServerOsgiIT {
     @Test
     public void shouldFindSkysailDatasourceService() {
         Bundle bundle = getBundleForSymbolicName("skysail.server");
-        ServiceReference[] servicesInUse = bundle.getServicesInUse();
         ServiceReference skysailDatasourceReference = context.getServiceReference("de.twenty11.skysail.server.services.DataSourceProvider");
         assertTrue(skysailDatasourceReference != null);
     }
 
-
+    @Test
+    public void shouldFindSkysailEntityManagerProvider() {
+        Bundle bundle = getBundleForSymbolicName("skysail.server");
+        ServiceReference skysailDatasourceReference = context.getServiceReference("de.twenty11.skysail.server.SkysailEntityManagerProvider");
+        assertTrue(skysailDatasourceReference != null);
+        EntityManagerProvider service = (EntityManagerProvider)context.getService(skysailDatasourceReference);
+        assertTrue(service != null);
+        //EntityManager entityManager = service.getEntityManager("SkysailPU");
+    }
+    
     private Bundle getBundleForSymbolicName(String symbolicName) {
         Bundle myBundle = null;
         Bundle[] bundles = context.getBundles();

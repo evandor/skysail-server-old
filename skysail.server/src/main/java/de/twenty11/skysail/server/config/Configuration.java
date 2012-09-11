@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.server.Constants;
 import de.twenty11.skysail.server.services.DataSourceProvider;
 
-public class Configuration implements ManagedService, DataSourceProvider {
+public class Configuration implements ManagedService {
 
     private final static Logger logger = LoggerFactory.getLogger(Configuration.class);
     private static BasicDataSource defaultDS;
@@ -49,9 +49,5 @@ public class Configuration implements ManagedService, DataSourceProvider {
         return defaultDS;
     }
 
-    @Override
-    public DataSource get() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+
 }

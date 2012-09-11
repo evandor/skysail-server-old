@@ -24,7 +24,7 @@
 	</scm>
 
 	<properties>
-		<skysail.common.version>[0.3.6, 1.0)</skysail.common.version>
+		<skysail.common.version>[0.3.7-SNAPSHOT, 1.0)</skysail.common.version>
 	</properties>
 
 	<build>
@@ -257,6 +257,28 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>javax.persistence</artifactId>
+		</dependency>
+
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.osgi</artifactId>
+        </dependency>
+
 	</dependencies>
+	
+	<repositories>
+        <repository>
+            <id>EclipseLink</id>
+            <url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
+        </repository>
+	</repositories>
 
 </project>

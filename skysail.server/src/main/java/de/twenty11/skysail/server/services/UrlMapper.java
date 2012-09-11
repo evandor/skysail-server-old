@@ -26,6 +26,7 @@ import java.util.Map;
  * @author carsten
  *
  */
+
 public interface UrlMapper {
 
     /**

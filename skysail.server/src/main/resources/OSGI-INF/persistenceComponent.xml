@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<component name='skysail.server.persistenceComponent'>
+	<implementation class='de.twenty11.skysail.server.SkysailEntityManagerProvider' />
+ <service>
+    <provide interface="de.twenty11.skysail.server.SkysailEntityManagerProvider"/>
+ </service>
+</component>
+
+
