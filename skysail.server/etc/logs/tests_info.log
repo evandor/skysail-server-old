@@ -1,5 +1,0 @@
-INFO  org.ops4j.pax.exam.spi.DefaultExamSystem - Pax Exam System (Version: 2.4.0) created.
-INFO  de.twenty11.skysail.common.osgi.SkysailCommonOsgiSetup - using options from class de.twenty11.skysail.server.integrationtest.SkysailServerOsgiSetup for tests
-INFO  d.t.s.server.integrationtest.SkysailServerOsgiSetup - using options from class de.twenty11.skysail.server.integrationtest.SkysailServerOsgiSetup for tests
-INFO  d.t.skysail.server.integrationtest.SkysailServerOsgiIT - adding file:target/skysail.server-0.2.5-SNAPSHOT.jar to tests...
-WARN  org.ops4j.pax.exam.spi.DefaultExamSystem - Option org.ops4j.pax.exam.options.FrameworkStartLevelOption has not been recognized.
