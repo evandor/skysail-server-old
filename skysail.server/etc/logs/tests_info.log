@@ -1,0 +1,2 @@
+INFO  o.o.pax.exam.invoker.junit.internal.ContainerTestRunner - running shouldFindSkysailDatasourceService in reactor
+INFO  o.ops4j.pax.exam.raw.extender.intern.TestBundleObserver - Unregistered testcase [org.ops4j.pax.exam.raw.extender.intern.Probe@9f6c439.]
