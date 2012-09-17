@@ -216,7 +216,7 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
         response.setTotalResults(getTotalResults());
         response.setPage(getCurrentPage());
         response.setPageSize(getPageSize());
-        response.setRequest(getRequest().getOriginalRef().toString());
+        response.setRequest(getRequest().getOriginalRef() != null ? getRequest().getOriginalRef().toString() : null);
         response.setParent(getParent() + "?media=" + mediaType.toString().replace("application/", ""));
         response.setContextPath("/rest/");
         response.setFilter(getFilter() != null ? getFilter().toString() : "");
@@ -232,7 +232,7 @@ public class GridDataServerResource extends SkysailServerResource<GridData> {
         int page = Integer.parseInt(firstValue);
         setCurrentPage(page);
 
-        ConfigService configService = null;//ConfigServiceProvider.getConfigService();
+        ConfigService configService = null;// ConfigServiceProvider.getConfigService();
         String pageSizeFromProperties = null;
         if (configService != null) {
             pageSizeFromProperties = configService.getString(configIdentifier);

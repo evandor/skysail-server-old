@@ -18,16 +18,16 @@ import de.twenty11.skysail.common.responses.SkysailSuccessResponse;
 import de.twenty11.skysail.server.communication.CommunicationUtils;
 
 /**
- * By implementing this class you can provide RESTful access to a specific resource, i.e.
- * a RESTful representation of the resource.
+ * By implementing this class you can provide RESTful access to a specific resource, i.e. a RESTful representation of
+ * the resource.
  * 
- * The type of the representation depends on the request. Currently JSON, XML and HTML are
- * supported.
+ * The type of the representation depends on the request. Currently JSON, XML and HTML are supported.
  * 
- * If an exception occurs, skysail will create an error-representation with information 
- * about the exception with the same type (Json, xml,...). 
+ * If an exception occurs, skysail will create an error-representation with information about the exception with the
+ * same type (Json, xml,...).
  * 
- * @param <T> has to extend the marker interface SkysailData.
+ * @param <T>
+ *            has to extend the marker interface SkysailData.
  */
 public abstract class SkysailServerResource<T extends SkysailData> extends WadlServerResource {
 
@@ -42,10 +42,12 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
 
     /** the payload. */
     private T skysailData;
-    
+
     /**
      * Constructor expecting an object of type T (which will become the payload of the resource representation.
-     * @param data for example new GridData()
+     * 
+     * @param data
+     *            for example new GridData()
      */
     public SkysailServerResource(T data) {
         this.skysailData = data;
@@ -53,34 +55,36 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
 
     /**
      * to be implemented by extending classes.
-     * @param response 
-     * @param applicationXml 
+     * 
+     * @param response
+     * @param applicationXml
      */
     public abstract void setResponseDetails(SkysailResponse<T> response, MediaType applicationXml);
-    
+
     /**
      * to be implemented by extending classes.
+     * 
      * @return SkysailData
      */
     public abstract T getFilteredData();
 
     /**
-     * Reasoning: not overwriting those two (overloaded) methods gives me a jackson deserialization
-     * issue. I need to define which method I want to be ignored by jackson.
+     * Reasoning: not overwriting those two (overloaded) methods gives me a jackson deserialization issue. I need to
+     * define which method I want to be ignored by jackson.
      * 
      * @see org.restlet.resource.ServerResource#setLocationRef(org.restlet.data.Reference)
      */
     @JsonIgnore
     @Override
     public void setLocationRef(Reference locationRef) {
-    	super.setLocationRef(locationRef);
+        super.setLocationRef(locationRef);
     }
 
     @Override
     public void setLocationRef(String locationUri) {
-    	super.setLocationRef(locationUri);
+        super.setLocationRef(locationUri);
     }
-    
+
     @Get("json")
     public Representation getJson() {
         SkysailResponse<T> response = createResponse();
@@ -104,37 +108,43 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
         try {
             SkysailResponse<T> response = new SkysailSuccessResponse<T>(getFilteredData());
             setResponseDetails(response, MediaType.TEXT_HTML);
-//            Template ftlTemplate = CommunicationUtils.getFtlTemplate(template);
-            return null;//new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
+            // Template ftlTemplate = CommunicationUtils.getFtlTemplate(template);
+            return null;// new TemplateRepresentation(ftlTemplate, response, MediaType.TEXT_HTML);
         } catch (Exception e) {
             return CommunicationUtils.createErrorResponse(e, logger, MediaType.TEXT_HTML);
         }
     }
-    
+
     public void setTemplate(String template) {
         this.template = template;
     }
-    
+
     public void setMessage(String message) {
-        this.message =  message;
+        this.message = message;
     }
-    
+
     public String getMessage() {
         return message;
     }
-    
+
     protected String getParent() {
+        if (getRequest() == null)
+            return null;
+        if (getRequest().getOriginalRef() == null)
+            return null;
+        if (getRequest().getOriginalRef().getParentRef() == null)
+            return null;
         return getRequest().getOriginalRef().getParentRef().toString();
     }
-    
+
     public T getSkysailData() {
         return skysailData;
     }
-    
+
     public void setSkysailData(T skysailData) {
-		this.skysailData = skysailData;
-	}
-    
+        this.skysailData = skysailData;
+    }
+
     private SkysailResponse<T> createResponse() {
         SkysailResponse<T> response;
         try {
