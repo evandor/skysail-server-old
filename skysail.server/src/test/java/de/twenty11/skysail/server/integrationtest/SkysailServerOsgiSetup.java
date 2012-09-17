@@ -44,6 +44,9 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.json", restletVersion));
         options.add(mavenBundle("org.restlet.jee", "org.restlet", restletVersion));
 
+        // JSON
+        options.add(mavenBundle("de.twentyeleven.skysail", "org.json-osgi", "20070829"));
+
         // osgi
         options.add(mavenBundle("org.osgi", "org.osgi.enterprise", "4.2.0"));
 
