@@ -145,7 +145,7 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
         this.skysailData = skysailData;
     }
 
-    private SkysailResponse<T> createResponse() {
+    protected SkysailResponse<T> createResponse() {
         SkysailResponse<T> response;
         try {
             response = new SkysailSuccessResponse<T>(getFilteredData());
