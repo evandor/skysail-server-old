@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>de.twentyeleven.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.8.12</version>
+		<version>0.8.13</version>
 		<relativePath />
 	</parent>
 
@@ -116,47 +116,47 @@
 
 		<!-- restlet -->
 		<dependency>
-			<groupId>org.restlet.jee</groupId>
+			<groupId>org.restlet.osgi</groupId>
 			<artifactId>org.restlet</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.restlet.jee</groupId>
+			<groupId>org.restlet.osgi</groupId>
 			<artifactId>org.restlet.ext.servlet</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.restlet.jee</groupId>
+			<groupId>org.restlet.osgi</groupId>
 			<artifactId>org.restlet.ext.xml</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.restlet.jee</groupId>
+			<groupId>org.restlet.osgi</groupId>
 			<artifactId>org.restlet.ext.xstream</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.restlet.jee</groupId>
+			<groupId>org.restlet.osgi</groupId>
 			<artifactId>org.restlet.ext.jetty</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.restlet.jee</groupId>
+			<groupId>org.restlet.osgi</groupId>
 			<artifactId>org.restlet.ext.jackson</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.restlet.jee</groupId>
+			<groupId>org.restlet.osgi</groupId>
 			<artifactId>org.restlet.ext.slf4j</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.restlet.jee</groupId>
+			<groupId>org.restlet.osgi</groupId>
 			<artifactId>org.restlet.ext.wadl</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.restlet.jee</groupId>
+			<groupId>org.restlet.osgi</groupId>
 			<artifactId>org.restlet.ext.crypto</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.restlet.jee</groupId>
+			<groupId>org.restlet.osgi</groupId>
 			<artifactId>org.restlet.ext.json</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.restlet.jee</groupId>
+			<groupId>org.restlet.osgi</groupId>
 			<artifactId>org.restlet.ext.spring</artifactId>
 			<exclusions>
 				<exclusion>
@@ -190,7 +190,7 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.restlet.jee</groupId>
+			<groupId>org.restlet.osgi</groupId>
 			<artifactId>org.restlet.ext.json</artifactId>
 		</dependency>
 		<dependency>
