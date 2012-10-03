@@ -1,6 +1,8 @@
 package de.twenty11.skysail.server.restlet;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.restlet.data.MediaType;
 import org.restlet.data.Reference;
 import org.restlet.ext.jackson.JacksonRepresentation;
@@ -154,6 +156,12 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
             response = new SkysailFailureResponse<T>(e);
         }
         return response;
+    }
+
+    protected String determineValue(JSONObject jsonObject, String key) throws JSONException {
+        if (jsonObject.isNull(key))
+            return null;
+        return jsonObject.getString(key);
     }
 
 }
