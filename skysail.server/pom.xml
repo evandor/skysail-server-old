@@ -127,6 +127,10 @@
 			<groupId>org.restlet.osgi</groupId>
 			<artifactId>org.restlet.ext.xml</artifactId>
 		</dependency>
+        <dependency><!-- should come _before_ ext.xstream -->
+            <groupId>org.restlet.osgi</groupId>
+            <artifactId>org.restlet.ext.jackson</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>org.restlet.osgi</groupId>
 			<artifactId>org.restlet.ext.xstream</artifactId>
@@ -134,10 +138,6 @@
 		<dependency>
 			<groupId>org.restlet.osgi</groupId>
 			<artifactId>org.restlet.ext.jetty</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.restlet.osgi</groupId>
-			<artifactId>org.restlet.ext.jackson</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.restlet.osgi</groupId>
