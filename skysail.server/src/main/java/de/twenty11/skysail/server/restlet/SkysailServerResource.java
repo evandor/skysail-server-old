@@ -3,12 +3,8 @@ package de.twenty11.skysail.server.restlet;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.restlet.data.MediaType;
 import org.restlet.data.Reference;
-import org.restlet.ext.jackson.JacksonRepresentation;
 import org.restlet.ext.wadl.WadlServerResource;
-import org.restlet.representation.Representation;
-import org.restlet.resource.Get;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,14 +48,6 @@ public abstract class SkysailServerResource<T extends SkysailData> extends WadlS
     public SkysailServerResource(T data) {
         this.skysailData = data;
     }
-
-    /**
-     * to be implemented by extending classes.
-     * 
-     * @param response
-     * @param applicationXml
-     */
-    public abstract void setResponseDetails(SkysailResponse<T> response, MediaType applicationXml);
 
     /**
      * to be implemented by extending classes.

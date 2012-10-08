@@ -27,9 +27,8 @@ import de.twenty11.skysail.server.services.ConfigService;
 
 /**
  * 
- * Concurrency note from parent class: instances of this class or its subclasses
- * can be invoked by several threads at the same time and therefore must be
- * thread-safe. You should be especially careful when storing state in member
+ * Concurrency note from parent class: instances of this class or its subclasses can be invoked by several threads at
+ * the same time and therefore must be thread-safe. You should be especially careful when storing state in member
  * variables.
  * 
  * @author carsten
@@ -55,9 +54,9 @@ public abstract class RestletOsgiApplication extends Application {
     }
 
     public RestletOsgiApplication(final String staticPathTemplate) {
-        ConfigService configService = null;//ConfigServiceProvider.getConfigService();
-        String defaultUser = "scott";//configService.getString("defaultUser", "scott");
-        String defaultPass = "tiger";//configService.getString("defaultPass", "tiger");
+        ConfigService configService = null;// ConfigServiceProvider.getConfigService();
+        String defaultUser = "scott";// configService.getString("defaultUser", "scott");
+        String defaultPass = "tiger";// configService.getString("defaultPass", "tiger");
         MapVerifier verifier = new MapVerifier();
         verifier.getLocalSecrets().put(defaultUser, defaultPass.toCharArray());
         this.verifier = verifier;
@@ -72,6 +71,8 @@ public abstract class RestletOsgiApplication extends Application {
 
         // see
         // http://nexnet.wordpress.com/2010/09/29/clap-protocol-in-restlet-and-osgi/
+        getConnectorService().getClientProtocols().add(Protocol.HTTP);
+        getConnectorService().getClientProtocols().add(Protocol.HTTPS);
         getConnectorService().getClientProtocols().add(Protocol.FILE);
         getConnectorService().getClientProtocols().add(Protocol.CLAP);
 
@@ -104,7 +105,7 @@ public abstract class RestletOsgiApplication extends Application {
             public void enrole(ClientInfo clientInfo) {
                 List<Role> defaultRoles = new ArrayList<Role>();
                 Role userRole = new Role("user", "standard role");
-                defaultRoles.add(userRole );
+                defaultRoles.add(userRole);
                 clientInfo.setRoles(defaultRoles);
             }
         });
