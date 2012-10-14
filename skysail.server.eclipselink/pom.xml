@@ -15,11 +15,11 @@
 		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
 		<!-- A publicly browsable repository. For example, via ViewCVS. -->
 		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
-	  <tag>skysail.server.eclipselink-0.0.3</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<artifactId>skysail.server.eclipselink</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4-SNAPSHOT</version>
 	<name>skysail server eclipselink extension</name>
 	<packaging>bundle</packaging>
 
