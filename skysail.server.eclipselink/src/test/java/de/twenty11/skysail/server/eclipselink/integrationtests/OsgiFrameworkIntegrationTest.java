@@ -17,6 +17,7 @@ import java.io.InputStream;
 
 import javax.inject.Inject;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.Option;
@@ -73,6 +74,7 @@ public class OsgiFrameworkIntegrationTest {
     }
 
     @Test
+    @Ignore
     public void saveNewFolderSuccessfully() {
     	System.out.println("List of all bundles:");
     	System.out.println("====================");
