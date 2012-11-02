@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1350202329674
-Build-Jdk: 1.6.0_18
+Bnd-LastModified: 1351846520578
+Build-Jdk: 1.6.0_26
 Built-By: carsten
 Bundle-Activator: de.twenty11.skysail.server.eclipselink.Activator
 Bundle-Description: This is the parent pom for all skysail maven artifac
@@ -9,13 +9,13 @@ Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
 Bundle-ManifestVersion: 2
 Bundle-Name: skysail server eclipselink extension
 Bundle-SymbolicName: skysail.server.eclipselink
-Bundle-Version: 0.0.3.SNAPSHOT
+Bundle-Version: 0.0.4.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin
 DynamicImport-Package: *
 Export-Package: de.twenty11.skysail.server.eclipselink;uses:="org.osgi.f
  ramework,org.eclipse.persistence.jpa.osgi,javax.persistence";version="0
- .0.3.SNAPSHOT",de.twenty11.skysail.server.eclipselink.service.definitio
- n;uses:="javax.persistence";version="0.0.3.SNAPSHOT"
+ .0.4.SNAPSHOT",de.twenty11.skysail.server.eclipselink.service.definitio
+ n;uses:="javax.persistence";version="0.0.4.SNAPSHOT"
 Import-Package: de.twenty11.skysail.server.eclipselink.service.definitio
  n,javax.persistence;jpa="2.0";version="1.1.0",org.eclipse.persistence.j
  pa.osgi;version="[2.2,3)",org.osgi.framework;version="[1.5,2)"

@@ -21,7 +21,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name = "LoginEvent3")
 public class LoginEvent {
 
     @Id
@@ -34,15 +34,19 @@ public class LoginEvent {
     public int getId() {
         return this.id;
     }
+
     public String getUserid() {
         return this.userid;
     }
+
     public void setUserid(String userid) {
         this.userid = userid;
     }
+
     public long getTimestamp() {
         return this.timestamp;
     }
+
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
