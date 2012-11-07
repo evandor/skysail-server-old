@@ -8,12 +8,8 @@ import org.restlet.ext.wadl.WadlServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.SkysailData;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.Response;
-import de.twenty11.skysail.common.responses.SkysailFailureResponse;
-import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.common.responses.SkysailSuccessResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 
 /**
@@ -45,7 +41,7 @@ public abstract class SkysailServerResource2<T> extends WadlServerResource {
     public SkysailServerResource2() {
         // TODO Auto-generated constructor stub
     }
-    
+
     /**
      * Constructor expecting an object of type T (which will become the payload of the resource representation.
      * 

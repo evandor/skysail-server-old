@@ -3,12 +3,12 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.twenty11.skysail</groupId>
-		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.7.0</version>
-		<relativePath />
-	</parent>
+    <parent>
+        <groupId>de.twentyeleven.skysail</groupId>
+        <artifactId>skysail.build.maven.parentPom</artifactId>
+        <version>0.8.15-SNAPSHOT</version>
+        <relativePath />
+    </parent>
 
 	<artifactId>skysail.server.um</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -21,13 +21,17 @@
 		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
 	</scm>
 
+    <properties>
+        <skysail.common.version>[0.3.8-SNAPSHOT, 1.0)</skysail.common.version>
+        <skysail.server.version>[0.2.6-SNAPSHOT, 1.0)</skysail.server.version>
+    </properties>
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
 				<extensions>true</extensions>
-				<version>2.3.4</version>
 				<configuration>
                     <manifestLocation>META-INF</manifestLocation>
 					<instructions>
@@ -40,23 +44,12 @@
 
 	<dependencies>
 
-		<dependency>
-			<groupId>de.twenty11.skysail</groupId>
-			<artifactId>skysail.server</artifactId>
-			<version>[0.2.0, 0.3)</version>
-		</dependency>
-
         <dependency>
-            <groupId>de.twenty11.skysail</groupId>
-            <artifactId>skysail.server.servicedefinitions</artifactId>
-            <version>[0.2.1-SNAPSHOT, 0.3)</version>
+            <groupId>de.twentyeleven.skysail</groupId>
+            <artifactId>skysail.server</artifactId>
+            <version>${skysail.server.version}</version>
         </dependency>
 
-        <dependency>
-        	<groupId>de.twenty11.skysail</groupId>
-        	<artifactId>skysail.server.eclipselink</artifactId>
-        	<version>0.0.3-SNAPSHOT</version>
-        </dependency>
 	</dependencies>
 
 </project>

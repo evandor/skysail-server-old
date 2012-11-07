@@ -17,7 +17,7 @@
 
 package de.twenty11.skysail.server.um.internal;
 
-import java.util.Properties;
+import java.util.HashMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -25,21 +25,39 @@ import javax.persistence.EntityManagerFactory;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.eclipse.persistence.jpa.osgi.PersistenceProvider;
 
-import de.twenty11.skysail.server.servicedefinitions.ConfigService;
-
 public class PermissionService {
 
-    public static SkysailPermission getPermission(int i) {
+    private EntityManagerFactory emf;
+    private EntityManager em;
+
+    public SkysailPermission getPermission(int i) {
         EntityManager em = getEntityManager();
         return em.find(SkysailPermission.class, i);
     }
 
-    private static EntityManager getEntityManager() {
-        ConfigService configService = ServiceProvider.getConfigService();
-        Properties properties = configService.getProperties("skysail.defaultDb.");
-        properties.put(PersistenceUnitProperties.CLASSLOADER, PermissionService.class.getClassLoader());
-        EntityManagerFactory emf = new PersistenceProvider()
-                        .createEntityManagerFactory("skysail.server.um", properties);
-        return emf.createEntityManager();
+    // private static EntityManager getEntityManager() {
+    // ConfigService configService = ServiceProvider.getConfigService();
+    // Properties properties = configService.getProperties("skysail.defaultDb.");
+    // properties.put(PersistenceUnitProperties.CLASSLOADER, PermissionService.class.getClassLoader());
+    // EntityManagerFactory emf = new PersistenceProvider()
+    // .createEntityManagerFactory("skysail.server.um", properties);
+    // return emf.createEntityManager();
+    // }
+
+    private EntityManager getEntityManager() {
+        if (em == null) {
+            em = getEntityManagerFactory().createEntityManager();
+        }
+        return em;
     }
+
+    private EntityManagerFactory getEntityManagerFactory() {
+        if (emf == null) {
+            HashMap properties = new HashMap();
+            properties.put(PersistenceUnitProperties.CLASSLOADER, this.getClass().getClassLoader());
+            emf = new PersistenceProvider().createEntityManagerFactory("skysail.server.um", properties);
+        }
+        return emf;
+    }
+
 }

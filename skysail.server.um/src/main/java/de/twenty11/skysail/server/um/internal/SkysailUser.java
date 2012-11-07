@@ -26,9 +26,9 @@ import javax.persistence.OneToMany;
 
 /**
  * @author carsten
- *
+ * 
  */
-@Entity(name="SkysailUsers")
+@Entity(name = "SkysailUsers")
 public class SkysailUser {
 
     @Id
@@ -37,20 +37,16 @@ public class SkysailUser {
 
     /** hmmm.... = email address???. */
     private String login;
-    
+
     /** users password. */
     private String password;
-    
+
     private Set<SkysailRole> roles;
-
-    private Set<SkysailClient> clients;
-
-    private Set<SkysailPermission> permissions;
 
     public int getId() {
         return this.id;
     }
-    
+
     public void setId(final int userId) {
         this.id = userId;
     }
@@ -58,40 +54,24 @@ public class SkysailUser {
     public String getLogin() {
         return this.login;
     }
+
     public void setLogin(String login) {
         this.login = login;
     }
-    
+
     @OneToMany
-    public Set<SkysailRole> getRoles() {  
+    public Set<SkysailRole> getRoles() {
         return roles;
     }
-    
+
     public void setRoles(Set<SkysailRole> roles) {
         this.roles = roles;
     }
-    
-    public Set<SkysailClient> getClients() {
-        return clients;
-    }
-    
-    public void setClients(Set<SkysailClient> clients) {
-        this.clients = clients;
-    }
-    
-    public void setPermissions(Set<SkysailPermission> permissions) {
-        this.permissions = permissions;
-    }
-    
-    @OneToMany
-    public Set<SkysailPermission> getPermissions() {
-        return permissions;
-    }
-    
+
     public final void setPassword(final String password) {
         this.password = password;
     }
-    
+
     public String getPassword() {
         return password;
     }

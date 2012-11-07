@@ -73,7 +73,7 @@ public class SkysailServerOsgiIT {
     public void shouldFindSkysailEntityManagerProvider() {
         Bundle bundle = getBundleForSymbolicName("skysail.server");
         ServiceReference skysailDatasourceReference = context
-                .getServiceReference("de.twenty11.skysail.server.SkysailEntityManagerProvider");
+                .getServiceReference("de.twenty11.skysail.server.services.EntityManagerProvider");
         assertTrue(skysailDatasourceReference != null);
         EntityManagerProvider service = (EntityManagerProvider) context.getService(skysailDatasourceReference);
         assertTrue(service != null);

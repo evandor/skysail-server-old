@@ -20,13 +20,12 @@ package de.twenty11.skysail.server.um.internal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 /**
  * @author carsten
- *
+ * 
  */
-@Entity(name="SkysailRoles")
+@Entity(name = "SkysailRoles")
 public class SkysailRole {
 
     @Id
@@ -34,14 +33,11 @@ public class SkysailRole {
     private int id;
 
     private String rolename;
-    
-    @OneToOne
-    private SkysailClient client;
 
     public int getId() {
         return this.id;
     }
-    
+
     public void setId(final int userId) {
         this.id = userId;
     }
@@ -49,16 +45,9 @@ public class SkysailRole {
     public String getRolename() {
         return this.rolename;
     }
+
     public void setRolename(final String name) {
         this.rolename = name;
     }
-    
-    public void setClient(SkysailClient client) {
-        this.client = client;
-    }
-    
-    public SkysailClient getClient() {
-        return client;
-    }
-    
+
 }
