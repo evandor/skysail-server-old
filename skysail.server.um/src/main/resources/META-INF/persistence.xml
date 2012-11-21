@@ -8,6 +8,13 @@
         <class>de.twenty11.skysail.server.um.internal.SkysailUser</class>
         <class>de.twenty11.skysail.server.um.internal.SkysailRole</class>
         <class>de.twenty11.skysail.server.um.internal.SkysailPermission</class>
-		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+		<!-- <exclude-unlisted-classes>false</exclude-unlisted-classes> -->
+		<properties>
+            <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:derby:skysailDerbyDb;create=true" />
+            <!-- EclipseLink should create the database schema automatically -->
+            <property name="eclipselink.ddl-generation" value="create-tables" />
+        </properties>
+		
 	</persistence-unit>
 </persistence>

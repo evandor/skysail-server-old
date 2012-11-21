@@ -1,6 +1,8 @@
 FtlTemplates: /freemarker/ftls/
 Bundle-SymbolicName: skysail.server.um
-JPA-PersistenceUnits: skysail.server.um
+Meta-Persistence: META-INF/persistence.xml
+Import-Package:	javax.persistence;jpa="2.0";version="1.1.0",\
+ *
 DynamicImport-Package: *
 Include-Resource: {maven-resources}
 Service-Component: OSGI-INF/*.xml

@@ -23,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.osgi.PaxExamOptionSet;
-import de.twenty11.skysail.server.services.EntityManagerProvider;
 
 @RunWith(JUnit4TestRunner.class)
 @ExamReactorStrategy(AllConfinedStagedReactorFactory.class)
@@ -69,16 +68,16 @@ public class SkysailServerOsgiIT {
         assertTrue(skysailDatasourceReference != null);
     }
 
-    @Test
-    public void shouldFindSkysailEntityManagerProvider() {
-        Bundle bundle = getBundleForSymbolicName("skysail.server");
-        ServiceReference skysailDatasourceReference = context
-                .getServiceReference("de.twenty11.skysail.server.services.EntityManagerProvider");
-        assertTrue(skysailDatasourceReference != null);
-        EntityManagerProvider service = (EntityManagerProvider) context.getService(skysailDatasourceReference);
-        assertTrue(service != null);
-        // EntityManager entityManager = service.getEntityManager("SkysailPU");
-    }
+//    @Test
+//    public void shouldFindSkysailEntityManagerProvider() {
+//        Bundle bundle = getBundleForSymbolicName("skysail.server");
+//        ServiceReference skysailDatasourceReference = context
+//                .getServiceReference("de.twenty11.skysail.server.services.EntityManagerProvider");
+//        assertTrue(skysailDatasourceReference != null);
+//        EntityManagerProvider service = (EntityManagerProvider) context.getService(skysailDatasourceReference);
+//        assertTrue(service != null);
+//        // EntityManager entityManager = service.getEntityManager("SkysailPU");
+//    }
 
     private Bundle getBundleForSymbolicName(String symbolicName) {
         Bundle myBundle = null;

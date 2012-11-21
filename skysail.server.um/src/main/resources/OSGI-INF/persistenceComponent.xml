@@ -1,9 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <component name='skysail.server.um.persistenceComponent'>
-	<implementation class='de.twenty11.skysail.server.um.internal.SkysailEntityManagerProvider' />
- <service>
-    <provide interface="de.twenty11.skysail.server.SkysailEntityManagerProvider"/>
- </service>
+	<implementation class="de.twenty11.skysail.server.um.internal.SkysailEntityManagerProvider" />
+    <reference bind="setEntityManager" cardinality="1..1" interface="javax.persistence.EntityManagerFactory" name="EntityManagerProvider" policy="static"/>
 </component>
 
 

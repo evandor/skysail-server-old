@@ -173,7 +173,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>javax.persistence</artifactId>
 		</dependency>
@@ -187,7 +187,7 @@
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.osgi</artifactId>
 		</dependency>
-
+ -->		
 	</dependencies>
 
 	<repositories>

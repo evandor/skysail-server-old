@@ -17,13 +17,8 @@
 
 package de.twenty11.skysail.server.um.internal;
 
-import java.util.HashMap;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-
-import org.eclipse.persistence.config.PersistenceUnitProperties;
-import org.eclipse.persistence.jpa.osgi.PersistenceProvider;
 
 public class PermissionService {
 
@@ -31,8 +26,9 @@ public class PermissionService {
     private EntityManager em;
 
     public SkysailPermission getPermission(int i) {
-        EntityManager em = getEntityManager();
-        return em.find(SkysailPermission.class, i);
+//        EntityManager em = getEntityManager();
+//        return em.find(SkysailPermission.class, i);
+        return null;
     }
 
     // private static EntityManager getEntityManager() {
@@ -44,20 +40,20 @@ public class PermissionService {
     // return emf.createEntityManager();
     // }
 
-    private EntityManager getEntityManager() {
-        if (em == null) {
-            em = getEntityManagerFactory().createEntityManager();
-        }
-        return em;
-    }
-
-    private EntityManagerFactory getEntityManagerFactory() {
-        if (emf == null) {
-            HashMap properties = new HashMap();
-            properties.put(PersistenceUnitProperties.CLASSLOADER, this.getClass().getClassLoader());
-            emf = new PersistenceProvider().createEntityManagerFactory("skysail.server.um", properties);
-        }
-        return emf;
-    }
+//    private EntityManager getEntityManager() {
+//        if (em == null) {
+//            em = getEntityManagerFactory().createEntityManager();
+//        }
+//        return em;
+//    }
+//
+//    private EntityManagerFactory getEntityManagerFactory() {
+//        if (emf == null) {
+//            HashMap properties = new HashMap();
+//            properties.put(PersistenceUnitProperties.CLASSLOADER, this.getClass().getClassLoader());
+//            //emf = new PersistenceProvider().createEntityManagerFactory("skysail.server.um", properties);
+//        }
+//        return emf;
+//    }
 
 }

@@ -17,46 +17,29 @@
 
 package de.twenty11.skysail.server.um.internal;
 
-import java.util.HashMap;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import org.eclipse.persistence.config.PersistenceUnitProperties;
-import org.eclipse.persistence.jpa.osgi.PersistenceProvider;
 
 public class RoleService {
 
-    private EntityManagerFactory emf;
-    private EntityManager em;
+    private static EntityManagerFactory emf;
 
     public SkysailRole getRole(int i) {
-        EntityManager em = getEntityManager();
-        return em.find(SkysailRole.class, i);
-    }
-
-    // private static EntityManager getEntityManager() {
-    // ConfigService configService = ServiceProvider.getConfigService();
-    // Properties properties = configService.getProperties("skysail.defaultDb.");
-    // properties.put(PersistenceUnitProperties.CLASSLOADER, RoleService.class.getClassLoader());
-    // EntityManagerFactory emf = new PersistenceProvider()
-    // .createEntityManagerFactory("skysail.server.um", properties);
-    // return emf.createEntityManager();
-    // }
-
-    private EntityManager getEntityManager() {
-        if (em == null) {
-            em = getEntityManagerFactory().createEntityManager();
+        EntityManager em = emf.createEntityManager();
+        try {
+            //em.getTransaction().begin();
+            return em.find(SkysailRole.class,i);
+            //em.getTransaction().commit();
+        } finally {
+            em.close();
         }
-        return em;
     }
 
-    private EntityManagerFactory getEntityManagerFactory() {
-        if (emf == null) {
-            HashMap properties = new HashMap();
-            properties.put(PersistenceUnitProperties.CLASSLOADER, this.getClass().getClassLoader());
-            emf = new PersistenceProvider().createEntityManagerFactory("skysail.server.um", properties);
-        }
-        return emf;
+    public static void setEmf(EntityManagerFactory entityManagerFactory) {
+        emf = entityManagerFactory;
     }
+
+
+
 }

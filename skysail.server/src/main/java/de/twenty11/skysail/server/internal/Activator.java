@@ -17,20 +17,12 @@
 
 package de.twenty11.skysail.server.internal;
 
-import java.util.HashMap;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
-import org.eclipse.persistence.config.PersistenceUnitProperties;
-import org.eclipse.persistence.jpa.osgi.PersistenceProvider;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleListener;
 import org.osgi.framework.FrameworkListener;
 import org.osgi.framework.ServiceListener;
 
-import de.twenty11.skysail.server.LoginEvent2;
 import de.twenty11.skysail.server.listener.SkysailServerBundleListener;
 import de.twenty11.skysail.server.listener.SkysailServerFrameworkListener;
 import de.twenty11.skysail.server.listener.SkysailServerServiceListener;
@@ -55,8 +47,7 @@ public class Activator implements BundleActivator {
     /** a skysail server global bundle listener. */
     private ServiceListener serviceListener = new SkysailServerServiceListener();
 
-    private EntityManagerFactory emf;
-    private EntityManager em;
+   
 
     /** {@inheritDoc} */
     public final void start(final BundleContext context) throws Exception {
@@ -68,31 +59,31 @@ public class Activator implements BundleActivator {
         context.addServiceListener(serviceListener);
     }
 
-    private EntityManager getEntityManager() {
-        if (em == null) {
-            em = getEntityManagerFactory().createEntityManager();
-        }
-        return em;
-    }
-
-    private EntityManagerFactory getEntityManagerFactory() {
-        if (emf == null) {
-            HashMap properties = new HashMap();
-            properties.put(PersistenceUnitProperties.CLASSLOADER, this.getClass().getClassLoader());
-            emf = new PersistenceProvider().createEntityManagerFactory("SkysailPU", properties);
-        }
-        return emf;
-    }
+//    private EntityManager getEntityManager() {
+//        if (em == null) {
+//            em = getEntityManagerFactory().createEntityManager();
+//        }
+//        return em;
+//    }
+//
+//    private EntityManagerFactory getEntityManagerFactory() {
+//        if (emf == null) {
+//            HashMap properties = new HashMap();
+//            properties.put(PersistenceUnitProperties.CLASSLOADER, this.getClass().getClassLoader());
+//            //emf = new PersistenceProvider().createEntityManagerFactory("SkysailPU", properties);
+//        }
+//        return emf;
+//    }
 
     /** {@inheritDoc} */
     public final void stop(final BundleContext context) throws Exception {
 
-        EntityManager em = getEntityManager();
-        em.getTransaction().begin();
-        em.persist(new LoginEvent2());
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
+//        EntityManager em = getEntityManager();
+//        em.getTransaction().begin();
+//        em.persist(new LoginEvent2());
+//        em.getTransaction().commit();
+//        em.close();
+//        emf.close();
 
         // clean up
         context.removeFrameworkListener(frameworkLister);

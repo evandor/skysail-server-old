@@ -17,43 +17,62 @@
 
 package de.twenty11.skysail.server.um.internal;
 
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import org.apache.commons.dbcp.BasicDataSource;
-import org.eclipse.persistence.config.PersistenceUnitProperties;
-import org.eclipse.persistence.jpa.osgi.PersistenceProvider;
+import org.osgi.service.component.ComponentContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.config.Configuration;
-import de.twenty11.skysail.server.services.EntityManagerProvider;
+public class SkysailEntityManagerProvider {
 
-public class SkysailEntityManagerProvider implements EntityManagerProvider {
+    /** slf4j based logger. */
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private EntityManagerFactory emf;
 
-    public SkysailEntityManagerProvider() {
-        // TODO Auto-generated constructor stub
+    protected void activate(final ComponentContext component) {
+        logger.info("activating component in {}", component.getBundleContext().getBundle().getSymbolicName());
+        try {
+            EntityManager em = emf.createEntityManager();
+            validateDefaultRole(em);
+            validateDefaultUser(em);
+            em.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
-    @Override
-    public EntityManager getEntityManager(String persistenceUnit) {
-        return getEntityManagerFactory(persistenceUnit);
+
+    public void setEntityManager(EntityManagerFactory emf) {
+        this.emf = emf;
+        RoleService.setEmf(emf);
     }
 
-    private EntityManager getEntityManagerFactory(String unit) {
-        HashMap properties = new HashMap();
-        
-        BasicDataSource defaultDS = Configuration.getDefaultDS();
-        properties.put(PersistenceUnitProperties.CLASSLOADER, this.getClass().getClassLoader());
-
-        properties.put(PersistenceUnitProperties.JDBC_USER, defaultDS.getUsername());
-        properties.put(PersistenceUnitProperties.JDBC_PASSWORD, defaultDS.getPassword());
-        properties.put(PersistenceUnitProperties.JDBC_URL, defaultDS.getUrl());
-        properties.put(PersistenceUnitProperties.JDBC_DRIVER, defaultDS.getDriverClassName());
-        
-        EntityManagerFactory emf = new PersistenceProvider().createEntityManagerFactory(unit, properties);
-        emf.getProperties();
-//        emf.createEntityManager().get
-        return emf.createEntityManager();
+    private void validateDefaultRole(EntityManager em) {
+        em.getTransaction().begin();
+        SkysailRole adminrole = new SkysailRole();
+        adminrole.setRolename("administrator");
+        adminrole.setId(1);
+        em.persist(adminrole);
+        em.getTransaction().commit();
     }
+
+    private void validateDefaultUser(EntityManager em) {
+        em.getTransaction().begin();
+        SkysailRole role = new RoleService().getRole(1);
+        Set<SkysailRole> roles = new HashSet<SkysailRole>();
+        roles.add(role);
+
+        SkysailUser admin = new SkysailUser();
+        admin.setLogin("admin");
+        admin.setPassword("admin");
+        admin.setId(1);
+
+        admin.setRoles(roles);
+        em.persist(admin);
+        em.getTransaction().commit();
+    }
+
 }
