@@ -1,2 +1,4 @@
 /src-gen
 /target
+/skysailDerbyTestDb
+/derby.log
