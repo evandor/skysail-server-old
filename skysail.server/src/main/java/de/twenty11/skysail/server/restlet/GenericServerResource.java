@@ -58,14 +58,6 @@ public class GenericServerResource<T> extends SkysailServerResource2<T> {
 
     private int totalResults;
 
-    /**
-     * @param data
-     *            the skysail data backing up the resource.
-     */
-    public GenericServerResource(ColumnsBuilder builder) {
-        super();
-    }
-
     public void buildGrid() {
         logger.error("you should implement a subclass of GridDataServerResource and overwrite method filterData");
     }

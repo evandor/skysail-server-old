@@ -3,12 +3,12 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>de.twentyeleven.skysail</groupId>
-        <artifactId>skysail.build.maven.parentPom</artifactId>
-        <version>0.8.15-SNAPSHOT</version>
-        <relativePath />
-    </parent>
+	<parent>
+		<groupId>de.twentyeleven.skysail</groupId>
+		<artifactId>skysail.build.maven.parentPom</artifactId>
+		<version>0.8.16-SNAPSHOT</version>
+		<relativePath />
+	</parent>
 
 	<artifactId>skysail.server.um</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -21,10 +21,10 @@
 		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
 	</scm>
 
-    <properties>
-        <skysail.common.version>[0.3.8-SNAPSHOT, 1.0)</skysail.common.version>
-        <skysail.server.version>[0.2.6-SNAPSHOT, 1.0)</skysail.server.version>
-    </properties>
+	<properties>
+		<skysail.common.version>[0.3.8-SNAPSHOT, 1.0)</skysail.common.version>
+		<skysail.server.version>[0.2.6-SNAPSHOT, 1.0)</skysail.server.version>
+	</properties>
 
 	<build>
 		<plugins>
@@ -33,7 +33,6 @@
 				<artifactId>maven-bundle-plugin</artifactId>
 				<extensions>true</extensions>
 				<configuration>
-                    <!-- <manifestLocation>META-INF</manifestLocation> -->
 					<instructions>
 						<_include>-osgi.bnd</_include>
 					</instructions>
@@ -43,13 +42,43 @@
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>de.twentyeleven.skysail</groupId>
+			<artifactId>skysail.common</artifactId>
+			<version>0.3.8-SNAPSHOT</version>
+			<type>bundle</type>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>javax.persistence</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit-dep</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.core </artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>de.twentyeleven.skysail</groupId>
-            <artifactId>skysail.server</artifactId>
-            <version>${skysail.server.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>10.8.2.2</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
+
 
 </project>
