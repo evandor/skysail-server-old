@@ -5,7 +5,7 @@
 	<persistence-unit name="skysail.server.um"
 		transaction-type="RESOURCE_LOCAL">
 		<class>de.twenty11.skysail.server.um.internal.SkysailClient</class>
-        <class>de.twenty11.skysail.server.um.internal.SkysailUser</class>
+        <class>de.twenty11.skysail.common.um.SkysailUser</class>
         <class>de.twenty11.skysail.server.um.internal.SkysailRole</class>
         <class>de.twenty11.skysail.server.um.internal.SkysailPermission</class>
 		<!-- <exclude-unlisted-classes>false</exclude-unlisted-classes> -->

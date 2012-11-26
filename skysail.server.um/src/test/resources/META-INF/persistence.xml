@@ -4,7 +4,7 @@
 	version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
 	<persistence-unit name="testPU" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<class>de.twenty11.skysail.server.um.internal.SkysailUser</class>
+		<class>de.twenty11.skysail.common.um.SkysailUser</class>
 		<!-- <exclude-unlisted-classes>false</exclude-unlisted-classes> -->
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />

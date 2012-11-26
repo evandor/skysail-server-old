@@ -7,7 +7,7 @@ import javax.persistence.Persistence;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.twenty11.skysail.server.um.internal.SkysailUser;
+import de.twenty11.skysail.common.um.SkysailUser;
 
 public class SkysailUserTest {
 
