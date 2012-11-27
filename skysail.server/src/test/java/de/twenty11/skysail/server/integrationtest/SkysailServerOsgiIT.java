@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.Option;
@@ -53,6 +54,7 @@ public class SkysailServerOsgiIT {
     }
 
     @Test
+    @Ignore
     public void shouldFindCommonBundleInActiveState() {
         Bundle skysailServerBundle = getBundleForSymbolicName("skysail.server");
         assertTrue(skysailServerBundle != null);
@@ -61,6 +63,7 @@ public class SkysailServerOsgiIT {
     }
 
     @Test
+    @Ignore
     public void shouldFindSkysailDatasourceService() {
         Bundle bundle = getBundleForSymbolicName("skysail.server");
         ServiceReference skysailDatasourceReference = context

@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.restlet.engine.resource.AnnotationInfo;
+
 public class RequestInfo extends DocumentedInfo {
 
     /** List of parameters. */
     private List<ParameterInfo> parameters;
+    private List<RepresentationInfo> representations;
 
     /** List of supported input representations. */
 //    private List<RepresentationInfo> representations;
@@ -73,19 +76,19 @@ public class RequestInfo extends DocumentedInfo {
      * 
      * @return The list of supported input representations.
      */
-//    public List<RepresentationInfo> getRepresentations() {
-//        // Lazy initialization with double-check.
-//        List<RepresentationInfo> r = this.representations;
-//        if (r == null) {
-//            synchronized (this) {
-//                r = this.representations;
-//                if (r == null) {
-//                    this.representations = r = new ArrayList<RepresentationInfo>();
-//                }
-//            }
-//        }
-//        return r;
-//    }
+    public List<RepresentationInfo> getRepresentations() {
+        // Lazy initialization with double-check.
+        List<RepresentationInfo> r = this.representations;
+        if (r == null) {
+            synchronized (this) {
+                r = this.representations;
+                if (r == null) {
+                    this.representations = r = new ArrayList<RepresentationInfo>();
+                }
+            }
+        }
+        return r;
+    }
 
     /**
      * Sets the list of parameters.
@@ -104,5 +107,4 @@ public class RequestInfo extends DocumentedInfo {
         
     }
    
-
 }

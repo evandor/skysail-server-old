@@ -1,6 +1,15 @@
 package de.twenty11.skysail.server.restlet;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import org.restlet.data.MediaType;
+import org.restlet.data.Method;
+import org.restlet.data.Reference;
+import org.restlet.resource.Directory;
+import org.restlet.resource.ServerResource;
 
 public class ResourceInfo extends DocumentedInfo {
 
@@ -31,12 +40,12 @@ public class ResourceInfo extends DocumentedInfo {
             ((ServerResource) resource).updateAllowedMethods();
             methodsList.addAll(((ServerResource) resource).getAllowedMethods());
 
-            if (resource instanceof WadlServerResource) {
-                info.setParameters(((WadlServerResource) resource)
+            if (resource instanceof SkysailServerResource2) {
+                info.setParameters(((SkysailServerResource2) resource)
                         .describeParameters());
 
                 if (applicationInfo != null) {
-                    ((WadlServerResource) resource).describe(applicationInfo);
+                    ((SkysailServerResource2) resource).describe(applicationInfo);
                 }
             }
         } else if (resource instanceof Directory) {
@@ -61,12 +70,12 @@ public class ResourceInfo extends DocumentedInfo {
             methodInfo.setName(method);
 
             if (resource instanceof ServerResource) {
-                if (resource instanceof WadlServerResource) {
-                    WadlServerResource wsResource = (WadlServerResource) resource;
+                if (resource instanceof SkysailServerResource2) {
+                    SkysailServerResource2 wsResource = (SkysailServerResource2) resource;
 
-                    if (wsResource.canDescribe(method)) {
+                    //if (wsResource.canDescribe(method)) {
                         wsResource.describeMethod(method, methodInfo);
-                    }
+                    //}
                 } else {
                     MethodInfo.describeAnnotations(methodInfo,
                             (ServerResource) resource);
@@ -78,9 +87,9 @@ public class ResourceInfo extends DocumentedInfo {
         String title = null;
         String textContent = null;
 
-        if (resource instanceof WadlServerResource) {
-            title = ((WadlServerResource) resource).getName();
-            textContent = ((WadlServerResource) resource).getDescription();
+        if (resource instanceof SkysailServerResource2) {
+//            title = ((SkysailServerResource2) resource).getName();
+//            textContent = ((SkysailServerResource2) resource).getDescription();
         }
 
         if ((title != null) && !"".equals(title)) {
@@ -94,7 +103,7 @@ public class ResourceInfo extends DocumentedInfo {
             }
 
             doc.setTitle(title);
-            doc.setTextContent(textContent);
+            //doc.setTextContent(textContent);
         }
     }
 
@@ -184,7 +193,7 @@ public class ResourceInfo extends DocumentedInfo {
         }
 
         ResourcesInfo resources = new ResourcesInfo();
-        result.setResources(resources);
+        //result.setResources(resources);
         resources.getResources().add(this);
         return result;
     }
@@ -367,82 +376,7 @@ public class ResourceInfo extends DocumentedInfo {
     public void updateNamespaces(Map<String, String> namespaces) {
         namespaces.putAll(resolveNamespaces());
 
-        for (final ParameterInfo parameterInfo : getParameters()) {
-            parameterInfo.updateNamespaces(namespaces);
-        }
-        for (final ResourceInfo resourceInfo : getChildResources()) {
-            resourceInfo.updateNamespaces(namespaces);
-        }
-        for (final MethodInfo methodInfo : getMethods()) {
-            methodInfo.updateNamespaces(namespaces);
-        }
     }
 
-    /**
-     * Writes the current object as an XML element using the given SAX writer.
-     * 
-     * @param writer
-     *            The SAX writer.
-     * @throws SAXException
-     */
-    public void writeElement(XmlWriter writer) throws SAXException {
-        final AttributesImpl attributes = new AttributesImpl();
-        if ((getIdentifier() != null) && !getIdentifier().equals("")) {
-            attributes.addAttribute("", "id", null, "xs:ID", getIdentifier());
-        }
-
-        if ((getPath() != null) && !getPath().equals("")) {
-            attributes.addAttribute("", "path", null, "xs:string", getPath());
-        }
-
-        if (getQueryType() != null) {
-            attributes.addAttribute("", "queryType", null, "xs:string",
-                    getQueryType().getMainType());
-        }
-        if ((getType() != null) && !getType().isEmpty()) {
-            final StringBuilder builder = new StringBuilder();
-            for (final Iterator<Reference> iterator = getType().iterator(); iterator
-                    .hasNext();) {
-                final Reference reference = iterator.next();
-                builder.append(reference.toString());
-                if (iterator.hasNext()) {
-                    builder.append(" ");
-                }
-            }
-            attributes.addAttribute("", "type", null, "xs:string", builder
-                    .toString());
-        }
-
-        if (getChildResources().isEmpty() && getDocumentations().isEmpty()
-                && getMethods().isEmpty() && getParameters().isEmpty()) {
-            writer.emptyElement(APP_NAMESPACE, "resource", null, attributes);
-        } else {
-            writer.startElement(APP_NAMESPACE, "resource", null, attributes);
-
-            for (final ResourceInfo resourceInfo : getChildResources()) {
-                resourceInfo.writeElement(writer);
-            }
-
-            for (final DocumentationInfo documentationInfo : getDocumentations()) {
-                documentationInfo.writeElement(writer);
-            }
-
-            for (final ParameterInfo parameterInfo : getParameters()) {
-                parameterInfo.writeElement(writer);
-            }
-
-            for (final MethodInfo methodInfo : getMethods()) {
-                methodInfo.writeElement(writer);
-            }
-
-            writer.endElement(APP_NAMESPACE, "resource");
-        }
-    }
-
-    @Override
-    public void updateNamespaces(Map<String, String> namespaces) {
-        // TODO Auto-generated method stub
-        
-    }
 
 }

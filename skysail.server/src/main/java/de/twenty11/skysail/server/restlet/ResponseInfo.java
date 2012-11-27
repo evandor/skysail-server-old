@@ -160,52 +160,6 @@ public class ResponseInfo extends DocumentedInfo {
         }
     }
 
-    /**
-     * Writes the current object as an XML element using the given SAX writer.
-     * 
-     * @param writer
-     *            The SAX writer.
-     * @throws SAXException
-     */
-    public void writeElement(XmlWriter writer) throws SAXException {
-        AttributesImpl attributes = new AttributesImpl();
-
-        if ((getStatuses() != null) && !getStatuses().isEmpty()) {
-            StringBuilder builder = new StringBuilder();
-
-            for (Iterator<Status> iterator = getStatuses().iterator(); iterator
-                    .hasNext();) {
-                Status status = iterator.next();
-                builder.append(status.getCode());
-                if (iterator.hasNext()) {
-                    builder.append(" ");
-                }
-            }
-
-            attributes.addAttribute("", "status", null, "xs:string", builder
-                    .toString());
-        }
-
-        if (getDocumentations().isEmpty() && getParameters().isEmpty()
-                && getRepresentations().isEmpty()) {
-            writer.emptyElement(APP_NAMESPACE, "response", null, attributes);
-        } else {
-            writer.startElement(APP_NAMESPACE, "response", null, attributes);
-
-            for (DocumentationInfo documentationInfo : getDocumentations()) {
-                documentationInfo.writeElement(writer);
-            }
-
-            for (ParameterInfo parameterInfo : getParameters()) {
-                parameterInfo.writeElement(writer);
-            }
-
-            for (RepresentationInfo representationInfo : getRepresentations()) {
-                representationInfo.writeElement(writer);
-            }
-
-            writer.endElement(APP_NAMESPACE, "response");
-        }
-    }
+    
 
 }

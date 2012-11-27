@@ -17,23 +17,18 @@
 
 package de.twenty11.skysail.server.restlet;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.restlet.Restlet;
-import org.restlet.data.MediaType;
 import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.filters.Filter;
-import de.twenty11.skysail.common.grids.ColumnsBuilder;
-import de.twenty11.skysail.common.grids.GridData;
-import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.server.services.ConfigService;
+import de.twenty11.skysail.common.responses.FailureResponse;
+import de.twenty11.skysail.common.responses.Response;
+import de.twenty11.skysail.common.responses.SuccessResponse;
 
 /**
- * An class dealing with common functionality for a skysail server resource which is backed-up by a GridData object.
+ * An class dealing with common functionality for a skysail server resource..
  * 
  * The class is not abstract in order to let jackson deserialize json requests more easily.
  * 
@@ -62,82 +57,18 @@ public class GenericServerResource<T> extends SkysailServerResource2<T> {
         logger.error("you should implement a subclass of GridDataServerResource and overwrite method filterData");
     }
 
-    public int handlePagination() {
-        return doHandlePagination("skysail.server.osgi.bundles.entriesPerPage", 15);
-    }
-
-    /**
-     * Implementors of this class have to provide skysailData which will be used to create a restlet representation.
-     * Which type of representation (json, xml, ...) will be returned depends on the request details.
-     * 
-     * @return Type extending SkysailData
-     * 
-     */
-    public final T getFilteredData() {
-
-        // get the data, applying the current filter
-        buildGrid();
-
-        // sort the results
-        //sort();
-
-        // handle Page size and pagination
-        int pageSize = handlePagination();
-        setPageSize(pageSize);
-        // how many results do we have (all pages)
-        //setTotalResults(getSkysailData().getSize());
-
-        // get results for current page
-        return getSkysailData();//currentPageResults(pageSize);
-    }
-
-    public void setResponseDetails(SkysailResponse<GridData> response, MediaType mediaType) {
-        if (response.getMessage() == null || response.getMessage().trim().equals("")) {
-            response.setMessage(getMessage());
-        }
-        response.setTotalResults(getTotalResults());
-        response.setPage(getCurrentPage());
-        response.setPageSize(getPageSize());
-        response.setRequest(getRequest().getOriginalRef() != null ? getRequest().getOriginalRef().toString() : null);
-        response.setParent(getParent() + "?media=" + mediaType.toString().replace("application/", ""));
-        response.setContextPath("/rest/");
-        response.setFilter(getFilter() != null ? getFilter().toString() : "");
-        //response.setSortingRepresentation(getSorting());
-        if (getQuery() != null && getQuery().getNames().contains("debug")) {
-            response.setDebug(true);
+    protected Response<T> getEntities(T data) {
+        try {
+            return new SuccessResponse<T>(data);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return new FailureResponse<T>(e);
         }
     }
-
-    protected int doHandlePagination(String configIdentifier, int defaultSize) {
-        int pageSize = 20;
-        String firstValue = getQuery() != null ? getQuery().getFirstValue("page", "1") : "1";
-        int page = Integer.parseInt(firstValue);
-        setCurrentPage(page);
-
-        ConfigService configService = null;// ConfigServiceProvider.getConfigService();
-        String pageSizeFromProperties = null;
-        if (configService != null) {
-            pageSizeFromProperties = configService.getString(configIdentifier);
-        }
-        if (pageSizeFromProperties != null && pageSizeFromProperties.trim().length() > 0) {
-            pageSize = Integer.parseInt(pageSizeFromProperties);
-        } else {
-            pageSize = defaultSize;
-        }
-        String pageSizeParam = getQuery() != null ? getQuery().getFirstValue("pageSize", null) : null;
-        if (pageSizeParam != null) {
-            pageSize = Integer.parseInt(pageSizeParam);
-        }
-
-        return pageSize;
-    }
-
-    protected Map<String, String> getParamsFromRequest() {
-        Map<String, String> params = new HashMap<String, String>();
-        if (getQuery() != null) {
-            params = getQuery().getValuesMap();
-        }
-        return params;
+    
+    protected Response<T> getEntity(T singleResult) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     public Filter getFilter() {

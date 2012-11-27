@@ -53,8 +53,8 @@ public class MethodInfo extends DocumentedInfo {
                                     info.setRequest(new RequestInfo());
                                 }
 
-                                if (resource instanceof WadlServerResource) {
-                                    representationInfo = ((WadlServerResource) resource)
+                                if (resource instanceof SkysailServerResource2) {
+                                    representationInfo = ((SkysailServerResource2) resource)
                                             .describe(info, info.getRequest(),
                                                     classes[0], variant);
                                 } else {
@@ -85,8 +85,8 @@ public class MethodInfo extends DocumentedInfo {
                                                 .contains(variant)) {
                                     RepresentationInfo representationInfo = null;
 
-                                    if (resource instanceof WadlServerResource) {
-                                        representationInfo = ((WadlServerResource) resource)
+                                    if (resource instanceof SkysailServerResource2) {
+                                        representationInfo = ((SkysailServerResource2) resource)
                                                 .describe(info,
                                                         info.getResponse(),
                                                         outputClass, variant);
