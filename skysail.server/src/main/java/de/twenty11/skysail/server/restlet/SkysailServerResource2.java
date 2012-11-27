@@ -4,7 +4,10 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.restlet.data.Reference;
-import org.restlet.ext.wadl.WadlServerResource;
+import org.restlet.ext.wadl.ApplicationInfo;
+import org.restlet.ext.wadl.ResourceInfo;
+import org.restlet.representation.Representation;
+import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +27,7 @@ import de.twenty11.skysail.common.responses.SuccessResponse;
  * @param <T>
  *            has to extend the marker interface SkysailData.
  */
-public abstract class SkysailServerResource2<T> extends WadlServerResource {
+public abstract class SkysailServerResource2<T> extends ServerResource {
 
     /** slf4j based logger implementation. */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -37,6 +40,18 @@ public abstract class SkysailServerResource2<T> extends WadlServerResource {
 
     /** the payload. */
     private T skysailData;
+
+    /** Resource should be described itself via JSON (when handling OPTIONS request). */
+    private volatile boolean autoDescribing = true;
+
+    /** The description of "self". */
+    private volatile String description;
+
+    /**
+     * The name of this documented resource. Is seen as the title of the "doc" tag of the "resource" element in a WADL
+     * document.
+     */
+    private volatile String name;
 
     public SkysailServerResource2() {
         // TODO Auto-generated constructor stub
@@ -121,6 +136,53 @@ public abstract class SkysailServerResource2<T> extends WadlServerResource {
         if (jsonObject.isNull(key))
             return null;
         return jsonObject.getString(key);
+    }
+
+    // ===
+    // Self describing stuff
+    // ===
+
+    @Override
+    public Representation options() {
+        if (autoDescribing) {
+            return describe();
+        }
+        return null;
+    }
+
+    protected Representation describe() {
+        Representation result = null;
+
+        ResourceInfo resource = new ResourceInfo();
+        describe(resource);
+        ApplicationInfo application = resource.createApplication();
+        describe(application);
+
+        result = createJsonSelfRepresentation(application);
+
+        return result;
+    }
+    
+    public void describe(ResourceInfo info) {
+        describe(getResourcePath(), info);
+    }
+    
+    protected String getResourcePath() {
+        Reference ref = new Reference(getRequest().getRootRef(), getRequest()
+                .getResourceRef());
+        return ref.getRemainingPart();
+    }
+    
+    public void describe(String path, ResourceInfo info) {
+        ResourceInfo.describe(null, info, this, path);
+    }
+    
+    protected void describe(ApplicationInfo applicationInfo) {
+    }
+
+    protected void setName(String string) {
+        // TODO Auto-generated method stub
+
     }
 
 }
