@@ -8,22 +8,81 @@ import java.util.Map;
 import org.restlet.data.MediaType;
 import org.restlet.data.Method;
 import org.restlet.data.Reference;
-import org.restlet.resource.Directory;
 import org.restlet.resource.ServerResource;
 
 public class ResourceInfo extends DocumentedInfo {
 
+    /** List of child resources. */
+    private List<ResourceInfo> childResources;
+
+    /** Identifier for that element. */
+    private String identifier;
+
+    /** List of supported methods. */
+    private List<MethodInfo> methods;
+
+    /** List of parameters. */
+    private List<ParameterInfo> parameters;
+
+    /** URI template for the identifier of the resource. */
+    private String path;
+
+    /** Media type for the query component of the resource URI. */
+    private MediaType queryType;
+
+    /** List of references to resource type elements. */
+    private List<Reference> type;
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("\n ");
+        sb.append("Path: \"").append(path).append("\",\n ");
+        sb.append("Identifier: ").append(identifier).append(",\n ");
+        sb.append("Type: ").append(type).append(",\n ");
+        sb.append("Methods supported: ").append(methods).append("");
+        return sb.toString();
+    }
+    
     /**
-     * Returns a WADL description of the current resource.
+     * Constructor.
+     */
+    public ResourceInfo() {
+        super();
+    }
+
+    /**
+     * Constructor with a single documentation element.
      * 
-     * @param applicationInfo
-     *            The parent application.
-     * @param resource
-     *            The resource to describe.
-     * @param path
-     *            Path of the current resource.
-     * @param info
-     *            WADL description of the current resource to update.
+     * @param documentation
+     *            A single documentation element.
+     */
+    public ResourceInfo(DocumentationInfo documentation) {
+        super(documentation);
+    }
+
+    /**
+     * Constructor with a list of documentation elements.
+     * 
+     * @param documentations
+     *            The list of documentation elements.
+     */
+    public ResourceInfo(List<DocumentationInfo> documentations) {
+        super(documentations);
+    }
+
+    /**
+     * Constructor with a single documentation element.
+     * 
+     * @param documentation
+     *            A single documentation element.
+     */
+    public ResourceInfo(String documentation) {
+        super(documentation);
+    }
+
+    /**
+     * Returns a JSON description of the current resource.
+     * 
      */
     public static void describe(ApplicationInfo applicationInfo,
             ResourceInfo info, Object resource, String path) {
@@ -47,14 +106,6 @@ public class ResourceInfo extends DocumentedInfo {
                 if (applicationInfo != null) {
                     ((SkysailServerResource2) resource).describe(applicationInfo);
                 }
-            }
-        } else if (resource instanceof Directory) {
-            Directory directory = (Directory) resource;
-            methodsList.add(Method.GET);
-
-            if (directory.isModifiable()) {
-                methodsList.add(Method.DELETE);
-                methodsList.add(Method.PUT);
             }
         }
 
@@ -107,63 +158,6 @@ public class ResourceInfo extends DocumentedInfo {
         }
     }
 
-    /** List of child resources. */
-    private List<ResourceInfo> childResources;
-
-    /** Identifier for that element. */
-    private String identifier;
-
-    /** List of supported methods. */
-    private List<MethodInfo> methods;
-
-    /** List of parameters. */
-    private List<ParameterInfo> parameters;
-
-    /** URI template for the identifier of the resource. */
-    private String path;
-
-    /** Media type for the query component of the resource URI. */
-    private MediaType queryType;
-
-    /** List of references to resource type elements. */
-    private List<Reference> type;
-
-    /**
-     * Constructor.
-     */
-    public ResourceInfo() {
-        super();
-    }
-
-    /**
-     * Constructor with a single documentation element.
-     * 
-     * @param documentation
-     *            A single documentation element.
-     */
-    public ResourceInfo(DocumentationInfo documentation) {
-        super(documentation);
-    }
-
-    /**
-     * Constructor with a list of documentation elements.
-     * 
-     * @param documentations
-     *            The list of documentation elements.
-     */
-    public ResourceInfo(List<DocumentationInfo> documentations) {
-        super(documentations);
-    }
-
-    /**
-     * Constructor with a single documentation element.
-     * 
-     * @param documentation
-     *            A single documentation element.
-     */
-    public ResourceInfo(String documentation) {
-        super(documentation);
-    }
 
     /**
      * Creates an application descriptor that wraps this resource descriptor.
@@ -193,7 +187,7 @@ public class ResourceInfo extends DocumentedInfo {
         }
 
         ResourcesInfo resources = new ResourcesInfo();
-        //result.setResources(resources);
+        result.setResources(resources);
         resources.getResources().add(this);
         return result;
     }

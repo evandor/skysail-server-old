@@ -20,16 +20,27 @@ public class ApplicationInfo extends DocumentedInfo {
     private Map<String, String> namespaces;
 
     /** List of representations. */
-    //private List<RepresentationInfo> representations;
+    private List<RepresentationInfo> representations;
 
     /** Resources provided by the application. */
-    //private ResourcesInfo resources;
+    private ResourcesInfo resources;
 
     /**
      * Describes a set of methods that define the behavior of a type of
      * resource.
      */
     //private List<ResourceTypeInfo> resourceTypes;
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("");
+        sb.append("Methods: ").append(methods).append(",");
+        sb.append(resources).append(" ");
+//        sb.append("Style: ").append(style).append(", ");
+//        sb.append("Type: ").append(type).append(", ");
+//        sb.append("Required: ").append(required).append("]");
+        return sb.toString();
+    }
 
     /**
      * Constructor.
@@ -120,19 +131,19 @@ public class ApplicationInfo extends DocumentedInfo {
      * 
      * @return The list of representation elements.
      */
-//    public List<RepresentationInfo> getRepresentations() {
-//        // Lazy initialization with double-check.
-//        List<RepresentationInfo> r = this.representations;
-//        if (r == null) {
-//            synchronized (this) {
-//                r = this.representations;
-//                if (r == null) {
-//                    this.representations = r = new ArrayList<RepresentationInfo>();
-//                }
-//            }
-//        }
-//        return r;
-//    }
+    public List<RepresentationInfo> getRepresentations() {
+        // Lazy initialization with double-check.
+        List<RepresentationInfo> r = this.representations;
+        if (r == null) {
+            synchronized (this) {
+                r = this.representations;
+                if (r == null) {
+                    this.representations = r = new ArrayList<RepresentationInfo>();
+                }
+            }
+        }
+        return r;
+    }
 
     /**
      * Returns the resources root element.
@@ -181,7 +192,21 @@ public class ApplicationInfo extends DocumentedInfo {
 //    public void setGrammars(GrammarsInfo grammars) {
 //        this.grammars = grammars;
 //    }
+    
+    /**
+     * Sets the list of resource elements.
+     * 
+     * @param resources
+     *            The list of resource elements.
+     */
+    public void setResources(ResourcesInfo resources) {
+        this.resources = resources;
+    }
 
+    public void setRepresentations(List<RepresentationInfo> representations) {
+        this.representations = representations;
+    }
+    
     /**
      * Sets the list of documentation elements.
      * 

@@ -36,12 +36,15 @@ import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.common.MapData;
 import de.twenty11.skysail.common.SkysailData;
 import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.Response;
+import de.twenty11.skysail.common.responses.SkysailFailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
+import de.twenty11.skysail.common.responses.SkysailSuccessResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 
 /**
@@ -88,9 +91,11 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         return doHandlePagination("skysail.server.osgi.bundles.entriesPerPage", 15);
     }
 
-    protected Response<List<T>> getEntities(List<T> data) {
+    protected Response<List<T>> getEntities(List<T> data, String msg) {
         try {
-            return new SuccessResponse<List<T>>(data);
+            SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data);
+            successResponse.setMessage(msg);
+            return successResponse;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return new FailureResponse<List<T>>(e);
@@ -105,6 +110,20 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
             return new FailureResponse<T>(e);
         }
     }
+
+    protected Response<String> deleteEntity(EntityManager em, T entity) {
+        try {
+            em.remove(entity);
+            SuccessResponse<String> response = new SuccessResponse<String>();
+            response.setMessage("deleted entity '" + entity + "'");
+            return response;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return new FailureResponse<String>(e);
+        }
+    }
+
+    
     protected Response<?> addEntity(EntityManager em, T entity, Set<ConstraintViolation<T>> constraintViolations) {
         if (constraintViolations.size() > 0) {
             logger.warn("contraint violations found on {}: {}", entity, constraintViolations);

@@ -45,6 +45,19 @@ public class ParameterInfo extends DocumentedInfo {
     /** Parameter type. */
     private String type;
 
+    
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("['");
+        sb.append(identifier).append("', ");
+        sb.append("Name: ").append(name).append("', ");
+        sb.append("Path: ").append(path).append(", ");
+        sb.append("Style: ").append(style).append(", ");
+        sb.append("Type: ").append(type).append(", ");
+        sb.append("Required: ").append(required).append("]");
+        return sb.toString();
+    }
+
     /**
      * Constructor.
      */

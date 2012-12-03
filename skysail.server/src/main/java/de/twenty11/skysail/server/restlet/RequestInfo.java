@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.restlet.engine.resource.AnnotationInfo;
-
 public class RequestInfo extends DocumentedInfo {
 
     /** List of parameters. */
@@ -14,6 +12,14 @@ public class RequestInfo extends DocumentedInfo {
 
     /** List of supported input representations. */
 //    private List<RepresentationInfo> representations;
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("\n    [");
+        sb.append("Parameters: ").append(parameters).append(",\n     ");
+        sb.append("#Representations: ").append(representations.size()).append("]");
+        return sb.toString();
+    }
 
     /**
      * Constructor.

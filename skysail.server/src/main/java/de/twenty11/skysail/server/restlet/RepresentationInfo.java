@@ -28,6 +28,16 @@ public class RepresentationInfo extends DocumentedInfo {
     /** Qualified name of the root element for this XML-based representation. */
     private String xmlElement;
 
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("\n    ['");
+        sb.append(identifier).append("', ");
+        sb.append("MediaType: ").append(mediaType).append(", ");
+        sb.append("Parameters: ").append(parameters).append(", ");
+        sb.append("Reference: ").append(reference).append("]");
+        return sb.toString();
+    }
+
     /**
      * Constructor.
      */

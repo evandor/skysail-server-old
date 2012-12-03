@@ -15,6 +15,68 @@ import org.restlet.service.MetadataService;
 
 public class MethodInfo extends DocumentedInfo {
 
+    /** Identifier for the method. */
+    private String identifier;
+
+    /** Name of the method. */
+    private Method name;
+
+    /** Describes the input to the method. */
+    private RequestInfo request;
+
+    /** Describes the output of the method. */
+    private List<ResponseInfo> responses;
+
+    /** Reference to a method definition element. */
+    private Reference targetRef;
+
+    /**
+     * Constructor.
+     */
+    public MethodInfo() {
+        super();
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("\n  ['");
+        sb.append(name).append("',\n   ");
+        sb.append("RequestInfo: ").append(request).append(",\n   ");
+        sb.append("Responses: ").append(responses).append(",\n   ");
+        sb.append("TargetRef: ").append(targetRef).append("\n  ]");
+        return sb.toString();
+    }
+
+    /**
+     * Constructor with a single documentation element.
+     * 
+     * @param documentation
+     *            A single documentation element.
+     */
+    public MethodInfo(DocumentationInfo documentation) {
+        super(documentation);
+    }
+
+    /**
+     * Constructor with a list of documentation elements.
+     * 
+     * @param documentations
+     *            The list of documentation elements.
+     */
+    public MethodInfo(List<DocumentationInfo> documentations) {
+        super(documentations);
+    }
+
+    /**
+     * Constructor with a single documentation element.
+     * 
+     * @param documentation
+     *            A single documentation element.
+     */
+    public MethodInfo(String documentation) {
+        super(documentation);
+    }
+    
     /**
      * Automatically describe a method by discovering the resource's
      * annotations.
@@ -104,58 +166,6 @@ public class MethodInfo extends DocumentedInfo {
                 }
             }
         }
-    }
-
-    /** Identifier for the method. */
-    private String identifier;
-
-    /** Name of the method. */
-    private Method name;
-
-    /** Describes the input to the method. */
-    private RequestInfo request;
-
-    /** Describes the output of the method. */
-    private List<ResponseInfo> responses;
-
-    /** Reference to a method definition element. */
-    private Reference targetRef;
-
-    /**
-     * Constructor.
-     */
-    public MethodInfo() {
-        super();
-    }
-
-    /**
-     * Constructor with a single documentation element.
-     * 
-     * @param documentation
-     *            A single documentation element.
-     */
-    public MethodInfo(DocumentationInfo documentation) {
-        super(documentation);
-    }
-
-    /**
-     * Constructor with a list of documentation elements.
-     * 
-     * @param documentations
-     *            The list of documentation elements.
-     */
-    public MethodInfo(List<DocumentationInfo> documentations) {
-        super(documentations);
-    }
-
-    /**
-     * Constructor with a single documentation element.
-     * 
-     * @param documentation
-     *            A single documentation element.
-     */
-    public MethodInfo(String documentation) {
-        super(documentation);
     }
 
     /**

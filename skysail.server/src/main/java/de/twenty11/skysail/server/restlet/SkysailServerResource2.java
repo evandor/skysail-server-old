@@ -85,6 +85,10 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
     // Self describing stuff
     // ===
 
+    public void setAutoDescribing(boolean autoDescribed) {
+        this.autoDescribing = autoDescribed;
+    }
+    
     @Override
     public Representation options() {
         if (autoDescribing) {
@@ -126,9 +130,20 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
     protected void describe(ApplicationInfo applicationInfo) {
     }
 
-    protected void setName(String string) {
-        // TODO Auto-generated method stub
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
+    public void setName(String string) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public String getDescription() {
+        return description;
     }
 
     public List<ParameterInfo> describeParameters() {

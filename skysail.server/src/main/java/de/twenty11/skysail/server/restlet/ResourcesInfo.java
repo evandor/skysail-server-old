@@ -19,7 +19,7 @@ public class ResourcesInfo extends DocumentedInfo {
     public ResourcesInfo() {
         super();
     }
-
+    
     /**
      * Constructor with a single documentation element.
      * 
@@ -48,6 +48,13 @@ public class ResourcesInfo extends DocumentedInfo {
      */
     public ResourcesInfo(String documentation) {
         super(documentation);
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("\n");
+        sb.append("Resources: ").append(resources).append("");
+        return sb.toString();
     }
 
     /**
