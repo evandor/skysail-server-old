@@ -91,10 +91,13 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         return doHandlePagination("skysail.server.osgi.bundles.entriesPerPage", 15);
     }
 
-    protected Response<List<T>> getEntities(List<T> data, String msg) {
+    protected Response<List<T>> getEntities(List<T> data, String defaultMsg) {
         try {
             SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data);
-            successResponse.setMessage(msg);
+            successResponse.setMessage(defaultMsg);
+            if (this.getMessage() != null && !"".equals(this.getMessage().trim())) {
+                successResponse.setMessage(getMessage());
+            }
             return successResponse;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
