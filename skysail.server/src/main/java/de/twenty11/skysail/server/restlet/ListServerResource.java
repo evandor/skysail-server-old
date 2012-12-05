@@ -18,6 +18,7 @@
 package de.twenty11.skysail.server.restlet;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,15 +37,11 @@ import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.MapData;
-import de.twenty11.skysail.common.SkysailData;
 import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.Response;
-import de.twenty11.skysail.common.responses.SkysailFailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.common.responses.SkysailSuccessResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 
 /**
@@ -127,20 +124,20 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
     }
 
     
-    protected Response<?> addEntity(EntityManager em, T entity, Set<ConstraintViolation<T>> constraintViolations) {
+    protected Response<Set<ConstraintViolation<T>>> addEntity(EntityManager em, T entity, Set<ConstraintViolation<T>> constraintViolations) {
         if (constraintViolations.size() > 0) {
             logger.warn("contraint violations found on {}: {}", entity, constraintViolations);
-            return new FailureResponse(constraintViolations.toString());
+            return new FailureResponse<Set<ConstraintViolation<T>>>(constraintViolations);
         }
         try {
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
             em.close();
-            return new SuccessResponse<SkysailData>();
+            return new SuccessResponse<Set<ConstraintViolation<T>>>(new HashSet<ConstraintViolation<T>>());
         } catch (Exception e) {
             e.printStackTrace();
-            return new FailureResponse(e.getMessage());
+            return new FailureResponse<Set<ConstraintViolation<T>>>(e.getMessage());
         }
 
     }
