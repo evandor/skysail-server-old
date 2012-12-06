@@ -37,6 +37,7 @@ import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.common.ConstraintViolations;
 import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.responses.FailureResponse;
@@ -124,20 +125,21 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
     }
 
     
-    protected Response<Set<ConstraintViolation<T>>> addEntity(EntityManager em, T entity, Set<ConstraintViolation<T>> constraintViolations) {
+    protected Response<ConstraintViolations<T>> addEntity(EntityManager em, T entity, ConstraintViolations<T> constraintViolations) {
         if (constraintViolations.size() > 0) {
+        //if (constraintViolations.getMsg() != null) {
             logger.warn("contraint violations found on {}: {}", entity, constraintViolations);
-            return new FailureResponse<Set<ConstraintViolation<T>>>(constraintViolations);
+            return new FailureResponse<ConstraintViolations<T>>(constraintViolations);
         }
         try {
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
             em.close();
-            return new SuccessResponse<Set<ConstraintViolation<T>>>(new HashSet<ConstraintViolation<T>>());
+            return new SuccessResponse<ConstraintViolations<T>>();
         } catch (Exception e) {
             e.printStackTrace();
-            return new FailureResponse<Set<ConstraintViolation<T>>>(e.getMessage());
+            return new FailureResponse<ConstraintViolations<T>>(e.getMessage());
         }
 
     }
