@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.twentyeleven.skysail</groupId>
+		<artifactId>skysail.build.maven.parentPom</artifactId>
+		<version>0.8.16-SNAPSHOT</version>
+		<relativePath />
+	</parent>
+
+	<artifactId>skysail.server.forms</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>skysail server forms</name>
+	<packaging>bundle</packaging>
+
+	<scm>
+		<connection>scm:git:git@github.com:evandor/skysail-server.git</connection>
+		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
+		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
+	</scm>
+
+	<properties>
+		<skysail.common.version>[0.3.8-SNAPSHOT, 1.0)</skysail.common.version>
+		<skysail.server.version>[0.2.6-SNAPSHOT, 1.0)</skysail.server.version>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<_include>-osgi.bnd</_include>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.twentyeleven.skysail</groupId>
+			<artifactId>skysail.server</artifactId>
+			<version>${skysail.server.version}</version>
+			<type>bundle</type>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit-dep</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+		</dependency>
+	</dependencies>
+
+</project>

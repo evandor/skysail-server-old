@@ -1,0 +1,7 @@
+Bundle-SymbolicName: skysail.server.forms
+Import-Package: de.twenty11.skysail.common.um;version="0.1.0",\
+ *
+Bundle-Activator: de.twenty11.skysail.server.forms.internal.Activator
+Include-Resource: {maven-resources}
+Service-Component: OSGI-INF/*.xml
+
