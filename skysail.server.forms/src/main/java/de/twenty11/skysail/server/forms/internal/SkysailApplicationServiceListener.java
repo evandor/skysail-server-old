@@ -98,8 +98,9 @@ public class SkysailApplicationServiceListener implements ServiceListener {
      *            the service reference to a UrlMapper.
      */
     private void addNewMapping(final BundleContext context, final ServiceReference serviceReference) {
-        ApplicationService urlMapper = (ApplicationService) context.getService(serviceReference);
-        applicationServices.add(urlMapper);
+        ApplicationService skysailApp = (ApplicationService) context.getService(serviceReference);
+        applicationServices.add(skysailApp);
+        new FormModel(context, skysailApp);
     }
 
     /**
