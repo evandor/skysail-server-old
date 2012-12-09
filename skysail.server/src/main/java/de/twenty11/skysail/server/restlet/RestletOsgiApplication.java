@@ -46,14 +46,14 @@ public abstract class RestletOsgiApplication extends Application {
 
     private String staticPath;
 
+    /** the 'name' of the application, e.g. "dbviewer" */
+    private String applicationName;
+
     /** the osgi bundle context. */
     private static BundleContext bundleContext;
 
-    public static void setBundleContext(BundleContext bundleContext) {
-        RestletOsgiApplication.bundleContext = bundleContext;
-    }
-
-    public RestletOsgiApplication(final String staticPathTemplate) {
+    public RestletOsgiApplication(String applicationName, String staticPathTemplate) {
+        this.applicationName = applicationName;
         ConfigService configService = null;// ConfigServiceProvider.getConfigService();
         String defaultUser = "scott";// configService.getString("defaultUser", "scott");
         String defaultPass = "tiger";// configService.getString("defaultPass", "tiger");
@@ -63,6 +63,16 @@ public abstract class RestletOsgiApplication extends Application {
         this.staticPath = staticPathTemplate;
     }
 
+    abstract protected void attach();
+
+    public static void setBundleContext(BundleContext bundleContext) {
+        RestletOsgiApplication.bundleContext = bundleContext;
+    }
+
+    public String getApplicationName() {
+        return applicationName;
+    }
+    
     @Override
     public final Restlet createInboundRoot() {
 
@@ -113,9 +123,6 @@ public abstract class RestletOsgiApplication extends Application {
 
         return guard;
     }
-
-    // TODO make abstract
-    abstract protected void attach();
 
     public void attachToRouter(String key, Class<? extends ServerResource> executor) {
         router.attach(key, executor);

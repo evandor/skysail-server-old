@@ -27,12 +27,12 @@ import de.twenty11.skysail.server.forms.internal.FormModelProvider;
 import de.twenty11.skysail.server.forms.internal.FormsComponent;
 import de.twenty11.skysail.server.forms.internal.FormsModel;
 import de.twenty11.skysail.server.forms.internal.FormsUrlMapper;
-import de.twenty11.skysail.server.forms.internal.SkysailApplication;
+import de.twenty11.skysail.server.forms.internal.FormsSkysailApplication;
 import de.twenty11.skysail.server.services.ApplicationDescriptor;
 
 public class BaseTest {
 
-    protected SkysailApplication skysailApplication;
+    protected FormsSkysailApplication formsSkysailApplication;
     protected Restlet inboundRoot;
     protected ObjectMapper mapper = new ObjectMapper();
 
@@ -42,16 +42,16 @@ public class BaseTest {
             @SuppressWarnings("unchecked")
             Class<? extends ServerResource> resourceClass = (Class<? extends ServerResource>) Class.forName(mapping
                     .getValue());
-            skysailApplication.attachToRouter("" + mapping.getKey(), resourceClass);
+            formsSkysailApplication.attachToRouter("" + mapping.getKey(), resourceClass);
         }
     }
 
-    protected SkysailApplication setUpRestletApplication() throws ClassNotFoundException {
+    protected FormsSkysailApplication setUpRestletApplication() throws ClassNotFoundException {
         FormsComponent dbViewerComponent = new FormsComponent();
-        skysailApplication = dbViewerComponent.getApplication();
+        formsSkysailApplication = dbViewerComponent.getApplication();
 
-        //final ApplicationDescription spy = Mockito.spy(skysailApplication);
-        skysailApplication.setFormModelProvider(new FormModelProvider() {
+        //final ApplicationDescription spy = Mockito.spy(formsSkysailApplication);
+        formsSkysailApplication.setFormModelProvider(new FormModelProvider() {
             
             @Override
             public Map<ApplicationDescriptor, FormsModel> getFormModels() {
@@ -68,10 +68,10 @@ public class BaseTest {
                 return result;
             }
         });
-        Application.setCurrent(skysailApplication);
-        inboundRoot = skysailApplication.getInboundRoot();
+        Application.setCurrent(formsSkysailApplication);
+        inboundRoot = formsSkysailApplication.getInboundRoot();
         addMappings();
-        return skysailApplication;
+        return formsSkysailApplication;
     }
 
     protected List<FormDetails> getForms() throws Exception {

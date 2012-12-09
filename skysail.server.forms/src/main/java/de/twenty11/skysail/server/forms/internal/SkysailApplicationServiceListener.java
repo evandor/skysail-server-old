@@ -63,7 +63,7 @@ public class SkysailApplicationServiceListener implements ServiceListener, FormM
             }
             logger.debug("adding new SkysailApplicationServiceListener to bundleContext");
             context.addServiceListener(this, "(objectClass=" + ApplicationDescriptor.class.getName() + ")");
-            SkysailApplication.setFormModelProvider(this);
+            FormsSkysailApplication.setFormModelProvider(this);
         } catch (InvalidSyntaxException e) {
             throw new RuntimeException("invalid syntax", e);
         }

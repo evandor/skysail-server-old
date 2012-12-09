@@ -14,8 +14,9 @@ import de.twenty11.skysail.common.forms.RestfulForms;
 import de.twenty11.skysail.common.responses.Response;
 import de.twenty11.skysail.server.forms.internal.Activator;
 import de.twenty11.skysail.server.forms.internal.FormsModel;
-import de.twenty11.skysail.server.forms.internal.SkysailApplication;
+import de.twenty11.skysail.server.forms.internal.FormsSkysailApplication;
 import de.twenty11.skysail.server.restlet.ListServerResource;
+import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
 import de.twenty11.skysail.server.services.ApplicationDescriptor;
 
 /**
@@ -45,10 +46,16 @@ public class FormsResource extends ListServerResource<FormDetails> implements Re
 
     @SuppressWarnings("unchecked")
     private List<FormDetails> allForms() {
-        Application application2 = getApplication();
+        RestletOsgiApplication application = (RestletOsgiApplication)getApplication();
+        String applicationName = application.getApplicationName();
         Map<ApplicationDescriptor, FormsModel> formModels = Activator.getFormModels();
-        //Map<ApplicationDescriptor, FormsModel> formModels = ((ApplicationDescription) getApplication()).getFormModels();
-        return Collections.emptyList();//null;//em.createQuery("SELECT c FROM ConnectionDetails c").getResultList();
+        for (ApplicationDescriptor appDescriptor : formModels.keySet()) {
+            if (appDescriptor.getApplicationDescription().getName().equals(applicationName)) {
+                FormsModel formsModel = formModels.get(appDescriptor);
+                return formsModel.getAllForms();
+            }
+        }
+        return Collections.emptyList();
         
     }
 

@@ -24,7 +24,7 @@ public class FormsUrlMapper implements UrlMapper {
     public Map<String, String> provideUrlMapping() {
         Map<String, String> queue = Collections.synchronizedMap(new LinkedHashMap<String, String>());
         
-        Map<ApplicationDescriptor, FormsModel> formModels = SkysailApplication.get().getFormModels();
+        Map<ApplicationDescriptor, FormsModel> formModels = FormsSkysailApplication.get().getFormModels();
         for (ApplicationDescriptor application : formModels.keySet()) {
             String rootName = application.getApplicationDescription().getName();
             queue.put("/" + rootName + "/forms", FormsResource.class.getName());

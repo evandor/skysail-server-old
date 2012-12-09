@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -11,8 +12,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtField;
 import javassist.bytecode.AnnotationsAttribute;
 import javassist.bytecode.AttributeInfo;
 import javassist.bytecode.ClassFile;
@@ -32,8 +31,6 @@ import de.twenty11.skysail.server.services.ApplicationDescriptor;
 public class FormsModel {
 
     private ApplicationDescriptor application;
-
-    private ClassPool pool = ClassPool.getDefault();
 
     private Map<String, FormDetails> formsMap = new HashMap<String, FormDetails>();
 
@@ -111,6 +108,10 @@ public class FormsModel {
             }
         }
 
+    }
+
+    public List<FormDetails> getAllForms() {
+        return new ArrayList<FormDetails>(formsMap.values());
     }
 
 }
