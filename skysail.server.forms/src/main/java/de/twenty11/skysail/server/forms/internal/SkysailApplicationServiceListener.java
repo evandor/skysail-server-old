@@ -1,7 +1,9 @@
 package de.twenty11.skysail.server.forms.internal;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
@@ -33,7 +35,7 @@ public class SkysailApplicationServiceListener implements ServiceListener {
      */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private List<ApplicationService> applicationServices = new ArrayList<ApplicationService>();
+    private Map<ApplicationService, FormsModel> appToForms = new HashMap<ApplicationService, FormsModel>();
 
     /**
      * Constructor which needs the bundleContext and the RestletOsgiApplication.
@@ -99,8 +101,7 @@ public class SkysailApplicationServiceListener implements ServiceListener {
      */
     private void addNewMapping(final BundleContext context, final ServiceReference serviceReference) {
         ApplicationService skysailApp = (ApplicationService) context.getService(serviceReference);
-        applicationServices.add(skysailApp);
-        new FormModel(context, skysailApp);
+        appToForms.put(skysailApp, new FormsModel(context, skysailApp));
     }
 
     /**
@@ -114,7 +115,7 @@ public class SkysailApplicationServiceListener implements ServiceListener {
      */
     private void removeMapping(final ServiceReference serviceRef) {
         ApplicationService appService = (ApplicationService) bundleContext.getService(serviceRef);
-        applicationServices.remove(appService);
+        appToForms.remove(appService);
     }
 
 }
