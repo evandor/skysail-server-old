@@ -22,6 +22,7 @@ import org.restlet.data.Protocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 /**
  * Concurrency note from parent class: instances of this class or its subclasses can be invoked by several threads at
  * the same time and therefore must be thread-safe. You should be especially careful when storing state in member

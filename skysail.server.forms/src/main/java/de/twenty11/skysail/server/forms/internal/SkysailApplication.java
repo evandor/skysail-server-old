@@ -17,7 +17,7 @@
 
 package de.twenty11.skysail.server.forms.internal;
 
-import javax.persistence.EntityManagerFactory;
+import java.util.Map;
 
 import org.osgi.framework.FrameworkUtil;
 import org.restlet.Request;
@@ -26,6 +26,7 @@ import org.restlet.Response;
 import de.twenty11.skysail.server.listener.SkysailApplicationServiceListener;
 import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
 import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
+import de.twenty11.skysail.server.services.ApplicationDescriptor;
 
 /**
  * @author carsten
@@ -33,8 +34,8 @@ import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
  */
 public class SkysailApplication extends RestletOsgiApplication {
 
-    private EntityManagerFactory emf;
     private static SkysailApplication self;
+    private static FormModelProvider formModelProvider;
 
     /**
      * @param staticPathTemplate
@@ -69,5 +70,12 @@ public class SkysailApplication extends RestletOsgiApplication {
         }
     }
 
+    public static void setFormModelProvider(FormModelProvider fmp) {
+        formModelProvider = fmp;
+    }
+
+    public static Map<ApplicationDescriptor, FormsModel> getFormModels() {
+        return formModelProvider.getFormModels();
+    }
 
 }

@@ -1,8 +1,6 @@
 package de.twenty11.skysail.server.forms.internal;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.osgi.framework.BundleContext;
@@ -13,17 +11,17 @@ import org.osgi.framework.ServiceReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.services.ApplicationService;
+import de.twenty11.skysail.server.services.ApplicationDescriptor;
 
 /**
- * A service listener which takes care of ApplicationService related services. 
+ * A service listener which takes care of ApplicationDescriptor related services. 
  * 
  * 
  * 
  * @author carsten
  * 
  */
-public class SkysailApplicationServiceListener implements ServiceListener {
+public class SkysailApplicationServiceListener implements ServiceListener, FormModelProvider {
 
     /**
      * the osgi bundle context provided in the constructor.
@@ -35,7 +33,7 @@ public class SkysailApplicationServiceListener implements ServiceListener {
      */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private Map<ApplicationService, FormsModel> appToForms = new HashMap<ApplicationService, FormsModel>();
+    private Map<ApplicationDescriptor, FormsModel> appToForms = new HashMap<ApplicationDescriptor, FormsModel>();
 
     /**
      * Constructor which needs the bundleContext and the RestletOsgiApplication.
@@ -57,17 +55,23 @@ public class SkysailApplicationServiceListener implements ServiceListener {
         this.bundleContext = context;
         
         try {
-            ServiceReference[] allUrlMappers = context.getAllServiceReferences(ApplicationService.class.getName(), null);
+            ServiceReference[] allUrlMappers = context.getAllServiceReferences(ApplicationDescriptor.class.getName(), null);
             if (allUrlMappers != null) {
                 for (ServiceReference serviceReference : allUrlMappers) {
                     addNewMapping(context, serviceReference);
                 }
             }
             logger.debug("adding new SkysailApplicationServiceListener to bundleContext");
-            context.addServiceListener(this, "(objectClass=" + ApplicationService.class.getName() + ")");
+            context.addServiceListener(this, "(objectClass=" + ApplicationDescriptor.class.getName() + ")");
+            SkysailApplication.setFormModelProvider(this);
         } catch (InvalidSyntaxException e) {
             throw new RuntimeException("invalid syntax", e);
         }
+    }
+    
+    @Override
+    public Map<ApplicationDescriptor, FormsModel> getFormModels() {
+        return appToForms;
     }
 
     /**
@@ -100,7 +104,7 @@ public class SkysailApplicationServiceListener implements ServiceListener {
      *            the service reference to a UrlMapper.
      */
     private void addNewMapping(final BundleContext context, final ServiceReference serviceReference) {
-        ApplicationService skysailApp = (ApplicationService) context.getService(serviceReference);
+        ApplicationDescriptor skysailApp = (ApplicationDescriptor) context.getService(serviceReference);
         appToForms.put(skysailApp, new FormsModel(context, skysailApp));
     }
 
@@ -114,7 +118,7 @@ public class SkysailApplicationServiceListener implements ServiceListener {
      *            the service reference to a UrlMapper.
      */
     private void removeMapping(final ServiceReference serviceRef) {
-        ApplicationService appService = (ApplicationService) bundleContext.getService(serviceRef);
+        ApplicationDescriptor appService = (ApplicationDescriptor) bundleContext.getService(serviceRef);
         appToForms.remove(appService);
     }
 

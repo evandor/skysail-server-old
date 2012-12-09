@@ -27,23 +27,27 @@ import de.twenty11.skysail.common.forms.Field;
 import de.twenty11.skysail.common.forms.FieldDetails;
 import de.twenty11.skysail.common.forms.Form;
 import de.twenty11.skysail.common.forms.FormDetails;
-import de.twenty11.skysail.server.services.ApplicationService;
+import de.twenty11.skysail.server.services.ApplicationDescriptor;
 
 public class FormsModel {
 
-    private ApplicationService application;
+    private ApplicationDescriptor application;
 
     private ClassPool pool = ClassPool.getDefault();
 
     private Map<String, FormDetails> formsMap = new HashMap<String, FormDetails>();
 
-    public FormsModel(BundleContext context, ApplicationService skysailApp) {
+    public FormsModel(BundleContext context, ApplicationDescriptor skysailApp) {
         this.application = skysailApp;
         generateModel(context);
     }
 
+    public FormsModel() {
+        // TODO Auto-generated constructor stub
+    }
+
     private void generateModel(BundleContext context) {
-        String rootName = application.getApplication().getName();
+        String rootName = application.getApplicationDescription().getName();
 
         Bundle[] bundles = context.getBundles();
         Bundle bundleToExamine = null;

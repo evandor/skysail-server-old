@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import de.twenty11.skysail.server.forms.FormsResource;
+import de.twenty11.skysail.server.services.ApplicationDescriptor;
 import de.twenty11.skysail.server.services.UrlMapper;
 
 public class FormsUrlMapper implements UrlMapper {
@@ -21,8 +23,15 @@ public class FormsUrlMapper implements UrlMapper {
     @Override
     public Map<String, String> provideUrlMapping() {
         Map<String, String> queue = Collections.synchronizedMap(new LinkedHashMap<String, String>());
+        
+        Map<ApplicationDescriptor, FormsModel> formModels = SkysailApplication.get().getFormModels();
+        for (ApplicationDescriptor application : formModels.keySet()) {
+            String rootName = application.getApplicationDescription().getName();
+            queue.put("/" + rootName + "/forms", FormsResource.class.getName());
+            
+        }
+        
         // @formatter:off
-        queue.put("/forms", FormResource.class.getName());
 
 //        queue.put(CONNECTION_PREFIX, ConnectionsResource.class.getName());
 //

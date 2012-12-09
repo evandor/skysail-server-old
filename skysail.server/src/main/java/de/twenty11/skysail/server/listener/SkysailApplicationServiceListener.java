@@ -13,10 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
-import de.twenty11.skysail.server.services.ApplicationService;
+import de.twenty11.skysail.server.services.ApplicationDescriptor;
 
 /**
- * A service listener which takes care of ApplicationService related services. 
+ * A service listener which takes care of ApplicationDescriptor related services. 
  * 
  * 
  * 
@@ -35,7 +35,7 @@ public class SkysailApplicationServiceListener implements ServiceListener {
      */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private List<ApplicationService> applicationServices = new ArrayList<ApplicationService>();
+    private List<ApplicationDescriptor> applicationDescriptors = new ArrayList<ApplicationDescriptor>();
 
     public SkysailApplicationServiceListener(final RestletOsgiApplication restletApp) {
         this(FrameworkUtil.getBundle(RestletOsgiApplication.class).getBundleContext(), restletApp, false);
@@ -75,21 +75,21 @@ public class SkysailApplicationServiceListener implements ServiceListener {
         this.bundleContext = context;
         
         try {
-            ServiceReference[] allUrlMappers = context.getAllServiceReferences(ApplicationService.class.getName(), null);
+            ServiceReference[] allUrlMappers = context.getAllServiceReferences(ApplicationDescriptor.class.getName(), null);
             if (allUrlMappers != null) {
                 for (ServiceReference serviceReference : allUrlMappers) {
                     addNewMapping(context, serviceReference);
                 }
             }
             logger.debug("adding new SkysailApplicationServiceListener to bundleContext");
-            context.addServiceListener(this, "(objectClass=" + ApplicationService.class.getName() + ")");
+            context.addServiceListener(this, "(objectClass=" + ApplicationDescriptor.class.getName() + ")");
         } catch (InvalidSyntaxException e) {
             throw new RuntimeException("invalid syntax", e);
         }
     }
 
     /**
-     * This method adds, removes or modifies the list of applicationServices.
+     * This method adds, removes or modifies the list of applicationDescriptors.
      * 
      * @param event
      *            the serviceEvent
@@ -118,8 +118,8 @@ public class SkysailApplicationServiceListener implements ServiceListener {
      *            the service reference to a UrlMapper.
      */
     private void addNewMapping(final BundleContext context, final ServiceReference serviceReference) {
-        ApplicationService urlMapper = (ApplicationService) context.getService(serviceReference);
-        applicationServices.add(urlMapper);
+        ApplicationDescriptor urlMapper = (ApplicationDescriptor) context.getService(serviceReference);
+        applicationDescriptors.add(urlMapper);
     }
 
     /**
@@ -132,8 +132,8 @@ public class SkysailApplicationServiceListener implements ServiceListener {
      *            the service reference to a UrlMapper.
      */
     private void removeMapping(final ServiceReference serviceRef) {
-        ApplicationService appService = (ApplicationService) bundleContext.getService(serviceRef);
-        applicationServices.remove(appService);
+        ApplicationDescriptor appService = (ApplicationDescriptor) bundleContext.getService(serviceRef);
+        applicationDescriptors.remove(appService);
     }
 
 }

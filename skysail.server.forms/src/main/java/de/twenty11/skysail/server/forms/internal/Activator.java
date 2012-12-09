@@ -17,8 +17,13 @@
 
 package de.twenty11.skysail.server.forms.internal;
 
+import java.util.Collections;
+import java.util.Map;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+
+import de.twenty11.skysail.server.services.ApplicationDescriptor;
 
 /**
  * The bundles activator.
@@ -31,7 +36,7 @@ public class Activator implements BundleActivator {
     /** slf4j based logger implementation. */
     // private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private SkysailApplicationServiceListener skysailApplicationServiceListener;
+    private static SkysailApplicationServiceListener skysailApplicationServiceListener;
 
     /** {@inheritDoc} */
     public final void start(final BundleContext context) throws Exception {
@@ -41,6 +46,14 @@ public class Activator implements BundleActivator {
     /** {@inheritDoc} */
     public final void stop(final BundleContext context) throws Exception {
         skysailApplicationServiceListener = null;
+    }
+
+    public static Map<ApplicationDescriptor, FormsModel> getFormModels() {
+        if (skysailApplicationServiceListener != null) {
+            return skysailApplicationServiceListener.getFormModels();
+        } else {
+            return Collections.emptyMap();
+        }
     }
 
 }

@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +23,12 @@ import org.restlet.resource.ServerResource;
 
 import de.twenty11.skysail.common.forms.FormDetails;
 import de.twenty11.skysail.common.responses.Response;
+import de.twenty11.skysail.server.forms.internal.FormModelProvider;
 import de.twenty11.skysail.server.forms.internal.FormsComponent;
+import de.twenty11.skysail.server.forms.internal.FormsModel;
 import de.twenty11.skysail.server.forms.internal.FormsUrlMapper;
 import de.twenty11.skysail.server.forms.internal.SkysailApplication;
+import de.twenty11.skysail.server.services.ApplicationDescriptor;
 
 public class BaseTest {
 
@@ -46,15 +50,32 @@ public class BaseTest {
         FormsComponent dbViewerComponent = new FormsComponent();
         skysailApplication = dbViewerComponent.getApplication();
 
-        SkysailApplication spy = Mockito.spy(skysailApplication);
-        Application.setCurrent(spy);
+        //final ApplicationDescription spy = Mockito.spy(skysailApplication);
+        skysailApplication.setFormModelProvider(new FormModelProvider() {
+            
+            @Override
+            public Map<ApplicationDescriptor, FormsModel> getFormModels() {
+                Map<ApplicationDescriptor, FormsModel> result = new HashMap<ApplicationDescriptor, FormsModel>();
+                ApplicationDescriptor appService = new ApplicationDescriptor() {
+                    
+                    @Override
+                    public de.twenty11.skysail.common.app.ApplicationDescription getApplicationDescription() {
+                        return new de.twenty11.skysail.common.app.ApplicationDescription("testapp","","");
+                    }
+                };
+                FormsModel formsModel = new FormsModel();
+                result.put(appService, formsModel);
+                return result;
+            }
+        });
+        Application.setCurrent(skysailApplication);
         inboundRoot = skysailApplication.getInboundRoot();
         addMappings();
-        return spy;
+        return skysailApplication;
     }
 
     protected List<FormDetails> getForms() throws Exception {
-        org.restlet.Response response = get("/forms");
+        org.restlet.Response response = get("/testapp/forms");
         assertDefaults(response);
         Representation entity = response.getEntity();
         Response<List<FormDetails>> skysailResponse = mapper.readValue(entity.getText(),
@@ -185,7 +206,7 @@ public class BaseTest {
     //
     //
     //
-    // protected void setUpPersistence(SkysailApplication spy) {
+    // protected void setUpPersistence(ApplicationDescription spy) {
     // final EntityManagerFactory emf = Persistence.createEntityManagerFactory("testPU");
     // Mockito.doAnswer(new Answer<EntityManager>() {
     // @Override

@@ -16,7 +16,7 @@
  */
 package de.twenty11.skysail.server.services;
 
-import de.twenty11.skysail.common.app.SkysailApplication;
+import de.twenty11.skysail.common.app.ApplicationDescription;
 
 
 
@@ -26,12 +26,12 @@ import de.twenty11.skysail.common.app.SkysailApplication;
  * @author carsten
  *
  */
-public interface ApplicationService {
+public interface ApplicationDescriptor {
 
     /**
      * @param identifier key
      * @return the value for the identifier, null if not found
      */
-    SkysailApplication getApplication();
+    ApplicationDescription getApplicationDescription();
     
 }
