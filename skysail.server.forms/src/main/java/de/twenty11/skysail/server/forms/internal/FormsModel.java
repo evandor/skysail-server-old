@@ -9,6 +9,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 import java.util.Set;
 
 import javassist.ClassPool;
@@ -17,6 +18,7 @@ import javassist.bytecode.AttributeInfo;
 import javassist.bytecode.ClassFile;
 import javassist.bytecode.FieldInfo;
 import javassist.bytecode.annotation.Annotation;
+import javassist.bytecode.annotation.ClassMemberValue;
 import javassist.bytecode.annotation.MemberValue;
 
 import org.osgi.framework.Bundle;
@@ -26,6 +28,7 @@ import de.twenty11.skysail.common.forms.Field;
 import de.twenty11.skysail.common.forms.FieldDetails;
 import de.twenty11.skysail.common.forms.Form;
 import de.twenty11.skysail.common.forms.FormDetails;
+import de.twenty11.skysail.common.forms.ValuesProvider;
 import de.twenty11.skysail.server.services.ApplicationDescriptor;
 
 public class FormsModel {
@@ -77,7 +80,7 @@ public class FormsModel {
 
                     MemberValue formNameMemberValue = formAnnotation.getMemberValue("name");
                     FormDetails form = new FormDetails(formNameMemberValue.toString());
-                    formsMap .put(formNameMemberValue.toString(), form);
+                    formsMap.put(formNameMemberValue.toString(), form);
 
                     List fields = cf.getFields();
                     for (Object field : fields) {
@@ -89,13 +92,7 @@ public class FormsModel {
                                 Annotation[] annotations = annotationAttribute.getAnnotations();
                                 for (Annotation annotation : annotations) {
                                     if (annotation.getTypeName().equals(Field.class.getName())) {
-                                        Set<String> memberNames = annotation.getMemberNames();
-                                        for (String object : memberNames) {
-                                            MemberValue memberValue = annotation.getMemberValue(object);
-                                            System.out.println("@" + memberValue);
-                                            FieldDetails fieldDetails = new FieldDetails(memberValue.toString());
-                                            form.addField(fieldDetails);
-                                        }
+                                        createFieldDetails(form, annotation, context, fi.getName());
                                     }
                                 }
                             }
@@ -108,6 +105,40 @@ public class FormsModel {
             }
         }
 
+    }
+
+    private void createFieldDetails(FormDetails form, Annotation annotation, BundleContext context, String fieldName) {
+        @SuppressWarnings("unchecked")
+        Set<String> memberNames = annotation.getMemberNames();
+        for (String memberName : memberNames) {
+            FieldDetails fieldDetails = new FieldDetails(fieldName);
+            MemberValue memberValue = annotation.getMemberValue(memberName);
+            if ("valuesProvider".equals(memberName)) {
+                ClassMemberValue cmv = (ClassMemberValue) memberValue;
+                String valueProvider = cmv.getValue(); // de.twenty11.skysail.common.forms.ValuesProviderImpl
+                Object foundClass = findClass(valueProvider, context);
+                if (foundClass != null) {
+                    ValuesProvider valuesProvider = (ValuesProvider)foundClass;
+                    fieldDetails.setValidValues(valuesProvider.getValues());
+                }
+            }
+
+            form.addField(fieldDetails);
+        }
+    }
+
+    private Object findClass(String valueProvider, BundleContext context) {
+        Bundle[] bundles = context.getBundles();
+        for (Bundle bundle : bundles) {
+            try {
+                Class<?> loadedClass = bundle.loadClass(valueProvider);
+                return loadedClass.newInstance();
+            } catch (Exception e) {
+                /** it's ok, really */
+                continue;
+            }
+        }
+        return null;
     }
 
     public List<FormDetails> getAllForms() {
