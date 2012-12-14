@@ -37,7 +37,6 @@ import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.forms.ConstraintViolations;
 import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.responses.FailureResponse;
@@ -62,8 +61,6 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
 
     /** slf4j based logger implementation. */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    private Filter filter;
 
     private Integer currentPage = 1;
 
@@ -183,7 +180,6 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         response.setRequest(getRequest().getOriginalRef() != null ? getRequest().getOriginalRef().toString() : null);
         response.setParent(getParent() + "?media=" + mediaType.toString().replace("application/", ""));
         response.setContextPath("/rest/");
-        response.setFilter(getFilter() != null ? getFilter().toString() : "");
         // response.setSortingRepresentation(getSorting());
         if (getQuery() != null && getQuery().getNames().contains("debug")) {
             response.setDebug(true);
@@ -211,14 +207,6 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
             params = getQuery().getValuesMap();
         }
         return params;
-    }
-
-    public Filter getFilter() {
-        return filter;
-    }
-
-    public void setFilter(Filter filter) {
-        this.filter = filter;
     }
 
     protected Integer getPageSize() {
