@@ -8,7 +8,6 @@ import org.restlet.data.Method;
 import org.restlet.data.Reference;
 import org.restlet.engine.resource.AnnotationInfo;
 import org.restlet.engine.resource.AnnotationUtils;
-import org.restlet.ext.xml.XmlWriter;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ServerResource;
 import org.restlet.service.MetadataService;

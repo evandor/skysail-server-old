@@ -82,6 +82,12 @@
 			<version>1.4</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.restlet.osgi</groupId>
+			<artifactId>org.restlet.ext.xml</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+		
 	</dependencies>
 
 	<repositories>
