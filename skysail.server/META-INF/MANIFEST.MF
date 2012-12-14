@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1355484946209
+Bnd-LastModified: 1355493677583
 Build-Jdk: 1.7.0_04
 Built-By: carsten
 Bundle-Activator: de.twenty11.skysail.server.internal.Activator
