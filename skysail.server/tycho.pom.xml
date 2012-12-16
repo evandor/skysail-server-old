@@ -89,11 +89,11 @@
 			<version>2.1.0</version>
 		</dependency>
 
-		<!-- <dependency>
+		<dependency>
 			<artifactId>hibernate-validator</artifactId>
 			<groupId>org.hibernate</groupId>
 			<version>4.3.0.Final</version>
-		</dependency> -->
+		</dependency> 
 
 	</dependencies>
 
