@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1355727361099
-Build-Jdk: 1.7.0_04
-Built-By: carsten
+Bnd-LastModified: 1355755444846
+Build-Jdk: 1.7.0_05
+Built-By: graefca
 Bundle-Activator: de.twenty11.skysail.server.internal.Activator
 Bundle-Description: This is the parent pom for all skysail maven artifac
  ts. Should be run with maven3.
