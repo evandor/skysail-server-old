@@ -25,7 +25,7 @@ import javax.persistence.Id;
  * @author carsten
  * 
  */
-@Entity(name = "SkysailRoles")
+//@Entity(name = "SkysailRoles")
 public class SkysailRole {
 
     @Id

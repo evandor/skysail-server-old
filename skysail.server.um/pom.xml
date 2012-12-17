@@ -68,7 +68,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>org.eclipse.persistence.core </artifactId>
+			<artifactId>org.eclipse.persistence.core</artifactId>
 		</dependency>
 
 		<dependency>
@@ -83,6 +83,10 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.enterprise</artifactId>
+		</dependency>
 	</dependencies>
 
 
