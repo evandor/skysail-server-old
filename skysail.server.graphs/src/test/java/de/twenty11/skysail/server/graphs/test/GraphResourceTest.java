@@ -16,7 +16,7 @@ import de.twenty11.skysail.server.graphs.internal.GraphsSkysailApplication;
 public class GraphResourceTest extends BaseTest {
     @Before
     public void setUp() throws Exception {
-        GraphsSkysailApplication spy = setUpRestletApplication();
+        GraphsSkysailApplication spy = setUpGraphsApplication();
         //setUpPersistence(spy);
     }
     

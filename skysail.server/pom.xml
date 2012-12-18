@@ -25,7 +25,7 @@
   </scm>
 
 	<properties>
-		<skysail.common.version>[0.3.7, 1.0)</skysail.common.version>
+		<skysail.common.version>[0.3.9-SNAPSHOT, 1.0)</skysail.common.version>
 	</properties>
 
 	<build>
@@ -36,7 +36,7 @@
 				<extensions>true</extensions>
 				<configuration>		
 					<!-- make eclipse aware about this bundle (+ ManifestBuilder in .project!) -->
-					<manifestLocation>etc</manifestLocation>
+					<manifestLocation>META-INF</manifestLocation>
 					<instructions>
 						<_include>-osgi.bnd</_include>
 						<Include-Resource>

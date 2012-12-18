@@ -8,7 +8,7 @@ import de.twenty11.skysail.common.graphs.GraphProvider;
 import de.twenty11.skysail.common.graphs.Graph;
 import de.twenty11.skysail.common.graphs.NodeProvider;
 
-@Graph(nodesPath="dbviewer/graph")
+@Graph(nodesPath="/osgimonitor/bundles")
 public class GraphTestClass implements GraphProvider {
 
     private List<NodeProvider> nodes = new ArrayList<NodeProvider>();

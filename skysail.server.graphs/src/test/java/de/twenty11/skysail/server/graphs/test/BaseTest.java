@@ -20,38 +20,32 @@ import org.restlet.data.Method;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ServerResource;
 
-import de.twenty11.skysail.common.forms.FormDetails;
 import de.twenty11.skysail.common.graphs.GraphDetails;
 import de.twenty11.skysail.common.responses.Response;
+import de.twenty11.skysail.server.ext.osgimonitor.internal.OsgiMonitorComponent;
+import de.twenty11.skysail.server.ext.osgimonitor.internal.OsgiMonitorUrlMapper;
+import de.twenty11.skysail.server.ext.osgimonitor.internal.OsgiMonitorViewerApplication;
 import de.twenty11.skysail.server.graphs.internal.GraphModelProvider;
 import de.twenty11.skysail.server.graphs.internal.GraphsComponent;
 import de.twenty11.skysail.server.graphs.internal.GraphsModel;
 import de.twenty11.skysail.server.graphs.internal.GraphsSkysailApplication;
 import de.twenty11.skysail.server.graphs.internal.GraphsUrlMapper;
 import de.twenty11.skysail.server.services.ApplicationDescriptor;
+import de.twenty11.skysail.server.services.UrlMapper;
 
 public class BaseTest {
 
-    protected GraphsSkysailApplication formsSkysailApplication;
+    protected GraphsSkysailApplication graphApplication;
+    protected OsgiMonitorViewerApplication osgiMonitorViewerApplication;
     protected Restlet inboundRoot;
     protected ObjectMapper mapper = new ObjectMapper();
 
-    protected void addMappings() throws ClassNotFoundException {
-        Map<String, String> urlMapping = new GraphsUrlMapper().provideUrlMapping();
-        for (Map.Entry<String, String> mapping : urlMapping.entrySet()) {
-            @SuppressWarnings("unchecked")
-            Class<? extends ServerResource> resourceClass = (Class<? extends ServerResource>) Class.forName(mapping
-                    .getValue());
-            formsSkysailApplication.attachToRouter("" + mapping.getKey(), resourceClass);
-        }
-    }
-
-    protected GraphsSkysailApplication setUpRestletApplication() throws ClassNotFoundException {
-        GraphsComponent dbViewerComponent = new GraphsComponent();
-        formsSkysailApplication = dbViewerComponent.getApplication();
+    protected GraphsSkysailApplication setUpGraphsApplication() throws ClassNotFoundException {
+        GraphsComponent graphComponent = new GraphsComponent();
+        graphApplication = graphComponent.getApplication();
 
         //final ApplicationDescription spy = Mockito.spy(formsSkysailApplication);
-        formsSkysailApplication.setFormModelProvider(new GraphModelProvider() {
+        graphApplication.setFormModelProvider(new GraphModelProvider() {
             
             @Override
             public Map<ApplicationDescriptor, GraphsModel> getGraphModels() {
@@ -68,10 +62,29 @@ public class BaseTest {
                 return result;
             }
         });
-        Application.setCurrent(formsSkysailApplication);
-        inboundRoot = formsSkysailApplication.getInboundRoot();
-        addMappings();
-        return formsSkysailApplication;
+        Application.setCurrent(graphApplication);
+        inboundRoot = graphApplication.getInboundRoot();
+        addMappings(new GraphsUrlMapper());
+        return graphApplication;
+    }
+    
+    protected OsgiMonitorViewerApplication setUpOsgiMonitorApplication() throws ClassNotFoundException {
+    	OsgiMonitorComponent component = new OsgiMonitorComponent();
+    	osgiMonitorViewerApplication = component.getApplication();
+        Application.setCurrent(osgiMonitorViewerApplication);
+        inboundRoot = osgiMonitorViewerApplication.getInboundRoot();
+        addMappings(new OsgiMonitorUrlMapper());
+        return osgiMonitorViewerApplication;
+    }
+    
+    protected void addMappings(UrlMapper urlMapper) throws ClassNotFoundException {
+        Map<String, String> urlMapping = urlMapper.provideUrlMapping();
+        for (Map.Entry<String, String> mapping : urlMapping.entrySet()) {
+            @SuppressWarnings("unchecked")
+            Class<? extends ServerResource> resourceClass = (Class<? extends ServerResource>) Class.forName(mapping
+                    .getValue());
+            osgiMonitorViewerApplication.attachToRouter("" + mapping.getKey(), resourceClass);
+        }
     }
 
     protected List<GraphDetails> getGraphs() throws Exception {
