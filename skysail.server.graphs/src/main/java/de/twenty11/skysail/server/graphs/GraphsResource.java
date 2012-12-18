@@ -41,14 +41,14 @@ public class GraphsResource extends ListServerResource<FormDetails> implements R
     @Override
     @Get
     public Response<List<FormDetails>> getForms() {
-        return getEntities(allForms(), "all forms");
+        return getEntities(allForms(), "all graphs");
     }
 
     @SuppressWarnings("unchecked")
     private List<FormDetails> allForms() {
         RestletOsgiApplication application = (RestletOsgiApplication)getApplication();
         String applicationName = application.getApplicationName();
-        Map<ApplicationDescriptor, GraphsModel> formModels = Activator.getGraphModels();
+        Map<ApplicationDescriptor, GraphsModel> graphModels = Activator.getGraphModels();
 //        for (ApplicationDescriptor appDescriptor : formModels.keySet()) {
 //            if (appDescriptor.getApplicationDescription().getName().equals(applicationName)) {
 //                GraphsModel formsModel = formModels.get(appDescriptor);

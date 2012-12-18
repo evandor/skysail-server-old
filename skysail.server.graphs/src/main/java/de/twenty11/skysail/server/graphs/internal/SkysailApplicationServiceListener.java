@@ -8,6 +8,8 @@ import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
+import org.restlet.data.ChallengeResponse;
+import org.restlet.data.ChallengeScheme;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,7 +107,9 @@ public class SkysailApplicationServiceListener implements ServiceListener, Graph
      */
     private void addNewMapping(final BundleContext context, final ServiceReference serviceReference) {
         ApplicationDescriptor skysailApp = (ApplicationDescriptor) context.getService(serviceReference);
-        appToForms.put(skysailApp, new GraphsModel(context, skysailApp));
+        ChallengeResponse authentication = new ChallengeResponse(
+                ChallengeScheme.HTTP_BASIC, "scott", "tiger");
+        appToForms.put(skysailApp, new GraphsModel(context, skysailApp, authentication));
     }
 
     /**

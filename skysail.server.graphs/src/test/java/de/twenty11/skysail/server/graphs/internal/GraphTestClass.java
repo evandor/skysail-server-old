@@ -1,10 +1,31 @@
 package de.twenty11.skysail.server.graphs.internal;
 
-import de.twenty11.skysail.common.graphs.Node;
+import java.util.ArrayList;
+import java.util.List;
 
-@Node(label="labelfield")
-public class GraphTestClass {
+import de.twenty11.skysail.common.graphs.EdgeProvider;
+import de.twenty11.skysail.common.graphs.GraphProvider;
+import de.twenty11.skysail.common.graphs.Graph;
+import de.twenty11.skysail.common.graphs.NodeProvider;
 
-	String labelfield = "graphTestClassLabel";
-	
+@Graph(nodesPath="dbviewer/graph")
+public class GraphTestClass implements GraphProvider {
+
+    private List<NodeProvider> nodes = new ArrayList<NodeProvider>();
+    List<EdgeProvider> edges = new ArrayList<EdgeProvider>();
+
+    public GraphTestClass() {
+        nodes.add(new NodeTestClass("myid", "mylabel"));
+        nodes.add(new NodeTestClass("yourid", "yourlabel"));
+        edges.add(new EdgeTestClass("edgeid", "edgelabel", nodes.get(0), nodes.get(1), 12));
+    }
+    
+    public List<NodeProvider> getNodes() {
+        return nodes;
+    }
+    
+    public List<EdgeProvider> getEdges() {
+        return edges;
+    }
+    
 }
