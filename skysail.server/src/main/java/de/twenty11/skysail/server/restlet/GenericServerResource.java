@@ -64,8 +64,12 @@ public class GenericServerResource<T> extends SkysailServerResource2<T> {
     }
     
     protected Response<T> getEntity(T singleResult) {
-        // TODO Auto-generated method stub
-        return null;
+        try {
+            return new SuccessResponse<T>(singleResult);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return new FailureResponse<T>(e);
+        }
     }
 
     protected Integer getPageSize() {

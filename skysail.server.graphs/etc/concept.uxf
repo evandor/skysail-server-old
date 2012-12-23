@@ -288,4 +288,29 @@ bg=light_gray</panel_attributes>
     <panel_attributes/>
     <additional_attributes>30;30;100;30</additional_attributes>
   </element>
+  <element>
+    <type>com.umlet.element.Note</type>
+    <coordinates>
+      <x>750</x>
+      <y>60</y>
+      <w>260</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>add new path segment "/graph"
+to provide a graph representation
+(of the resource one level up)
+bg=light_gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>840</x>
+      <y>100</y>
+      <w>50</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;100;30;30</additional_attributes>
+  </element>
 </diagram>

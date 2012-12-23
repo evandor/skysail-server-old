@@ -12,7 +12,7 @@ import org.restlet.Application;
 
 import de.twenty11.skysail.server.graphs.test.BaseTest;
 
-public class GraphsModelTest2 extends BaseTest {
+public class GraphsUrlMapperTest extends BaseTest {
 
     @Before
     public void testUp() throws Exception {
