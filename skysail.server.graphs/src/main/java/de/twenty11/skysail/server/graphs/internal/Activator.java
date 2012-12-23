@@ -17,13 +17,8 @@
 
 package de.twenty11.skysail.server.graphs.internal;
 
-import java.util.Collections;
-import java.util.Map;
-
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-
-import de.twenty11.skysail.server.services.ApplicationDescriptor;
 
 /**
  * The bundles activator.
@@ -44,13 +39,8 @@ public class Activator implements BundleActivator {
     public final void stop(final BundleContext context) throws Exception {
         contextGraphModelProvider = null;
     }
-
-//    public static Map<ApplicationDescriptor, GraphsModel> getGraphModels() {
-//        if (contextGraphModelProvider != null) {
-//            return contextGraphModelProvider.getGraphModels();
-//        } else {
-//            return Collections.emptyMap();
-//        }
-//    }
-
+    
+    public static GraphModelProvider getGraphModelProvider() {
+        return contextGraphModelProvider;
+    }
 }

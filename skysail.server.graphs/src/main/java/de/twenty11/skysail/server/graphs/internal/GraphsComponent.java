@@ -48,7 +48,7 @@ public class GraphsComponent extends Component {
         // Create a restlet application
         logger.info("new restlet application: {}", GraphsSkysailApplication.class.getName());
         application = new GraphsSkysailApplication("/static");
-
+        
         // Attach the application to the component and start it
         logger.info("attaching application and starting {}", this.toString());
         getDefaultHost().attachDefault(application);

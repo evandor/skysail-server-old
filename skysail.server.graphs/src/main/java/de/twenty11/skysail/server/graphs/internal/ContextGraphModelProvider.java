@@ -52,7 +52,6 @@ public class ContextGraphModelProvider implements GraphModelProvider {
                     ApplicationDescriptor.class.getName(), null);
             if (allSkysailApps != null) {
                 for (ServiceReference serviceReference : allSkysailApps) {
-                    // addNewMapping(bundleContext, serviceReference);
                     ApplicationDescriptor skysailApp = (ApplicationDescriptor) bundleContext
                             .getService(serviceReference);
                     String skysailAppName = skysailApp.getApplicationDescription().getName();
@@ -82,10 +81,8 @@ public class ContextGraphModelProvider implements GraphModelProvider {
                 Annotation graphAnnotation = getAnnotation(cf, Graph.class);
                 if (graphAnnotation != null) {
                     String className = cf.getName();
-                    String path = getPathFromUrlMapper(className);
-                    if (path != null) {
-                        paths.add(path);
-                    }
+                    List<String> pathsFromMapper = getPathsFromUrlMapper(className);
+                    paths.addAll(pathsFromMapper);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -94,21 +91,24 @@ public class ContextGraphModelProvider implements GraphModelProvider {
         return paths;
     }
 
-    private String getPathFromUrlMapper(String className) throws Exception {
+    private List<String> getPathsFromUrlMapper(String className) throws Exception {
+        List<String> results = new ArrayList<>();
         ServiceReference[] allUrlMappers = bundleContext.getAllServiceReferences(UrlMapper.class.getName(), null);
         if (allUrlMappers != null) {
             for (ServiceReference serviceReference : allUrlMappers) {
                 UrlMapper urlMapper = (UrlMapper) bundleContext.getService(serviceReference);
+                if (urlMapper.getClass().equals(GraphsUrlMapper.class)) {
+                    continue; // don't examine "self"
+                }
                 Map<String, String> urlMappings = urlMapper.provideUrlMapping();
                 for (Entry<String, String> entry : urlMappings.entrySet()) {
                     if (entry.getValue().equals(className)) {
-                        // first one only
-                        return entry.getKey();
+                        results.add(entry.getKey());
                     }
                 }
             }
         }
-        return null;
+        return results;
     }
 
     private Annotation getAnnotation(ClassFile cf, Class<?> annotation) {

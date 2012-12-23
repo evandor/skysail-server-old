@@ -4,7 +4,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -12,7 +11,6 @@ import org.junit.Test;
 import org.restlet.Application;
 
 import de.twenty11.skysail.server.graphs.test.BaseTest;
-import de.twenty11.skysail.server.services.ApplicationDescriptor;
 
 public class GraphsModelTest2 extends BaseTest {
 
@@ -31,6 +29,7 @@ public class GraphsModelTest2 extends BaseTest {
         Application.setCurrent(graphApplication);
         inboundRoot = graphApplication.getInboundRoot();
         Map<String, String> urlMapping = new GraphsUrlMapper().provideUrlMapping();
+        
         assertThat(urlMapping.size(), is(equalTo(2)));
     }
     

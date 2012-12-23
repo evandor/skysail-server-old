@@ -18,7 +18,7 @@ public class GraphsUrlMapper implements UrlMapper {
         for (ApplicationDescriptor application : graphPaths.keySet()) {
             String rootName = application.getApplicationDescription().getName();
             for (String path : graphPaths.get(application)) {
-                routes.put("/" + rootName + "/graphs/" + path, GraphsResource.class.getName());
+                routes.put(path + "/graph", GraphsResource.class.getName());
             }
         }
         return routes;

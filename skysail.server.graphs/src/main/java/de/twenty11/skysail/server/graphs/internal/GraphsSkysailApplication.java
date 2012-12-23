@@ -54,7 +54,11 @@ public class GraphsSkysailApplication extends RestletOsgiApplication {
      * 
      * @return
      */
-    public static GraphsSkysailApplication get() {
+    public synchronized static GraphsSkysailApplication get() {
+        if (self == null) {
+            self = new GraphsSkysailApplication("/static");
+            GraphsSkysailApplication.setGraphModelProvider(Activator.getGraphModelProvider());
+        }
         return self;
     }
 
@@ -74,10 +78,6 @@ public class GraphsSkysailApplication extends RestletOsgiApplication {
     public static void setGraphModelProvider(GraphModelProvider gmp) {
         graphModelProvider = gmp;
     }
-
-//    public static Map<ApplicationDescriptor, GraphsModel> getGraphModels() {
-//        return graphModelProvider.getGraphModels();
-//    }
 
     public Map<ApplicationDescriptor, List<String>> getRelevantAppsAndPaths() {
         return graphModelProvider.getRelevantAppsAndPaths();
