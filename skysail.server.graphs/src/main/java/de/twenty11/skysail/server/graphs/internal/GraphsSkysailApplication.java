@@ -17,6 +17,7 @@
 
 package de.twenty11.skysail.server.graphs.internal;
 
+import java.util.List;
 import java.util.Map;
 
 import org.osgi.framework.FrameworkUtil;
@@ -35,7 +36,7 @@ import de.twenty11.skysail.server.services.ApplicationDescriptor;
 public class GraphsSkysailApplication extends RestletOsgiApplication {
 
     private static GraphsSkysailApplication self;
-    private static GraphModelProvider formModelProvider;
+    private static GraphModelProvider graphModelProvider;
 
     /**
      * @param staticPathTemplate
@@ -66,16 +67,20 @@ public class GraphsSkysailApplication extends RestletOsgiApplication {
     protected void attach() {
         if (FrameworkUtil.getBundle(RestletOsgiApplication.class) != null) {
             new UrlMappingServiceListener(this);
-            new SkysailApplicationServiceListener(this);
+            //new SkysailApplicationServiceListener(this);
         }
     }
 
-    public static void setFormModelProvider(GraphModelProvider fmp) {
-        formModelProvider = fmp;
+    public static void setGraphModelProvider(GraphModelProvider gmp) {
+        graphModelProvider = gmp;
     }
 
-    public static Map<ApplicationDescriptor, GraphsModel> getGraphModels() {
-        return formModelProvider.getGraphModels();
+//    public static Map<ApplicationDescriptor, GraphsModel> getGraphModels() {
+//        return graphModelProvider.getGraphModels();
+//    }
+
+    public Map<ApplicationDescriptor, List<String>> getRelevantAppsAndPaths() {
+        return graphModelProvider.getRelevantAppsAndPaths();
     }
 
 }

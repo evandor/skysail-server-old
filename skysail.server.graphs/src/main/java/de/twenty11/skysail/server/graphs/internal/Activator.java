@@ -33,24 +33,24 @@ import de.twenty11.skysail.server.services.ApplicationDescriptor;
  */
 public class Activator implements BundleActivator {
 
-    private static SkysailApplicationServiceListener skysailApplicationServiceListener;
+    private static ContextGraphModelProvider contextGraphModelProvider;
 
     /** {@inheritDoc} */
     public final void start(final BundleContext context) throws Exception {
-        skysailApplicationServiceListener = new SkysailApplicationServiceListener(context);
+        contextGraphModelProvider = new ContextGraphModelProvider(context);
     }
 
     /** {@inheritDoc} */
     public final void stop(final BundleContext context) throws Exception {
-        skysailApplicationServiceListener = null;
+        contextGraphModelProvider = null;
     }
 
-    public static Map<ApplicationDescriptor, GraphsModel> getGraphModels() {
-        if (skysailApplicationServiceListener != null) {
-            return skysailApplicationServiceListener.getGraphModels();
-        } else {
-            return Collections.emptyMap();
-        }
-    }
+//    public static Map<ApplicationDescriptor, GraphsModel> getGraphModels() {
+//        if (contextGraphModelProvider != null) {
+//            return contextGraphModelProvider.getGraphModels();
+//        } else {
+//            return Collections.emptyMap();
+//        }
+//    }
 
 }

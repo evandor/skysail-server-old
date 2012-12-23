@@ -2,9 +2,7 @@ package de.twenty11.skysail.server.graphs;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-import org.restlet.Application;
 import org.restlet.resource.Get;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,12 +10,8 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.common.forms.FormDetails;
 import de.twenty11.skysail.common.forms.RestfulForms;
 import de.twenty11.skysail.common.responses.Response;
-import de.twenty11.skysail.server.graphs.internal.Activator;
-import de.twenty11.skysail.server.graphs.internal.GraphsModel;
-import de.twenty11.skysail.server.graphs.internal.GraphsSkysailApplication;
 import de.twenty11.skysail.server.restlet.ListServerResource;
 import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
-import de.twenty11.skysail.server.services.ApplicationDescriptor;
 
 /**
  * Restlet Resource class for handling Connections.
@@ -48,7 +42,7 @@ public class GraphsResource extends ListServerResource<FormDetails> implements R
     private List<FormDetails> allForms() {
         RestletOsgiApplication application = (RestletOsgiApplication)getApplication();
         String applicationName = application.getApplicationName();
-        Map<ApplicationDescriptor, GraphsModel> graphModels = Activator.getGraphModels();
+   //     Map<ApplicationDescriptor, GraphsModel> graphModels = Activator.getGraphModels();
 //        for (ApplicationDescriptor appDescriptor : formModels.keySet()) {
 //            if (appDescriptor.getApplicationDescription().getName().equals(applicationName)) {
 //                GraphsModel formsModel = formModels.get(appDescriptor);

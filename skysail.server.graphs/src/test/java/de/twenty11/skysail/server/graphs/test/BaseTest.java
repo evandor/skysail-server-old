@@ -3,13 +3,21 @@ package de.twenty11.skysail.server.graphs.test;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.restlet.Application;
 import org.restlet.Request;
 import org.restlet.Restlet;
@@ -20,16 +28,13 @@ import org.restlet.data.Method;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ServerResource;
 
+import de.twenty11.skysail.common.app.ApplicationDescription;
 import de.twenty11.skysail.common.graphs.GraphDetails;
 import de.twenty11.skysail.common.responses.Response;
 import de.twenty11.skysail.server.ext.osgimonitor.internal.OsgiMonitorComponent;
 import de.twenty11.skysail.server.ext.osgimonitor.internal.OsgiMonitorUrlMapper;
 import de.twenty11.skysail.server.ext.osgimonitor.internal.OsgiMonitorViewerApplication;
-import de.twenty11.skysail.server.graphs.internal.GraphModelProvider;
-import de.twenty11.skysail.server.graphs.internal.GraphsComponent;
-import de.twenty11.skysail.server.graphs.internal.GraphsModel;
 import de.twenty11.skysail.server.graphs.internal.GraphsSkysailApplication;
-import de.twenty11.skysail.server.graphs.internal.GraphsUrlMapper;
 import de.twenty11.skysail.server.services.ApplicationDescriptor;
 import de.twenty11.skysail.server.services.UrlMapper;
 
@@ -40,43 +45,89 @@ public class BaseTest {
     protected Restlet inboundRoot;
     protected ObjectMapper mapper = new ObjectMapper();
 
-    protected GraphsSkysailApplication setUpGraphsApplication() throws ClassNotFoundException {
-        GraphsComponent graphComponent = new GraphsComponent();
-        graphApplication = graphComponent.getApplication();
+    protected BundleContext setupBundleContextMock() throws InvalidSyntaxException {
+        BundleContext contextMock = mock(BundleContext.class);
 
-        //final ApplicationDescription spy = Mockito.spy(formsSkysailApplication);
-        graphApplication.setFormModelProvider(new GraphModelProvider() {
-            
+        ServiceReference[] appDescriptorServiceReferencesMock = setupAppDescriptorServiceReferencesMock();
+        ServiceReference[] appUrlMapperServiceReferencesMock = setupUrlMapperServiceReferencesMock();
+
+        when(contextMock.getAllServiceReferences(ApplicationDescriptor.class.getName(), null)).thenReturn(
+                appDescriptorServiceReferencesMock);
+        when(contextMock.getAllServiceReferences(UrlMapper.class.getName(), null)).thenReturn(
+                appUrlMapperServiceReferencesMock);
+        when(contextMock.getService(appDescriptorServiceReferencesMock[0])).thenReturn(new ApplicationDescriptor() {
+
             @Override
-            public Map<ApplicationDescriptor, GraphsModel> getGraphModels() {
-                Map<ApplicationDescriptor, GraphsModel> result = new HashMap<ApplicationDescriptor, GraphsModel>();
-                ApplicationDescriptor appService = new ApplicationDescriptor() {
-                    
-                    @Override
-                    public de.twenty11.skysail.common.app.ApplicationDescription getApplicationDescription() {
-                        return new de.twenty11.skysail.common.app.ApplicationDescription("testapp","","");
-                    }
-                };
-                GraphsModel formsModel = new GraphsModel();
-                result.put(appService, formsModel);
+            public ApplicationDescription getApplicationDescription() {
+                return new ApplicationDescription("appName", "desc", "path");
+            }
+        });
+        when(contextMock.getService(appUrlMapperServiceReferencesMock[0])).thenReturn(new UrlMapper() {
+            @Override
+            public Map<String, String> provideUrlMapping() {
+                Map<String,String> result = new HashMap<>();
+                result.put("/testpath1", GraphTestClass.class.getName());
+                result.put("/testpath2/{name}", GraphTestClass.class.getName());
                 return result;
             }
         });
-        Application.setCurrent(graphApplication);
-        inboundRoot = graphApplication.getInboundRoot();
-        addMappings(new GraphsUrlMapper());
-        return graphApplication;
+        return contextMock;
     }
-    
+
+    private ServiceReference[] setupAppDescriptorServiceReferencesMock() {
+        ServiceReference[] serviceReferences = new ServiceReference[1];
+        ServiceReference serviceReference = mock(ServiceReference.class);
+        Bundle bundleMock = setupBundleMock();
+        when(serviceReference.getBundle()).thenReturn(bundleMock);
+        serviceReferences[0] = serviceReference;
+        return serviceReferences;
+    }
+
+    private ServiceReference[] setupUrlMapperServiceReferencesMock() {
+        ServiceReference[] serviceReferences = new ServiceReference[1];
+        ServiceReference serviceReference = mock(ServiceReference.class);
+        Bundle bundleMock = setupUrlMapperBundleMock();
+        when(serviceReference.getBundle()).thenReturn(bundleMock);
+        serviceReferences[0] = serviceReference;
+        return serviceReferences;
+    }
+
+    private Bundle setupBundleMock() {
+        Bundle bundleWithGraphAnnotation = mock(Bundle.class);
+        Enumeration<URL> classes = new Enumeration<URL>() {
+
+            boolean moreElements = true;
+
+            @Override
+            public boolean hasMoreElements() {
+                return moreElements;
+            }
+
+            @Override
+            public URL nextElement() {
+                moreElements = false;
+                return this.getClass().getResource("GraphTestClass.class");
+            }
+        };
+        when(bundleWithGraphAnnotation.findEntries("/", "*.class", true)).thenReturn(classes);
+        return bundleWithGraphAnnotation;
+    }
+
+    private Bundle setupUrlMapperBundleMock() {
+        Bundle bundle = mock(Bundle.class);
+        //when(bundle.).thenReturn(classes);
+        return bundle;
+    }
+
     protected OsgiMonitorViewerApplication setUpOsgiMonitorApplication() throws ClassNotFoundException {
-    	OsgiMonitorComponent component = new OsgiMonitorComponent();
-    	osgiMonitorViewerApplication = component.getApplication();
+        OsgiMonitorComponent component = new OsgiMonitorComponent();
+        osgiMonitorViewerApplication = component.getApplication();
         Application.setCurrent(osgiMonitorViewerApplication);
         inboundRoot = osgiMonitorViewerApplication.getInboundRoot();
         addMappings(new OsgiMonitorUrlMapper());
         return osgiMonitorViewerApplication;
     }
-    
+
     protected void addMappings(UrlMapper urlMapper) throws ClassNotFoundException {
         Map<String, String> urlMapping = urlMapper.provideUrlMapping();
         for (Map.Entry<String, String> mapping : urlMapping.entrySet()) {
@@ -117,5 +168,4 @@ public class BaseTest {
         assertThat(response.getEntity().getMediaType(), is(MediaType.APPLICATION_JSON));
     }
 
-   
 }
