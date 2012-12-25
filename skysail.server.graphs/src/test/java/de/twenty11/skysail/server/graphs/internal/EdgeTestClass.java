@@ -41,17 +41,17 @@ public class EdgeTestClass implements EdgeProvider {
     }
 
     @Override
-    public String source() {
+    public String getSource() {
         return source.getNodeId();
     }
 
     @Override
-    public String target() {
+    public String getTarget() {
         return target.getNodeId();
     }
 
     @Override
-    public int weight() {
+    public int getWeight() {
         return weight;
     }
 	
