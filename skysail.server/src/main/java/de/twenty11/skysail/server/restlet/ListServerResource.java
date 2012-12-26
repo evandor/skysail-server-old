@@ -18,30 +18,25 @@
 package de.twenty11.skysail.server.restlet;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.validation.Configuration;
-import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
 import org.restlet.Restlet;
-import org.restlet.data.MediaType;
 import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.forms.ConstraintViolations;
-import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.Response;
-import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 
 /**
@@ -174,17 +169,17 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         return getSkysailData();// currentPageResults(pageSize);
     }
 
-    public void setResponseDetails(SkysailResponse<GridData> response, MediaType mediaType) {
-        if (response.getMessage() == null || response.getMessage().trim().equals("")) {
-            response.setMessage(getMessage());
-        }
-        response.setTotalResults(getTotalResults());
-        response.setPage(getCurrentPage());
-        response.setPageSize(getPageSize());
-        if (getQuery() != null && getQuery().getNames().contains("debug")) {
-            response.setDebug(true);
-        }
-    }
+//    public void setResponseDetails(SkysailResponse<GridData> response, MediaType mediaType) {
+//        if (response.getMessage() == null || response.getMessage().trim().equals("")) {
+//            response.setMessage(getMessage());
+//        }
+//        response.setTotalResults(getTotalResults());
+//        response.setPage(getCurrentPage());
+//        response.setPageSize(getPageSize());
+//        if (getQuery() != null && getQuery().getNames().contains("debug")) {
+//            response.setDebug(true);
+//        }
+//    }
 
     protected int doHandlePagination(String configIdentifier, int defaultSize) {
         int pageSize = 20;
