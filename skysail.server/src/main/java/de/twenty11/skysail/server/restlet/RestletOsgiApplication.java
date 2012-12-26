@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.server.internal.Blocker;
 import de.twenty11.skysail.server.internal.ClassLoaderDirectory;
 import de.twenty11.skysail.server.internal.CompositeClassLoader;
+import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
 import de.twenty11.skysail.server.services.ConfigService;
 
 /**
@@ -51,6 +52,9 @@ public abstract class RestletOsgiApplication extends Application {
 
     /** the osgi bundle context. */
     private static BundleContext bundleContext;
+    
+    /** listener keeping track of all url mappings. */
+    protected UrlMappingServiceListener urlMappingServiceListener;
 
     public RestletOsgiApplication(String applicationName, String staticPathTemplate) {
         this.applicationName = applicationName;
@@ -136,5 +140,10 @@ public abstract class RestletOsgiApplication extends Application {
     public RouteList getRoutes() {
         return router.getRoutes();
     }
+
+    public UrlMappingServiceListener getUrlMappingServiceListener() {
+        return urlMappingServiceListener;
+    }
+
 
 }

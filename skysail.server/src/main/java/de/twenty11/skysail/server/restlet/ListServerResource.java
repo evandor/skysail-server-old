@@ -88,7 +88,9 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
 
     protected Response<List<T>> getEntities(List<T> data, String defaultMsg) {
         try {
-            SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data, getRequest());
+            RestletOsgiApplication app = (RestletOsgiApplication)getApplication();
+            Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener().getMappings() : null;
+            SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data, getRequest(), mappings, getQuery());
             successResponse.setMessage(defaultMsg);
             if (this.getMessage() != null && !"".equals(this.getMessage().trim())) {
                 successResponse.setMessage(getMessage());
@@ -102,7 +104,9 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
 
     protected Response<T> getEntity(T data) {
         try {
-            return new SuccessResponse<T>(data, getRequest());
+            RestletOsgiApplication app = (RestletOsgiApplication)getApplication();
+            Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener().getMappings() : null;
+            return new SuccessResponse<T>(data, getRequest(), mappings, getQuery());
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return new FailureResponse<T>(e);
@@ -112,7 +116,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
     protected Response<String> deleteEntity(EntityManager em, T entity) {
         try {
             em.remove(entity);
-            SuccessResponse<String> response = new SuccessResponse<String>(null, getRequest());
+            SuccessResponse<String> response = new SuccessResponse<String>(null);
             response.setMessage("deleted entity '" + entity + "'");
             return response;
         } catch (Exception e) {
