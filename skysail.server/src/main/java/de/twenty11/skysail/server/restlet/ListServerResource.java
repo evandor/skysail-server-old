@@ -90,7 +90,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         try {
             RestletOsgiApplication app = (RestletOsgiApplication)getApplication();
             Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener().getMappings() : null;
-            SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data, getRequest(), mappings, getQuery());
+            SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data, getRequest(), mappings);
             successResponse.setMessage(defaultMsg);
             if (this.getMessage() != null && !"".equals(this.getMessage().trim())) {
                 successResponse.setMessage(getMessage());
@@ -106,7 +106,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         try {
             RestletOsgiApplication app = (RestletOsgiApplication)getApplication();
             Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener().getMappings() : null;
-            return new SuccessResponse<T>(data, getRequest(), mappings, getQuery());
+            return new SuccessResponse<T>(data, getRequest(), mappings);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return new FailureResponse<T>(e);
@@ -181,10 +181,6 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         response.setTotalResults(getTotalResults());
         response.setPage(getCurrentPage());
         response.setPageSize(getPageSize());
-        //response.setRequest(getRequest().getOriginalRef() != null ? getRequest().getOriginalRef().toString() : null);
-        response.setParent(getParent() + "?media=" + mediaType.toString().replace("application/", ""));
-        response.setContextPath("/rest/");
-        // response.setSortingRepresentation(getSorting());
         if (getQuery() != null && getQuery().getNames().contains("debug")) {
             response.setDebug(true);
         }
