@@ -88,7 +88,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
 
     protected Response<List<T>> getEntities(List<T> data, String defaultMsg) {
         try {
-            SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data);
+            SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data, getRequest());
             successResponse.setMessage(defaultMsg);
             if (this.getMessage() != null && !"".equals(this.getMessage().trim())) {
                 successResponse.setMessage(getMessage());
@@ -102,7 +102,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
 
     protected Response<T> getEntity(T data) {
         try {
-            return new SuccessResponse<T>(data);
+            return new SuccessResponse<T>(data, getRequest());
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return new FailureResponse<T>(e);
@@ -112,7 +112,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
     protected Response<String> deleteEntity(EntityManager em, T entity) {
         try {
             em.remove(entity);
-            SuccessResponse<String> response = new SuccessResponse<String>();
+            SuccessResponse<String> response = new SuccessResponse<String>(null, getRequest());
             response.setMessage("deleted entity '" + entity + "'");
             return response;
         } catch (Exception e) {
@@ -177,7 +177,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         response.setTotalResults(getTotalResults());
         response.setPage(getCurrentPage());
         response.setPageSize(getPageSize());
-        response.setRequest(getRequest().getOriginalRef() != null ? getRequest().getOriginalRef().toString() : null);
+        //response.setRequest(getRequest().getOriginalRef() != null ? getRequest().getOriginalRef().toString() : null);
         response.setParent(getParent() + "?media=" + mediaType.toString().replace("application/", ""));
         response.setContextPath("/rest/");
         // response.setSortingRepresentation(getSorting());

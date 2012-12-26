@@ -17,6 +17,8 @@
 
 package de.twenty11.skysail.server.um.internal;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -40,6 +42,12 @@ public class SkysailEntityManagerProvider {
             validateDefaultUser(em);
             em.close();
         } catch (Exception e) {
+            if (e.getCause() != null && e.getCause().getCause() != null) {
+                // default user exists already, we can swallow the exception in this case
+                if (e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+                    return;
+                }
+            }
             e.printStackTrace();
         }
     }
