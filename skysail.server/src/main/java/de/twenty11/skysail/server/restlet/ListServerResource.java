@@ -20,6 +20,7 @@ package de.twenty11.skysail.server.restlet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -30,10 +31,12 @@ import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
 import org.restlet.Restlet;
+import org.restlet.data.Reference;
 import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.common.DetailsLinkProvider;
 import de.twenty11.skysail.common.forms.ConstraintViolations;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.Response;
@@ -85,6 +88,20 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         try {
             RestletOsgiApplication app = (RestletOsgiApplication)getApplication();
             Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener().getMappings() : null;
+            Reference ref = getReference();
+
+            for (T payload : data) {
+                if (payload instanceof DetailsLinkProvider) {
+                    Map<String, String> links = new HashMap<String, String>();
+                    DetailsLinkProvider dlp = (DetailsLinkProvider) payload;
+                    for (Entry<String, String> linkEntry : dlp.getLinkMap().entrySet()) {
+                        links.put(linkEntry.getKey(), ref.toString() + linkEntry.getValue() + "?media=json");
+                    }
+                    dlp.setLinks(links);
+                }
+
+            }
+
             SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data, getRequest(), mappings);
             successResponse.setMessage(defaultMsg);
             if (this.getMessage() != null && !"".equals(this.getMessage().trim())) {
