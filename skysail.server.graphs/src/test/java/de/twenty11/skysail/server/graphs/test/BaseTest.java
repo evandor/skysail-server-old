@@ -120,7 +120,7 @@ public class BaseTest {
     }
 
     protected OsgiMonitorViewerApplication setUpOsgiMonitorApplication() throws ClassNotFoundException {
-        OsgiMonitorComponent component = new OsgiMonitorComponent();
+        OsgiMonitorComponent component = new OsgiMonitorComponent(null);
         osgiMonitorViewerApplication = component.getApplication();
         Application.setCurrent(osgiMonitorViewerApplication);
         inboundRoot = osgiMonitorViewerApplication.getInboundRoot();

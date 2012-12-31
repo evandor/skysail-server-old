@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>de.twentyeleven.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.8.17-SNAPSHOT</version>
+		<version>0.8.17</version>
 		<relativePath />
 	</parent>
 
@@ -25,7 +25,7 @@
   </scm>
 
 	<properties>
-		<skysail.common.version>[0.3.9-SNAPSHOT, 1.0)</skysail.common.version>
+		<skysail.common.version>[0.3.9, 1.0)</skysail.common.version>
 	</properties>
 
 	<build>
@@ -194,17 +194,6 @@
 			<artifactId>javax.persistence</artifactId>
 		</dependency>
 
-		<!-- <dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>org.eclipse.persistence.core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>org.eclipse.persistence.osgi</artifactId>
-		</dependency>
- -->
-		
 	</dependencies>
 
 	<repositories>
