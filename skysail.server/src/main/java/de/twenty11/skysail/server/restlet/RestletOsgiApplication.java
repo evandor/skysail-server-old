@@ -16,6 +16,7 @@ import org.restlet.security.ChallengeAuthenticator;
 import org.restlet.security.Enroler;
 import org.restlet.security.MapVerifier;
 import org.restlet.security.Role;
+import org.restlet.security.SecretVerifier;
 import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +44,7 @@ public abstract class RestletOsgiApplication extends Application {
     /** the restlet router. */
     protected volatile Router router;
 
-    private MapVerifier verifier;
+    private SecretVerifier verifier = new MapVerifier();
 
     private String staticPath;
 
@@ -59,11 +60,6 @@ public abstract class RestletOsgiApplication extends Application {
     public RestletOsgiApplication(String applicationName, String staticPathTemplate) {
         this.applicationName = applicationName;
         ConfigService configService = null;// ConfigServiceProvider.getConfigService();
-        String defaultUser = "scott";// configService.getString("defaultUser", "scott");
-        String defaultPass = "tiger";// configService.getString("defaultPass", "tiger");
-        MapVerifier verifier = new MapVerifier();
-        verifier.getLocalSecrets().put(defaultUser, defaultPass.toCharArray());
-        this.verifier = verifier;
         this.staticPath = staticPathTemplate;
     }
 
@@ -143,6 +139,10 @@ public abstract class RestletOsgiApplication extends Application {
 
     public UrlMappingServiceListener getUrlMappingServiceListener() {
         return urlMappingServiceListener;
+    }
+
+    public void setVerifier(SecretVerifier verifier) {
+        this.verifier = verifier;
     }
 
 
