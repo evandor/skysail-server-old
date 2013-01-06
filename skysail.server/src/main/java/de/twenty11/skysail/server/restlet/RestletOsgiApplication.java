@@ -69,6 +69,10 @@ public abstract class RestletOsgiApplication extends Application {
         RestletOsgiApplication.bundleContext = bundleContext;
     }
 
+    public static BundleContext getBundleContext() {
+        return bundleContext;
+    }
+
     public String getApplicationName() {
         return applicationName;
     }
