@@ -18,6 +18,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
+import org.osgi.service.component.ComponentContext;
 import org.restlet.Application;
 import org.restlet.Request;
 import org.restlet.Restlet;
@@ -27,6 +28,7 @@ import org.restlet.data.MediaType;
 import org.restlet.data.Method;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ServerResource;
+import org.restlet.security.MapVerifier;
 
 import de.twenty11.skysail.common.app.ApplicationDescription;
 import de.twenty11.skysail.common.graphs.GraphDetails;
@@ -120,7 +122,10 @@ public class BaseTest {
     }
 
     protected OsgiMonitorViewerApplication setUpOsgiMonitorApplication() throws ClassNotFoundException {
-        OsgiMonitorComponent component = new OsgiMonitorComponent(null);
+        MapVerifier verifier = new MapVerifier();
+        verifier.getLocalSecrets().put("admintest", "testpassword".toCharArray());
+        ComponentContext contextMock = mock(ComponentContext.class);
+        OsgiMonitorComponent component = new OsgiMonitorComponent(contextMock, verifier);
         osgiMonitorViewerApplication = component.getApplication();
         Application.setCurrent(osgiMonitorViewerApplication);
         inboundRoot = osgiMonitorViewerApplication.getInboundRoot();
@@ -155,7 +160,8 @@ public class BaseTest {
     }
 
     protected org.restlet.Response handleRequest(Request request) {
-        ChallengeResponse authentication = new ChallengeResponse(ChallengeScheme.HTTP_BASIC, "scott", "tiger");
+        ChallengeResponse authentication = new ChallengeResponse(ChallengeScheme.HTTP_BASIC, "admintest",
+                "testpassword");
         request.setChallengeResponse(authentication);
         org.restlet.Response response = new org.restlet.Response(request);
         inboundRoot.handle(request, response);

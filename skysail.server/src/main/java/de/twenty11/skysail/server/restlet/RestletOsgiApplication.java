@@ -52,7 +52,7 @@ public abstract class RestletOsgiApplication extends Application {
     private String applicationName;
 
     /** the osgi bundle context. */
-    private static BundleContext bundleContext;
+    private BundleContext bundleContext;
     
     /** listener keeping track of all url mappings. */
     protected UrlMappingServiceListener urlMappingServiceListener;
@@ -65,11 +65,11 @@ public abstract class RestletOsgiApplication extends Application {
 
     abstract protected void attach();
 
-    public static void setBundleContext(BundleContext bundleContext) {
-        RestletOsgiApplication.bundleContext = bundleContext;
+    public void setBundleContext(BundleContext bundleContext) {
+        this.bundleContext = bundleContext;
     }
 
-    public static BundleContext getBundleContext() {
+    public BundleContext getBundleContext() {
         return bundleContext;
     }
 

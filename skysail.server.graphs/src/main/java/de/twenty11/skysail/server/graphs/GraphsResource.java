@@ -1,18 +1,12 @@
 package de.twenty11.skysail.server.graphs;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.restlet.data.ChallengeRequest;
-import org.restlet.data.ChallengeResponse;
-import org.restlet.data.ChallengeScheme;
-import org.restlet.data.Reference;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ClientResource;
 import org.restlet.resource.Get;
@@ -20,8 +14,6 @@ import org.restlet.resource.ResourceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.forms.FormDetails;
-import de.twenty11.skysail.common.forms.RestfulForms;
 import de.twenty11.skysail.common.graphs.EdgeDetails;
 import de.twenty11.skysail.common.graphs.EdgeProvider;
 import de.twenty11.skysail.common.graphs.GraphDetails;
@@ -31,7 +23,6 @@ import de.twenty11.skysail.common.graphs.OutgoingEdgesProvider;
 import de.twenty11.skysail.common.graphs.RestfulGraph;
 import de.twenty11.skysail.common.responses.Response;
 import de.twenty11.skysail.server.restlet.GenericServerResource;
-import de.twenty11.skysail.server.restlet.ListServerResource;
 import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
 
 /**
@@ -77,8 +68,17 @@ public class GraphsResource extends GenericServerResource<GraphDetails> implemen
         String applicationName = application.getApplicationName();
         GraphDetails graphDetails = new GraphDetails("graph");
 
+        resourceRef = "riap://host/osgimonitor/bundles";
         ClientResource columns = new ClientResource(resourceRef);
-        columns.setChallengeResponse(new ChallengeResponse(ChallengeScheme.HTTP_BASIC, "scott", "tiger"));
+        getContext().getDefaultVerifier();
+        getClientInfo().getPrincipals();
+        getClientInfo().getUser();
+        getChallengeRequests();
+        columns.setChallengeResponse(getChallengeResponse());
+        getConditions();
+        getProxyChallengeRequests();
+        getRequestAttributes();
+        // columns.setChallengeResponse(new ChallengeResponse(ChallengeScheme.HTTP_BASIC, "admin", "skysail"));
         Representation representation = columns.get();
         try {
             String representationAsText = representation.getText();
