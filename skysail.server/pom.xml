@@ -25,7 +25,7 @@
   </scm>
 
 	<properties>
-		<skysail.common.version>[0.3.9, 1.0)</skysail.common.version>
+		<skysail.common.version>[0.3.10, 1.0)</skysail.common.version>
 	</properties>
 
 	<build>
