@@ -46,7 +46,7 @@ public class ContextGraphModelProvider implements GraphModelProvider {
     @Override
     public Map<ApplicationDescriptor, List<String>> getRelevantAppsAndPaths() {
 
-        Map<ApplicationDescriptor, List<String>> result = new HashMap<>();
+        Map<ApplicationDescriptor, List<String>> result = new HashMap<ApplicationDescriptor, List<String>>();
         try {
             ServiceReference[] allSkysailApps = bundleContext.getAllServiceReferences(
                     ApplicationDescriptor.class.getName(), null);
@@ -70,7 +70,7 @@ public class ContextGraphModelProvider implements GraphModelProvider {
     }
 
     private List<String> checkForGraphAnnotations(Bundle bundleToExamine) {
-        List<String> paths = new ArrayList<>();
+        List<String> paths = new ArrayList<String>();
         Enumeration<URL> classes = bundleToExamine.findEntries("/", "*.class", true);
         while (classes.hasMoreElements()) {
             try {
@@ -92,7 +92,7 @@ public class ContextGraphModelProvider implements GraphModelProvider {
     }
 
     private List<String> getPathsFromUrlMapper(String className) throws Exception {
-        List<String> results = new ArrayList<>();
+        List<String> results = new ArrayList<String>();
         ServiceReference[] allUrlMappers = bundleContext.getAllServiceReferences(UrlMapper.class.getName(), null);
         if (allUrlMappers != null) {
             for (ServiceReference serviceReference : allUrlMappers) {

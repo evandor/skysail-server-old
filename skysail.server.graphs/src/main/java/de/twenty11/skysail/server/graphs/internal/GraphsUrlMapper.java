@@ -12,7 +12,7 @@ public class GraphsUrlMapper implements UrlMapper {
 
     @Override
     public Map<String, String> provideUrlMapping() {
-        Map<String, String> routes = new HashMap<>();
+        Map<String, String> routes = new HashMap<String, String>();
         
         Map<ApplicationDescriptor, List<String>> graphPaths = GraphsSkysailApplication.get().getRelevantAppsAndPaths();
         for (ApplicationDescriptor application : graphPaths.keySet()) {

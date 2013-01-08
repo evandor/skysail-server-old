@@ -67,7 +67,7 @@ public class BaseTest {
         when(contextMock.getService(appUrlMapperServiceReferencesMock[0])).thenReturn(new UrlMapper() {
             @Override
             public Map<String, String> provideUrlMapping() {
-                Map<String,String> result = new HashMap<>();
+                Map<String,String> result = new HashMap<String,String>();
                 result.put("/testpath1", GraphTestClass.class.getName());
                 result.put("/testpath2/{name}", GraphTestClass.class.getName());
                 return result;
