@@ -23,7 +23,6 @@ import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.converter.BrowserJacksonConverter;
 import de.twenty11.skysail.server.internal.Blocker;
 import de.twenty11.skysail.server.internal.ClassLoaderDirectory;
 import de.twenty11.skysail.server.internal.CompositeClassLoader;
@@ -65,7 +64,8 @@ public abstract class RestletOsgiApplication extends Application {
         ConfigService configService = null;// ConfigServiceProvider.getConfigService();
         this.staticPath = staticPathTemplate;
         List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
-        registeredConverters.add(new BrowserJacksonConverter());
+        // not ready yet
+        // registeredConverters.add(new BrowserJacksonConverter());
     }
 
     abstract protected void attach();
