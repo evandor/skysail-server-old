@@ -74,7 +74,11 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         Configuration<?> config = validationProvider.providerResolver(new OSGiServiceDiscoverer())
                 .configure();
         ValidatorFactory factory = config.buildValidatorFactory();
-        validator = factory.getValidator();    }
+        validator = factory.getValidator();
+        // getVariants().add(new Variant(MediaType.TEXT_HTML));
+        // getVariants().add(new Variant(MediaType.APPLICATION_JSON));
+
+    }
 
     public void buildGrid() {
         logger.error("you should implement a subclass of GridDataServerResource and overwrite method filterData");
