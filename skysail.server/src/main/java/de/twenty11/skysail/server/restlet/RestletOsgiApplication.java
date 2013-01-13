@@ -10,19 +10,24 @@ import org.restlet.data.ChallengeScheme;
 import org.restlet.data.ClientInfo;
 import org.restlet.data.LocalReference;
 import org.restlet.data.Protocol;
+import org.restlet.engine.Engine;
+import org.restlet.engine.converter.ConverterHelper;
 import org.restlet.resource.ServerResource;
 import org.restlet.routing.Router;
 import org.restlet.security.ChallengeAuthenticator;
 import org.restlet.security.Enroler;
 import org.restlet.security.MapVerifier;
 import org.restlet.security.Role;
+import org.restlet.security.SecretVerifier;
 import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.common.converter.Json2HtmlConverter;
+import de.twenty11.skysail.server.directory.ClassLoaderDirectory;
+import de.twenty11.skysail.server.directory.CompositeClassLoader;
 import de.twenty11.skysail.server.internal.Blocker;
-import de.twenty11.skysail.server.internal.ClassLoaderDirectory;
-import de.twenty11.skysail.server.internal.CompositeClassLoader;
+import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
 import de.twenty11.skysail.server.services.ConfigService;
 
 /**
@@ -42,7 +47,7 @@ public abstract class RestletOsgiApplication extends Application {
     /** the restlet router. */
     protected volatile Router router;
 
-    private MapVerifier verifier;
+    private SecretVerifier verifier = new MapVerifier();
 
     private String staticPath;
 
@@ -50,23 +55,27 @@ public abstract class RestletOsgiApplication extends Application {
     private String applicationName;
 
     /** the osgi bundle context. */
-    private static BundleContext bundleContext;
+    private BundleContext bundleContext;
+    
+    /** listener keeping track of all url mappings. */
+    protected UrlMappingServiceListener urlMappingServiceListener;
 
     public RestletOsgiApplication(String applicationName, String staticPathTemplate) {
         this.applicationName = applicationName;
         ConfigService configService = null;// ConfigServiceProvider.getConfigService();
-        String defaultUser = "scott";// configService.getString("defaultUser", "scott");
-        String defaultPass = "tiger";// configService.getString("defaultPass", "tiger");
-        MapVerifier verifier = new MapVerifier();
-        verifier.getLocalSecrets().put(defaultUser, defaultPass.toCharArray());
-        this.verifier = verifier;
         this.staticPath = staticPathTemplate;
+        List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
+        registeredConverters.add(new Json2HtmlConverter());
     }
 
     abstract protected void attach();
 
-    public static void setBundleContext(BundleContext bundleContext) {
-        RestletOsgiApplication.bundleContext = bundleContext;
+    public void setBundleContext(BundleContext bundleContext) {
+        this.bundleContext = bundleContext;
+    }
+
+    public BundleContext getBundleContext() {
+        return bundleContext;
     }
 
     public String getApplicationName() {
@@ -78,7 +87,7 @@ public abstract class RestletOsgiApplication extends Application {
 
         logger.info("creating new Router in {}", this.getClass().getName());
         router = new Router(getContext());
-
+        router.setDefaultMatchingQuery(true);
         // see
         // http://nexnet.wordpress.com/2010/09/29/clap-protocol-in-restlet-and-osgi/
         getConnectorService().getClientProtocols().add(Protocol.HTTP);
@@ -136,5 +145,14 @@ public abstract class RestletOsgiApplication extends Application {
     public RouteList getRoutes() {
         return router.getRoutes();
     }
+
+    public UrlMappingServiceListener getUrlMappingServiceListener() {
+        return urlMappingServiceListener;
+    }
+
+    public void setVerifier(SecretVerifier verifier) {
+        this.verifier = verifier;
+    }
+
 
 }

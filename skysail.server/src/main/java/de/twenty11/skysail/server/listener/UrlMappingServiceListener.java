@@ -1,6 +1,8 @@
 package de.twenty11.skysail.server.listener;
 
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
@@ -34,21 +36,17 @@ import de.twenty11.skysail.server.services.UrlMapper;
  */
 public class UrlMappingServiceListener implements ServiceListener {
 
-    /**
-     * the osgi bundle context provided in the constructor.
-     */
+    /** the osgi bundle context provided in the constructor. */
     private final BundleContext bundleContext;
 
-    /**
-     * the restlet application.
-     */
+    /** the restlet application. */
     private final RestletOsgiApplication application;
 
-    /**
-     * slf4j based logging implementation.
-     */
+    /** slf4j based logging implementation. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private Set<String> mappings = new TreeSet<String>();
+    
     private boolean addBundleName;
 
     public UrlMappingServiceListener(final RestletOsgiApplication restletApp) {
@@ -156,6 +154,7 @@ public class UrlMappingServiceListener implements ServiceListener {
                 @SuppressWarnings("unchecked")
 				Class<? extends ServerResource> resourceClass = (Class<? extends ServerResource>) Class.forName(mapping.getValue());
                 application.attachToRouter(pathPrefix + mapping.getKey(), resourceClass);
+                mappings.add(pathPrefix + mapping.getKey());
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException("was not able to find class " + mapping.getValue(), e);
             }
@@ -182,6 +181,7 @@ public class UrlMappingServiceListener implements ServiceListener {
             try {
                 logger.debug("removing mapping '{}'", mapping);
                 application.detachFromRouter(Class.forName(mapping.getValue()));
+                mappings.remove(mapping.getKey());
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException("was not able to find class " + mapping.getValue(), e);
             }
@@ -200,6 +200,10 @@ public class UrlMappingServiceListener implements ServiceListener {
         for (Route route : routes) {
             logger.info(route.toString());
         }
+    }
+    
+    public Set<String> getMappings() {
+        return mappings;
     }
 
 }

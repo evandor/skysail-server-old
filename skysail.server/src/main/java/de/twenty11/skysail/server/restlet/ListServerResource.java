@@ -18,31 +18,28 @@
 package de.twenty11.skysail.server.restlet;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.validation.Configuration;
-import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
 import org.restlet.Restlet;
-import org.restlet.data.MediaType;
+import org.restlet.data.Reference;
 import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.filters.Filter;
+import de.twenty11.skysail.common.DetailsLinkProvider;
 import de.twenty11.skysail.common.forms.ConstraintViolations;
-import de.twenty11.skysail.common.grids.GridData;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.Response;
-import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 
 /**
@@ -63,8 +60,6 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
     /** slf4j based logger implementation. */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private Filter filter;
-
     private Integer currentPage = 1;
 
     private Integer pageSize = 0;
@@ -79,7 +74,11 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         Configuration<?> config = validationProvider.providerResolver(new OSGiServiceDiscoverer())
                 .configure();
         ValidatorFactory factory = config.buildValidatorFactory();
-        validator = factory.getValidator();    }
+        validator = factory.getValidator();
+        // getVariants().add(new Variant(MediaType.TEXT_HTML));
+        // getVariants().add(new Variant(MediaType.APPLICATION_JSON));
+
+    }
 
     public void buildGrid() {
         logger.error("you should implement a subclass of GridDataServerResource and overwrite method filterData");
@@ -91,7 +90,23 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
 
     protected Response<List<T>> getEntities(List<T> data, String defaultMsg) {
         try {
-            SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data);
+            RestletOsgiApplication app = (RestletOsgiApplication)getApplication();
+            Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener().getMappings() : null;
+            Reference ref = getReference();
+
+            for (T payload : data) {
+                if (payload instanceof DetailsLinkProvider) {
+                    Map<String, String> links = new HashMap<String, String>();
+                    DetailsLinkProvider dlp = (DetailsLinkProvider) payload;
+                    for (Entry<String, String> linkEntry : dlp.getLinkMap().entrySet()) {
+                        links.put(linkEntry.getKey(), ref.toString() + linkEntry.getValue() + "?media=json");
+                    }
+                    dlp.setLinks(links);
+                }
+
+            }
+
+            SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data, getRequest(), mappings);
             successResponse.setMessage(defaultMsg);
             if (this.getMessage() != null && !"".equals(this.getMessage().trim())) {
                 successResponse.setMessage(getMessage());
@@ -105,7 +120,9 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
 
     protected Response<T> getEntity(T data) {
         try {
-            return new SuccessResponse<T>(data);
+            RestletOsgiApplication app = (RestletOsgiApplication)getApplication();
+            Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener().getMappings() : null;
+            return new SuccessResponse<T>(data, getRequest(), mappings);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return new FailureResponse<T>(e);
@@ -115,7 +132,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
     protected Response<String> deleteEntity(EntityManager em, T entity) {
         try {
             em.remove(entity);
-            SuccessResponse<String> response = new SuccessResponse<String>();
+            SuccessResponse<String> response = new SuccessResponse<String>(null);
             response.setMessage("deleted entity '" + entity + "'");
             return response;
         } catch (Exception e) {
@@ -173,22 +190,17 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         return getSkysailData();// currentPageResults(pageSize);
     }
 
-    public void setResponseDetails(SkysailResponse<GridData> response, MediaType mediaType) {
-        if (response.getMessage() == null || response.getMessage().trim().equals("")) {
-            response.setMessage(getMessage());
-        }
-        response.setTotalResults(getTotalResults());
-        response.setPage(getCurrentPage());
-        response.setPageSize(getPageSize());
-        response.setRequest(getRequest().getOriginalRef() != null ? getRequest().getOriginalRef().toString() : null);
-        response.setParent(getParent() + "?media=" + mediaType.toString().replace("application/", ""));
-        response.setContextPath("/rest/");
-        response.setFilter(getFilter() != null ? getFilter().toString() : "");
-        // response.setSortingRepresentation(getSorting());
-        if (getQuery() != null && getQuery().getNames().contains("debug")) {
-            response.setDebug(true);
-        }
-    }
+//    public void setResponseDetails(SkysailResponse<GridData> response, MediaType mediaType) {
+//        if (response.getMessage() == null || response.getMessage().trim().equals("")) {
+//            response.setMessage(getMessage());
+//        }
+//        response.setTotalResults(getTotalResults());
+//        response.setPage(getCurrentPage());
+//        response.setPageSize(getPageSize());
+//        if (getQuery() != null && getQuery().getNames().contains("debug")) {
+//            response.setDebug(true);
+//        }
+//    }
 
     protected int doHandlePagination(String configIdentifier, int defaultSize) {
         int pageSize = 20;
@@ -211,14 +223,6 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
             params = getQuery().getValuesMap();
         }
         return params;
-    }
-
-    public Filter getFilter() {
-        return filter;
-    }
-
-    public void setFilter(Filter filter) {
-        this.filter = filter;
     }
 
     protected Integer getPageSize() {

@@ -1,29 +1,32 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>de.twentyeleven.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.8.16-SNAPSHOT</version>
+		<version>0.8.17</version>
 		<relativePath />
 	</parent>
 
 	<artifactId>skysail.server.um</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>skysail server um</name>
 	<packaging>bundle</packaging>
 
 	<scm>
+		<!-- read access -->
 		<connection>scm:git:git@github.com:evandor/skysail-server.git</connection>
+		<!-- write access -->
 		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
+		<!-- A publicly browsable repository. For example, via ViewCVS. -->
 		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
-	</scm>
+	  <tag>HEAD</tag>
+  </scm>
 
 	<properties>
-		<skysail.common.version>[0.3.8-SNAPSHOT, 1.0)</skysail.common.version>
-		<skysail.server.version>[0.2.6-SNAPSHOT, 1.0)</skysail.server.version>
+		<skysail.common.version>[0.3.9, 1.0)</skysail.common.version>
+		<skysail.server.version>[0.2.6, 1.0)</skysail.server.version>
 	</properties>
 
 	<build>
@@ -45,13 +48,13 @@
 		<dependency>
 			<groupId>de.twentyeleven.skysail</groupId>
 			<artifactId>skysail.common</artifactId>
-			<version>0.3.8-SNAPSHOT</version>
+			<version>0.3.9</version>
 			<type>bundle</type>
 		</dependency>
 		<dependency>
 			<groupId>de.twentyeleven.skysail</groupId>
 			<artifactId>skysail.common.um</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
@@ -68,7 +71,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>org.eclipse.persistence.core </artifactId>
+			<artifactId>org.eclipse.persistence.core</artifactId>
 		</dependency>
 
 		<dependency>
@@ -83,6 +86,10 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.enterprise</artifactId>
+		</dependency>
 	</dependencies>
 
 

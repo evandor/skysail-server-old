@@ -20,11 +20,14 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+<<<<<<< HEAD
 		<buildCommand>
 			<name>org.eclipse.m2e.core.maven2Builder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
+=======
+>>>>>>> 47b611539a4588efdf72b780d4b9bb80091de483
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.pde.PluginNature</nature>

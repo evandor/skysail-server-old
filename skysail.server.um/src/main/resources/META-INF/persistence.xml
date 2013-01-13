@@ -4,14 +4,17 @@
 	version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
 	<persistence-unit name="skysail.server.um"
 		transaction-type="RESOURCE_LOCAL">
-		<class>de.twenty11.skysail.server.um.internal.SkysailClient</class>
+		<!-- <class>de.twenty11.skysail.server.um.internal.SkysailClient</class> -->
         <class>de.twenty11.skysail.common.um.SkysailUser</class>
-        <class>de.twenty11.skysail.server.um.internal.SkysailRole</class>
-        <class>de.twenty11.skysail.server.um.internal.SkysailPermission</class>
+        <class>de.twenty11.skysail.common.ext.dbviewer.ConnectionDetails</class>
+        <!-- <class>de.twenty11.skysail.server.um.internal.SkysailRole</class>
+        <class>de.twenty11.skysail.server.um.internal.SkysailPermission</class> -->
 		<!-- <exclude-unlisted-classes>false</exclude-unlisted-classes> -->
 		<properties>
             <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:derby:skysailDerbyDb;create=true" />
+            <property name="javax.persistence.jdbc.user" value="skysail" />
+            <property name="javax.persistence.jdbc.password" value="skysail" />
             <!-- EclipseLink should create the database schema automatically -->
             <property name="eclipselink.ddl-generation" value="create-tables" />
         </properties>

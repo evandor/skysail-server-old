@@ -94,7 +94,7 @@ public abstract class DocumentedInfo {
 //     * @param namespaces
 //     *            the map of namespaces to complete.
 //     */
-//    private void resolveNamespaces(Node node, Map<String, String> namespaces) {
+//    private void resolveNamespaces(Graph node, Map<String, String> namespaces) {
 //        if (node.getNamespaceURI() != null) {
 //            namespaces.put(node.getNamespaceURI(), node.getPrefix());
 //        }

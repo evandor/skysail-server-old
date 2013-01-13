@@ -6,7 +6,7 @@ public class DocumentationInfo {
 //    private Language language;
 //
 //    /** The mixed content of that element. */
-//    private Node mixedContent;
+//    private Graph mixedContent;
 //
     /** The title of that documentation element. */
     private String title;
@@ -24,7 +24,7 @@ public class DocumentationInfo {
      * @param mixedContent
      *            The mixed content.
      */
-//    public DocumentationInfo(Node mixedContent) {
+//    public DocumentationInfo(Graph mixedContent) {
 //        super();
 //        this.mixedContent = mixedContent;
 //    }
@@ -54,7 +54,7 @@ public class DocumentationInfo {
      * 
      * @return The mixed content of that element.
      */
-//    public Node getMixedContent() {
+//    public Graph getMixedContent() {
 //        return this.mixedContent;
 //    }
 
@@ -92,7 +92,7 @@ public class DocumentationInfo {
 //     * @param mixedContent
 //     *            The mixed content of that element.
 //     */
-//    public void setMixedContent(Node mixedContent) {
+//    public void setMixedContent(Graph mixedContent) {
 //        this.mixedContent = mixedContent;
 //    }
 //

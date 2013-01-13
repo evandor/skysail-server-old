@@ -22,7 +22,6 @@ import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.filters.Filter;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.Response;
 import de.twenty11.skysail.common.responses.SuccessResponse;
@@ -45,8 +44,6 @@ public class GenericServerResource<T> extends SkysailServerResource2<T> {
     /** slf4j based logger implementation. */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private Filter filter;
-
     private Integer currentPage = 1;
 
     private Integer pageSize = 0;
@@ -67,16 +64,12 @@ public class GenericServerResource<T> extends SkysailServerResource2<T> {
     }
     
     protected Response<T> getEntity(T singleResult) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Filter getFilter() {
-        return filter;
-    }
-
-    public void setFilter(Filter filter) {
-        this.filter = filter;
+        try {
+            return new SuccessResponse<T>(singleResult);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return new FailureResponse<T>(e);
+        }
     }
 
     protected Integer getPageSize() {

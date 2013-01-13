@@ -47,8 +47,6 @@ public class Activator implements BundleActivator {
     /** a skysail server global bundle listener. */
     private ServiceListener serviceListener = new SkysailServerServiceListener();
 
-   
-
     /** {@inheritDoc} */
     public final void start(final BundleContext context) throws Exception {
         // add framework event listener for all skysail server components
@@ -57,33 +55,55 @@ public class Activator implements BundleActivator {
         context.addBundleListener(bundleListener);
         // ... and services
         context.addServiceListener(serviceListener);
+        
+//        camel = new DefaultCamelContext();
+//        camel.addComponent("log", new LogComponent());
+//        camel.addComponent("file", new FileComponent());
+//        camel.start();
+//        
+//        sendToCamelLog("started Skysail Server");
     }
-
-//    private EntityManager getEntityManager() {
-//        if (em == null) {
-//            em = getEntityManagerFactory().createEntityManager();
-//        }
-//        return em;
-//    }
+    
+//    private void sendToCamelLog(String name) {
+//        try {
+//            // get the log component
+//            Component component = camel.getComponent("log");
 //
-//    private EntityManagerFactory getEntityManagerFactory() {
-//        if (emf == null) {
-//            HashMap properties = new HashMap();
-//            properties.put(PersistenceUnitProperties.CLASSLOADER, this.getClass().getClassLoader());
-//            //emf = new PersistenceProvider().createEntityManagerFactory("SkysailPU", properties);
+//            // create an endpoint and configure it.
+//            // Notice the URI parameters this is a common pratice in Camel to configure
+//            // endpoints based on URI.
+//            // com.mycompany.part2 = the log category used. Will log at INFO level as default
+//            Endpoint endpoint = component.createEndpoint("log:com.mycompany.part2");
+//
+//            // create an Exchange that we want to send to the endpoint
+//            Exchange exchange = endpoint.createExchange();
+//            // set the in message payload (=body) with the name parameter
+//            exchange.getIn().setBody(name);
+//
+//            // now we want to send the exchange to this endpoint and we then need a producer
+//            // for this, so we create and start the producer.
+//            Producer producer = endpoint.createProducer();
+//            producer.start();
+//            // process the exchange will send the exchange to the log component, that will process
+//            // the exchange and yes log the payload
+//            producer.process(exchange);
+//
+//            // stop the producer, we want to be nice and cleanup
+//            producer.stop();
+//
+//
+//
+//
+//        } catch (Exception e) {
+//            // we ignore any exceptions and just rethrow as runtime
+//            throw new RuntimeException(e);
+//
 //        }
-//        return emf;
 //    }
 
     /** {@inheritDoc} */
     public final void stop(final BundleContext context) throws Exception {
 
-//        EntityManager em = getEntityManager();
-//        em.getTransaction().begin();
-//        em.persist(new LoginEvent2());
-//        em.getTransaction().commit();
-//        em.close();
-//        emf.close();
 
         // clean up
         context.removeFrameworkListener(frameworkLister);
