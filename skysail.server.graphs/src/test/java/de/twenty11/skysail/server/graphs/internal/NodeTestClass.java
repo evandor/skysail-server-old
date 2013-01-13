@@ -1,10 +1,12 @@
 package de.twenty11.skysail.server.graphs.internal;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonSubTypes;
 
+import de.twenty11.skysail.common.graphs.EdgeProvider;
 import de.twenty11.skysail.common.graphs.NodeProvider;
 
 @JsonSubTypes({ @org.codehaus.jackson.annotate.JsonSubTypes.Type(value = NodeTestClass.class, name = "de.twenty11.skysail.server.graphs.internal.NodeTestClass") })
@@ -41,6 +43,12 @@ public class NodeTestClass implements NodeProvider {
     @Override
     public String getType() {
        return this.getClass().getCanonicalName();
+    }
+
+    @Override
+    public List<EdgeProvider> getEdges() {
+        // TODO Auto-generated method stub
+        return null;
     }
    
 	

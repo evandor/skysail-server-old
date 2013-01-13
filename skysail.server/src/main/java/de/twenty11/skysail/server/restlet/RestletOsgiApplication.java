@@ -24,9 +24,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.converter.Json2HtmlConverter;
+import de.twenty11.skysail.server.directory.ClassLoaderDirectory;
+import de.twenty11.skysail.server.directory.CompositeClassLoader;
 import de.twenty11.skysail.server.internal.Blocker;
-import de.twenty11.skysail.server.internal.ClassLoaderDirectory;
-import de.twenty11.skysail.server.internal.CompositeClassLoader;
 import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
 import de.twenty11.skysail.server.services.ConfigService;
 
@@ -87,7 +87,7 @@ public abstract class RestletOsgiApplication extends Application {
 
         logger.info("creating new Router in {}", this.getClass().getName());
         router = new Router(getContext());
-
+        router.setDefaultMatchingQuery(true);
         // see
         // http://nexnet.wordpress.com/2010/09/29/clap-protocol-in-restlet-and-osgi/
         getConnectorService().getClientProtocols().add(Protocol.HTTP);
