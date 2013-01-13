@@ -1,0 +1,101 @@
+INFO  org.ops4j.pax.exam.spi.DefaultExamSystem - Pax Exam System (Version: 2.4.0) created.
+DEBUG org.ops4j.store.intern.TemporaryStore - Storage Area is /tmp/1349514730780-0
+DEBUG org.ops4j.pax.exam.spi.PaxExamRuntime - Found TestContainerFactory: org.ops4j.pax.exam.nat.internal.NativeTestContainerFactory
+DEBUG org.ops4j.store.intern.TemporaryStore - Storage Area is /tmp/tb
+DEBUG org.ops4j.pax.tinybundles.core.intern.RawBuilder - make()
+DEBUG org.ops4j.pax.tinybundles.core.intern.RawBuilder - Creating manifest from added headers.
+DEBUG org.ops4j.pax.tinybundles.core.intern.RawBuilder - Bundle-SymbolicName = skysail.server.servicedefinitions
+DEBUG org.ops4j.pax.tinybundles.core.intern.RawBuilder - Copying resource de/twenty11/skysail/common/app/SkysailApplication.class
+DEBUG org.ops4j.store.intern.TemporaryStore - Storage Area is /tmp/ops4j-store-anonymous-2102664625897259970
+DEBUG org.ops4j.store.intern.TemporaryStore - Enter store()
+DEBUG org.ops4j.store.intern.TemporaryStore - Exit store(): 1a751588c016fbe7353d2daabaf468a0d1ac783d
+DEBUG org.ops4j.pax.exam.junit.JUnit4TestRunner - No User defined probe hook found
+DEBUG org.ops4j.pax.exam.spi.intern.DefaultTestAddress - NEW ADDRESS= PaxExam-04707ebe-e12b-491b-9811-9a68df26c5cd parent=null root=[TestAddress:PaxExam-04707ebe-e12b-491b-9811-9a68df26c5cd root:PaxExam-04707ebe-e12b-491b-9811-9a68df26c5cd] args=[Ljava.lang.Object;@7b2884e0
+DEBUG org.ops4j.pax.exam.spi.intern.TestProbeBuilderImpl - Top level dir . has been verified.
+DEBUG org.ops4j.pax.tinybundles.core.intern.RawBuilder - make()
+DEBUG org.ops4j.store.intern.TemporaryStore - Enter store()
+DEBUG org.ops4j.pax.tinybundles.core.intern.RawBuilder - Creating manifest from added headers.
+DEBUG org.ops4j.pax.tinybundles.core.intern.RawBuilder - DynamicImport-Package = *
+DEBUG org.ops4j.pax.tinybundles.core.intern.RawBuilder - Ignore-Package = 
+DEBUG org.ops4j.pax.tinybundles.core.intern.RawBuilder - PaxExam-04707ebe-e12b-491b-9811-9a68df26c5cd = de.twenty11.skysail.server.servicedefinitions.integrationtests.IntegrationTests;saveNewFolderSuccessfully
+DEBUG org.ops4j.pax.tinybundles.core.intern.RawBuilder - PaxExam-Executable = PaxExam-04707ebe-e12b-491b-9811-9a68df26c5cd,
+DEBUG org.ops4j.pax.tinybundles.core.intern.RawBuilder - Bundle-SymbolicName = PAXEXAM-PROBE-4ba8c339-561e-417c-af56-84c7d7e81c48
+DEBUG org.ops4j.pax.tinybundles.core.intern.RawBuilder - Copying resource de/twenty11/skysail/server/servicedefinitions/integrationtests/IntegrationTests.class
+DEBUG org.ops4j.store.intern.TemporaryStore - Exit store(): ee32b8aa2637641a3784c41b63efcdd99e3077df
+DEBUG org.ops4j.pax.exam.spi.DefaultExamReactor - Staging reactor with probes: 1 using strategy: org.ops4j.pax.exam.spi.reactors.AllConfinedStagedReactorFactory@40110c31
+DEBUG org.ops4j.store.intern.TemporaryStore - Storage Area is /tmp/1349514731371-0
+DEBUG org.ops4j.pax.exam.spi.intern.DefaultTestAddress - NEW ADDRESS= PaxExam-75fcbedc-dee9-4ac0-b326-1bff6a3c3eae parent=[TestAddress:PaxExam-04707ebe-e12b-491b-9811-9a68df26c5cd root:PaxExam-04707ebe-e12b-491b-9811-9a68df26c5cd] root=[TestAddress:PaxExam-04707ebe-e12b-491b-9811-9a68df26c5cd root:PaxExam-04707ebe-e12b-491b-9811-9a68df26c5cd] args=[Ljava.lang.Object;@f5db314
+DEBUG org.ops4j.pax.exam.junit.JUnit4TestRunner - Invoke saveNewFolderSuccessfully:IntegrationTests.saveNewFolderSuccessfully:NativeContainer:org.apache.felix.framework.FrameworkFactory@2937d090 @ [TestAddress:PaxExam-75fcbedc-dee9-4ac0-b326-1bff6a3c3eae root:PaxExam-04707ebe-e12b-491b-9811-9a68df26c5cd] Arguments: [Ljava.lang.Object;@7b2884e0
+DEBUG org.ops4j.store.intern.TemporaryStore - Storage Area is /tmp/1349514731526-0
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - ==== Framework properties:
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - org.osgi.framework.system.packages.extra = org.ops4j.pax.exam;version=2.4.0,org.ops4j.pax.exam.options;version=2.4.0,org.ops4j.pax.exam.util;version=2.4.0
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - org.osgi.framework.storage.clean = onFirstInit
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - org.osgi.framework.bootdelegation = sun.*
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - org.osgi.framework.storage = /tmp/1349514731526-0
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - ==== System properties:
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - equinox.ds.debug = true
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - equinox.ds.print = true
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - file.encoding = UTF-8
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - file.encoding.pkg = sun.io
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - file.separator = /
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.awt.graphicsenv = sun.awt.X11GraphicsEnvironment
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.awt.printerjob = sun.print.PSPrinterJob
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.class.path = /tmp/infinitest1677421873.jar:/home/carsten/git/skysail-server/skysail.server.servicedefinitions/target/classes:/home/carsten/git/skysail-server/skysail.server.servicedefinitions/target/test-classes:/home/carsten/git/skysail-common/skysail.common/target/classes:/home/carsten/git/skysail-common/skysail.common/target/test-classes:/home/carsten/.m2/repository/org/codehaus/jackson/jackson-core-lgpl/1.9.5/jackson-core-lgpl-1.9.5.jar:/home/carsten/.m2/repository/org/codehaus/jackson/jackson-mapper-lgpl/1.9.5/jackson-mapper-lgpl-1.9.5.jar:/home/carsten/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar:/home/carsten/.m2/repository/junit/junit/4.8.2/junit-4.8.2.jar:/home/carsten/.m2/repository/com/thoughtworks/xstream/xstream/1.3.1/xstream-1.3.1.jar:/home/carsten/.m2/repository/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar:/home/carsten/.m2/repository/com/google/code/findbugs/annotations/1.3.9/annotations-1.3.9.jar:/home/carsten/.m2/repository/org/ops4j/pax/exam/pax-exam-container-native/2.4.0/pax-exam-container-native-2.4.0.jar:/home/carsten/.m2/repository/org/ops4j/pax/exam/pax-exam/2.4.0/pax-exam-2.4.0.jar:/home/carsten/.m2/repository/org/ops4j/base/ops4j-base-util-property/1.3.0/ops4j-base-util-property-1.3.0.jar:/home/carsten/.m2/repository/org/ops4j/pax/exam/pax-exam-spi/2.4.0/pax-exam-spi-2.4.0.jar:/home/carsten/.m2/repository/asm/asm/3.0/asm-3.0.jar:/home/carsten/.m2/repository/com/google/guava/guava/12.0/guava-12.0.jar:/home/carsten/.m2/repository/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar:/home/carsten/.m2/repository/org/ops4j/pax/swissbox/pax-swissbox-core/1.5.0/pax-swissbox-core-1.5.0.jar:/home/carsten/.m2/repository/org/ops4j/pax/swissbox/pax-swissbox-lifecycle/1.5.0/pax-swissbox-lifecycle-1.5.0.jar:/home/carsten/.m2/repository/org/ops4j/pax/swissbox/pax-swissbox-framework/1.5.0/pax-swissbox-framework-1.5.0.jar:/home/carsten/.m2/repository/org/ops4j/base/ops4j-base-exec/1.3.0/ops4j-base-exec-1.3.0.jar:/home/carsten/.m2/repository/org/ops4j/base/ops4j-base-io/1.3.0/ops4j-base-io-1.3.0.jar:/home/carsten/.m2/repository/org/ops4j/base/ops4j-base-monitors/1.3.0/ops4j-base-monitors-1.3.0.jar:/home/carsten/.m2/repository/org/ops4j/base/ops4j-base-spi/1.3.0/ops4j-base-spi-1.3.0.jar:/home/carsten/.m2/repository/org/ops4j/base/ops4j-base-lang/1.3.0/ops4j-base-lang-1.3.0.jar:/home/carsten/.m2/repository/org/ops4j/base/ops4j-base-net/1.3.0/ops4j-base-net-1.3.0.jar:/home/carsten/.m2/repository/org/ops4j/pax/url/pax-url-link/1.4.0/pax-url-link-1.4.0.jar:/home/carsten/.m2/repository/org/ops4j/pax/url/pax-url-commons/1.4.0/pax-url-commons-1.4.0.jar:/home/carsten/.m2/repository/org/ops4j/pax/swissbox/pax-swissbox-property/1.5.0/pax-swissbox-property-1.5.0.jar:/home/carsten/.m2/repository/org/ops4j/pax/url/pax-url-classpath/1.4.0/pax-url-classpath-1.4.0.jar:/home/carsten/.m2/repository/org/ops4j/pax/swissbox/pax-swissbox-optional-jcl/1.5.0/pax-swissbox-optional-jcl-1.5.0.jar:/home/carsten/.m2/repository/org/ops4j/pax/exam/pax-exam-junit4/2.4.0/pax-exam-junit4-2.4.0.jar:/home/carsten/.m2/repository/org/ops4j/pax/exam/pax-exam-link-mvn/2.4.0/pax-exam-link-mvn-2.4.0.jar:/home/carsten/.m2/repository/org/ops4j/pax/url/pax-url-aether/1.3.5/pax-url-aether-1.3.5.jar:/home/carsten/.m2/repository/org/sonatype/aether/aether-api/1.11/aether-api-1.11.jar:/home/carsten/.m2/repository/org/sonatype/aether/aether-spi/1.11/aether-spi-1.11.jar:/home/carsten/.m2/repository/org/sonatype/aether/aether-util/1.11/aether-util-1.11.jar:/home/carsten/.m2/repository/org/sonatype/aether/aether-impl/1.11/aether-impl-1.11.jar:/home/carsten/.m2/repository/org/sonatype/aether/aether-connector-wagon/1.11/aether-connector-wagon-1.11.jar:/home/carsten/.m2/repository/org/codehaus/plexus/plexus-classworlds/2.4/plexus-classworlds-2.4.jar:/home/carsten/.m2/repository/org/apache/maven/maven-aether-provider/3.0.3/maven-aether-provider-3.0.3.jar:/home/carsten/.m2/repository/org/apache/maven/maven-model/3.0.3/maven-model-3.0.3.jar:/home/carsten/.m2/repository/org/apache/maven/maven-model-builder/3.0.3/maven-model-builder-3.0.3.jar:/home/carsten/.m2/repository/org/codehaus/plexus/plexus-interpolation/1.14/plexus-interpolation-1.14.jar:/home/carsten/.m2/repository/org/apache/maven/maven-repository-metadata/3.0.3/maven-repository-metadata-3.0.3.jar:/home/carsten/.m2/repository/org/codehaus/plexus/plexus-component-annotations/1.5.5/plexus-component-annotations-1.5.5.jar:/home/carsten/.m2/repository/org/apache/maven/wagon/wagon-provider-api/1.0-beta-7/wagon-provider-api-1.0-beta-7.jar:/home/carsten/.m2/repository/org/apache/maven/wagon/wagon-file/1.0-beta-7/wagon-file-1.0-beta-7.jar:/home/carsten/.m2/repository/org/apache/maven/wagon/wagon-http-lightweight/1.0-beta-7/wagon-http-lightweight-1.0-beta-7.jar:/home/carsten/.m2/repository/org/apache/maven/wagon/wagon-http-shared/1.0-beta-7/wagon-http-shared-1.0-beta-7.jar:/home/carsten/.m2/repository/org/codehaus/plexus/plexus-container-default/1.5.4/plexus-container-default-1.5.4.jar:/home/carsten/.m2/repository/org/apache/xbean/xbean-reflect/3.4/xbean-reflect-3.4.jar:/home/carsten/.m2/repository/com/google/collections/google-collections/1.0/google-collections-1.0.jar:/home/carsten/.m2/repository/org/codehaus/plexus/plexus-utils/2.0.5/plexus-utils-2.0.5.jar:/home/carsten/.m2/repository/commons-httpclient/commons-httpclient/3.1/commons-httpclient-3.1.jar:/home/carsten/.m2/repository/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar:/home/carsten/.m2/repository/commons-codec/commons-codec/1.2/commons-codec-1.2.jar:/home/carsten/.m2/repository/org/ops4j/pax/tinybundles/tinybundles/1.0.0/tinybundles-1.0.0.jar:/home/carsten/.m2/repository/org/ops4j/base/ops4j-base-store/1.2.3/ops4j-base-store-1.2.3.jar:/home/carsten/.m2/repository/biz/aQute/bndlib/1.43.0/bndlib-1.43.0.jar:/home/carsten/.m2/repository/org/apache/felix/org.apache.felix.framework/3.2.2/org.apache.felix.framework-3.2.2.jar:/home/carsten/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar:/home/carsten/.m2/repository/org/osgi/org.osgi.core/4.2.0/org.osgi.core-4.2.0.jar:/home/carsten/.m2/repository/org/osgi/org.osgi.enterprise/4.2.0/org.osgi.enterprise-4.2.0.jar:/home/carsten/.m2/repository/ch/qos/logback/logback-core/0.9.29/logback-core-0.9.29.jar:/home/carsten/.m2/repository/ch/qos/logback/logback-classic/0.9.29/logback-classic-0.9.29.jar:/home/carsten/.m2/repository/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.class.version = 50.0
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.endorsed.dirs = /usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/endorsed
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.ext.dirs = /usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/ext:/usr/java/packages/lib/ext
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.home = /usr/lib/jvm/java-6-sun-1.6.0.26/jre
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.io.tmpdir = /tmp
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.library.path = /usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/amd64/server:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/amd64:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/../lib/amd64:/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.protocol.handler.pkgs = org.ops4j.pax.url
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.runtime.name = Java(TM) SE Runtime Environment
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.runtime.version = 1.6.0_26-b03
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.specification.name = Java Platform API Specification
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.specification.vendor = Sun Microsystems Inc.
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.specification.version = 1.6
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.vendor = Sun Microsystems Inc.
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.vendor.url = http://java.sun.com/
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.vendor.url.bug = http://java.sun.com/cgi-bin/bugreport.cgi
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.version = 1.6.0_26
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.vm.info = mixed mode
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.vm.name = Java HotSpot(TM) 64-Bit Server VM
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.vm.specification.name = Java Virtual Machine Specification
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.vm.specification.vendor = Sun Microsystems Inc.
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.vm.specification.version = 1.0
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.vm.vendor = Sun Microsystems Inc.
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - java.vm.version = 20.1-b02
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - line.separator = 
+
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - org.ops4j.pax.url.mvn.repositories = http://nexus.twentyeleven.de/content/groups/public
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - os.arch = amd64
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - os.name = Linux
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - os.version = 3.2.0-31-generic
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - osgi.console = 6666
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - path.separator = :
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - pax.exam.invoker = junit
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - sun.arch.data.model = 64
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - sun.boot.class.path = /usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/resources.jar:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/rt.jar:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/jsse.jar:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/jce.jar:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/charsets.jar:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/modules/jdk.boot.jar:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/classes
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - sun.boot.library.path = /usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/amd64
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - sun.cpu.endian = little
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - sun.cpu.isalist = 
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - sun.desktop = gnome
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - sun.io.unicode.encoding = UnicodeLittle
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - sun.java.command = org.infinitest.testrunner.TestRunnerProcess org.infinitest.testrunner.JUnit4Runner 44068
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - sun.java.launcher = SUN_STANDARD
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - sun.jnu.encoding = UTF-8
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - sun.os.patch.level = unknown
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - user.country = US
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - user.dir = /home/carsten/git/skysail-server/skysail.server.servicedefinitions
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - user.home = /home/carsten
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - user.language = en
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - user.name = carsten
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - user.timezone = Europe/Bratislava
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - + Install (start@3) UrlProvisionOption{url='RawUrlReference{url='file:/tmp/ops4j-store-anonymous-2102664625897259970/tinybundles_1a751588c016fbe7353d2daabaf468a0d1ac783d.bin'}'}
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - + Install (start@2) JUnitBundlesOption{url=mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.junit/4.9_2}
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - + Install (start@3) UrlProvisionOption{url='RawUrlReference{url='link:classpath:META-INF/links/org.ops4j.pax.exam.invoker.junit.link'}'}
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - + Install (start@3) UrlProvisionOption{url='RawUrlReference{url='mvn:http://nexus.twentyeleven.de/content/groups/public!org.apache.felix/org.apache.felix.gogo.shell/0.10.0'}'}
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - + Install (start@3) UrlProvisionOption{url='RawUrlReference{url='mvn:http://nexus.twentyeleven.de/content/groups/public!org.apache.felix/org.apache.felix.gogo.runtime/0.10.0'}'}
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - + Install (start@3) UrlProvisionOption{url='RawUrlReference{url='mvn:http://nexus.twentyeleven.de/content/groups/public!org.apache.felix/org.apache.felix.gogo.command/0.12.0'}'}
+DEBUG org.ops4j.pax.exam.nat.internal.NativeTestContainer - + Install (start@3) UrlProvisionOption{url='RawUrlReference{url='mvn:http://nexus.twentyeleven.de/content/groups/public!org.apache.felix/org.apache.felix.shell/1.0.0'}'}
+WARN  org.ops4j.pax.exam.spi.DefaultExamSystem - Option org.ops4j.pax.exam.options.extra.VMOption has not been recognized.
