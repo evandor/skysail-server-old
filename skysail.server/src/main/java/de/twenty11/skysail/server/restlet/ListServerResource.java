@@ -118,6 +118,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         }
     }
 
+    // TODO move to uniqueresultServerResource 
     protected Response<T> getEntity(T data) {
         try {
             RestletOsgiApplication app = (RestletOsgiApplication)getApplication();
