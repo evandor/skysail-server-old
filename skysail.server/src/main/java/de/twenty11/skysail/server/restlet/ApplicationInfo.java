@@ -7,9 +7,6 @@ import java.util.Map;
 
 public class ApplicationInfo extends DocumentedInfo {
 
-    /** Container for definitions of the format of data exchanged. */
-    //private GrammarsInfo grammars;
-
     /** List of methods. */
     private List<MethodInfo> methods;
 
@@ -36,9 +33,6 @@ public class ApplicationInfo extends DocumentedInfo {
         StringBuffer sb = new StringBuffer("");
         sb.append("Methods: ").append(methods).append(",");
         sb.append(resources).append(" ");
-//        sb.append("Style: ").append(style).append(", ");
-//        sb.append("Type: ").append(type).append(", ");
-//        sb.append("Required: ").append(required).append("]");
         return sb.toString();
     }
 

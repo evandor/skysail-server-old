@@ -138,10 +138,10 @@ public class ResourceInfo extends DocumentedInfo {
         String title = null;
         String textContent = null;
 
-        if (resource instanceof SkysailServerResource2) {
+        // if (resource instanceof SkysailServerResource2) {
 //            title = ((SkysailServerResource2) resource).getName();
 //            textContent = ((SkysailServerResource2) resource).getDescription();
-        }
+        // }
 
         if ((title != null) && !"".equals(title)) {
             DocumentationInfo doc = null;
