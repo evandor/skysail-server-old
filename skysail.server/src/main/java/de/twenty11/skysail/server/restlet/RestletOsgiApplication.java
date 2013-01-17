@@ -87,7 +87,8 @@ public abstract class RestletOsgiApplication extends Application {
 
         logger.info("creating new Router in {}", this.getClass().getName());
         router = new Router(getContext());
-        router.setDefaultMatchingQuery(true);
+        // router.setDefaultMatchingQuery(true);
+
         // see
         // http://nexnet.wordpress.com/2010/09/29/clap-protocol-in-restlet-and-osgi/
         getConnectorService().getClientProtocols().add(Protocol.HTTP);
