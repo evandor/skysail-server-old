@@ -99,7 +99,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
                     Map<String, String> links = new HashMap<String, String>();
                     DetailsLinkProvider dlp = (DetailsLinkProvider) payload;
                     for (Entry<String, String> linkEntry : dlp.getLinkMap().entrySet()) {
-                        links.put(linkEntry.getKey(), ref.toString() + linkEntry.getValue() + "?media=json");
+                        links.put(linkEntry.getKey(), ref.toString() + linkEntry.getValue());
                     }
                     dlp.setLinks(links);
                 }
