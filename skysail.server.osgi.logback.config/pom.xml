@@ -5,9 +5,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>de.twenty11.skysail</groupId>
+		<groupId>de.twentyeleven.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.1.2</version>
+		<version>0.8.17</version>
 	</parent>
 
 	<artifactId>skysail.server.osgi.logback.config</artifactId>
