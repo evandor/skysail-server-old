@@ -1,4 +1,4 @@
 Include-Resource: logback.xml=logback.xml
-Fragment-Host: ch.qos.logback.skysail.bundles.logback-classic
+Fragment-Host: skysail.bundles.logback-classic
 Bundle-SymbolicName: skysail.server.osgi.logback.config
 Bundle-ClassPath: .

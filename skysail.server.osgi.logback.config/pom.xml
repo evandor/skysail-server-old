@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>skysail.server.osgi.logback.config</artifactId>
-	<version>0.0.6-SNAPSHOT</version>
+	<version>0.0.7.qualifier</version>
 	<name>skysail server osgi logback configuration</name>
 	<packaging>bundle</packaging>
 
@@ -29,9 +29,10 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<version>2.3.4</version>
 				<extensions>true</extensions>
 				<configuration>
+					<!-- make eclipse aware about this bundle (+ ManifestBuilder in .project!) -->
+					<manifestLocation>META-INF</manifestLocation>
 					<instructions>
 						<_include>-osgi.bnd</_include>
 					</instructions>

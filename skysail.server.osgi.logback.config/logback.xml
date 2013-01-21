@@ -17,8 +17,8 @@
 		</connectionSource>
 	</appender-->
 
-	<appender name="MEMORY"
-		class="skysail.server.osgi.logging.memoryAppender.MemoryAppender" />
+	<!-- <appender name="MEMORY"
+		class="skysail.server.osgi.logging.memoryAppender.MemoryAppender" /> -->
 
 	<appender name="STARTUP"
 		class="de.twenty11.skysail.logging.startup.StartupLogAppender" />
@@ -38,7 +38,7 @@
 		<appender-ref ref="STDOUT" />
 		<!--appender-ref ref="DB" / -->
 		<appender-ref ref="STARTUP" />
-		<appender-ref ref="MEMORY" />
+		<!-- <appender-ref ref="MEMORY" /> -->
 		<appender-ref ref="FILE" />
 	</root>
 

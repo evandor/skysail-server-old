@@ -7,9 +7,9 @@
 		</parent> -->
 
 	<groupId>de.twentyeleven.skysail</groupId>
-	<artifactId>skysail.server</artifactId>
-	<version>0.2.10-SNAPSHOT</version>
-	<name>SKYSAIL :: server - base for skysail server bundles</name>
+	<artifactId>skysail.server.osgi.logback.config</artifactId>
+	<version>0.0.7-SNAPSHOT</version>
+	<name>skysail server osgi logback configuration</name>
 	<packaging>eclipse-plugin</packaging>
 
 	<scm>
@@ -24,9 +24,7 @@
 
 	<properties>
 		<tycho-version>0.16.0</tycho-version>
-		<skysail.common.version>[0.3.7, 1.0)</skysail.common.version>
 	</properties>
-
 
 	<build>
 		<plugins>
@@ -35,8 +33,6 @@
 				<artifactId>tycho-compiler-plugin</artifactId>
 				<version>${tycho-version}</version>
 				<configuration>
-					<compilerArgument>-warn:-forbidden</compilerArgument>
-					<compilerArgument>-err:-forbidden</compilerArgument>
 					<source>1.6</source>
 					<target>1.6</target>
 					<encoding>UTF-8</encoding>
@@ -66,36 +62,16 @@
 	</build>
 
 	<dependencies>
-		<dependency>
-			<groupId>de.twentyeleven.skysail</groupId>
-			<artifactId>skysail.common</artifactId>
-			<version>${skysail.common.version}</version>
+		<!-- <dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>com.springsource.com.thoughtworks.xstream</artifactId>
+			<version>1.3.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>com.springsource.javax.validation</artifactId>
 			<version>1.0.0.GA</version>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-dbcp</groupId>
-			<artifactId>commons-dbcp</artifactId>
-			<version>1.4</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.restlet.osgi</groupId>
-			<artifactId>org.restlet.ext.xml</artifactId>
-			<version>2.1.0</version>
-		</dependency>
-
-		<dependency>
-			<artifactId>hibernate-validator</artifactId>
-			<groupId>org.hibernate</groupId>
-			<version>4.3.0.Final</version>
-		</dependency> 
-
+		</dependency> -->
 	</dependencies>
 
 	<repositories>
