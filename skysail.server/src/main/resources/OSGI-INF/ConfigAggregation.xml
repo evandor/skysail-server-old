@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="skysail.server">
+   <reference bind="addConfigurationProvider" cardinality="0..n" interface="de.twenty11.skysail.common.config.ConfigurationProvider" name="ConfigurationProvider" policy="dynamic" unbind="removeConfigurationProvider"/>
+   <implementation class="de.twenty11.skysail.server.config.Configuration"/>
+   <service>
+      <provide interface="de.twenty11.skysail.common.config.ConfigurationProvider"/>
+   </service>
+</scr:component>
