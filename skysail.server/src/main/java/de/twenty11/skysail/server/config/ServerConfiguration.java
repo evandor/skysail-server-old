@@ -13,15 +13,15 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.common.config.ConfigurationProvider;
 import de.twenty11.skysail.server.Constants;
 
-public class Configuration implements ConfigurationProvider {// used to implements ManagedService,
+public class ServerConfiguration {// used to implements ManagedService,
 
-    private final static Logger logger = LoggerFactory.getLogger(Configuration.class);
+    private final static Logger logger = LoggerFactory.getLogger(ServerConfiguration.class);
     private static BasicDataSource defaultDS;
 
     private List<ConfigurationProvider> configurationProviders = Collections
             .synchronizedList(new ArrayList<ConfigurationProvider>());
 
-    public Configuration() {
+    public ServerConfiguration() {
         System.out.println("Hier");
     }
 
@@ -57,7 +57,7 @@ public class Configuration implements ConfigurationProvider {// used to implemen
     }
 
     public void addConfigurationProvider(ConfigurationProvider provider) {
-        if (!(provider instanceof Configuration)) {
+        if (!(provider instanceof ServerConfiguration)) {
             configurationProviders.add(provider);
         }
     }
@@ -66,7 +66,7 @@ public class Configuration implements ConfigurationProvider {// used to implemen
         configurationProviders.remove(provider);
     }
 
-    @Override
+    // @Override
     public String getConfigForKey(String key) {
         for (ConfigurationProvider provider : configurationProviders) {
             if (provider.getConfigForKey(key) != null) {

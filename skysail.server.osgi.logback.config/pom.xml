@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>skysail.server.osgi.logback.config</artifactId>
-	<version>0.0.7.qualifier</version>
+	<version>0.0.7-SNAPSHOT</version>
 	<name>skysail server osgi logback configuration</name>
 	<packaging>bundle</packaging>
 

@@ -10,7 +10,7 @@ public class SkysailDatasourceProvider implements DataSourceProvider {
    
     @Override
     public DataSource get() {
-        return Configuration.getDefaultDS();
+        return ServerConfiguration.getDefaultDS();
     }
     
 
