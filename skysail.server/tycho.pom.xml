@@ -24,7 +24,7 @@
 
 	<properties>
 		<tycho-version>0.16.0</tycho-version>
-		<skysail.common.version>[0.3.7, 1.0)</skysail.common.version>
+		<skysail.common.version>[0.3.16, 1.0)</skysail.common.version>
 	</properties>
 
 
