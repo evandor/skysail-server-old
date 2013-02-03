@@ -65,7 +65,7 @@ public abstract class RestletOsgiApplication extends Application {
         ConfigService configService = null;// ConfigServiceProvider.getConfigService();
         this.staticPath = staticPathTemplate;
         List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
-        registeredConverters.add(new Json2HtmlConverter());
+        registeredConverters.add(new Json2HtmlConverter(applicationName));
     }
 
     abstract protected void attach();
