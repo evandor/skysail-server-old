@@ -92,7 +92,7 @@ public abstract class RestletOsgiApplication extends Application {
         // see
         // http://nexnet.wordpress.com/2010/09/29/clap-protocol-in-restlet-and-osgi/
         getConnectorService().getClientProtocols().add(Protocol.HTTP);
-        getConnectorService().getClientProtocols().add(Protocol.HTTPS);
+        // getConnectorService().getClientProtocols().add(Protocol.HTTPS);
         getConnectorService().getClientProtocols().add(Protocol.FILE);
         getConnectorService().getClientProtocols().add(Protocol.CLAP);
 
