@@ -1,12 +1,16 @@
 package de.twenty11.skysail.server.config;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Dictionary;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.cm.ConfigurationException;
+import org.restlet.security.MapVerifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,4 +97,36 @@ public class ServerConfiguration {// used to implements ManagedService,
         return false;
     }
 
+    public boolean setSecretVerifier(MapVerifier verifier, ConfigurationAdmin configadmin) throws IOException {
+        org.osgi.service.cm.Configuration secrets;
+        logger.info("gettings 'secrets' configuration...");
+        if (configadmin == null) {
+            logger.error("configadmin is not set, cannot proceed with configuration; no one will be able to log in!");
+            return false;
+        }
+        secrets = configadmin.getConfiguration("secrets");
+        if (secrets == null) {
+            logger.error("could not find 'secrets' configuration; no one will be able to log in!");
+            return false;
+        }
+        Dictionary secretsProperties = secrets.getProperties();
+        if (secretsProperties == null || secretsProperties.keys() == null) {
+            logger.error("secretProperties is null or empty; no one will be able to log in!");
+            return false;
+        }
+        Enumeration keys = secretsProperties.keys();
+        while (keys.hasMoreElements()) {
+            String key = (String) keys.nextElement();
+            if (key.startsWith("user.")) {
+                String passCandidate = (String) secretsProperties.get(key);
+                if (!passCandidate.startsWith("password.")) {
+                    continue;
+                }
+                logger.info("setting password for user {}", key.substring("user.".length()));
+                verifier.getLocalSecrets().put(key.substring("user.".length()),
+                        passCandidate.substring("password.".length()).toCharArray());
+            }
+        }
+        return true;
+    }
 }
