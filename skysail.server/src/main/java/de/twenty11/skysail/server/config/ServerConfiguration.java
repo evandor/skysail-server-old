@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.osgi.service.cm.ConfigurationAdmin;
+import org.osgi.service.cm.ConfigurationException;
 import org.restlet.Server;
 import org.restlet.data.Protocol;
 import org.restlet.security.MapVerifier;
@@ -53,7 +54,7 @@ public class ServerConfiguration {// used to implements ManagedService,
         return null;
     }
 
-    public boolean startComponent() {
+    public boolean shouldStartComponent() {
         String componentToStart = (String) getConfigForKey("component");
         if (componentToStart == null || componentToStart.trim().length() == 0) {
             return true;
@@ -111,6 +112,21 @@ public class ServerConfiguration {// used to implements ManagedService,
         } catch (Exception e) {
             logger.error("Exception when starting standalone server", e);
             return null;
+        }
+    }
+
+    public MapVerifier getVerifier(ConfigurationAdmin configadmin) throws ConfigurationException {
+        MapVerifier verifier = new MapVerifier();
+        try {
+            if (!setSecretVerifier(verifier, configadmin)) {
+                logger.warn("not starting up the application due to encountered configuration problems.");
+                throw new ConfigurationException("secrets", "encountered configuration problems");
+            }
+            return verifier;
+        } catch (Exception e) {
+            logger.error("Configuring secretVerifier encountered a problem: {}", e.getMessage());
+            e.printStackTrace();
+            throw new ConfigurationException("secrets", "file not found", e);
         }
     }
 
