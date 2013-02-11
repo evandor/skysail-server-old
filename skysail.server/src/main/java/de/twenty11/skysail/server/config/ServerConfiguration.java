@@ -54,12 +54,12 @@ public class ServerConfiguration {// used to implements ManagedService,
         return null;
     }
 
-    public boolean shouldStartComponent() {
+    public boolean shouldStartComponent(String classname) {
         String componentToStart = (String) getConfigForKey("component");
         if (componentToStart == null || componentToStart.trim().length() == 0) {
             return true;
         }
-        String[] packageParts = this.getClass().getName().split("\\.");
+        String[] packageParts = classname.split("\\.");
         for (String part : packageParts) {
             if (part.equals("de") || part.equals("server") || part.equals("ext") || part.equals("internal")) {
                 continue;

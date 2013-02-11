@@ -28,6 +28,7 @@ import de.twenty11.skysail.server.directory.ClassLoaderDirectory;
 import de.twenty11.skysail.server.directory.CompositeClassLoader;
 import de.twenty11.skysail.server.internal.Blocker;
 import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
+import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ConfigService;
 
 /**
@@ -39,7 +40,7 @@ import de.twenty11.skysail.server.services.ConfigService;
  * @author carsten
  * 
  */
-public abstract class RestletOsgiApplication extends Application {
+public abstract class RestletOsgiApplication extends Application implements ApplicationProvider {
 
     /** slf4j based logger implementation. */
     final Logger logger = LoggerFactory.getLogger(this.getClass());
