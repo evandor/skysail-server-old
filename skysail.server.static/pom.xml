@@ -1,0 +1,76 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.twentyeleven.skysail</groupId>
+		<artifactId>skysail.build.maven.parentPom</artifactId>
+		<version>0.8.30</version>
+		<relativePath />
+	</parent>
+
+	<artifactId>skysail.server.static</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>SKYSAIL :: server :: static - javascripts, images and css</name>
+	<packaging>bundle</packaging>
+
+	<scm>
+		<!-- read access -->
+		<connection>scm:git:git@github.com:evandor/skysail-server.git</connection>
+		<!-- write access -->
+		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
+		<!-- A publicly browsable repository. For example, via ViewCVS. -->
+		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<properties>
+		<skysail.common.version>[0.3.17, 1.0)</skysail.common.version>
+	</properties>
+
+	<build>
+
+		<resources>
+			<resource>
+				<directory>src/main/webapp</directory>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<_include>-osgi.bnd</_include>
+						<Include-Resource>
+							{maven-resources}, etc/=etc/
+						</Include-Resource>
+					</instructions>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>filter</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>resources</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+
+
+	</dependencies>
+
+
+</project>

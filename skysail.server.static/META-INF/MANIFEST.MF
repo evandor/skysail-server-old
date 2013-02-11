@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1360485185768
+Build-Jdk: 1.7.0_04
+Built-By: carsten
+Bundle-Description: This is the parent pom for all skysail maven artifac
+ ts. Should be run with maven3.
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-ManifestVersion: 2
+Bundle-Name: SKYSAIL :: server :: static - javascripts, images and css
+Bundle-SymbolicName: skysail.server.static
+Bundle-Version: 0.2.11.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Tool: Bnd-1.50.0

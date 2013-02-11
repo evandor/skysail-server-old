@@ -1,0 +1,3 @@
+Include-Resource: {maven-resources}
+Bundle-SymbolicName: skysail.server.static
+
