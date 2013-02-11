@@ -68,7 +68,11 @@
 	</build>
 
 	<dependencies>
-
+		<dependency>
+			<groupId>de.twentyeleven.skysail</groupId>
+			<artifactId>skysail.server</artifactId>
+			<version>0.2.11-SNAPSHOT</version>
+		</dependency>
 
 	</dependencies>
 
