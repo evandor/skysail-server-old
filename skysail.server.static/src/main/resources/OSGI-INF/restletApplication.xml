@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="de.twenty11.skysail.server.webapp.internal.WebappApplication">
- <implementation class="de.twenty11.skysail.server.webapp.internal.WebappApplication"/>
+ <implementation class="de.twenty11.skysail.server.webapp.internal.WebappComponent"/>
  <service>
      <provide interface="de.twenty11.skysail.server.services.ApplicationProvider"/>
  </service>

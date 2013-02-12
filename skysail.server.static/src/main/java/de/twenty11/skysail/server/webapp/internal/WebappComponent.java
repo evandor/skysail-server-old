@@ -26,43 +26,42 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.server.directory.ClassLoaderDirectory;
 import de.twenty11.skysail.server.directory.CompositeClassLoader;
+import de.twenty11.skysail.server.services.ApplicationProvider;
 
 /**
- * Concurrency note from parent class: instances of this class or its subclasses
- * can be invoked by several threads at the same time and therefore must be
- * thread-safe. You should be especially careful when storing state in member
+ * Concurrency note from parent class: instances of this class or its subclasses can be invoked by several threads at
+ * the same time and therefore must be thread-safe. You should be especially careful when storing state in member
  * variables.
  * 
  * @author carsten
  * 
  */
-public class WebappComponent extends Component {
+public class WebappComponent extends Component implements ApplicationProvider {
 
-	/** slf4j based log4jLogger implementation. */
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+    /** slf4j based log4jLogger implementation. */
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	private WebappApplication application;
+    private WebappApplication application;
 
-	/**
-	 * @param componentContext
-	 * 
-	 */
+    /**
+     * @param componentContext
+     * 
+     */
     public WebappComponent() {
 
-		getClients().add(Protocol.CLAP);
-		getClients().add(Protocol.HTTP);
-		getClients().add(Protocol.FILE);
+        getClients().add(Protocol.CLAP);
+        getClients().add(Protocol.HTTP);
+        getClients().add(Protocol.FILE);
         // getClients().add(Protocol.WAR);
 
-		// Create a restlet application
-		logger.info("new restlet application: {}",
-				WebappApplication.class.getName());
+        // Create a restlet application
+        logger.info("new restlet application: {}", WebappApplication.class.getName());
         application = new WebappApplication("/static");
         // application.setVerifier(verifier);
 
-		// Attach the application to the component and start it
-		logger.info("attaching application and starting {}", this.toString());
-		getDefaultHost().attachDefault(application);
+        // Attach the application to the component and start it
+        logger.info("attaching application and starting {}", this.toString());
+        getDefaultHost().attachDefault(application);
 
         LocalReference localReference = LocalReference.createClapReference(LocalReference.CLAP_THREAD, "/static/");
 
@@ -75,10 +74,10 @@ public class WebappComponent extends Component {
 
         getDefaultHost().attach("/" + WebappApplicationDescriptor.APPLICATION_NAME + "/static", staticDirectory);
 
-	}
+    }
 
-	@Override
-	public WebappApplication getApplication() {
-		return this.application;
-	}
+    @Override
+    public WebappApplication getApplication() {
+        return this.application;
+    }
 }
