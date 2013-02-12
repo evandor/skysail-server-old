@@ -30,6 +30,11 @@ import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
  */
 public class WebappApplication extends RestletOsgiApplication {
 
+    // non-arg constructor needed for scr
+    public WebappApplication() {
+        this("dummy");
+    }
+
     /**
      * @param staticPathTemplate
      * @param bundleContext

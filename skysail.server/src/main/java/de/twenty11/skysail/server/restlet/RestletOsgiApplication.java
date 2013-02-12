@@ -28,7 +28,6 @@ import de.twenty11.skysail.server.directory.ClassLoaderDirectory;
 import de.twenty11.skysail.server.directory.CompositeClassLoader;
 import de.twenty11.skysail.server.internal.Blocker;
 import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
-import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ConfigService;
 
 /**
@@ -40,7 +39,7 @@ import de.twenty11.skysail.server.services.ConfigService;
  * @author carsten
  * 
  */
-public abstract class RestletOsgiApplication extends Application implements ApplicationProvider {
+public abstract class RestletOsgiApplication extends Application {
 
     /** slf4j based logger implementation. */
     final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -57,7 +56,7 @@ public abstract class RestletOsgiApplication extends Application implements Appl
 
     /** the osgi bundle context. */
     private BundleContext bundleContext;
-    
+
     /** listener keeping track of all url mappings. */
     protected UrlMappingServiceListener urlMappingServiceListener;
 
@@ -82,7 +81,7 @@ public abstract class RestletOsgiApplication extends Application implements Appl
     public String getApplicationName() {
         return applicationName;
     }
-    
+
     @Override
     public final Restlet createInboundRoot() {
 
@@ -155,6 +154,5 @@ public abstract class RestletOsgiApplication extends Application implements Appl
     public void setVerifier(SecretVerifier verifier) {
         this.verifier = verifier;
     }
-
 
 }
