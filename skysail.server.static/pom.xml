@@ -77,6 +77,13 @@
 			<version>0.2.11-SNAPSHOT</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>de.twentyeleven.skysail</groupId>
+			<artifactId>skysail.common</artifactId>
+			<version>0.3.18-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		
 				<!-- testing with pax exam -->
 		<dependency>
 			<groupId>org.ops4j.pax.exam</groupId>
