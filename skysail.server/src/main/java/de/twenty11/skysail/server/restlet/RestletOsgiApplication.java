@@ -83,7 +83,7 @@ public abstract class RestletOsgiApplication extends Application {
     }
 
     @Override
-    public final Restlet createInboundRoot() {
+    public Restlet createInboundRoot() {
 
         logger.info("creating new Router in {}", this.getClass().getName());
         router = new Router(getContext());

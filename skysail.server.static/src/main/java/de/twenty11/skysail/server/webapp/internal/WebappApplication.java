@@ -20,7 +20,12 @@ package de.twenty11.skysail.server.webapp.internal;
 import org.osgi.framework.FrameworkUtil;
 import org.restlet.Request;
 import org.restlet.Response;
+import org.restlet.Restlet;
+import org.restlet.data.LocalReference;
+import org.restlet.routing.Router;
 
+import de.twenty11.skysail.server.directory.ClassLoaderDirectory;
+import de.twenty11.skysail.server.directory.CompositeClassLoader;
 import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
 import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
 
@@ -44,6 +49,23 @@ public class WebappApplication extends RestletOsgiApplication {
         setDescription("Static webapp bundle");
         setOwner("twentyeleven");
         // setBundleContext(bundleContext);
+    }
+
+    @Override
+    public Restlet createInboundRoot() {
+
+        LocalReference localReference = LocalReference.createClapReference(LocalReference.CLAP_THREAD, "/static/");
+
+        CompositeClassLoader customCL = new CompositeClassLoader();
+        customCL.addClassLoader(Thread.currentThread().getContextClassLoader());
+        customCL.addClassLoader(Router.class.getClassLoader());
+        customCL.addClassLoader(this.getClass().getClassLoader());
+
+        ClassLoaderDirectory staticDirectory = new ClassLoaderDirectory(getContext(), localReference, customCL);
+
+        Router router = new Router(getContext());
+        router.attach("/" + WebappApplicationDescriptor.APPLICATION_NAME + "/static", staticDirectory);
+        return router;
     }
 
     @Override
