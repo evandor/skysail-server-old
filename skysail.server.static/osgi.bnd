@@ -1,5 +1,4 @@
 Include-Resource: {maven-resources}
-Bundle-Activator: de.twenty11.skysail.server.webapp.internal.Activator
 Bundle-SymbolicName: skysail.server.static
 Service-Component: OSGI-INF/*.xml
 

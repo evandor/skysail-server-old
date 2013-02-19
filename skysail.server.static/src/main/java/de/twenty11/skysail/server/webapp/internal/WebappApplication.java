@@ -18,6 +18,7 @@
 package de.twenty11.skysail.server.webapp.internal;
 
 import org.osgi.framework.FrameworkUtil;
+import org.restlet.Application;
 import org.restlet.Request;
 import org.restlet.Response;
 import org.restlet.Restlet;
@@ -28,12 +29,13 @@ import de.twenty11.skysail.server.directory.ClassLoaderDirectory;
 import de.twenty11.skysail.server.directory.CompositeClassLoader;
 import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
 import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
+import de.twenty11.skysail.server.services.ApplicationProvider;
 
 /**
  * @author carsten
  * 
  */
-public class WebappApplication extends RestletOsgiApplication {
+public class WebappApplication extends RestletOsgiApplication implements ApplicationProvider {
 
     // non-arg constructor needed for scr
     public WebappApplication() {
@@ -66,6 +68,11 @@ public class WebappApplication extends RestletOsgiApplication {
         Router router = new Router(getContext());
         router.attach("/" + WebappApplicationDescriptor.APPLICATION_NAME + "/static", staticDirectory);
         return router;
+    }
+
+    @Override
+    public Application getApplication() {
+        return this;
     }
 
     @Override
