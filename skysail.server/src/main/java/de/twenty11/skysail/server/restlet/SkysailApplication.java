@@ -107,8 +107,6 @@ public abstract class SkysailApplication extends Application {
 
         ClassLoaderDirectory directory = new ClassLoaderDirectory(getContext(), localReference, customCL);
 
-        // router.attach(this.staticPath, directory);
-
         attach();
 
         Blocker blocker = new Blocker(getContext());
