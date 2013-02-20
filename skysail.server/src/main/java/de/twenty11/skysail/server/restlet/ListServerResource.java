@@ -90,7 +90,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
 
     protected Response<List<T>> getEntities(List<T> data, String defaultMsg) {
         try {
-            RestletOsgiApplication app = (RestletOsgiApplication)getApplication();
+            SkysailApplication app = (SkysailApplication)getApplication();
             Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener().getMappings() : null;
             Reference ref = getReference();
 
@@ -121,7 +121,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
     // TODO move to uniqueresultServerResource 
     protected Response<T> getEntity(T data) {
         try {
-            RestletOsgiApplication app = (RestletOsgiApplication)getApplication();
+            SkysailApplication app = (SkysailApplication)getApplication();
             Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener().getMappings() : null;
             return new SuccessResponse<T>(data, getRequest(), mappings);
         } catch (Exception e) {

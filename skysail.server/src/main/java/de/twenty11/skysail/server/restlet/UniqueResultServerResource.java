@@ -26,7 +26,7 @@ public class UniqueResultServerResource<T> extends SkysailServerResource2<T> {
                 dlp.setLinks(links);
             }
 
-            RestletOsgiApplication app = (RestletOsgiApplication) getApplication();
+            SkysailApplication app = (SkysailApplication) getApplication();
             Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener()
                     .getMappings() : null;
             return new SuccessResponse<T>(data, getRequest(), mappings);

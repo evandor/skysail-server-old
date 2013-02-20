@@ -16,7 +16,7 @@ import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
+import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.services.UrlMapper;
 
 /**
@@ -40,7 +40,7 @@ public class UrlMappingServiceListener implements ServiceListener {
     private final BundleContext bundleContext;
 
     /** the restlet application. */
-    private final RestletOsgiApplication application;
+    private final SkysailApplication application;
 
     /** slf4j based logging implementation. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -49,8 +49,8 @@ public class UrlMappingServiceListener implements ServiceListener {
     
     private boolean addBundleName;
 
-    public UrlMappingServiceListener(final RestletOsgiApplication restletApp) {
-        this(FrameworkUtil.getBundle(RestletOsgiApplication.class).getBundleContext(), restletApp, false);
+    public UrlMappingServiceListener(final SkysailApplication restletApp) {
+        this(FrameworkUtil.getBundle(SkysailApplication.class).getBundleContext(), restletApp, false);
     }
     
     /**
@@ -68,7 +68,7 @@ public class UrlMappingServiceListener implements ServiceListener {
      * @param restletApp
      *            the restletOsgiApplication
      */
-    public UrlMappingServiceListener(final BundleContext context, final RestletOsgiApplication restletApp) {
+    public UrlMappingServiceListener(final BundleContext context, final SkysailApplication restletApp) {
         this(context, restletApp, false);
     }
 
@@ -87,7 +87,7 @@ public class UrlMappingServiceListener implements ServiceListener {
      * @param restletApp
      *            the restletOsgiApplication
      */
-    public UrlMappingServiceListener(final BundleContext context, final RestletOsgiApplication restletApp,
+    public UrlMappingServiceListener(final BundleContext context, final SkysailApplication restletApp,
                     boolean addBundleName) {
         logger.debug("instantiating new UrlMappingServiceListener");
         this.bundleContext = context;

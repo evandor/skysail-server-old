@@ -15,7 +15,7 @@ import de.twenty11.skysail.common.responses.Response;
 import de.twenty11.skysail.common.selfdescription.ResourceDetails;
 import de.twenty11.skysail.common.selfdescription.RestfulRoot;
 import de.twenty11.skysail.server.restlet.ListServerResource;
-import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
+import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.restlet.SkysailServerResource2;
 
 /**
@@ -38,7 +38,7 @@ public class ManagementRootResource extends ListServerResource<ResourceDetails> 
 
     private List<ResourceDetails> allMethods() {
         List<ResourceDetails> result = new ArrayList<ResourceDetails>();
-        RestletOsgiApplication restletOsgiApp = (RestletOsgiApplication) getApplication();
+        SkysailApplication restletOsgiApp = (SkysailApplication) getApplication();
         RouteList routes = restletOsgiApp.getRoutes();
         for (Route route : routes) {
             if (route instanceof TemplateRoute) {

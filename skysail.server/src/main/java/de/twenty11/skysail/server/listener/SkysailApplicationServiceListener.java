@@ -12,7 +12,7 @@ import org.osgi.framework.ServiceReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
+import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.services.ApplicationDescriptor;
 
 /**
@@ -37,8 +37,8 @@ public class SkysailApplicationServiceListener implements ServiceListener {
 
     private List<ApplicationDescriptor> applicationDescriptors = new ArrayList<ApplicationDescriptor>();
 
-    public SkysailApplicationServiceListener(final RestletOsgiApplication restletApp) {
-        this(FrameworkUtil.getBundle(RestletOsgiApplication.class).getBundleContext(), restletApp, false);
+    public SkysailApplicationServiceListener(final SkysailApplication restletApp) {
+        this(FrameworkUtil.getBundle(SkysailApplication.class).getBundleContext(), restletApp, false);
     }
     
     /**
@@ -56,7 +56,7 @@ public class SkysailApplicationServiceListener implements ServiceListener {
      * @param restletApp
      *            the restletOsgiApplication
      */
-    public SkysailApplicationServiceListener(final BundleContext context, final RestletOsgiApplication restletApp) {
+    public SkysailApplicationServiceListener(final BundleContext context, final SkysailApplication restletApp) {
         this(context, restletApp, false);
     }
 
@@ -69,7 +69,7 @@ public class SkysailApplicationServiceListener implements ServiceListener {
      * @param restletApp
      *            the restletOsgiApplication
      */
-    public SkysailApplicationServiceListener(final BundleContext context, final RestletOsgiApplication restletApp,
+    public SkysailApplicationServiceListener(final BundleContext context, final SkysailApplication restletApp,
                     boolean addBundleName) {
         logger.debug("instantiating new SkysailApplicationServiceListener");
         this.bundleContext = context;
