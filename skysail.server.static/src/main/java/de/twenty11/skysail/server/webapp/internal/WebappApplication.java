@@ -28,14 +28,14 @@ import org.restlet.routing.Router;
 import de.twenty11.skysail.server.directory.ClassLoaderDirectory;
 import de.twenty11.skysail.server.directory.CompositeClassLoader;
 import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
-import de.twenty11.skysail.server.restlet.RestletOsgiApplication;
+import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 
 /**
  * @author carsten
  * 
  */
-public class WebappApplication extends RestletOsgiApplication implements ApplicationProvider {
+public class WebappApplication extends SkysailApplication implements ApplicationProvider {
 
     // non-arg constructor needed for scr
     public WebappApplication() {
@@ -50,6 +50,7 @@ public class WebappApplication extends RestletOsgiApplication implements Applica
         super(WebappApplicationDescriptor.APPLICATION_NAME, staticPathTemplate);
         setDescription("Static webapp bundle");
         setOwner("twentyeleven");
+        setName("static");
         // setBundleContext(bundleContext);
     }
 
@@ -66,7 +67,7 @@ public class WebappApplication extends RestletOsgiApplication implements Applica
         ClassLoaderDirectory staticDirectory = new ClassLoaderDirectory(getContext(), localReference, customCL);
 
         Router router = new Router(getContext());
-        router.attach("/" + WebappApplicationDescriptor.APPLICATION_NAME + "/static", staticDirectory);
+        router.attachDefault(staticDirectory);
         return router;
     }
 
@@ -82,7 +83,7 @@ public class WebappApplication extends RestletOsgiApplication implements Applica
 
     // TODO proper place for this here? what about multiple instances?
     protected void attach() {
-        if (FrameworkUtil.getBundle(RestletOsgiApplication.class) != null) {
+        if (FrameworkUtil.getBundle(SkysailApplication.class) != null) {
             urlMappingServiceListener = new UrlMappingServiceListener(this);
             // new SkysailApplicationServiceListener(this);
         }

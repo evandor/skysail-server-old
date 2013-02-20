@@ -10,7 +10,7 @@ DynamicImport-Package: *
 Export-Package: de.twenty11.skysail.server.config;version="0.1.1",\
  de.twenty11.skysail.server.directory;version="0.1.0",\
  de.twenty11.skysail.server;version="0.2.0",\
- de.twenty11.skysail.server.restlet;version="0.2.0",\
+ de.twenty11.skysail.server.restlet;version="0.2.1",\
  de.twenty11.skysail.server.internal,\
  de.twenty11.skysail.server.listener,\
  de.twenty11.skysail.server.security,\

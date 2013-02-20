@@ -39,7 +39,7 @@ import de.twenty11.skysail.server.services.ConfigService;
  * @author carsten
  * 
  */
-public abstract class RestletOsgiApplication extends Application {
+public abstract class SkysailApplication extends Application {
 
     /** slf4j based logger implementation. */
     final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -60,7 +60,7 @@ public abstract class RestletOsgiApplication extends Application {
     /** listener keeping track of all url mappings. */
     protected UrlMappingServiceListener urlMappingServiceListener;
 
-    public RestletOsgiApplication(String applicationName, String staticPathTemplate) {
+    public SkysailApplication(String applicationName, String staticPathTemplate) {
         this.applicationName = applicationName;
         ConfigService configService = null;// ConfigServiceProvider.getConfigService();
         this.staticPath = staticPathTemplate;
@@ -107,7 +107,7 @@ public abstract class RestletOsgiApplication extends Application {
 
         ClassLoaderDirectory directory = new ClassLoaderDirectory(getContext(), localReference, customCL);
 
-        router.attach(this.staticPath, directory);
+        // router.attach(this.staticPath, directory);
 
         attach();
 
