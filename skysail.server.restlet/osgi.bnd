@@ -1,0 +1,2 @@
+Bundle-SymbolicName: skysail.server.restlet
+Service-Component: OSGI-INF/*.xml
