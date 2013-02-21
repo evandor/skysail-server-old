@@ -80,7 +80,7 @@
 		<dependency>
 			<groupId>de.twentyeleven.skysail</groupId>
 			<artifactId>skysail.common</artifactId>
-			<version>0.3.18</version>
+			<version>0.3.19-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		
