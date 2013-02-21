@@ -48,24 +48,8 @@
 				<configuration>
 					<instructions>
 						<_include>-osgi.bnd</_include>
-						<Include-Resource>
-							{maven-resources}, etc/=etc/
-						</Include-Resource>
 					</instructions>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>filter</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>resources</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -81,10 +65,9 @@
 			<groupId>de.twentyeleven.skysail</groupId>
 			<artifactId>skysail.common</artifactId>
 			<version>0.3.19-SNAPSHOT</version>
-			<scope>test</scope>
 		</dependency>
-		
-				<!-- testing with pax exam -->
+
+     	<!-- testing with pax exam -->
 		<dependency>
 			<groupId>org.ops4j.pax.exam</groupId>
 			<artifactId>pax-exam-container-native</artifactId>
