@@ -191,18 +191,6 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         return getSkysailData();// currentPageResults(pageSize);
     }
 
-//    public void setResponseDetails(SkysailResponse<GridData> response, MediaType mediaType) {
-//        if (response.getMessage() == null || response.getMessage().trim().equals("")) {
-//            response.setMessage(getMessage());
-//        }
-//        response.setTotalResults(getTotalResults());
-//        response.setPage(getCurrentPage());
-//        response.setPageSize(getPageSize());
-//        if (getQuery() != null && getQuery().getNames().contains("debug")) {
-//            response.setDebug(true);
-//        }
-//    }
-
     protected int doHandlePagination(String configIdentifier, int defaultSize) {
         int pageSize = 20;
         String firstValue = getQuery() != null ? getQuery().getFirstValue("page", "1") : "1";

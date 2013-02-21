@@ -8,7 +8,6 @@ import org.restlet.Application;
 import org.restlet.Restlet;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.data.ClientInfo;
-import org.restlet.data.LocalReference;
 import org.restlet.data.Protocol;
 import org.restlet.engine.Engine;
 import org.restlet.engine.converter.ConverterHelper;
@@ -24,8 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.converter.Json2HtmlConverter;
-import de.twenty11.skysail.server.directory.ClassLoaderDirectory;
-import de.twenty11.skysail.server.directory.CompositeClassLoader;
 import de.twenty11.skysail.server.internal.Blocker;
 import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
 import de.twenty11.skysail.server.services.ConfigService;
@@ -96,16 +93,16 @@ public abstract class SkysailApplication extends Application {
         getConnectorService().getClientProtocols().add(Protocol.FILE);
         getConnectorService().getClientProtocols().add(Protocol.CLAP);
 
-        LocalReference localReference = LocalReference.createClapReference(LocalReference.CLAP_THREAD, "/webapp/");
-        CompositeClassLoader customCL = new CompositeClassLoader();
-        // TODO check ordering
-        // add "this" classloader first (this is usually the "product" bundle
-        customCL.addClassLoader(this.getClass().getClassLoader());
-        // this is the "restletosgi" bundle
-        customCL.addClassLoader(Thread.currentThread().getContextClassLoader());
-        // customCL.addClassLoader(Router.class.getClassLoader());
-
-        ClassLoaderDirectory directory = new ClassLoaderDirectory(getContext(), localReference, customCL);
+        // LocalReference localReference = LocalReference.createClapReference(LocalReference.CLAP_THREAD, "/webapp/");
+        // CompositeClassLoader customCL = new CompositeClassLoader();
+        // // TODO check ordering
+        // // add "this" classloader first (this is usually the "product" bundle
+        // customCL.addClassLoader(this.getClass().getClassLoader());
+        // // this is the "restletosgi" bundle
+        // customCL.addClassLoader(Thread.currentThread().getContextClassLoader());
+        // // customCL.addClassLoader(Router.class.getClassLoader());
+        //
+        // ClassLoaderDirectory directory = new ClassLoaderDirectory(getContext(), localReference, customCL);
 
         attach();
 

@@ -85,26 +85,6 @@ public abstract class DocumentedInfo {
         return result;
     }
 
-//    /**
-//     * Completes the given map of namespaces with the namespaces of the given
-//     * node.
-//     * 
-//     * @param node
-//     *            The node to analyse.
-//     * @param namespaces
-//     *            the map of namespaces to complete.
-//     */
-//    private void resolveNamespaces(Graph node, Map<String, String> namespaces) {
-//        if (node.getNamespaceURI() != null) {
-//            namespaces.put(node.getNamespaceURI(), node.getPrefix());
-//        }
-//        if (node.getChildNodes() != null) {
-//            for (int i = 0; i < node.getChildNodes().getLength(); i++) {
-//                resolveNamespaces(node.getChildNodes().item(i), namespaces);
-//            }
-//        }
-//    }
-
     /**
      * Set the list of documentation elements with a single element.
      * 

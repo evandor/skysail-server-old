@@ -14,14 +14,8 @@ public class ParameterInfo extends DocumentedInfo {
     /** Identifier of this parameter element. */
     private String identifier;
 
-    /** Link element. */
-    //private LinkInfo link;
-
     /** Name of this element. */
     private String name;
-
-    /** List of option elements for that element. */
-    //private List<OptionInfo> options;
 
     /**
      * Path to the value of this parameter (within a parent representation).
@@ -289,16 +283,6 @@ public class ParameterInfo extends DocumentedInfo {
     }
 
     /**
-     * Sets the link element.
-     * 
-     * @param link
-     *            The link element.
-     */
-//    public void setLink(LinkInfo link) {
-//        this.link = link;
-//    }
-
-    /**
      * Sets the name of this element.
      * 
      * @param name
@@ -307,16 +291,6 @@ public class ParameterInfo extends DocumentedInfo {
     public void setName(String name) {
         this.name = name;
     }
-
-    /**
-     * Sets the list of option elements for that element.
-     * 
-     * @param options
-     *            The list of option elements for that element.
-     */
-//    public void setOptions(List<OptionInfo> options) {
-//        this.options = options;
-//    }
 
     /**
      * Sets the path to the value of this parameter (within a parent
@@ -376,13 +350,6 @@ public class ParameterInfo extends DocumentedInfo {
     public void updateNamespaces(Map<String, String> namespaces) {
         namespaces.putAll(resolveNamespaces());
 
-//        if (getLink() != null) {
-//            getLink().updateNamespaces(namespaces);
-//        }
-//
-//        for (final OptionInfo optionInfo : getOptions()) {
-//            optionInfo.updateNamespaces(namespaces);
-//        }
     }
 
     
