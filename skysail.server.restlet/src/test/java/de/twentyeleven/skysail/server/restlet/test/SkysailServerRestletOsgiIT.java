@@ -29,10 +29,10 @@ import de.twenty11.skysail.common.testing.utils.PaxExamOptionSet;
  */
 @RunWith(JUnit4TestRunner.class)
 @ExamReactorStrategy(AllConfinedStagedReactorFactory.class)
-public class SkysailServerExtOsgiDepsIT {
+public class SkysailServerRestletOsgiIT {
 
     private List<PaxExamOptionSet> dependencies = new ArrayList<PaxExamOptionSet>();
-    private OsgiTestIntegrationSetup setup;
+    private SkysailServerRestletOsgiSetup setup;
 
     @Inject
     private BundleContext context;
@@ -43,7 +43,7 @@ public class SkysailServerExtOsgiDepsIT {
         dependencies.add(PaxExamOptionSet.BASE);
         dependencies.add(PaxExamOptionSet.DEBUGGING);
 
-        setup = new OsgiTestIntegrationSetup();
+        setup = new SkysailServerRestletOsgiSetup();
         List<Option> options = setup.getOptions(EnumSet.copyOf(dependencies));
 
         // _this_ bundle from target directory
@@ -57,10 +57,14 @@ public class SkysailServerExtOsgiDepsIT {
     }
 
     @Test
-    public void shouldFindCommonBundleInActiveState() {
-        Bundle skysailServerBundle = OsgiTestingUtils.getBundleForSymbolicName(context, "skysail.server");
-        assertTrue(skysailServerBundle != null);
-        assertTrue(skysailServerBundle.getState() == 32);
+    public void shouldFindSomeBundlesInActiveState() {
+        Bundle bundle = OsgiTestingUtils.getBundleForSymbolicName(context, "skysail.server");
+        assertTrue(bundle != null);
+        assertTrue(bundle.getState() == 32);
+
+        bundle = OsgiTestingUtils.getBundleForSymbolicName(context, "skysail.server.restlet");
+        assertTrue(bundle != null);
+        assertTrue(bundle.getState() == 32);
 
     }
 

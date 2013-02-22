@@ -13,7 +13,7 @@ import de.twenty11.skysail.common.testing.utils.PaxExamOptionSet;
 import de.twenty11.skysail.common.testing.utils.SkysailCommonOsgiSetup;
 import de.twenty11.skysail.server.testing.utils.SkysailServerOsgiSetup;
 
-public class OsgiTestIntegrationSetup extends SkysailServerOsgiSetup {
+public class SkysailServerRestletOsgiSetup extends SkysailServerOsgiSetup {
 
     private static Logger logger = LoggerFactory.getLogger(SkysailCommonOsgiSetup.class.getName());
 
