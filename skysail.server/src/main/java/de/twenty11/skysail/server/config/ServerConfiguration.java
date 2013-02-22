@@ -110,7 +110,7 @@ public class ServerConfiguration {// used to implements ManagedService,
             server.start();
             return server;
         } catch (Exception e) {
-            logger.error("Exception when starting standalone server", e);
+            logger.error("Exception when starting standalone server trying to parse provided port ("+portAsString+")", e);
             return null;
         }
     }

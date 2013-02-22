@@ -63,9 +63,8 @@ public class SkysailServerRestletOsgiIT {
 
     @Test
     public void shouldFindSomeBundlesInActiveState() {
-        OsgiTestingUtils.dumpBundleInfo(context);
-
-        OsgiTestingUtils.dumpServicesInfo(context);
+    	//        OsgiTestingUtils.dumpBundleInfo(context);
+    	//        OsgiTestingUtils.dumpServicesInfo(context);
 
         Bundle bundle = OsgiTestingUtils.getBundleForSymbolicName(context, "skysail.server");
         assertTrue(bundle != null);
