@@ -93,17 +93,6 @@ public abstract class SkysailApplication extends Application {
         getConnectorService().getClientProtocols().add(Protocol.FILE);
         getConnectorService().getClientProtocols().add(Protocol.CLAP);
 
-        // LocalReference localReference = LocalReference.createClapReference(LocalReference.CLAP_THREAD, "/webapp/");
-        // CompositeClassLoader customCL = new CompositeClassLoader();
-        // // TODO check ordering
-        // // add "this" classloader first (this is usually the "product" bundle
-        // customCL.addClassLoader(this.getClass().getClassLoader());
-        // // this is the "restletosgi" bundle
-        // customCL.addClassLoader(Thread.currentThread().getContextClassLoader());
-        // // customCL.addClassLoader(Router.class.getClassLoader());
-        //
-        // ClassLoaderDirectory directory = new ClassLoaderDirectory(getContext(), localReference, customCL);
-
         attach();
 
         Blocker blocker = new Blocker(getContext());

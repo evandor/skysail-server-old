@@ -140,6 +140,9 @@ public class UrlMappingServiceListener implements ServiceListener {
      */
     private void addNewMapping(final BundleContext context, final ServiceReference serviceReference) {
         UrlMapper urlMapper = (UrlMapper) context.getService(serviceReference);
+        if (urlMapper == null) {
+            return;
+        }
         Map<String, String> providedMapping = urlMapper.provideUrlMapping();
         if (providedMapping == null) {
             return;

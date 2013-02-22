@@ -31,7 +31,7 @@ public class MyRootResource extends ListServerResource<ResourceDetails> implemen
     }
     
     @Override
-    @Get
+    @Get("html|json")
     public Response<List<ResourceDetails>> getMethods() {
         return getEntities(allMethods(), "listing all entry points for the skysail osgimonitor application");
     }
@@ -52,7 +52,7 @@ public class MyRootResource extends ListServerResource<ResourceDetails> implemen
         TemplateRoute tr = (TemplateRoute) route;
         String from = (tr.getTemplate() == null) ? super.toString() : tr.getTemplate().getPattern();
         
-        if (!from.contains("{")) { // some link we can acutally follow
+        if (!from.contains("{")) { // some link we can actually follow
             from = getHostRef() + from + "?media=json";
             String to = (tr.getNext() == null) ? "null" : tr.getNext().toString();
             String desc = "no description available";

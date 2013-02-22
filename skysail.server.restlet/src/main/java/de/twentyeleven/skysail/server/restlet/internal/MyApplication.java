@@ -1,12 +1,11 @@
 package de.twentyeleven.skysail.server.restlet.internal;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
 import org.restlet.Request;
 import org.restlet.Response;
 
-import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
+import de.twentyeleven.skysail.server.restlet.MyRootResource;
 
 /**
  * @author carsten
@@ -35,12 +34,8 @@ public class MyApplication extends SkysailApplication {
         super.handle(request, response);
     }
 
-    // TODO proper place for this here? what about multiple instances?
     protected void attach() {
-        if (FrameworkUtil.getBundle(SkysailApplication.class) != null) {
-            urlMappingServiceListener = new UrlMappingServiceListener(this);
-            // new SkysailApplicationServiceListener(this);
-        }
+        router.attach("/myapplication", MyRootResource.class);
     }
 
 }
