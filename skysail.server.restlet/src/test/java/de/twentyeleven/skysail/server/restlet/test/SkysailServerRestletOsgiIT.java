@@ -2,6 +2,7 @@ package de.twentyeleven.skysail.server.restlet.test;
 
 import static org.junit.Assert.assertTrue;
 import static org.ops4j.pax.exam.CoreOptions.bundle;
+import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 import static org.ops4j.pax.exam.CoreOptions.systemProperty;
 
 import java.util.ArrayList;
@@ -46,6 +47,10 @@ public class SkysailServerRestletOsgiIT {
         setup = new SkysailServerRestletOsgiSetup();
         List<Option> options = setup.getOptions(EnumSet.copyOf(dependencies));
 
+        options.add(mavenBundle("de.twentyeleven.skysail", "skysail.common.config.configadmin"));
+        options.add(mavenBundle("de.twentyeleven.skysail", "skysail.common.ext.osgimonitor"));
+        options.add(mavenBundle("de.twentyeleven.skysail", "skysail.server.ext.osgimonitor"));
+
         // _this_ bundle from target directory
         options.add(bundle("file:target/skysail.server.restlet-" + setup.getProjectVersion() + ".jar"));
 
@@ -58,6 +63,10 @@ public class SkysailServerRestletOsgiIT {
 
     @Test
     public void shouldFindSomeBundlesInActiveState() {
+        OsgiTestingUtils.dumpBundleInfo(context);
+
+        OsgiTestingUtils.dumpServicesInfo(context);
+
         Bundle bundle = OsgiTestingUtils.getBundleForSymbolicName(context, "skysail.server");
         assertTrue(bundle != null);
         assertTrue(bundle.getState() == 32);
@@ -65,7 +74,6 @@ public class SkysailServerRestletOsgiIT {
         bundle = OsgiTestingUtils.getBundleForSymbolicName(context, "skysail.server.restlet");
         assertTrue(bundle != null);
         assertTrue(bundle.getState() == 32);
-
     }
 
 }
