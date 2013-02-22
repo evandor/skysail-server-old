@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.integrationtest;
+package de.twenty11.skysail.server.testing.utils;
 
 import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 import static org.ops4j.pax.exam.CoreOptions.systemProperty;
@@ -34,15 +34,15 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("de.twentyeleven.skysail", "skysail.common"));
 
         // restlet
-        String restletVersion = "2.0.14";
-        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.slf4j", restletVersion));
+        String restletVersion = "2.1.0";
+        // options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.slf4j", restletVersion));
         // options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.servlet", restletVersion));
-        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.xstream", restletVersion));
-        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.jackson", restletVersion));
-        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.wadl", restletVersion));
-        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.xml", restletVersion));
-        options.add(mavenBundle("org.restlet.jee", "org.restlet.ext.json", restletVersion));
-        options.add(mavenBundle("org.restlet.jee", "org.restlet", restletVersion));
+        options.add(mavenBundle("org.restlet.osgi", "org.restlet.ext.xstream", restletVersion));
+        options.add(mavenBundle("org.restlet.osgi", "org.restlet.ext.jackson", restletVersion));
+        options.add(mavenBundle("org.restlet.osgi", "org.restlet.ext.wadl", restletVersion));
+        options.add(mavenBundle("org.restlet.osgi", "org.restlet.ext.xml", restletVersion));
+        options.add(mavenBundle("org.restlet.osgi", "org.restlet.ext.json", restletVersion));
+        options.add(mavenBundle("org.restlet.osgi", "org.restlet", restletVersion));
 
         // JSON
         options.add(mavenBundle("de.twentyeleven.skysail", "org.json-osgi", "20080701"));
@@ -60,7 +60,8 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("org.hibernate", "hibernate-validator", "4.3.0.Final"));
         options.add(mavenBundle("org.jboss.logging", "jboss-logging", "3.1.2.GA"));
         
-        // Felix file install
+        // Felix file install and configadmin
+        options.add(mavenBundle("org.apache.felix", "org.apache.felix.configadmin", "1.4.0 "));
         options.add(mavenBundle("org.apache.felix", "org.apache.felix.fileinstall", "3.2.4"));
         options.add(systemProperty("felix.fileinstall.noInitialDelay").value("true"));
         // /home/carsten/git/skysail-server-ext/skysail.server.ext.dbviewer/etc/pax-runner/config
@@ -78,17 +79,15 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
 
         // other
         options.add(mavenBundle("com.thoughtworks.xstream", "com.springsource.com.thoughtworks.xstream", "1.3.1"));
-        options.add(mavenBundle("org.codehaus.jackson", "jackson-core-lgpl", "1.9.5"));
-        options.add(mavenBundle("org.codehaus.jackson", "jackson-mapper-lgpl", "1.9.5"));
         options.add(mavenBundle("javax.xml.stream", "com.springsource.javax.xml.stream", "1.0.1"));
         options.add(mavenBundle("org.xmlpull", "com.springsource.org.xmlpull", "1.1.4.c"));
         options.add(mavenBundle("org.codehaus.jettison", "com.springsource.org.codehaus.jettison", "1.0.1"));
-
         options.add(mavenBundle("commons-dbcp", "commons-dbcp", "1.4"));
         options.add(mavenBundle("de.twentyeleven.skysail", "skysail.fragment.commons.dbcp", "0.0.1-SNAPSHOT").noStart());
         options.add(mavenBundle("commons-pool", "commons-pool", "1.6"));
+        options.add(mavenBundle("org.codehaus.jackson", "jackson-core-lgpl", "1.9.5"));
+        options.add(mavenBundle("org.codehaus.jackson", "jackson-mapper-lgpl", "1.9.5"));
 
-        options.add(mavenBundle("org.apache.felix", "org.apache.felix.configadmin", "1.4.0 "));
 
         logger.info("using options from {} for tests", this.getClass());
 

@@ -1,11 +1,14 @@
 package de.twentyeleven.skysail.server.restlet.test;
 
+import static org.junit.Assert.assertTrue;
 import static org.ops4j.pax.exam.CoreOptions.bundle;
 import static org.ops4j.pax.exam.CoreOptions.systemProperty;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +17,10 @@ import org.ops4j.pax.exam.junit.Configuration;
 import org.ops4j.pax.exam.junit.ExamReactorStrategy;
 import org.ops4j.pax.exam.junit.JUnit4TestRunner;
 import org.ops4j.pax.exam.spi.reactors.AllConfinedStagedReactorFactory;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
 
+import de.twenty11.skysail.common.testing.utils.OsgiTestingUtils;
 import de.twenty11.skysail.common.testing.utils.PaxExamOptionSet;
 
 /**
@@ -26,6 +32,10 @@ import de.twenty11.skysail.common.testing.utils.PaxExamOptionSet;
 public class SkysailServerExtOsgiDepsIT {
 
     private List<PaxExamOptionSet> dependencies = new ArrayList<PaxExamOptionSet>();
+    private OsgiTestIntegrationSetup setup;
+
+    @Inject
+    private BundleContext context;
 
     @Configuration
     public Option[] config() {
@@ -33,15 +43,12 @@ public class SkysailServerExtOsgiDepsIT {
         dependencies.add(PaxExamOptionSet.BASE);
         dependencies.add(PaxExamOptionSet.DEBUGGING);
 
-        OsgiTestIntegrationSetup setup = new OsgiTestIntegrationSetup();
+        setup = new OsgiTestIntegrationSetup();
         List<Option> options = setup.getOptions(EnumSet.copyOf(dependencies));
 
         // _this_ bundle from target directory
         options.add(bundle("file:target/skysail.server.restlet-" + setup.getProjectVersion() + ".jar"));
 
-        // options.add(systemProperty("org.osgi.service.http.port").value(
-        // "8888" ));
-        // options.add(systemProperty("jetty.home.bundle").value("skysail.server"));
         options.add(systemProperty("ds.loglevel").value("4"));
 
         Option[] options2Use = options.toArray(new Option[options.size()]);
@@ -50,8 +57,11 @@ public class SkysailServerExtOsgiDepsIT {
     }
 
     @Test
-    public void test() {
-        assert (true);
+    public void shouldFindCommonBundleInActiveState() {
+        Bundle skysailServerBundle = OsgiTestingUtils.getBundleForSymbolicName(context, "skysail.server");
+        assertTrue(skysailServerBundle != null);
+        assertTrue(skysailServerBundle.getState() == 32);
+
     }
 
 }

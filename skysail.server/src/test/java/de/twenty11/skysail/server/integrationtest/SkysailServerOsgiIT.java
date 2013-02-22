@@ -23,8 +23,10 @@ import org.restlet.Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.common.testing.utils.OsgiTestingUtils;
 import de.twenty11.skysail.common.testing.utils.PaxExamOptionSet;
 import de.twenty11.skysail.server.services.ApplicationProvider;
+import de.twenty11.skysail.server.testing.utils.SkysailServerOsgiSetup;
 
 @RunWith(JUnit4TestRunner.class)
 @ExamReactorStrategy(AllConfinedStagedReactorFactory.class)
@@ -56,7 +58,7 @@ public class SkysailServerOsgiIT {
 
     @Test
     public void shouldFindCommonBundleInActiveState() {
-        Bundle skysailServerBundle = getBundleForSymbolicName("skysail.server");
+        Bundle skysailServerBundle = OsgiTestingUtils.getBundleForSymbolicName(context, "skysail.server");
         assertTrue(skysailServerBundle != null);
         assertTrue(skysailServerBundle.getState() == 32);
 
@@ -64,7 +66,7 @@ public class SkysailServerOsgiIT {
 
     @Test
     public void shouldFindSkysailDatasourceService() {
-        Bundle bundle = getBundleForSymbolicName("skysail.server");
+        Bundle bundle = OsgiTestingUtils.getBundleForSymbolicName(context, "skysail.server");
         assertTrue(bundle != null);
         ServiceReference skysailDatasourceReference = context
                 .getServiceReference("de.twenty11.skysail.server.services.DataSourceProvider");
@@ -106,15 +108,6 @@ public class SkysailServerOsgiIT {
     // // EntityManager entityManager = service.getEntityManager("SkysailPU");
     // }
 
-    private Bundle getBundleForSymbolicName(String symbolicName) {
-        Bundle myBundle = null;
-        Bundle[] bundles = context.getBundles();
-        for (Bundle bundle : bundles) {
-            if (bundle.getSymbolicName().equals(symbolicName)) {
-                myBundle = bundle;
-            }
-        }
-        return myBundle;
-    }
+
 
 }
