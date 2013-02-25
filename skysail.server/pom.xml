@@ -174,7 +174,7 @@
 
 	</dependencies>
 
-	<repositories>
+	<!-- <repositories>
 		<repository>
 			<id>EclipseLink</id>
 			<url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
@@ -184,6 +184,6 @@
 			<name>Public online Restlet repository</name>
 			<url>http://maven.restlet.org</url>
 		</repository>
-	</repositories>
+	</repositories> -->
 
 </project>

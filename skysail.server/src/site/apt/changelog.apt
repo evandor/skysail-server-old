@@ -1,6 +1,12 @@
+ <<0.2.12>>
+
+ * added ComponentProvider Interface
+ 
  <<0.2.5-0.2.11>>
 
  * various, exploring restlet
+ 
+ * added ApplicationProvider Interface
  
  <<0.2.5-0.2.10>>
 

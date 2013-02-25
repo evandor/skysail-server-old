@@ -17,7 +17,7 @@ import org.restlet.security.ChallengeAuthenticator;
 import org.restlet.security.Enroler;
 import org.restlet.security.MapVerifier;
 import org.restlet.security.Role;
-import org.restlet.security.SecretVerifier;
+import org.restlet.security.Verifier;
 import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,9 +44,7 @@ public abstract class SkysailApplication extends Application {
     /** the restlet router. */
     protected volatile Router router;
 
-    private SecretVerifier verifier = new MapVerifier();
-
-    private String staticPath;
+    private Verifier verifier = new MapVerifier();
 
     /** the 'name' of the application, e.g. "dbviewer" */
     private String applicationName;
@@ -57,10 +55,9 @@ public abstract class SkysailApplication extends Application {
     /** listener keeping track of all url mappings. */
     protected UrlMappingServiceListener urlMappingServiceListener;
 
-    public SkysailApplication(String applicationName, String staticPathTemplate) {
+    public SkysailApplication(String applicationName) {
         this.applicationName = applicationName;
         ConfigService configService = null;// ConfigServiceProvider.getConfigService();
-        this.staticPath = staticPathTemplate;
         List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
         registeredConverters.add(new Json2HtmlConverter(applicationName));
     }
@@ -135,7 +132,7 @@ public abstract class SkysailApplication extends Application {
         return urlMappingServiceListener;
     }
 
-    public void setVerifier(SecretVerifier verifier) {
+    public void setVerifier(Verifier verifier) {
         this.verifier = verifier;
     }
 

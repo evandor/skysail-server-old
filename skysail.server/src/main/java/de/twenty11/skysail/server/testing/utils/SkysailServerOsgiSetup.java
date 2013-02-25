@@ -83,7 +83,7 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("org.xmlpull", "com.springsource.org.xmlpull", "1.1.4.c"));
         options.add(mavenBundle("org.codehaus.jettison", "com.springsource.org.codehaus.jettison", "1.0.1"));
         options.add(mavenBundle("commons-dbcp", "commons-dbcp", "1.4"));
-        options.add(mavenBundle("de.twentyeleven.skysail", "skysail.fragment.commons.dbcp", "0.0.1-SNAPSHOT").noStart());
+        options.add(mavenBundle("de.twentyeleven.skysail", "skysail.fragment.commons.dbcp", "0.0.1").noStart());
         options.add(mavenBundle("commons-pool", "commons-pool", "1.6"));
         options.add(mavenBundle("org.codehaus.jackson", "jackson-core-lgpl", "1.9.5"));
         options.add(mavenBundle("org.codehaus.jackson", "jackson-mapper-lgpl", "1.9.5"));
