@@ -23,10 +23,11 @@ public class MyApplication extends SkysailApplication {
      * @param bundleContext
      */
     public MyApplication(String staticPathTemplate, BundleContext bundleContext) {
-        super(MyApplicationDescriptor.APPLICATION_NAME);
+        super();
         setDescription("RESTful OsgiMonitor bundle");
         setOwner("twentyeleven");
         setBundleContext(bundleContext);
+        setName("regprox");
     }
 
     @Override

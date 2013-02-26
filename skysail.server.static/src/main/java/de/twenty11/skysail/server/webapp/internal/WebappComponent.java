@@ -72,7 +72,7 @@ public class WebappComponent extends Component implements ApplicationProvider {
 
         ClassLoaderDirectory staticDirectory = new ClassLoaderDirectory(getContext(), localReference, customCL);
 
-        getDefaultHost().attach("/" + WebappApplicationDescriptor.APPLICATION_NAME + "/static", staticDirectory);
+        getDefaultHost().attach("/static", staticDirectory);
 
     }
 

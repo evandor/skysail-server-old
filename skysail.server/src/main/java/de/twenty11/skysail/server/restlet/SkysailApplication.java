@@ -46,20 +46,16 @@ public abstract class SkysailApplication extends Application {
 
     private Verifier verifier = new MapVerifier();
 
-    /** the 'name' of the application, e.g. "dbviewer" */
-    private String applicationName;
-
     /** the osgi bundle context. */
     private BundleContext bundleContext;
 
     /** listener keeping track of all url mappings. */
     protected UrlMappingServiceListener urlMappingServiceListener;
 
-    public SkysailApplication(String applicationName) {
-        this.applicationName = applicationName;
+    public SkysailApplication() {
         ConfigService configService = null;// ConfigServiceProvider.getConfigService();
         List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
-        registeredConverters.add(new Json2HtmlConverter(applicationName));
+        registeredConverters.add(new Json2HtmlConverter(getName()));
     }
 
     abstract protected void attach();
@@ -70,10 +66,6 @@ public abstract class SkysailApplication extends Application {
 
     public BundleContext getBundleContext() {
         return bundleContext;
-    }
-
-    public String getApplicationName() {
-        return applicationName;
     }
 
     @Override

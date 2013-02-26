@@ -27,7 +27,7 @@ public class UniqueResultServerResourceTest {
 	@Before
 	public void setUp() throws Exception {
 		uniqueResultServerResource = new UniqueResultServerResource<Dummy>();
-        uniqueResultServerResource.setApplication(new SkysailApplication("string") {
+        uniqueResultServerResource.setApplication(new SkysailApplication() {
 			@Override
 			protected void attach() {
 			}
