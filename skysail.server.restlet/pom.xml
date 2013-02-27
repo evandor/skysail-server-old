@@ -42,7 +42,13 @@
 		<dependency>
 			<groupId>de.twentyeleven.skysail</groupId>
 			<artifactId>skysail.server</artifactId>
-			<version>[0.2.11-SNAPSHOT, 1.0)</version>
+			<version>[0.2.12-SNAPSHOT, 1.0)</version>
+		</dependency>
+
+		<dependency>
+			<groupId>de.twentyeleven.skysail</groupId>
+			<artifactId>skysail.common.restlet</artifactId>
+			<version>[0.0.1-SNAPSHOT, 1.0)</version>
 		</dependency>
 
         <!-- testing with pax exam -->
@@ -104,10 +110,11 @@
 
         <!-- hamcrest -->
         <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-integration</artifactId>
-            <scope>test</scope>
-        </dependency>
+			<groupId>de.twentyeleven.skysail</groupId>
+			<artifactId>org.hamcrest.hamcrest-all-osgi</artifactId>
+			<version>1.3.0.1</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 

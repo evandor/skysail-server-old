@@ -111,6 +111,11 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
             if (this.getMessage() != null && !"".equals(this.getMessage().trim())) {
                 successResponse.setMessage(getMessage());
             }
+            Long executionStarted = (Long)getContext().getAttributes().get(Timer.EXECUTION_STARTED);
+            if (executionStarted != null) {
+            	successResponse.setExecutionTime(System.nanoTime() - executionStarted);
+            }
+            
             return successResponse;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

@@ -1,108 +1,59 @@
 package de.twentyeleven.skysail.server.restlet.internal;
 
-import java.util.Dictionary;
-import java.util.logging.Level;
-
 import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.cm.ConfigurationException;
-import org.osgi.service.cm.ManagedService;
 import org.osgi.service.component.ComponentContext;
 import org.restlet.Application;
-import org.restlet.Server;
-import org.restlet.engine.Engine;
-import org.restlet.routing.VirtualHost;
-import org.restlet.security.MapVerifier;
+import org.restlet.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.services.ApplicationProvider;
+import de.twenty11.skysail.server.services.ComponentProvider;
 
 
-public class Configuration implements ManagedService {
+public class Configuration implements ApplicationProvider {
 
-    private static Logger logger = LoggerFactory.getLogger(Configuration.class);
-    private MyComponent restletComponent;
-    private Server server;
-    private ComponentContext context;
-    private ConfigurationAdmin configadmin;
-    private ServerConfiguration serverConfig;
-    private ServiceRegistration registration;
+	  private static Logger logger = LoggerFactory.getLogger(Configuration.class);
+	    private ComponentProvider componentProvider;
+	    private Component component;
+	    private MyApplication application;
+	    private ServiceRegistration currentApplicationService;
 
-    protected void activate(ComponentContext componentContext) throws ConfigurationException {
-        logger.info("Activating Skysail Ext Osgimonitor Configuration Component");
-        this.context = componentContext;
+	    protected void activate(ComponentContext componentContext) throws ConfigurationException {
+	        logger.info("Activating Configuration Component for Skysail Restlet Extension");
+	        component = componentProvider.getComponent();
+	        application = new MyApplication();
+	        application.setVerifier(componentProvider.getVerifier());
 
-        if (serverConfig.shouldStartComponent(this.getClass().getName())) {
-            // Engine.setLogLevel(Level.ALL);
-            Engine.setRestletLogLevel(Level.ALL);
-            // System.setProperty("java.util.logging.config.file", "logging.config");
-            logger.info("Starting component for Skysail Ext Osgimonitor...");
-            String port = (String) serverConfig.getConfigForKey("port");
-            logger.info("port was configured on {}", port);
+	        currentApplicationService = componentContext.getBundleContext().registerService(
+	                ApplicationProvider.class.getName(), this, null);
+	    }
 
-            MapVerifier verifier = serverConfig.getVerifier(configadmin);
-            logger.info("Starting standalone osgimonitor server on port {}", port);
-            restletComponent = new MyComponent(this.context, verifier);
+	    protected void deactivate(ComponentContext componentContext) {
+	        logger.info("Deactivating Configuration Component for Skysail Restlet Extension");
+	        componentContext.getBundleContext().ungetService(currentApplicationService.getReference());
+	        component.getDefaultHost().detach(application);
+	        application = null;
+	    }
 
-            server = serverConfig.startStandaloneServer(port, restletComponent);
-        } else {
-            logger.info("Starting virtual host for Skysail Osgimonitor...");
-            VirtualHost virtualHost = createVirtualHost();
-            if (componentContext.getBundleContext() != null) {
-                this.registration = componentContext.getBundleContext().registerService(
-                        "org.restlet.routing.VirtualHost", virtualHost, null);
-            }
-        }
-    }
+	    public void setApplicationProvider(ApplicationProvider provider) {
+	        logger.info("adding new application from {}", provider);
+	        Application application = provider.getApplication();
+	        component.getDefaultHost().attach("/" + application.getName(), application);
+	    }
 
-    protected void deactivate(ComponentContext ctxt) {
-        logger.info("Deactivating Skysail Ext Osgimonitor Configuration Component");
-        this.context = null;
-        try {
-            if (server != null) {
-                server.stop();
-            }
-        } catch (Exception e) {
-            logger.error("Exception when trying to stop standalone server", e);
-        }
-        if (registration != null) {
-            registration.unregister();
-        }
-    }
+	    public void unsetApplicationProvider(ApplicationProvider provider) {
+	        component.getDefaultHost().detach(provider.getApplication());
+	    }
+	    
+	    public void setComponentProvider(ComponentProvider componentProvider) {
+	        this.componentProvider = componentProvider;
+	    }
 
-    private VirtualHost createVirtualHost() {
-        MyApplication application = new MyApplication("/static",
-                context.getBundleContext());
-        VirtualHost vh = new VirtualHost();
-        vh.attach(application);
-        return vh;
-    }
+	    @Override
+	    public Application getApplication() {
+	        return application;
+	    }
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public synchronized void updated(Dictionary properties) throws ConfigurationException {
-        logger.info("Configuring Skysail Ext Osgimonitor...");
-    }
-
-    public synchronized void setConfigAdmin(ConfigurationAdmin configadmin) {
-        logger.info("setting configadmin in OsgiMonitor Configuration");
-        this.configadmin = configadmin;
-    }
-
-    public synchronized void setServerConfiguration(de.twenty11.skysail.server.config.ServerConfiguration serverConfig) {
-        logger.info("setting configadmin in OsgiMonitor Configuration");
-        this.serverConfig = serverConfig;
-    }
-
-    public void setApplicationProvider(ApplicationProvider provider) {
-        logger.info("adding new application from {}", provider);
-        Application application = provider.getApplication();
-        restletComponent.getDefaultHost().attach("/" + application.getName(), application);
-    }
-
-    public void unsetApplicationProvider(ApplicationProvider provider) {
-        restletComponent.getDefaultHost().detach(provider.getApplication());
-    }
 }
