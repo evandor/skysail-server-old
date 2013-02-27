@@ -1,11 +1,9 @@
 package de.twentyeleven.skysail.server.restlet;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
@@ -13,7 +11,6 @@ import org.restlet.Application;
 import org.restlet.resource.Get;
 import org.restlet.resource.ResourceException;
 
-import de.twenty11.skysail.common.ext.osgimonitor.BundleDescriptor;
 import de.twenty11.skysail.common.responses.Response;
 import de.twenty11.skysail.common.restlet.ApplicationDescriptor;
 import de.twenty11.skysail.common.restlet.RestfulApplications;

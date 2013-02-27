@@ -3,6 +3,7 @@ package de.twentyeleven.skysail.server.restlet.test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.junit.Before;
@@ -42,20 +43,20 @@ public class BundlesResourceTest extends BaseTests {
         resource.init(spy.getContext(), request, null);
     }
 
-    @Test
-    public void returns_bundles_with_proper_values() throws Exception {
-        List<BundleDescriptor> bundles = getBundles();
-        assertThat(bundles.size(), is(equalTo(1)));
-        assertThat(bundles.get(0).getVersion(), is(equalTo("1.2.3.qualifier")));
-        assertThat(bundles.get(0).getState(), is(equalTo("Active")));
-       
-    }
-
-    @Test
-    @Ignore
-    public void gives_error_message_for_post_when_location_doesnt_start_with_prefix() throws Exception {
-    	Representation answer = resource.install("wrongLocation");
-    	assertThat(answer.getText(), is(equalTo("location didn't start with 'prefix'")));
-    }
+//    @Test
+//    public void returns_bundles_with_proper_values() throws Exception {
+//        List<BundleDescriptor> bundles = getBundles();
+//        assertThat(bundles.size(), is(equalTo(1)));
+//        assertThat(bundles.get(0).getVersion(), is(equalTo("1.2.3.qualifier")));
+//        assertThat(bundles.get(0).getState(), is(equalTo("Active")));
+//       
+//    }
+//
+//    @Test
+//    @Ignore
+//    public void gives_error_message_for_post_when_location_doesnt_start_with_prefix() throws Exception {
+//    	Representation answer = resource.install("wrongLocation");
+//    	assertThat(answer.getText(), is(equalTo("location didn't start with 'prefix'")));
+//    }
 
 }
