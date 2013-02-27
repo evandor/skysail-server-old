@@ -21,7 +21,7 @@ public class ManagementUrlMapper implements UrlMapper {
 
         Map<ApplicationDescriptor, String> graphPaths = ManagementApplication.get().getRelevantAppsAndPaths();
         for (ApplicationDescriptor application : graphPaths.keySet()) {
-            String rootName = application.getApplicationDescription().getName();
+            String rootName = "tobedone";
             routes.put("/" + rootName + "/management/restart", RestartResource.class.getName());
         }
         return routes;

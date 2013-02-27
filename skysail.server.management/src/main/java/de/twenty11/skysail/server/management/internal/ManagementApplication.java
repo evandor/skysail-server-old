@@ -28,7 +28,7 @@ public class ManagementApplication extends SkysailApplication {
      * @param staticPathTemplate
      */
     public ManagementApplication(BundleContext bundleContext, String staticPathTemplate) {
-        super(ManagementApplicationDescriptor.APPLICATION_NAME);
+        super();
         setDescription("RESTful skysail.server.management bundle");
         setOwner("twentyeleven");
         self = this;
@@ -68,7 +68,7 @@ public class ManagementApplication extends SkysailApplication {
                 for (ServiceReference serviceReference : allSkysailApps) {
                     ApplicationDescriptor skysailApp = (ApplicationDescriptor) bundleContext
                             .getService(serviceReference);
-                    String skysailAppName = skysailApp.getApplicationDescription().getName();
+                    String skysailAppName = "tobedone";
                     result.put(skysailApp, "/" + skysailAppName);
                 }
             }

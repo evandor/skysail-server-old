@@ -28,7 +28,6 @@ public class BundlesResourceTest extends BaseTests {
         when(bundle.getBundleId()).thenReturn(99l);
         when(bundle.getSymbolicName()).thenReturn("symbolic");
         when(bundle.getLastModified()).thenReturn(111l);
-        when(bundle.getVersion()).thenReturn(new Version("1.2.3.qualifier"));
         when(bundle.getState()).thenReturn(32);
         Bundle[] bundles = new Bundle[1];
         bundles[0] = bundle;

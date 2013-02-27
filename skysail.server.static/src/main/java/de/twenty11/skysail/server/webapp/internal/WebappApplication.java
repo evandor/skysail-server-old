@@ -51,7 +51,6 @@ public class WebappApplication extends SkysailApplication implements Application
         setDescription("Static webapp bundle");
         setOwner("twentyeleven");
         setName("static");
-        // setBundleContext(bundleContext);
     }
 
     @Override
