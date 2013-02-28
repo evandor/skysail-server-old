@@ -18,11 +18,11 @@ import de.twenty11.skysail.server.restlet.ListServerResource;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twentyeleven.skysail.server.restlet.internal.MyApplication;
 
-public class ApplicationResource extends ListServerResource<ApplicationDescriptor> implements RestfulApplications {
+public class ApplicationsResource extends ListServerResource<ApplicationDescriptor> implements RestfulApplications {
 
-	private List<Application> applications;
+	private List<Application> applications = new ArrayList<Application>();
 	
-	public ApplicationResource() {
+	public ApplicationsResource() {
 		setName("restlet applications resource");
 		setDescription("The resource containing the list of restlet applications");
 	}
