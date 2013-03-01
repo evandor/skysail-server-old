@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.server.config.ServerConfiguration;
+import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ComponentProvider;
 
@@ -93,6 +94,9 @@ public class Configuration implements ComponentProvider {
     public void setApplicationProvider(ApplicationProvider provider) {
         logger.info("adding new application from {}", provider);
         Application application = provider.getApplication();
+        if (application instanceof SkysailApplication) {
+            ((SkysailApplication) application).setVerifier(verifier);
+        }
         restletComponent.getDefaultHost().attach("/" + application.getName(), application);
     }
 

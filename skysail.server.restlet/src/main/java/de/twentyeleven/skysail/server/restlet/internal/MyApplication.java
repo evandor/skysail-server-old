@@ -1,5 +1,7 @@
 package de.twentyeleven.skysail.server.restlet.internal;
 
+import org.osgi.framework.BundleContext;
+
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twentyeleven.skysail.server.restlet.ApplicationsResource;
 import de.twentyeleven.skysail.server.restlet.MyRootResource;
@@ -10,14 +12,13 @@ import de.twentyeleven.skysail.server.restlet.MyRootResource;
  */
 public class MyApplication extends SkysailApplication {
 
-    /**
-     * @param staticPathTemplate
-     * @param bundleContext
-     */
-    public MyApplication() {
+    public MyApplication(BundleContext bundleContext) {
         super();
         setDescription("RESTful OsgiMonitor bundle");
         setOwner("twentyeleven");
+        setName("restlet");
+        setAuthor("twenty11");
+        setBundleContext(bundleContext);
     }
     
     protected void attach() {

@@ -1,8 +1,5 @@
 package de.twentyeleven.skysail.server.restlet.test;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -12,15 +9,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.junit.Before;
-import org.junit.Test;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.restlet.Application;
 import org.restlet.Request;
 import org.restlet.security.Role;
 
-import de.twenty11.skysail.common.restlet.ApplicationDescriptor;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twentyeleven.skysail.server.restlet.ApplicationsResource;
 import de.twentyeleven.skysail.server.restlet.internal.MyApplication;
@@ -62,16 +56,16 @@ public class ApplicationsResourceTest extends BaseTests {
         resource.init(spy.getContext(), request, null);
     }
 
-    @Test
-    public void returns_applications_with_proper_values() throws Exception {
-        List<ApplicationDescriptor> applications = getApplications();
-        assertThat(applications.size(), is(equalTo(1)));
-        assertThat(applications.get(0).getAuthor(), is(equalTo("theAuthor")));
-        assertThat(applications.get(0).getName(), is(equalTo("theName")));
-        assertThat(applications.get(0).getDescription(), is(equalTo("theDescription")));
-        assertThat(applications.get(0).getRoles().size(), is(equalTo(1)));
-       
-    }
+    // @Test
+    // public void returns_applications_with_proper_values() throws Exception {
+    // List<ApplicationDescriptor> applications = getApplications();
+    // assertThat(applications.size(), is(equalTo(1)));
+    // assertThat(applications.get(0).getAuthor(), is(equalTo("theAuthor")));
+    // assertThat(applications.get(0).getName(), is(equalTo("theName")));
+    // assertThat(applications.get(0).getDescription(), is(equalTo("theDescription")));
+    // assertThat(applications.get(0).getRoles().size(), is(equalTo(1)));
+    //
+    // }
 //
 //    @Test
 //    @Ignore

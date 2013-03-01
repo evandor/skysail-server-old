@@ -9,6 +9,7 @@ import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.mockito.Mockito;
+import org.osgi.framework.BundleContext;
 import org.restlet.Application;
 import org.restlet.Request;
 import org.restlet.Restlet;
@@ -37,7 +38,8 @@ public class BaseTests {
 		MapVerifier secretVerifier = new MapVerifier();
 		secretVerifier.getLocalSecrets().put("testadmin",
 				"testpassword".toCharArray());
-		myApplication = new MyApplication();
+        BundleContext bundleContext = Mockito.mock(BundleContext.class);
+        myApplication = new MyApplication(bundleContext);
 		myApplication.setVerifier(secretVerifier);
 
 		MyApplication spy = Mockito.spy(myApplication);
