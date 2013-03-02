@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.converter.Json2HtmlConverter;
+import de.twenty11.skysail.server.converter.Json2BootstrapConverter;
 import de.twenty11.skysail.server.internal.Blocker;
 import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
 import de.twenty11.skysail.server.services.ConfigService;
@@ -56,6 +57,7 @@ public abstract class SkysailApplication extends Application {
         ConfigService configService = null;// ConfigServiceProvider.getConfigService();
         List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
         registeredConverters.add(new Json2HtmlConverter());
+        registeredConverters.add(new Json2BootstrapConverter());
     }
 
     abstract protected void attach();

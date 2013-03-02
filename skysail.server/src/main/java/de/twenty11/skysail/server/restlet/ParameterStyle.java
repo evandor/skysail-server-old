@@ -16,7 +16,7 @@ public enum ParameterStyle {
         } else if (equals(QUERY)) {
             result = "query";
         } else if (equals(TEMPLATE)) {
-            result = "template";
+            result = "rootTemplate";
         }
 
         return result;

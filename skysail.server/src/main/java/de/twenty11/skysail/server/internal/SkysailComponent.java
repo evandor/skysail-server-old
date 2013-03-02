@@ -27,17 +27,5 @@ public class SkysailComponent extends Component {
         logger.info("attaching application and starting {}", this.toString());
         // getDefaultHost().attach(application);
 
-        // LocalReference localReference = LocalReference.createClapReference(LocalReference.CLAP_THREAD, "/static/");
-        //
-        // CompositeClassLoader customCL = new CompositeClassLoader();
-        // customCL.addClassLoader(Thread.currentThread().getContextClassLoader());
-        // customCL.addClassLoader(Router.class.getClassLoader());
-        // customCL.addClassLoader(this.getClass().getClassLoader());
-        //
-        // ClassLoaderDirectory staticDirectory = new ClassLoaderDirectory(getContext(), localReference, customCL);
-        //
-        // getDefaultHost().attach("/" + OsgiMonitorApplicationDescriptor.APPLICATION_NAME + "/static",
-        // staticDirectory);
-
     }
 }

@@ -19,6 +19,7 @@ package de.twenty11.skysail.server.internal;
 
 import java.util.logging.Level;
 
+import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.cm.ConfigurationException;
@@ -33,11 +34,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.server.config.ServerConfiguration;
+import de.twenty11.skysail.server.restlet.DefaultResource;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ComponentProvider;
 
 public class Configuration implements ComponentProvider {
+
+    public class DefaultSkysailApplication extends SkysailApplication {
+
+        public DefaultSkysailApplication(BundleContext bundleContext) {
+            setBundleContext(bundleContext);
+        }
+
+        @Override
+        protected void attach() {
+            router.attach("/", DefaultResource.class);
+        }
+
+    }
 
     private static Logger logger = LoggerFactory.getLogger(Configuration.class);
     private SkysailComponent restletComponent;
@@ -62,6 +77,12 @@ public class Configuration implements ComponentProvider {
 
         logger.info("Starting standalone osgimonitor server on port {}", port);
         restletComponent = new SkysailComponent(this.context, verifier);
+
+        // Restlet defaultTargetClass = new DefaultResource(componentContext.getBundleContext());
+        // restletComponent.getDefaultHost().attachDefault(defaultTargetClass);
+        SkysailApplication defaultApplication = new DefaultSkysailApplication(componentContext.getBundleContext());
+        defaultApplication.setVerifier(verifier);
+        restletComponent.getDefaultHost().attachDefault(defaultApplication);
 
         server = serverConfig.startStandaloneServer(port, restletComponent);
     }
