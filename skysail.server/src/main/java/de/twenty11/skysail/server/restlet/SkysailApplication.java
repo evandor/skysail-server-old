@@ -22,8 +22,8 @@ import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.converter.Json2HtmlConverter;
 import de.twenty11.skysail.server.converter.Json2BootstrapConverter;
+import de.twenty11.skysail.server.converter.Json2HtmlConverter;
 import de.twenty11.skysail.server.internal.Blocker;
 import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
 import de.twenty11.skysail.server.services.ConfigService;
