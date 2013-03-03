@@ -47,7 +47,7 @@ body {
 				<a class="brand" href="/">Skysail Server</a>
 				<div class="nav-collapse collapse">
 					<ul class="nav">
-						<li class="active"><a href="#">Home</a></li>
+						<!-- <li class="active"><a href="#">Home</a></li> -->
 						<li><a href="#about">About</a></li>
 						<li><a href="#contact">Contact1</a></li>
 					</ul>
@@ -60,7 +60,7 @@ body {
 
 		<div class="row-fluid">
 			<div class="span2">
-				<h5>Invocation</h5>
+				<h5>Invocation <a href='javascript:location.reload(true)'><i class="icon-refresh"></a></i></h5>
 				<h6>Result</h6>
 				<p>${result}</p>
 				<h6>Performance</h6>
@@ -70,7 +70,9 @@ body {
 				<p>${presentations}</p>
 			</div>
 			<div class="span10">
-				<pre>${message}</pre>
+    			${breadcrumb}
+    			<pre>${message}</pre>
+				${stacktrace}
 				<div class="accordion" id="accordion2">
 					${accordionGroups}
 				</div>
@@ -78,10 +80,7 @@ body {
 		</div>
 
 	</div>
-	<!-- /container -->
 
-	<!-- Le javascript
-    ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="/../static/js/jquery-1.9.1.js"></script>
 	<script src="/../static/js/bootstrap.js"></script>

@@ -2,11 +2,15 @@ package de.twenty11.skysail.server.converter;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.restlet.data.MediaType;
+import org.restlet.data.Reference;
 import org.restlet.engine.converter.ConverterHelper;
 import org.restlet.engine.resource.VariantInfo;
 import org.restlet.ext.jackson.JacksonRepresentation;
@@ -14,9 +18,15 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.Resource;
+import org.restlet.routing.Route;
+import org.restlet.routing.TemplateRoute;
+import org.restlet.util.RouteList;
 
 import de.twenty11.skysail.common.Presentable;
+import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.Response;
+import de.twenty11.skysail.server.internal.Configuration.DefaultSkysailApplication;
+import de.twenty11.skysail.server.restlet.SkysailApplication;
 
 public class Json2BootstrapConverter extends ConverterHelper {
 
@@ -80,19 +90,20 @@ public class Json2BootstrapConverter extends ConverterHelper {
     @Override
     public List<VariantInfo> getVariants(Class<?> source) {
         List<VariantInfo> result = null;
-
         if (source != null) {
             result = addVariant(result, VARIANT_JSON);
         }
-
         return result;
     }
 
     @Override
     public Representation toRepresentation(Object source, Variant target, Resource resource) {
-        Variant jsonVariant = new Variant(MediaType.APPLICATION_JSON);
-        // Representation representation = super.toRepresentation(source, jsonVariant, resource);
-        Representation representation = new StringRepresentation(jsonToHtml((Response) source, resource));
+        Representation representation;
+        try {
+            representation = new StringRepresentation(jsonToHtml((Response) source, resource));
+        } catch (Exception e) {
+            representation = new StringRepresentation(jsonToHtml(new FailureResponse(e), resource));
+        }
         representation.setMediaType(MediaType.TEXT_HTML);
         return representation;
     }
@@ -103,33 +114,118 @@ public class Json2BootstrapConverter extends ConverterHelper {
         long executionTimeInNanos = skysailResponse.getExecutionTime();
         float performance = new Long(1000000000) / executionTimeInNanos;
         page = page.replace("${performance}", String.format("%s", performance));
-        page = page.replace("${result}", skysailResponse.getSuccess() ? "success" : "failure!");
+        page = page.replace("${result}",
+                skysailResponse.getSuccess() ? "<span class=\"label label-success\">Success</span>"
+                        : "<span class=\"label label-important\">failure</span>");
         page = page.replace("${message}", skysailResponse.getMessage() == null ? "no message available"
                 : skysailResponse.getMessage());
         page = page.replace("${presentations}", presentations());
-        List<?> data = skysailResponse.getData();
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        for (Object object : data) {
-            String accordionGroup = accordionGroupTemplate;
-            i++;
-            if (object instanceof Presentable) {
-                Presentable presentable = (Presentable) object;
-                accordionGroup = accordionGroup.replace("${header}", presentable.getHeader());
-                accordionGroup = accordionGroup.replace("${image}", presentable.getImageIdentifier());
-                accordionGroup = accordionGroup.replace("${inner}", getInner(presentable));
-                accordionGroup = accordionGroup.replace("${headerlink}", headerlink(presentable));
+
+        Object skysailResponseAsObject = skysailResponse.getData();
+        if (skysailResponseAsObject != null) {
+            StringBuilder sb = new StringBuilder();
+            if (skysailResponseAsObject instanceof List) {
+                List<?> data = (List<?>) skysailResponseAsObject;
+                int i = 0;
+                if (data != null) {
+                    for (Object object : data) {
+                        i = handleDataElements(sb, i, object);
+                    }
+                }
             } else {
-                accordionGroup = accordionGroup.replace("${header}", "Entry " + i);
-                accordionGroup = accordionGroup.replace("${image}", "icon-list-alt");
-                accordionGroup = accordionGroup.replace("${inner}", object.toString());
-                accordionGroup = accordionGroup.replace("${headerlink}", "");
+                handleDataElements(sb, 1, skysailResponseAsObject);
             }
-            accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
-            sb.append(accordionGroup).append("\n");
+            page = page.replace("${accordionGroups}", sb.toString());
+        } else {
+            page = page.replace("${accordionGroups}", "");
         }
-        page = page.replace("${accordionGroups}", sb.toString());
+
+        StringBuilder breadcrumb = getBreadcrumbHtml(resource);
+        page = page.replace("${breadcrumb}", breadcrumb.toString());
+
+        String stacktrace = "";
+        if (skysailResponse instanceof FailureResponse) {
+            Exception exception = ((FailureResponse<?>) skysailResponse).getException();
+            if (exception != null) {
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                exception.printStackTrace(pw);
+                stacktrace = "<pre>" + sw.toString() + "</pre>";
+            }
+        }
+        page = page.replace("${stacktrace}", stacktrace);
         return page;
+    }
+
+    private StringBuilder getBreadcrumbHtml(Resource resource) {
+
+        StringBuilder breadcrumb = new StringBuilder("<ul class=\"breadcrumb\">\n");
+
+        // calcBreadcrumbsForRootRefs(breadcrumb, resource);
+
+        List<Breadcrumb> breadcrumbList = getBreadcrumbList(resource);
+        for (Breadcrumb bc : breadcrumbList) {
+            breadcrumb.append("<li><a href=\"").append(bc.getHref()).append("\">");
+            breadcrumb.append(bc.getValue()).append("</a> <span class=\"divider\">/</span></li>\n");
+        }
+        // <li><a href="#">Library</a> <span class="divider">/</span></li>
+        // <li class="active">Data</li>
+        breadcrumb.append("</ul>\n");
+        return breadcrumb;
+    }
+
+    public List<Breadcrumb> getBreadcrumbList(Resource resource) {
+
+        List<Breadcrumb> breadcrumbs = new ArrayList<Breadcrumb>();
+        breadcrumbs.add(new Breadcrumb("/", null, "Home"));
+
+        Reference reference = resource.getReference();
+        SkysailApplication application = (SkysailApplication) resource.getApplication();
+        RouteList routes = application.getRoutes();
+
+        Reference rootRef = resource.getRootRef();
+        if (!(resource.getApplication() instanceof DefaultSkysailApplication)) {
+            breadcrumbs.add(new Breadcrumb(rootRef.toString(), null, resource.getApplication().getName()));
+        }
+
+        List<String> segments = reference.getSegments();
+        String path = "/";
+        for (int i = 1; i < segments.size(); i++) {
+            path = path + segments.get(i);
+            for (Route route : routes) {
+                if (route instanceof TemplateRoute) {
+                    TemplateRoute tr = (TemplateRoute) route;
+                    String pattern = tr.getTemplate().getPattern();
+                    if (pattern.equals(path)) {
+                        breadcrumbs.add(new Breadcrumb("/" + resource.getApplication().getName() + path, null, path
+                                .replace("/", "")));
+                        break;
+                    }
+                }
+            }
+
+        }
+        return breadcrumbs;
+    }
+
+    private int handleDataElements(StringBuilder sb, int i, Object object) {
+        String accordionGroup = accordionGroupTemplate;
+        i++;
+        if (object instanceof Presentable) {
+            Presentable presentable = (Presentable) object;
+            accordionGroup = accordionGroup.replace("${header}", presentable.getHeader());
+            accordionGroup = accordionGroup.replace("${image}", presentable.getImageIdentifier());
+            accordionGroup = accordionGroup.replace("${inner}", getInner(presentable));
+            accordionGroup = accordionGroup.replace("${headerlink}", headerlink(presentable));
+        } else {
+            accordionGroup = accordionGroup.replace("${header}", "Entry " + i);
+            accordionGroup = accordionGroup.replace("${image}", "icon-list-alt");
+            accordionGroup = accordionGroup.replace("${inner}", object.toString());
+            accordionGroup = accordionGroup.replace("${headerlink}", "");
+        }
+        accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
+        sb.append(accordionGroup).append("\n");
+        return i;
     }
 
     private String headerlink(Presentable presentable) {
