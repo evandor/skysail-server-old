@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -21,20 +22,30 @@
 		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
 		<!-- A publicly browsable repository. For example, via ViewCVS. -->
 		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 
 	<properties>
 		<skysail.common.version>[0.3.20-SNAPSHOT, 1.0)</skysail.common.version>
 	</properties>
 
 	<build>
+
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.template</include>
+				</includes>
+			</resource>
+		</resources>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
 				<extensions>true</extensions>
-				<configuration>		
+				<configuration>
 					<!-- make eclipse aware about this bundle (+ ManifestBuilder in .project!) -->
 					<manifestLocation>META-INF</manifestLocation>
 					<instructions>
@@ -174,16 +185,8 @@
 
 	</dependencies>
 
-	<!-- <repositories>
-		<repository>
-			<id>EclipseLink</id>
-			<url>http://download.eclipse.org/rt/eclipselink/maven.repo</url>
-		</repository>
-		<repository>
-			<id>maven-restlet</id>
-			<name>Public online Restlet repository</name>
-			<url>http://maven.restlet.org</url>
-		</repository>
-	</repositories> -->
+	<!-- <repositories> <repository> <id>EclipseLink</id> <url>http://download.eclipse.org/rt/eclipselink/maven.repo</url> 
+		</repository> <repository> <id>maven-restlet</id> <name>Public online Restlet 
+		repository</name> <url>http://maven.restlet.org</url> </repository> </repositories> -->
 
 </project>
