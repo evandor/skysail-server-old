@@ -18,14 +18,7 @@ public class SkysailComponent extends Component {
         getClients().add(Protocol.FILE);
         // getClients().add(Protocol.WAR);
 
-        // Create a restlet application
-        logger.info("new restlet application: {}", SkysailComponent.class.getName());
-        // application = new OsgiMonitorViewerApplication("/static", componentContext.getBundleContext());
-        // application.setVerifier(verifier);
-
-        // Attach the application to the component and start it
-        logger.info("attaching application and starting {}", this.toString());
-        // getDefaultHost().attach(application);
-
+        // Create a restlet component
+        logger.info("new restlet component: {}", SkysailComponent.class.getName());
     }
 }

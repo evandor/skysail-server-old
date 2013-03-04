@@ -17,6 +17,8 @@
 
 package de.twenty11.skysail.server.internal;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
 import java.util.logging.Level;
 
 import org.osgi.framework.BundleContext;
@@ -26,6 +28,7 @@ import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.component.ComponentContext;
 import org.restlet.Application;
 import org.restlet.Component;
+import org.restlet.Context;
 import org.restlet.Server;
 import org.restlet.engine.Engine;
 import org.restlet.security.MapVerifier;
@@ -40,6 +43,10 @@ import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ComponentProvider;
 
 public class Configuration implements ComponentProvider {
+	
+	public static final String CONTEXT_OPERATING_SYSTEM_BEAN = "de.twenty11.skysail.server.internal.Configuration.operatingSystemMxBean";
+
+	private OperatingSystemMXBean operatingSystemMxBean = ManagementFactory.getOperatingSystemMXBean();
 
     public class DefaultSkysailApplication extends SkysailApplication {
 
@@ -115,6 +122,8 @@ public class Configuration implements ComponentProvider {
     public void setApplicationProvider(ApplicationProvider provider) {
         logger.info("adding new application from {}", provider);
         Application application = provider.getApplication();
+        // TODO set verifier the same way?
+        application.getContext().getAttributes().put(CONTEXT_OPERATING_SYSTEM_BEAN, operatingSystemMxBean);
         if (application instanceof SkysailApplication) {
             ((SkysailApplication) application).setVerifier(verifier);
         }

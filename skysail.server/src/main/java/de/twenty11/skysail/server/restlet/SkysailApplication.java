@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.osgi.framework.BundleContext;
 import org.restlet.Application;
+import org.restlet.Context;
 import org.restlet.Restlet;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.data.ClientInfo;
@@ -26,7 +27,6 @@ import de.twenty11.skysail.server.converter.Json2BootstrapConverter;
 import de.twenty11.skysail.server.converter.Json2HtmlConverter;
 import de.twenty11.skysail.server.internal.Blocker;
 import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
-import de.twenty11.skysail.server.services.ConfigService;
 
 /**
  * 
@@ -54,10 +54,11 @@ public abstract class SkysailApplication extends Application {
     protected UrlMappingServiceListener urlMappingServiceListener;
 
     public SkysailApplication() {
-        ConfigService configService = null;// ConfigServiceProvider.getConfigService();
+        //ConfigService configService = null;// ConfigServiceProvider.getConfigService();
         List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
         registeredConverters.add(new Json2HtmlConverter());
         registeredConverters.add(new Json2BootstrapConverter());
+        setContext(new Context());
     }
 
     abstract protected void attach();

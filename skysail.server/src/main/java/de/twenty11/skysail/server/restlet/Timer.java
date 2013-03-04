@@ -9,7 +9,7 @@ import org.restlet.routing.Filter;
 
 public class Timer extends Filter {
 
-	public static final String EXECUTION_STARTED = "de.twenty11.syksail.server.restlet.Time.executionStarted";
+	public static final String CONTEXT_EXECUTION_STARTED = "de.twenty11.syksail.server.restlet.Time.executionStarted";
 	private long started;
 
 	public Timer(Context context) {
@@ -20,7 +20,7 @@ public class Timer extends Filter {
 	protected int beforeHandle(Request request, Response response) {
 		started = System.nanoTime();
 		if (getContext() != null) {
-			getContext().getAttributes().put(EXECUTION_STARTED, started);
+			getContext().getAttributes().put(CONTEXT_EXECUTION_STARTED, started);
 		}
 		return Filter.CONTINUE;
 	}

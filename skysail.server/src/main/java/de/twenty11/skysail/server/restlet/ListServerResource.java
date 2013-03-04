@@ -17,6 +17,7 @@
 
 package de.twenty11.skysail.server.restlet;
 
+import java.lang.management.OperatingSystemMXBean;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
-import javax.validation.Configuration;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -41,6 +41,7 @@ import de.twenty11.skysail.common.forms.ConstraintViolations;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.Response;
 import de.twenty11.skysail.common.responses.SuccessResponse;
+import de.twenty11.skysail.server.internal.Configuration;
 
 /**
  * An class dealing with common functionality for a skysail server resource..
@@ -73,7 +74,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
 	public ListServerResource() {
 		GenericBootstrap validationProvider = Validation.byDefaultProvider();
 
-		Configuration<?> config = validationProvider.providerResolver(
+		javax.validation.Configuration<?> config = validationProvider.providerResolver(
 				new OSGiServiceDiscoverer()).configure();
 		ValidatorFactory factory = config.buildValidatorFactory();
 		validator = factory.getValidator();
@@ -120,8 +121,13 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
 				successResponse.setMessage(getMessage());
 			}
 			if (getContext() != null) {
+				Object beanAsObject = getContext().getAttributes().get(Configuration.CONTEXT_OPERATING_SYSTEM_BEAN);
+				if (beanAsObject != null && beanAsObject instanceof OperatingSystemMXBean) {
+					OperatingSystemMXBean bean = (OperatingSystemMXBean)beanAsObject;
+					successResponse.setServerLoad(bean.getSystemLoadAverage());
+				}
 				Long executionStarted = (Long) getContext().getAttributes()
-						.get(Timer.EXECUTION_STARTED);
+						.get(Timer.CONTEXT_EXECUTION_STARTED);
 				if (executionStarted != null) {
 					successResponse.setExecutionTime(System.nanoTime()
 							- executionStarted);
