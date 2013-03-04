@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.Option;
@@ -65,6 +66,8 @@ public class SkysailServerOsgiIT {
     }
 
     @Test
+    @Ignore
+    // not true any more
     public void shouldFindSkysailDatasourceService() {
         Bundle bundle = OsgiTestingUtils.getBundleForSymbolicName(context, "skysail.server");
         assertTrue(bundle != null);
