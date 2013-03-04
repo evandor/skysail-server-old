@@ -247,7 +247,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
         StringBuilder sb = new StringBuilder("<table class=\"table table-hover\" style='width:90%'>\n");
         for (Entry<String, Object> row : presentable.getContent().entrySet()) {
             sb.append("<tr>\n");
-            sb.append("<td style='width:200px;'>").append(row.getKey()).append("</td>");
+            sb.append("<th style='width:200px;'>").append(row.getKey()).append("</th>");
             sb.append("<td style='width:600px;'>").append(row.getValue()).append("</td>\n");
             sb.append("</td>\n");
         }
