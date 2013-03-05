@@ -50,7 +50,8 @@ public class Configuration implements ComponentProvider {
 
     public class DefaultSkysailApplication extends SkysailApplication {
 
-        public DefaultSkysailApplication(BundleContext bundleContext) {
+        public DefaultSkysailApplication(BundleContext bundleContext, Context componentContext) {
+            super(componentContext.createChildContext());
             setBundleContext(bundleContext);
         }
 
@@ -87,7 +88,8 @@ public class Configuration implements ComponentProvider {
 
         // Restlet defaultTargetClass = new DefaultResource(componentContext.getBundleContext());
         // restletComponent.getDefaultHost().attachDefault(defaultTargetClass);
-        SkysailApplication defaultApplication = new DefaultSkysailApplication(componentContext.getBundleContext());
+        SkysailApplication defaultApplication = new DefaultSkysailApplication(componentContext.getBundleContext(),
+                restletComponent.getContext());
         defaultApplication.setVerifier(verifier);
         restletComponent.getDefaultHost().attachDefault(defaultApplication);
 
@@ -120,13 +122,20 @@ public class Configuration implements ComponentProvider {
     }
 
     public void setApplicationProvider(ApplicationProvider provider) {
-        logger.info("adding new application from {}", provider);
+        logger.info("trying to add new application from {}", provider);
         Application application = provider.getApplication();
+        if (application != null) {
+            logger.info("found application '{}'", application.getName());
+        } else {
+            logger.warn("no application found...");
+        }
         // TODO set verifier the same way?
-        application.getContext().getAttributes().put(CONTEXT_OPERATING_SYSTEM_BEAN, operatingSystemMxBean);
+        // application.getContext().getAttributes().put(CONTEXT_OPERATING_SYSTEM_BEAN, operatingSystemMxBean);
         if (application instanceof SkysailApplication) {
+            logger.info("setting applications verifier from server configuration");
             ((SkysailApplication) application).setVerifier(verifier);
         }
+        logger.info("attaching '{}' to defaultHost", "/" + application.getName());
         restletComponent.getDefaultHost().attach("/" + application.getName(), application);
     }
 

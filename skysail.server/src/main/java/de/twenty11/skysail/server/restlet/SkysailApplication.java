@@ -53,12 +53,12 @@ public abstract class SkysailApplication extends Application {
     /** listener keeping track of all url mappings. */
     protected UrlMappingServiceListener urlMappingServiceListener;
 
-    public SkysailApplication() {
+    public SkysailApplication(Context context) {
         //ConfigService configService = null;// ConfigServiceProvider.getConfigService();
         List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
         registeredConverters.add(new Json2HtmlConverter());
         registeredConverters.add(new Json2BootstrapConverter());
-        setContext(new Context());
+        setContext(context);
     }
 
     abstract protected void attach();

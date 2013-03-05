@@ -5,6 +5,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.restlet.Context;
 
 import de.twenty11.skysail.common.responses.Response;
 
@@ -27,7 +29,8 @@ public class UniqueResultServerResourceTest {
 	@Before
 	public void setUp() throws Exception {
 		uniqueResultServerResource = new UniqueResultServerResource<Dummy>();
-        uniqueResultServerResource.setApplication(new SkysailApplication() {
+        Context context = Mockito.mock(Context.class);
+        uniqueResultServerResource.setApplication(new SkysailApplication(context) {
 			@Override
 			protected void attach() {
 			}
