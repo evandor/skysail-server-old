@@ -13,7 +13,7 @@ import de.twentyeleven.skysail.server.restlet.MyRootResource;
 public class MyApplication extends SkysailApplication {
 
     public MyApplication(BundleContext bundleContext) {
-        super();
+        super(null);
         setDescription("RESTful OsgiMonitor bundle");
         setOwner("twentyeleven");
         setName("restlet");
