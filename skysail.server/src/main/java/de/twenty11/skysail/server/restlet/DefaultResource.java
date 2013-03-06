@@ -11,6 +11,8 @@ import org.osgi.framework.ServiceReference;
 import org.restlet.Application;
 import org.restlet.resource.Get;
 import org.restlet.resource.ResourceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.Presentable;
 import de.twenty11.skysail.common.responses.Response;
@@ -18,6 +20,8 @@ import de.twenty11.skysail.server.restlet.DefaultResource.AvailableApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 
 public class DefaultResource extends ListServerResource<AvailableApplication> {
+
+    private static Logger logger = LoggerFactory.getLogger(DefaultResource.class);
 
     public class AvailableApplication implements Presentable {
 
@@ -85,6 +89,10 @@ public class DefaultResource extends ListServerResource<AvailableApplication> {
                 allServiceReferences = bundleContext.getAllServiceReferences(ApplicationProvider.class.getName(), null);
                 for (ServiceReference serviceReference : allServiceReferences) {
                     ApplicationProvider provider = (ApplicationProvider) bundleContext.getService(serviceReference);
+                    if (provider == null) {
+                        logger.warn("ApplicationProvider from ServiceRegistry was null!");
+                        continue;
+                    }
                     applications.add(provider.getApplication());
                 }
             } catch (InvalidSyntaxException e) {

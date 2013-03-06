@@ -127,10 +127,13 @@ public class Configuration implements ComponentProvider {
         if (application != null) {
             logger.info("found application '{}'", application.getName());
         } else {
-            logger.warn("no application found...");
+            logger.warn("no application found, aborting...");
+            return;
         }
         // TODO set verifier the same way?
-        application.getContext().getAttributes().put(CONTEXT_OPERATING_SYSTEM_BEAN, operatingSystemMxBean);
+        if (application.getContext() != null) {
+            application.getContext().getAttributes().put(CONTEXT_OPERATING_SYSTEM_BEAN, operatingSystemMxBean);
+        }
         if (application instanceof SkysailApplication) {
             logger.info("setting applications verifier from server configuration");
             ((SkysailApplication) application).setVerifier(verifier);
