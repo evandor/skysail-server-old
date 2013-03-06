@@ -233,7 +233,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
             return "";
         }
         StringBuilder sb = new StringBuilder();
-        sb.append("<a href='").append(presentable.getHeaderLink()).append("'><i class='icon-chevron-right'></i></a>\n");
+        sb.append("<a href='").append(presentable.getHeaderLink()).append("'>&nbsp;<i class='icon-chevron-right'></i>&nbsp;</a>\n");
         return sb.toString();
     }
 

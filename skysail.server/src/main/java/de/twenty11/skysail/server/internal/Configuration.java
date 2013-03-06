@@ -83,7 +83,7 @@ public class Configuration implements ComponentProvider {
         String port = (String) serverConfig.getConfigForKey("port");
         logger.info("port was configured on {}", port);
 
-        logger.info("Starting standalone osgimonitor server on port {}", port);
+        logger.info("Starting skysail server on port {}", port);
         restletComponent = new SkysailComponent(this.context, verifier);
 
         // Restlet defaultTargetClass = new DefaultResource(componentContext.getBundleContext());
@@ -122,6 +122,7 @@ public class Configuration implements ComponentProvider {
     }
 
     public void setApplicationProvider(ApplicationProvider provider) {
+    	logger.info("");
         logger.info("trying to add new application from {}", provider);
         Application application = provider.getApplication();
         if (application != null) {

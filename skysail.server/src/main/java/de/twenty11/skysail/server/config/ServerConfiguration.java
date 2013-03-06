@@ -26,10 +26,6 @@ public class ServerConfiguration {// used to implements ManagedService,
     private List<ConfigurationProvider> configurationProviders = Collections
             .synchronizedList(new ArrayList<ConfigurationProvider>());
 
-    public ServerConfiguration() {
-        System.out.println("Hier");
-    }
-
     public static BasicDataSource getDefaultDS() {
         return defaultDS;
     }
