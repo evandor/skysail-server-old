@@ -83,7 +83,12 @@ public class Configuration implements ComponentProvider {
         String port = (String) serverConfig.getConfigForKey("port");
         logger.info("port was configured on {}", port);
 
+        logger.info("");
+        logger.info("====================================");
         logger.info("Starting skysail server on port {}", port);
+        logger.info("====================================");
+        logger.info("");
+
         restletComponent = new SkysailComponent(this.context, verifier);
 
         // Restlet defaultTargetClass = new DefaultResource(componentContext.getBundleContext());
@@ -126,7 +131,9 @@ public class Configuration implements ComponentProvider {
         logger.info("trying to add new application from {}", provider);
         Application application = provider.getApplication();
         if (application != null) {
+            logger.info("==============================================");
             logger.info("found application '{}'", application.getName());
+            logger.info("==============================================");
         } else {
             logger.warn("no application found, aborting...");
             return;

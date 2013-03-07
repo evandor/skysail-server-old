@@ -22,6 +22,7 @@ public class MyApplication extends SkysailApplication {
     }
     
     protected void attach() {
+        router.attach("", MyRootResource.class);
         router.attach("/", MyRootResource.class);
         router.attach("/applications", ApplicationsResource.class);
     }
