@@ -161,15 +161,11 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
         StringBuilder breadcrumb = new StringBuilder("<ul class=\"breadcrumb\">\n");
 
-        // calcBreadcrumbsForRootRefs(breadcrumb, resource);
-
         List<Breadcrumb> breadcrumbList = getBreadcrumbList(resource);
         for (Breadcrumb bc : breadcrumbList) {
             breadcrumb.append("<li><a href=\"").append(bc.getHref()).append("\">");
             breadcrumb.append(bc.getValue()).append("</a> <span class=\"divider\">/</span></li>\n");
         }
-        // <li><a href="#">Library</a> <span class="divider">/</span></li>
-        // <li class="active">Data</li>
         breadcrumb.append("</ul>\n");
         return breadcrumb;
     }
@@ -213,15 +209,17 @@ public class Json2BootstrapConverter extends ConverterHelper {
         i++;
         if (object instanceof Presentable) {
             Presentable presentable = (Presentable) object;
-            accordionGroup = accordionGroup.replace("${header}", presentable.getHeader());
-            accordionGroup = accordionGroup.replace("${image}", presentable.getImageIdentifier());
+            accordionGroup = accordionGroup.replace("${headerText}", presentable.getHeader().getText());
+            accordionGroup = accordionGroup.replace("${headerImage}", presentable.getHeader().getImage());
+            accordionGroup = accordionGroup.replace("${headerCategoryIcon}", headerCategory(presentable));
+            accordionGroup = accordionGroup.replace("${headerLink}", headerlink(presentable));
             accordionGroup = accordionGroup.replace("${inner}", getInner(presentable));
-            accordionGroup = accordionGroup.replace("${headerlink}", headerlink(presentable));
         } else {
-            accordionGroup = accordionGroup.replace("${header}", "Entry " + i);
-            accordionGroup = accordionGroup.replace("${image}", "icon-list-alt");
+            accordionGroup = accordionGroup.replace("${headerText}", "Entry #" + i);
+            accordionGroup = accordionGroup.replace("${headerImage}", "icon-list-alt");
+            accordionGroup = accordionGroup.replace("${headerCategoryIcon}", "");
+            accordionGroup = accordionGroup.replace("${headerLink}", "");
             accordionGroup = accordionGroup.replace("${inner}", object.toString());
-            accordionGroup = accordionGroup.replace("${headerlink}", "");
         }
         accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
         sb.append(accordionGroup).append("\n");
@@ -229,11 +227,22 @@ public class Json2BootstrapConverter extends ConverterHelper {
     }
 
     private String headerlink(Presentable presentable) {
-        if (presentable.getHeaderLink() == null) {
+        if (presentable.getHeader().getLink() == null) {
             return "";
         }
         StringBuilder sb = new StringBuilder();
-        sb.append("<a href='").append(presentable.getHeaderLink()).append("'>&nbsp;<i class='icon-chevron-right'></i>&nbsp;</a>\n");
+        sb.append("<a href='").append(presentable.getHeader().getLink()).append("'>&nbsp;<i class='icon-chevron-right'></i>&nbsp;</a>\n");
+        return sb.toString();
+    }
+    
+    private String headerCategory(Presentable presentable) {
+        if (presentable.getHeader().getCategoryText() == null && presentable.getHeader().getCategoryColor() == null) {
+            return "";
+        }
+        String text = presentable.getHeader().getCategoryText();
+        String color = presentable.getHeader().getCategoryColor().
+        StringBuilder sb = new StringBuilder();
+        sb.append("<a href='").append(presentable.getHeader().getLink()).append("'>&nbsp;<i class='icon-chevron-right'></i>&nbsp;</a>\n");
         return sb.toString();
     }
 
