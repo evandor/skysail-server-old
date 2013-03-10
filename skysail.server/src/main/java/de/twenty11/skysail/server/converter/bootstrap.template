@@ -1,37 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Skysail - a business server</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
+	<meta charset="utf-8">
+	<title>Skysail - a business server</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-<!-- Le styles -->
-<link href="/../static/css/bootstrap.css" rel="stylesheet">
-<style>
-body {
-	padding-top: 60px;
-	/* 60px to make the container go all the way to the bottom of the topbar */
-}
-</style>
-<link href="/../static/css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="/../static/css/bootstrap.css" rel="stylesheet">
 
-<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-      <script src="js/html5shiv.js"></script>
-    <![endif]-->
-
-<!-- Fav and touch icons -->
-<link rel="apple-touch-icon-precomposed" sizes="144x144"
-	href="/../static/ico/apple-touch-icon-144-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="114x114"
-	href="/../static/ico/apple-touch-icon-114-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="72x72"
-	href="/../static/ico/apple-touch-icon-72-precomposed.png">
-<link rel="apple-touch-icon-precomposed"
-	href="/../static/ico/apple-touch-icon-57-precomposed.png">
-<link rel="shortcut icon" href="/../static/ico/favicon.png">
+	<style>
+		body {
+			padding-top: 60px;
+			/* 60px to make the container go all the way to the bottom of the topbar */
+		}
+	</style>
+	
+	<link href="/../static/css/bootstrap-responsive.css" rel="stylesheet">
+	
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	      <script src="js/html5shiv.js"></script>
+	    <![endif]-->
+	
+	<!-- Fav and touch icons -->
+	<link rel="apple-touch-icon-precomposed" sizes="144x144"
+		href="/../static/ico/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114"
+		href="/../static/ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72"
+		href="/../static/ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed"
+		href="/../static/ico/apple-touch-icon-57-precomposed.png">
+	<link rel="shortcut icon" href="/../static/ico/favicon.png">
+	
+	<script type="text/javascript">
+		function searchWithFilter () {
+			var filter = document.getElementById("filter");
+			var hrefSplit = location.href.split("?");
+			var href = hrefSplit[0];
+			var target = href + "?filter=" + filter.value;
+			window.location.href = target;
+		}
+		
+		function getCookies() {
+		    var cookies = { };
+		    if (document.cookie && document.cookie != '') {
+		        var split = document.cookie.split(';');
+		        for (var i = 0; i < split.length; i++) {
+		            var name_value = split[i].split("=");
+		            name_value[0] = name_value[0].replace(/^ /, '');
+		            cookies[decodeURIComponent(name_value[0])] = decodeURIComponent(name_value[1]);
+		        }
+		    }
+		    return cookies;
+		}
+		
+	</script>
+	
 </head>
 
 <body>
@@ -63,8 +89,15 @@ body {
 				<h5>Invocation <a href='javascript:location.reload(true)'><i class="icon-refresh"></a></i></h5>
 				<h6>Result</h6>
 				<p>${result}</p>
+				<hr>
+				<h6>Filter</h6>
+				<input id="filter" type="text" name="filterExpression" value="${filterExpression}" style="width:80px;" /><a href='javascript:searchWithFilter();'>&nbsp;<i class="icon-search"></a></i>
+				<hr>
+				<h6>History</h6>
+				<p id="history">no history</p>
+				<hr>
 				<h6>Performance</h6>
-				<p>${performance}</p>
+				<p><small>Speed: ${performance} / Load: ${serverLoad}</small></p>
 				<hr>
 				<h6>Alternative Presentations</h6>
 				<p>${presentations}</p>
@@ -83,7 +116,37 @@ body {
 
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="/../static/js/jquery-1.9.1.js"></script>
+	<script src="/../static/js/jquery.cookie.js"></script>
 	<script src="/../static/js/bootstrap.js"></script>
+
+	<script type="text/javascript">
+		var history = document.getElementById("history");
+		var cookieIdentifier = "skysail.history.";
+		var cookies = getCookies();
+		var tmpCookies = new Array();
+		for(var name in cookies) {
+			if (name.indexOf(cookieIdentifier) == 0) {
+				var index = parseInt(name.charAt(cookieIdentifier.length));
+				if (index<9) {
+					tmpCookies[index+1] = cookies[name];
+				}
+		  		//document.write( name + " : " + cookies[name] + "<br />" );
+			}
+		}
+		
+		// save current location
+		tmpCookies[0] = location.href;
+
+		var historyHtml = "";
+		$.cookie("skysail.history.0", location.href, { expires: 1 });
+		for (var i = 1; i < tmpCookies.length; ++i) {
+			$.cookie("skysail.history." + i, tmpCookies[i], { expires: 1 });
+			historyHtml += i + ": <a href='"+tmpCookies[i]+"'>" + tmpCookies[i] + "</a><br>";
+		}
+
+		history.innerHTML = historyHtml;
+				
+	</script>
 
 </body>
 </html>

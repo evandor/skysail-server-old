@@ -76,7 +76,7 @@ public class Configuration implements ComponentProvider {
         this.context = componentContext;
         this.verifier = serverConfig.getVerifier(configadmin);
 
-        // Engine.setLogLevel(Level.ALL);
+        Engine.setLogLevel(Level.ALL);
         Engine.setRestletLogLevel(Level.ALL);
         // System.setProperty("java.util.logging.config.file", "logging.config");
         logger.info("Starting component for Skysail...");

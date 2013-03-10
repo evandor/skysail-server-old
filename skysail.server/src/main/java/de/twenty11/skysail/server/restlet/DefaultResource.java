@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.Presentable;
+import de.twenty11.skysail.common.PresentableHeader;
 import de.twenty11.skysail.common.responses.Response;
 import de.twenty11.skysail.server.restlet.DefaultResource.AvailableApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
@@ -32,25 +33,14 @@ public class DefaultResource extends ListServerResource<AvailableApplication> {
         }
 
         @Override
-        public String getHeader() {
-            return name;
-        }
-
-        @Override
-        public String getHeaderLink() {
-            return name;
+        public PresentableHeader getHeader() {
+            return new PresentableHeader.Builder(name).setLink(name).setImage("icon-cog").build();
         }
 
         @Override
         public Map<String, Object> getContent() {
             return Collections.emptyMap();
         }
-
-        @Override
-        public String getImageIdentifier() {
-            return "icon-cog";
-        }
-
     }
 
     private List<Application> applications = new ArrayList<Application>();

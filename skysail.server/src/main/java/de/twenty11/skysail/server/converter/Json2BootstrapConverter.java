@@ -1,5 +1,6 @@
 package de.twenty11.skysail.server.converter;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -114,12 +115,15 @@ public class Json2BootstrapConverter extends ConverterHelper {
         long executionTimeInNanos = skysailResponse.getExecutionTime();
         float performance = new Long(1000000000) / executionTimeInNanos;
         page = page.replace("${performance}", String.format("%s", performance));
+        page = page.replace("${serverLoad}", String.format("%s", skysailResponse.getServerLoad()));
         page = page.replace("${result}",
                 skysailResponse.getSuccess() ? "<span class=\"label label-success\">Success</span>"
                         : "<span class=\"label label-important\">failure</span>");
         page = page.replace("${message}", skysailResponse.getMessage() == null ? "no message available"
                 : skysailResponse.getMessage());
         page = page.replace("${presentations}", presentations());
+        page = page.replace("${filterExpression}", getFilter());
+        page = page.replace("${history}", getHistory());
 
         Object skysailResponseAsObject = skysailResponse.getData();
         if (skysailResponseAsObject != null) {
@@ -155,6 +159,10 @@ public class Json2BootstrapConverter extends ConverterHelper {
         }
         page = page.replace("${stacktrace}", stacktrace);
         return page;
+    }
+
+    private CharSequence getHistory() {
+        return "";
     }
 
     private StringBuilder getBreadcrumbHtml(Resource resource) {
@@ -226,6 +234,10 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return i;
     }
 
+    private CharSequence getFilter() {
+        return "";
+    }
+
     private String headerlink(Presentable presentable) {
         if (presentable.getHeader().getLink() == null) {
             return "";
@@ -236,13 +248,22 @@ public class Json2BootstrapConverter extends ConverterHelper {
     }
     
     private String headerCategory(Presentable presentable) {
-        if (presentable.getHeader().getCategoryText() == null && presentable.getHeader().getCategoryColor() == null) {
+        if ((presentable.getHeader().getCategoryText() == null || presentable.getHeader().getCategoryText().equals(""))
+                && presentable.getHeader().getCategoryColor() == null) {
             return "";
         }
         String text = presentable.getHeader().getCategoryText();
-        String color = presentable.getHeader().getCategoryColor().
+        Color color = presentable.getHeader().getCategoryColor();
+        String hex = "#ffffff";
+        if (color != null) {
+            hex = String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
+        }
         StringBuilder sb = new StringBuilder();
-        sb.append("<a href='").append(presentable.getHeader().getLink()).append("'>&nbsp;<i class='icon-chevron-right'></i>&nbsp;</a>\n");
+        sb.append(
+                "<button class=\"btn btn-mini\" type=\"button\" style=\"background-image: linear-gradient(to bottom, "
+                        + hex + ", " + hex + ");\">")
+                .append(text == null ? "&nbsp;" : text)
+                .append("</button>\n");
         return sb.toString();
     }
 
