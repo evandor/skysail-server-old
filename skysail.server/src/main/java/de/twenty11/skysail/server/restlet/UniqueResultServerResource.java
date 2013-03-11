@@ -7,12 +7,12 @@ import java.util.Set;
 
 import de.twenty11.skysail.common.DetailsLinkProvider;
 import de.twenty11.skysail.common.responses.FailureResponse;
-import de.twenty11.skysail.common.responses.Response;
+import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 
 public class UniqueResultServerResource<T> extends SkysailServerResource2<T> {
 
-    protected Response<T> getEntity(T data) {
+    protected SkysailResponse<T> getEntity(T data) {
         try {
 
             if (data instanceof DetailsLinkProvider) {

@@ -19,7 +19,7 @@ import org.restlet.data.Method;
 import org.restlet.representation.Representation;
 import org.restlet.security.MapVerifier;
 
-import de.twenty11.skysail.common.responses.Response;
+import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.restlet.ApplicationDescriptor;
 import de.twentyeleven.skysail.server.restlet.internal.MyApplication;
 
@@ -52,9 +52,9 @@ public class BaseTests {
 		org.restlet.Response response = get("applications");
 		assertDefaults(response);
 		Representation entity = response.getEntity();
-		Response<List<ApplicationDescriptor>> skysailResponse = mapper.readValue(
+		SkysailResponse<List<ApplicationDescriptor>> skysailResponse = mapper.readValue(
 				entity.getText(),
-				new TypeReference<Response<List<ApplicationDescriptor>>>() {
+				new TypeReference<SkysailResponse<List<ApplicationDescriptor>>>() {
 				});
 		assertThat(skysailResponse.getMessage(), skysailResponse.getSuccess(),
 				is(true));

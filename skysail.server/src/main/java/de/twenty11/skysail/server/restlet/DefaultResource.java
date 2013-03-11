@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.Presentable;
 import de.twenty11.skysail.common.PresentableHeader;
-import de.twenty11.skysail.common.responses.Response;
+import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.restlet.DefaultResource.AvailableApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 
@@ -51,7 +51,7 @@ public class DefaultResource extends ListServerResource<AvailableApplication> {
     }
 
     @Get("html|json")
-    public Response<List<AvailableApplication>> getApplications() {
+    public SkysailResponse<List<AvailableApplication>> getApplications() {
         return getEntities(allApplications(), "all Applications");
     }
 

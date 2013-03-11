@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.restlet.Context;
 
-import de.twenty11.skysail.common.responses.Response;
+import de.twenty11.skysail.common.responses.SkysailResponse;
 
 public class UniqueResultServerResourceTest {
 
@@ -44,7 +44,7 @@ public class UniqueResultServerResourceTest {
 	@Test
 	public void test() {
 		Dummy data = null;
-		Response entity = uniqueResultServerResource.getEntity(data);
+		SkysailResponse entity = uniqueResultServerResource.getEntity(data);
 	}
 
 }

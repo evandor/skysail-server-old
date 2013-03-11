@@ -11,7 +11,7 @@ import org.restlet.Application;
 import org.restlet.resource.Get;
 import org.restlet.resource.ResourceException;
 
-import de.twenty11.skysail.common.responses.Response;
+import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.restlet.ApplicationDescriptor;
 import de.twenty11.skysail.common.restlet.RestfulApplications;
 import de.twenty11.skysail.server.restlet.ListServerResource;
@@ -29,7 +29,7 @@ public class ApplicationsResource extends ListServerResource<ApplicationDescript
 	
 	@Override
 	@Get("html|json")
-	public Response<List<ApplicationDescriptor>> getApplications() {
+	public SkysailResponse<List<ApplicationDescriptor>> getApplications() {
 		return getEntities(allApplications(), "all Applications");
 	}
 	

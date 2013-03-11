@@ -25,7 +25,7 @@ import org.restlet.util.RouteList;
 
 import de.twenty11.skysail.common.Presentable;
 import de.twenty11.skysail.common.responses.FailureResponse;
-import de.twenty11.skysail.common.responses.Response;
+import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.internal.Configuration.DefaultSkysailApplication;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 
@@ -44,7 +44,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
     @Override
     public float score(Object source, Variant target, Resource resource) {
         float result = -1.0F;
-        if (!(source instanceof de.twenty11.skysail.common.responses.Response)) {
+        if (!(source instanceof de.twenty11.skysail.common.responses.SkysailResponse)) {
             return 0.0F;
         }
         if (target.getMediaType().equals(MediaType.TEXT_HTML)) {
@@ -101,7 +101,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
     public Representation toRepresentation(Object source, Variant target, Resource resource) {
         Representation representation;
         try {
-            representation = new StringRepresentation(jsonToHtml((Response) source, resource));
+            representation = new StringRepresentation(jsonToHtml((SkysailResponse) source, resource));
         } catch (Exception e) {
             representation = new StringRepresentation(jsonToHtml(new FailureResponse(e), resource));
         }
@@ -109,7 +109,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return representation;
     }
 
-    private String jsonToHtml(Response<List<?>> skysailResponse, Resource resource) {
+    private String jsonToHtml(SkysailResponse<List<?>> skysailResponse, Resource resource) {
         String page = rootTemplate;
         // template = template.replace("${originalJson}", json);
         long executionTimeInNanos = skysailResponse.getExecutionTime();

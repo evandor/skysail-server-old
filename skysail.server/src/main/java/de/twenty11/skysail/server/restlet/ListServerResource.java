@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.common.DetailsLinkProvider;
 import de.twenty11.skysail.common.forms.ConstraintViolations;
 import de.twenty11.skysail.common.responses.FailureResponse;
-import de.twenty11.skysail.common.responses.Response;
+import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.server.internal.Configuration;
 
@@ -92,7 +92,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
 				15);
 	}
 
-	protected Response<List<T>> getEntities(List<T> data, String defaultMsg) {
+	protected SkysailResponse<List<T>> getEntities(List<T> data, String defaultMsg) {
 		try {
 			SkysailApplication app = (SkysailApplication) getApplication();
 			Set<String> mappings = app.getUrlMappingServiceListener() != null ? app
@@ -142,7 +142,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
 	}
 
 	// TODO move to uniqueresultServerResource
-	protected Response<T> getEntity(T data) {
+	protected SkysailResponse<T> getEntity(T data) {
 		try {
 			SkysailApplication app = (SkysailApplication) getApplication();
 			Set<String> mappings = app.getUrlMappingServiceListener() != null ? app
@@ -154,7 +154,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
 		}
 	}
 
-	protected Response<String> deleteEntity(EntityManager em, T entity) {
+	protected SkysailResponse<String> deleteEntity(EntityManager em, T entity) {
 		try {
 			em.remove(entity);
 			SuccessResponse<String> response = new SuccessResponse<String>(null);
@@ -166,7 +166,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
 		}
 	}
 
-	protected Response<ConstraintViolations<T>> addEntity(EntityManager em,
+	protected SkysailResponse<ConstraintViolations<T>> addEntity(EntityManager em,
 			T entity, ConstraintViolations<T> constraintViolations) {
 		if (constraintViolations.size() > 0) {
 			// if (constraintViolations.getMsg() != null) {

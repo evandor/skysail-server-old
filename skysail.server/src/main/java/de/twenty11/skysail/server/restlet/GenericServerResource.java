@@ -23,7 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.responses.FailureResponse;
-import de.twenty11.skysail.common.responses.Response;
+import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 
 /**
@@ -54,7 +54,7 @@ public class GenericServerResource<T> extends SkysailServerResource2<T> {
         logger.error("you should implement a subclass of GridDataServerResource and overwrite method filterData");
     }
 
-    protected Response<T> getEntities(T data) {
+    protected SkysailResponse<T> getEntities(T data) {
         try {
             return new SuccessResponse<T>(data);
         } catch (Exception e) {
@@ -63,7 +63,7 @@ public class GenericServerResource<T> extends SkysailServerResource2<T> {
         }
     }
     
-    protected Response<T> getEntity(T singleResult) {
+    protected SkysailResponse<T> getEntity(T singleResult) {
         try {
             return new SuccessResponse<T>(singleResult);
         } catch (Exception e) {
