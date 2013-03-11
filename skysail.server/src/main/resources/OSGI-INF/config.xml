@@ -1,19 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0"
-	name="de.twenty11.skysail.server.internal.Configuration">
+	name="de.twenty11.skysail.server.internal.Configuration"
+	immediate="true">
+	
 	<service>
       <provide interface="de.twenty11.skysail.server.services.ComponentProvider"/>
     </service>
+    
     <property name='service.pid' value='de.twenty11.skysail.server.internal.Configuration'/>
     
 	<implementation
 		class="de.twenty11.skysail.server.internal.Configuration" />
-	<reference bind="setConfigAdmin" cardinality="1..1"
-		interface="org.osgi.service.cm.ConfigurationAdmin" name="ConfigAdmin"
+	
+	<reference 
+		bind="setConfigAdmin" 
+		cardinality="1..1"
+		interface="org.osgi.service.cm.ConfigurationAdmin" 
+		name="ConfigAdmin"
 		policy="static" />
-	<reference bind="setServerConfiguration" cardinality="1..1" 
-		interface="de.twenty11.skysail.server.config.ServerConfiguration" name="ServerConfiguration" 
+	
+	<reference 
+		bind="setServerConfiguration" 
+		cardinality="1..1" 
+		interface="de.twenty11.skysail.server.config.ServerConfiguration" 
+		name="ServerConfiguration" 
 		policy="static"/>
-	<reference bind="setApplicationProvider" cardinality="0..n" 
-		interface="de.twenty11.skysail.server.services.ApplicationProvider" name="ApplicationProvider" policy="dynamic" unbind="unsetApplicationProvider"/>
+	
+	<reference 
+		cardinality="0..n" 
+		interface="de.twenty11.skysail.server.services.ApplicationProvider" 
+		bind="setApplicationProvider" 
+		unbind="unsetApplicationProvider"
+		name="ApplicationProvider" 
+		policy="dynamic" 
+	/>
 </scr:component>

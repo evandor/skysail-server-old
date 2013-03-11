@@ -43,10 +43,10 @@ import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ComponentProvider;
 
 public class Configuration implements ComponentProvider {
-	
-	public static final String CONTEXT_OPERATING_SYSTEM_BEAN = "de.twenty11.skysail.server.internal.Configuration.operatingSystemMxBean";
 
-	private OperatingSystemMXBean operatingSystemMxBean = ManagementFactory.getOperatingSystemMXBean();
+    public static final String CONTEXT_OPERATING_SYSTEM_BEAN = "de.twenty11.skysail.server.internal.Configuration.operatingSystemMxBean";
+
+    private OperatingSystemMXBean operatingSystemMxBean = ManagementFactory.getOperatingSystemMXBean();
 
     public class DefaultSkysailApplication extends SkysailApplication {
 
@@ -76,7 +76,7 @@ public class Configuration implements ComponentProvider {
         this.context = componentContext;
         this.verifier = serverConfig.getVerifier(configadmin);
 
-        Engine.setLogLevel(Level.ALL);
+        // Engine.setLogLevel(Level.ALL);
         Engine.setRestletLogLevel(Level.ALL);
         // System.setProperty("java.util.logging.config.file", "logging.config");
         logger.info("Starting component for Skysail...");
@@ -127,13 +127,13 @@ public class Configuration implements ComponentProvider {
     }
 
     public void setApplicationProvider(ApplicationProvider provider) {
-    	logger.info("");
+        logger.info("");
         logger.info("trying to add new application from {}", provider);
         Application application = provider.getApplication();
         if (application != null) {
-            logger.info("==============================================");
-            logger.info("found application '{}'", application.getName());
-            logger.info("==============================================");
+            logger.info("==================================================");
+            logger.info(" >>> found application '{}'", application.getName());
+            logger.info("==================================================");
         } else {
             logger.warn("no application found, aborting...");
             return;
@@ -151,7 +151,15 @@ public class Configuration implements ComponentProvider {
     }
 
     public void unsetApplicationProvider(ApplicationProvider provider) {
-        restletComponent.getDefaultHost().detach(provider.getApplication());
+        Application application = provider.getApplication();
+        if (application != null) {
+            logger.info("======================================================");
+            logger.info(" >>> detaching application '{}'", application.getName());
+            logger.info("======================================================");
+            restletComponent.getDefaultHost().detach(application);
+        } else {
+            logger.warn("provider {}'s application was null", provider);
+        }
     }
 
     @Override

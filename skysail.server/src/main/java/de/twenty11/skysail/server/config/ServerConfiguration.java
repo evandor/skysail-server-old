@@ -23,6 +23,10 @@ public class ServerConfiguration {// used to implements ManagedService,
     private final static Logger logger = LoggerFactory.getLogger(ServerConfiguration.class);
     private static BasicDataSource defaultDS;
 
+    public ServerConfiguration() {
+        System.out.println("hier");
+    }
+
     private List<ConfigurationProvider> configurationProviders = Collections
             .synchronizedList(new ArrayList<ConfigurationProvider>());
 

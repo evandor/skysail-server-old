@@ -77,13 +77,15 @@ public class DefaultResource extends ListServerResource<AvailableApplication> {
             ServiceReference[] allServiceReferences;
             try {
                 allServiceReferences = bundleContext.getAllServiceReferences(ApplicationProvider.class.getName(), null);
-                for (ServiceReference serviceReference : allServiceReferences) {
-                    ApplicationProvider provider = (ApplicationProvider) bundleContext.getService(serviceReference);
-                    if (provider == null) {
-                        logger.warn("ApplicationProvider from ServiceRegistry was null!");
-                        continue;
+                if (allServiceReferences != null) {
+                    for (ServiceReference serviceReference : allServiceReferences) {
+                        ApplicationProvider provider = (ApplicationProvider) bundleContext.getService(serviceReference);
+                        if (provider == null) {
+                            logger.warn("ApplicationProvider from ServiceRegistry was null!");
+                            continue;
+                        }
+                        applications.add(provider.getApplication());
                     }
-                    applications.add(provider.getApplication());
                 }
             } catch (InvalidSyntaxException e) {
                 // TODO Auto-generated catch block

@@ -1,18 +1,12 @@
 package de.twenty11.skysail.server.management.internal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.InvalidSyntaxException;
-import org.osgi.framework.ServiceReference;
 import org.restlet.Request;
 import org.restlet.Response;
 
 import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
-import de.twenty11.skysail.server.services.ApplicationDescriptor;
 
 /**
  * @author carsten
@@ -58,26 +52,7 @@ public class ManagementApplication extends SkysailApplication {
         }
     }
 
-    public Map<ApplicationDescriptor, String> getRelevantAppsAndPaths() {
 
-        Map<ApplicationDescriptor, String> result = new HashMap<ApplicationDescriptor, String>();
-        try {
-            ServiceReference[] allSkysailApps = bundleContext.getAllServiceReferences(
-                    ApplicationDescriptor.class.getName(), null);
-            if (allSkysailApps != null) {
-                for (ServiceReference serviceReference : allSkysailApps) {
-                    ApplicationDescriptor skysailApp = (ApplicationDescriptor) bundleContext
-                            .getService(serviceReference);
-                    String skysailAppName = "tobedone";
-                    result.put(skysailApp, "/" + skysailAppName);
-                }
-            }
-            return result;
-        } catch (InvalidSyntaxException e) {
-            throw new RuntimeException("invalid syntax", e);
-        }
-
-    }
 
 
 }
