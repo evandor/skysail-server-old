@@ -24,6 +24,8 @@ import org.restlet.routing.TemplateRoute;
 import org.restlet.util.RouteList;
 
 import de.twenty11.skysail.common.Presentable;
+import de.twenty11.skysail.common.Presentation;
+import de.twenty11.skysail.common.PresentationStyle;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.internal.Configuration.DefaultSkysailApplication;
@@ -110,6 +112,17 @@ public class Json2BootstrapConverter extends ConverterHelper {
     }
 
     private String jsonToHtml(SkysailResponse<List<?>> skysailResponse, Resource resource) {
+
+        PresentationStyle style = PresentationStyle.LIST;
+        Object dataAsObject = skysailResponse.getData();
+        if (dataAsObject instanceof List && ((List) dataAsObject).size() > 0) {
+            List<?> data = (List<?>) dataAsObject;
+            if (data.get(0).getClass().isAnnotationPresent(Presentation.class)) {
+                Presentation annotation = data.get(0).getClass().getAnnotation(Presentation.class);
+                style = annotation.preferred();
+            }
+        }
+
         String page = rootTemplate;
         // template = template.replace("${originalJson}", json);
         long executionTimeInNanos = skysailResponse.getExecutionTime();
@@ -127,21 +140,13 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
         Object skysailResponseAsObject = skysailResponse.getData();
         if (skysailResponseAsObject != null) {
-            StringBuilder sb = new StringBuilder();
-            if (skysailResponseAsObject instanceof List) {
-                List<?> data = (List<?>) skysailResponseAsObject;
-                int i = 0;
-                if (data != null) {
-                    for (Object object : data) {
-                        i = handleDataElements(sb, i, object);
-                    }
-                }
-            } else {
-                handleDataElements(sb, 1, skysailResponseAsObject);
+            if (style.equals(PresentationStyle.LIST)) {
+                page = createListForContent(page, skysailResponseAsObject);
+            } else if (style.equals(PresentationStyle.TABLE)) {
+                page = createTableForContent(page, skysailResponseAsObject);
             }
-            page = page.replace("${accordionGroups}", sb.toString());
         } else {
-            page = page.replace("${accordionGroups}", "");
+            page = page.replace("${content}", "");
         }
 
         StringBuilder breadcrumb = getBreadcrumbHtml(resource);
@@ -158,6 +163,42 @@ public class Json2BootstrapConverter extends ConverterHelper {
             }
         }
         page = page.replace("${stacktrace}", stacktrace);
+        return page;
+    }
+
+    private String createListForContent(String page, Object skysailResponseAsObject) {
+        StringBuilder sb = new StringBuilder("<div class=\"accordion\" id=\"accordion2\">\n");
+        if (skysailResponseAsObject instanceof List) {
+            List<?> data = (List<?>) skysailResponseAsObject;
+            int i = 0;
+            if (data != null) {
+                for (Object object : data) {
+                    i = handleDataElementsForList(sb, i, object);
+                }
+            }
+        } else {
+            handleDataElementsForList(sb, 1, skysailResponseAsObject);
+        }
+        sb.append("</div>\n");
+        page = page.replace("${content}", sb.toString());
+        return page;
+    }
+
+    private String createTableForContent(String page, Object skysailResponseAsObject) {
+        StringBuilder sb = new StringBuilder("<table  class=\"table table-hover\">\n");
+        if (skysailResponseAsObject instanceof List) {
+            List<?> data = (List<?>) skysailResponseAsObject;
+            int i = 0;
+            if (data != null) {
+                for (Object object : data) {
+                    i = handleDataElementsForTable(sb, i, object);
+                }
+            }
+        } else {
+            handleDataElementsForList(sb, 1, skysailResponseAsObject);
+        }
+        sb.append("</table>\n");
+        page = page.replace("${content}", sb.toString());
         return page;
     }
 
@@ -212,7 +253,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return breadcrumbs;
     }
 
-    private int handleDataElements(StringBuilder sb, int i, Object object) {
+    private int handleDataElementsForList(StringBuilder sb, int i, Object object) {
         String accordionGroup = accordionGroupTemplate;
         i++;
         if (object instanceof Presentable) {
@@ -231,6 +272,25 @@ public class Json2BootstrapConverter extends ConverterHelper {
         }
         accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
         sb.append(accordionGroup).append("\n");
+        return i;
+    }
+
+    private int handleDataElementsForTable(StringBuilder sb, int i, Object object) {
+        StringBuilder row = new StringBuilder("<tr>\n");
+        i++;
+        if (object instanceof Presentable) {
+            Presentable presentable = (Presentable) object;
+            for (Entry<String, Object> rowContent : presentable.getContent().entrySet()) {
+                sb.append("<td>");
+                sb.append(rowContent.getValue());
+                sb.append("</td>");
+            }
+            sb.append("<td>").append(headerlink(presentable)).append("</td>");
+        } else {
+
+        }
+        sb.append("</tr>");
+        sb.append(row).append("\n");
         return i;
     }
 

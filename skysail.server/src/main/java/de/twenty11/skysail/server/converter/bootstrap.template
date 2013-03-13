@@ -106,9 +106,7 @@
     			${breadcrumb}
     			<pre>${message}</pre>
 				${stacktrace}
-				<div class="accordion" id="accordion2">
-					${accordionGroups}
-				</div>
+				${content}
 			</div>
 		</div>
 
