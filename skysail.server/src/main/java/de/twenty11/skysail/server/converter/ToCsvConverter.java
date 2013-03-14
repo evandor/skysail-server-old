@@ -17,6 +17,12 @@ import de.twenty11.skysail.common.Presentable;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 
+/**
+ * Proof of concept implementation
+ * 
+ * @author carsten
+ * 
+ */
 public class ToCsvConverter extends ConverterHelper {
 
     private static final VariantInfo VARIANT_JSON = new VariantInfo(MediaType.APPLICATION_EXCEL);
@@ -77,6 +83,7 @@ public class ToCsvConverter extends ConverterHelper {
         return result;
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public Representation toRepresentation(Object source, Variant target, Resource resource) {
         Representation representation;
@@ -85,7 +92,7 @@ public class ToCsvConverter extends ConverterHelper {
         } catch (Exception e) {
             representation = new StringRepresentation(toCsv(new FailureResponse(e), resource));
         }
-        representation.setMediaType(MediaType.TEXT_HTML);
+        representation.setMediaType(MediaType.TEXT_CSV);
         return representation;
     }
 
@@ -106,30 +113,49 @@ public class ToCsvConverter extends ConverterHelper {
         StringBuilder sb = new StringBuilder("");
         if (skysailResponseAsObject instanceof List) {
             List<?> data = (List<?>) skysailResponseAsObject;
-            int i = 0;
             if (data != null) {
+                if (data.size() > 0) {
+                    handleHeaderElementsForList(sb, data.get(0));
+                }
                 for (Object object : data) {
-                    i = handleDataElementsForList(sb, i, object);
+                    handleDataElementsForList(sb, object);
                 }
             }
         } else {
-            handleDataElementsForList(sb, 1, skysailResponseAsObject);
+            handleDataElementsForList(sb, skysailResponseAsObject);
         }
         sb.append("");
         return sb.toString();
     }
 
-    private int handleDataElementsForList(StringBuilder sb, int i, Object object) {
+    private void handleDataElementsForList(StringBuilder sb, Object object) {
         if (object instanceof Presentable) {
             Presentable presentable = (Presentable) object;
+            boolean empty = true;
             for (Entry<String, Object> row : presentable.getContent().entrySet()) {
-                sb.append("\"");
-                sb.append(row.getKey().replace("\"", "\\\""));
-                sb.append("\"");
+                sb.append(row.getValue() != null ? row.getValue().toString() : "".replace("\"", "\\\"")).append(",");
+                empty = false;
+            }
+            if (!empty) {
+                sb.deleteCharAt(sb.length() - 1);
             }
             sb.append("\n");
         }
-        return i;
+    }
+
+    private void handleHeaderElementsForList(StringBuilder sb, Object object) {
+        if (object instanceof Presentable) {
+            Presentable presentable = (Presentable) object;
+            boolean empty = true;
+            for (Entry<String, Object> row : presentable.getContent().entrySet()) {
+                sb.append(row.getKey().toString().replace("\"", "\\\"")).append(",");
+                empty = false;
+            }
+            if (!empty) {
+                sb.deleteCharAt(sb.length() - 1);
+            }
+            sb.append("\n");
+        }
     }
 
 }
