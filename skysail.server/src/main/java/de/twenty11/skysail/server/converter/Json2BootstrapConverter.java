@@ -24,6 +24,7 @@ import org.restlet.routing.TemplateRoute;
 import org.restlet.util.RouteList;
 
 import de.twenty11.skysail.common.Presentable;
+import de.twenty11.skysail.common.PresentableHeader;
 import de.twenty11.skysail.common.Presentation;
 import de.twenty11.skysail.common.PresentationStyle;
 import de.twenty11.skysail.common.responses.FailureResponse;
@@ -303,10 +304,11 @@ public class Json2BootstrapConverter extends ConverterHelper {
             return "";
         }
         StringBuilder sb = new StringBuilder();
-        sb.append("<a href='").append(presentable.getHeader().getLink()).append("'>&nbsp;<i class='icon-chevron-right'></i>&nbsp;</a>\n");
+        sb.append("<a href='").append(presentable.getHeader().getLink())
+                .append("'>&nbsp;<i class='icon-chevron-right'></i>&nbsp;</a>\n");
         return sb.toString();
     }
-    
+
     private String headerCategory(Presentable presentable) {
         if ((presentable.getHeader().getCategoryText() == null || presentable.getHeader().getCategoryText().equals(""))
                 && presentable.getHeader().getCategoryColor() == null) {
@@ -321,15 +323,18 @@ public class Json2BootstrapConverter extends ConverterHelper {
         StringBuilder sb = new StringBuilder();
         sb.append(
                 "<button class=\"btn btn-mini\" type=\"button\" style=\"background-image: linear-gradient(to bottom, "
-                        + hex + ", " + hex + ");\">")
-                .append(text == null ? "&nbsp;" : text)
-                .append("</button>\n");
+                        + hex + ", " + hex + ");\">").append(text == null ? "&nbsp;" : text).append("</button>\n");
         return sb.toString();
     }
 
     private String presentations() {
         StringBuilder sb = new StringBuilder();
-        sb.append("<a href='?media=json'>Json</a>\n");
+        sb.append("<ul>\n");
+        sb.append("<li><a href='?media=json'>Json</a></li>\n");
+        sb.append("<li><a href='?media=xls'>Excel</a></li>\n");
+        sb.append("<li><a href='?media=xml'>XML</a></li>\n");
+        sb.append("<li><a href='?media=csv'>CSV</a></li>\n");
+        sb.append("</ul>\n");
         return sb.toString();
     }
 
@@ -337,9 +342,16 @@ public class Json2BootstrapConverter extends ConverterHelper {
         StringBuilder sb = new StringBuilder("<table class=\"table table-hover\" style='width:90%'>\n");
         for (Entry<String, Object> row : presentable.getContent().entrySet()) {
             sb.append("<tr>\n");
-            sb.append("<th style='width:200px;'>").append(row.getKey()).append("</th>");
-            sb.append("<td style='width:600px;'>").append(row.getValue()).append("</td>\n");
-            sb.append("</td>\n");
+            if (row.getValue() instanceof PresentableHeader) {
+                PresentableHeader header = ((PresentableHeader) row.getValue());
+                sb.append("<th style='width:200px;'>").append(row.getKey()).append("</th>");
+                sb.append("<td style='width:600px;'><a href='" + header.getLink() + "'>").append(header.getText())
+                        .append("</a></td>\n");
+            } else {
+                sb.append("<th style='width:200px;'>").append(row.getKey()).append("</th>");
+                sb.append("<td style='width:600px;'>").append(row.getValue()).append("</td>\n");
+            }
+            sb.append("</tr>\n");
         }
         return sb.append("</table>\n").toString();
     }
