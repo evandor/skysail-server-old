@@ -17,10 +17,15 @@
 
 package de.twenty11.skysail.server.listener;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.osgi.framework.BundleEvent;
 import org.osgi.framework.BundleListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.twenty11.skysail.server.internal.LimitedQueue;
 
 /**
  * listener for bundle events.
@@ -29,12 +34,25 @@ import org.slf4j.LoggerFactory;
  */
 public class SkysailServerBundleListener implements BundleListener {
 
+    private static final int QUEUE_SIZE = 100;
+
+    private LimitedQueue<BundleEvent> lastEvents = new LimitedQueue<BundleEvent>(QUEUE_SIZE);
+
     /** slf4j based logger implementation. */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     @Override
     public final void bundleChanged(final BundleEvent event) {
+        lastEvents.add(event);
         logger.debug(event.toString());
+    }
+
+    public int getQueueSize() {
+        return QUEUE_SIZE;
+    }
+
+    public List<BundleEvent> getNewestEvents() {
+        return Arrays.asList(lastEvents.toArray(new BundleEvent[lastEvents.size()]));
     }
 
 }
