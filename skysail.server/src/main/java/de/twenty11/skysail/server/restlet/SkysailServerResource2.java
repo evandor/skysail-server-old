@@ -1,5 +1,7 @@
 package de.twenty11.skysail.server.restlet;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -10,6 +12,8 @@ import org.restlet.data.Reference;
 import org.restlet.representation.Representation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ServerResource;
+
+import de.twenty11.skysail.common.commands.Command;
 
 /**
  *
@@ -29,6 +33,8 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
     private volatile String description;
 
     private volatile String name;
+
+    private List<Command> commands = new ArrayList<Command>();
 
     /**
      * Reasoning: not overwriting those two (overloaded) methods gives me a jackson deserialization issue. I need to
@@ -236,7 +242,13 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
         return describe(methodInfo, outputClass, variant);
     }
 
+    protected void registerCommand(Command command) {
+        commands.add(command);
+    }
     
+    public List<Command> getCommands() {
+        return Collections.unmodifiableList(commands);
+    }
 
     
 

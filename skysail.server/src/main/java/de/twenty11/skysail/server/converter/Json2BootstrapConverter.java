@@ -27,10 +27,12 @@ import de.twenty11.skysail.common.Presentable;
 import de.twenty11.skysail.common.PresentableHeader;
 import de.twenty11.skysail.common.Presentation;
 import de.twenty11.skysail.common.PresentationStyle;
+import de.twenty11.skysail.common.commands.Command;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.internal.Configuration.DefaultSkysailApplication;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
+import de.twenty11.skysail.server.restlet.SkysailServerResource2;
 
 public class Json2BootstrapConverter extends ConverterHelper {
 
@@ -135,6 +137,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
                         : "<span class=\"label label-important\">failure</span>");
         page = page.replace("${message}", skysailResponse.getMessage() == null ? "no message available"
                 : skysailResponse.getMessage());
+        page = page.replace("${commands}", commands(resource));
         page = page.replace("${presentations}", presentations());
         page = page.replace("${filterExpression}", getFilter());
         page = page.replace("${history}", getHistory());
@@ -331,10 +334,26 @@ public class Json2BootstrapConverter extends ConverterHelper {
         StringBuilder sb = new StringBuilder();
         sb.append("<ul>\n");
         sb.append("<li><a href='?media=json'>Json</a></li>\n");
-        sb.append("<li><a href='?media=xls'>Excel</a></li>\n");
         sb.append("<li><a href='?media=xml'>XML</a></li>\n");
         sb.append("<li><a href='?media=csv'>CSV</a></li>\n");
         sb.append("</ul>\n");
+        return sb.toString();
+    }
+
+    private String commands(Resource resource) {
+
+        StringBuilder sb = new StringBuilder();
+        if (resource instanceof SkysailServerResource2) {
+            List<Command> commandList = ((SkysailServerResource2)resource).getCommands();
+            for (Command command : commandList) {
+                sb.append(command.getClass().getName());
+                sb.append("\n<br>");
+            }
+            if (sb.length() > 0) {
+                sb.append("<th style='width:200px;'>").append("Commands").append("</th>");
+                sb.append("<td style='width:600px;'>").append(sb.toString()).append("</td>\n");
+            }
+        }
         return sb.toString();
     }
 
