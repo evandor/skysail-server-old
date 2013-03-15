@@ -344,17 +344,17 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
         StringBuilder sb = new StringBuilder();
         if (resource instanceof SkysailServerResource2) {
-            List<Command> commandList = ((SkysailServerResource2)resource).getCommands();
+            List<Command> commandList = ((SkysailServerResource2) resource).getCommands();
             for (Command command : commandList) {
-                sb.append(command.getClass().getName());
-                sb.append("\n<br>");
+                if (command.applicable()) {
+                    sb.append("<a href=''>").append(command.getName()).append("</a>");
+                }
             }
             if (sb.length() > 0) {
-                sb.append("<th style='width:200px;'>").append("Commands").append("</th>");
-                sb.append("<td style='width:600px;'>").append(sb.toString()).append("</td>\n");
+                return "<pre>" + sb.toString() + "</pre>";
             }
         }
-        return sb.toString();
+        return "";
     }
 
     private String getInner(Presentable presentable) {
