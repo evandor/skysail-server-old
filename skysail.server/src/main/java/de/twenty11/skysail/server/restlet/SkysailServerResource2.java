@@ -2,7 +2,10 @@ package de.twenty11.skysail.server.restlet;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.json.JSONException;
@@ -11,14 +14,19 @@ import org.restlet.data.Method;
 import org.restlet.data.Reference;
 import org.restlet.representation.Representation;
 import org.restlet.representation.Variant;
+import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
 import de.twenty11.skysail.common.commands.Command;
+import de.twenty11.skysail.common.navigation.LinkedPage;
 
 /**
  *
  */
 public abstract class SkysailServerResource2<T> extends ServerResource {
+
+    public static final String CONTEXT_COMMANDS = "de.twenty11.skysail.server.restlet.SkysailServerResource2.commands";
+    public static final String CONTEXT_LINKED_PAGES = "de.twenty11.skysail.server.restlet.SkysailServerResource2.linkedPages";
 
     /** short message to be passed to the client. */
     private String message = "";
@@ -34,7 +42,14 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
 
     private volatile String name;
 
-    private List<Command> commands = new ArrayList<Command>();
+    @Override
+    protected void doInit() throws ResourceException {
+        // super.doInit();
+        if (getContext() != null) {
+            getContext().getAttributes().put(CONTEXT_COMMANDS, new HashMap<String, Command>());
+            getContext().getAttributes().put(CONTEXT_LINKED_PAGES, new ArrayList<LinkedPage>());
+        }
+    }
 
     /**
      * Reasoning: not overwriting those two (overloaded) methods gives me a jackson deserialization issue. I need to
@@ -79,8 +94,6 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
         this.skysailData = skysailData;
     }
 
-   
-
     protected String determineValue(JSONObject jsonObject, String key) throws JSONException {
         if (jsonObject.isNull(key))
             return null;
@@ -94,7 +107,7 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
     public void setAutoDescribing(boolean autoDescribed) {
         this.autoDescribing = autoDescribed;
     }
-    
+
     @Override
     public Representation options() {
         if (autoDescribing) {
@@ -143,11 +156,11 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
     public void setName(String string) {
         this.name = name;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public String getDescription() {
         return description;
     }
@@ -230,7 +243,8 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
         // }
     }
 
-    public RepresentationInfo describe(MethodInfo methodInfo, RequestInfo request, Class<?> representationClass, Variant variant) {
+    public RepresentationInfo describe(MethodInfo methodInfo, RequestInfo request, Class<?> representationClass,
+            Variant variant) {
         return describe(methodInfo, representationClass, variant);
     }
 
@@ -238,18 +252,59 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
         return new RepresentationInfo(variant);
     }
 
-    public RepresentationInfo describe(MethodInfo methodInfo, ResponseInfo response, Class<?> outputClass, Variant variant) {
+    public RepresentationInfo describe(MethodInfo methodInfo, ResponseInfo response, Class<?> outputClass,
+            Variant variant) {
         return describe(methodInfo, outputClass, variant);
     }
 
-    protected void registerCommand(Command command) {
-        commands.add(command);
-    }
-    
-    public List<Command> getCommands() {
-        return Collections.unmodifiableList(commands);
+    protected void registerCommand(String key, Command command) {
+        @SuppressWarnings("unchecked")
+        Map<String, Command> commands = (Map<String, Command>) getContext().getAttributes().get(CONTEXT_COMMANDS);
+        if (commands == null) {
+            commands = new HashMap<String, Command>();
+        }
+        commands.put(key, command);
+        ConcurrentMap<String, Object> attributes = getContext().getAttributes();
+        attributes.put(CONTEXT_COMMANDS, commands);
     }
 
-    
+    @SuppressWarnings("unchecked")
+    public Map<String, Command> getCommands() {
+        ConcurrentMap<String, Object> attributes = getContext().getAttributes();
+        if (attributes.get(CONTEXT_COMMANDS) == null) {
+            return Collections.emptyMap();
+        }
+        return Collections.unmodifiableMap((Map<String, Command>) attributes.get(CONTEXT_COMMANDS));
+    }
+
+    protected Command getCommand(String key) {
+        @SuppressWarnings("unchecked")
+        Map<String, Command> commands = (Map<String, Command>) getContext().getAttributes().get(CONTEXT_COMMANDS);
+        if (commands == null) {
+            return null;
+        }
+        return commands.get(key);
+    }
+
+    protected void registerLinkedPage(LinkedPage page) {
+        @SuppressWarnings("unchecked")
+        List<LinkedPage> pages = (List<LinkedPage>) getContext().getAttributes().get(CONTEXT_LINKED_PAGES);
+        if (pages == null) {
+            pages = new ArrayList<LinkedPage>();
+        }
+        pages.add(page);
+        ConcurrentMap<String, Object> attributes = getContext().getAttributes();
+        attributes.put(CONTEXT_LINKED_PAGES, pages);
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<LinkedPage> getLinkedPages() {
+        ConcurrentMap<String, Object> attributes = getContext().getAttributes();
+        if (attributes.get(CONTEXT_LINKED_PAGES) == null) {
+            return Collections.emptyList();
+        }
+        return Collections.unmodifiableList((List<LinkedPage>) attributes.get(CONTEXT_LINKED_PAGES));
+    }
 
 }

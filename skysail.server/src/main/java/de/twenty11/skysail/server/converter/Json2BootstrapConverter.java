@@ -7,9 +7,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.restlet.data.MediaType;
 import org.restlet.data.Reference;
 import org.restlet.engine.converter.ConverterHelper;
@@ -28,6 +28,9 @@ import de.twenty11.skysail.common.PresentableHeader;
 import de.twenty11.skysail.common.Presentation;
 import de.twenty11.skysail.common.PresentationStyle;
 import de.twenty11.skysail.common.commands.Command;
+import de.twenty11.skysail.common.forms.Field;
+import de.twenty11.skysail.common.forms.Form;
+import de.twenty11.skysail.common.navigation.LinkedPage;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.internal.Configuration.DefaultSkysailApplication;
@@ -35,8 +38,6 @@ import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.restlet.SkysailServerResource2;
 
 public class Json2BootstrapConverter extends ConverterHelper {
-
-    private ObjectMapper m = new ObjectMapper();
 
     private InputStream bootstrapTemplateResource = this.getClass().getResourceAsStream("bootstrap.template");
     private final String rootTemplate = convertStreamToString(bootstrapTemplateResource);
@@ -102,6 +103,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return result;
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public Representation toRepresentation(Object source, Variant target, Resource resource) {
         Representation representation;
@@ -114,17 +116,43 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return representation;
     }
 
+    public List<Breadcrumb> getBreadcrumbList(Resource resource) {
+
+        List<Breadcrumb> breadcrumbs = new ArrayList<Breadcrumb>();
+        breadcrumbs.add(new Breadcrumb("/", null, "Home"));
+
+        Reference reference = resource.getReference();
+        SkysailApplication application = (SkysailApplication) resource.getApplication();
+        RouteList routes = application.getRoutes();
+
+        Reference rootRef = resource.getRootRef();
+        if (!(resource.getApplication() instanceof DefaultSkysailApplication)) {
+            breadcrumbs.add(new Breadcrumb(rootRef.toString(), null, resource.getApplication().getName()));
+        }
+
+        List<String> segments = reference.getSegments();
+        String path = "/";
+        for (int i = 1; i < segments.size(); i++) {
+            path = path + segments.get(i);
+            for (Route route : routes) {
+                if (route instanceof TemplateRoute) {
+                    TemplateRoute tr = (TemplateRoute) route;
+                    String pattern = tr.getTemplate().getPattern();
+                    if (pattern.equals(path)) {
+                        breadcrumbs.add(new Breadcrumb("/" + resource.getApplication().getName() + path, null, path
+                                .replace("/", "")));
+                        break;
+                    }
+                }
+            }
+
+        }
+        return breadcrumbs;
+    }
+
     private String jsonToHtml(SkysailResponse<List<?>> skysailResponse, Resource resource) {
 
-        PresentationStyle style = PresentationStyle.LIST;
-        Object dataAsObject = skysailResponse.getData();
-        if (dataAsObject instanceof List && ((List) dataAsObject).size() > 0) {
-            List<?> data = (List<?>) dataAsObject;
-            if (data.get(0).getClass().isAnnotationPresent(Presentation.class)) {
-                Presentation annotation = data.get(0).getClass().getAnnotation(Presentation.class);
-                style = annotation.preferred();
-            }
-        }
+        PresentationStyle style = evalPresentationStyle(skysailResponse);
 
         String page = rootTemplate;
         // template = template.replace("${originalJson}", json);
@@ -137,6 +165,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
                         : "<span class=\"label label-important\">failure</span>");
         page = page.replace("${message}", skysailResponse.getMessage() == null ? "no message available"
                 : skysailResponse.getMessage());
+        page = page.replace("${linkedPages}", linkedPages(resource));
         page = page.replace("${commands}", commands(resource));
         page = page.replace("${presentations}", presentations());
         page = page.replace("${filterExpression}", getFilter());
@@ -148,6 +177,8 @@ public class Json2BootstrapConverter extends ConverterHelper {
                 page = createListForContent(page, skysailResponseAsObject);
             } else if (style.equals(PresentationStyle.TABLE)) {
                 page = createTableForContent(page, skysailResponseAsObject);
+            } else if (style.equals(PresentationStyle.EDIT)) {
+                page = createFormForContent(page, skysailResponseAsObject);
             }
         } else {
             page = page.replace("${content}", "");
@@ -168,6 +199,29 @@ public class Json2BootstrapConverter extends ConverterHelper {
         }
         page = page.replace("${stacktrace}", stacktrace);
         return page;
+    }
+
+    private PresentationStyle evalPresentationStyle(SkysailResponse<List<?>> skysailResponse) {
+        PresentationStyle style = PresentationStyle.LIST;
+        Object dataAsObject = skysailResponse.getData();
+        if (dataAsObject == null) {
+            return style;
+        }
+        if (dataAsObject instanceof List && ((List) dataAsObject).size() > 0) {
+            List<?> data = (List<?>) dataAsObject;
+            if (data.get(0).getClass().isAnnotationPresent(Presentation.class)) {
+                Presentation annotation = data.get(0).getClass().getAnnotation(Presentation.class);
+                style = annotation.preferred();
+            }
+        } else {
+            if (dataAsObject.getClass().isAnnotationPresent(Presentation.class)) {
+                Presentation annotation = dataAsObject.getClass().getAnnotation(Presentation.class);
+                style = annotation.preferred();
+            } else if (dataAsObject.getClass().isAnnotationPresent(Form.class)) {
+                style = PresentationStyle.EDIT;
+            }
+        }
+        return style;
     }
 
     private String createListForContent(String page, Object skysailResponseAsObject) {
@@ -206,6 +260,37 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return page;
     }
 
+    private String createFormForContent(String page, Object response) {
+        StringBuilder sb = new StringBuilder("<form class='form-horizontal' action='../connections' method='POST'>\n");
+
+        java.lang.reflect.Field[] fields = response.getClass().getDeclaredFields();
+        for (java.lang.reflect.Field field : fields) {
+            Field formField = field.getAnnotation(Field.class);
+            if (formField == null) {
+                continue;
+            }
+            sb.append("<div class='control-group'>\n");
+            sb.append("<label class='control-label' for='" + field.getName() + "'>").append(field.getName())
+                    .append("</label>\n");
+            sb.append("<div class='controls'>\n");
+            sb.append("<input type='text' id='" + field.getName() + "' name='" + field.getName()
+                    + "' placeholder=''>\n");
+            sb.append("</div>\n");
+            sb.append("</div>\n");
+
+        }
+
+        sb.append("<div class='control-group'>\n");
+        sb.append("  <div class='controls'>\n");
+        sb.append("    <button type='submit' class='btn'>Submit</button>\n");
+        sb.append("  </div>\n");
+        sb.append("</div>\n");
+
+        sb.append("</form>\n");
+        page = page.replace("${content}", sb.toString());
+        return page;
+    }
+
     private CharSequence getHistory() {
         return "";
     }
@@ -221,40 +306,6 @@ public class Json2BootstrapConverter extends ConverterHelper {
         }
         breadcrumb.append("</ul>\n");
         return breadcrumb;
-    }
-
-    public List<Breadcrumb> getBreadcrumbList(Resource resource) {
-
-        List<Breadcrumb> breadcrumbs = new ArrayList<Breadcrumb>();
-        breadcrumbs.add(new Breadcrumb("/", null, "Home"));
-
-        Reference reference = resource.getReference();
-        SkysailApplication application = (SkysailApplication) resource.getApplication();
-        RouteList routes = application.getRoutes();
-
-        Reference rootRef = resource.getRootRef();
-        if (!(resource.getApplication() instanceof DefaultSkysailApplication)) {
-            breadcrumbs.add(new Breadcrumb(rootRef.toString(), null, resource.getApplication().getName()));
-        }
-
-        List<String> segments = reference.getSegments();
-        String path = "/";
-        for (int i = 1; i < segments.size(); i++) {
-            path = path + segments.get(i);
-            for (Route route : routes) {
-                if (route instanceof TemplateRoute) {
-                    TemplateRoute tr = (TemplateRoute) route;
-                    String pattern = tr.getTemplate().getPattern();
-                    if (pattern.equals(path)) {
-                        breadcrumbs.add(new Breadcrumb("/" + resource.getApplication().getName() + path, null, path
-                                .replace("/", "")));
-                        break;
-                    }
-                }
-            }
-
-        }
-        return breadcrumbs;
     }
 
     private int handleDataElementsForList(StringBuilder sb, int i, Object object) {
@@ -340,18 +391,38 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return sb.toString();
     }
 
+    private String linkedPages(Resource resource) {
+
+        StringBuilder sb = new StringBuilder();
+        if (resource instanceof SkysailServerResource2) {
+            @SuppressWarnings("unchecked")
+            List<LinkedPage> pages = ((SkysailServerResource2) resource).getLinkedPages();
+            for (LinkedPage page : pages) {
+                if (page.applicable()) {
+                    sb.append("<a class='btn btn-mini btn-link' href='").append(page.getHref()).append("' >");
+                    sb.append(page.getLinkText());
+                    sb.append("</a>&nbsp;");
+                }
+            }
+        }
+        return sb.toString();
+    }
+
     private String commands(Resource resource) {
 
         StringBuilder sb = new StringBuilder();
         if (resource instanceof SkysailServerResource2) {
-            List<Command> commandList = ((SkysailServerResource2) resource).getCommands();
-            for (Command command : commandList) {
-                if (command.applicable()) {
-                    sb.append("<a href=''>").append(command.getName()).append("</a>");
+            @SuppressWarnings("unchecked")
+            Map<String, Command> commandList = ((SkysailServerResource2) resource).getCommands();
+            for (Entry<String, Command> command : commandList.entrySet()) {
+                if (command.getValue().applicable()) {
+                    sb.append("<button class=\"btn btn-mini btn-info\" type=\"submit\" name='action' value='")
+                            .append(command.getKey()).append("'>").append(command.getValue().getName())
+                            .append("</button>&nbsp;");
                 }
             }
             if (sb.length() > 0) {
-                return "<pre>" + sb.toString() + "</pre>";
+                return "<form action='?method=PUT' method='POST'>" + sb.toString() + "</form>";
             }
         }
         return "";
