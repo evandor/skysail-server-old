@@ -29,7 +29,6 @@ import de.twenty11.skysail.common.Presentation;
 import de.twenty11.skysail.common.PresentationStyle;
 import de.twenty11.skysail.common.commands.Command;
 import de.twenty11.skysail.common.forms.Field;
-import de.twenty11.skysail.common.forms.Form;
 import de.twenty11.skysail.common.navigation.LinkedPage;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
@@ -152,7 +151,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
     private String jsonToHtml(SkysailResponse<List<?>> skysailResponse, Resource resource) {
 
-        PresentationStyle style = evalPresentationStyle(skysailResponse);
+        PresentationStyle style = evalPresentationStyle(resource);
 
         String page = rootTemplate;
         // template = template.replace("${originalJson}", json);
@@ -201,26 +200,26 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return page;
     }
 
-    private PresentationStyle evalPresentationStyle(SkysailResponse<List<?>> skysailResponse) {
+    private PresentationStyle evalPresentationStyle(Resource resource) {
         PresentationStyle style = PresentationStyle.LIST;
-        Object dataAsObject = skysailResponse.getData();
-        if (dataAsObject == null) {
-            return style;
-        }
-        if (dataAsObject instanceof List && ((List) dataAsObject).size() > 0) {
-            List<?> data = (List<?>) dataAsObject;
-            if (data.get(0).getClass().isAnnotationPresent(Presentation.class)) {
-                Presentation annotation = data.get(0).getClass().getAnnotation(Presentation.class);
+        // Object dataAsObject = resource.getData();
+        // if (dataAsObject == null) {
+        // return style;
+        // }
+        // if (dataAsObject instanceof List && ((List) dataAsObject).size() > 0) {
+        // List<?> data = (List<?>) dataAsObject;
+        if (resource.getClass().isAnnotationPresent(Presentation.class)) {
+            Presentation annotation = resource.getClass().getAnnotation(Presentation.class);
                 style = annotation.preferred();
             }
-        } else {
-            if (dataAsObject.getClass().isAnnotationPresent(Presentation.class)) {
-                Presentation annotation = dataAsObject.getClass().getAnnotation(Presentation.class);
-                style = annotation.preferred();
-            } else if (dataAsObject.getClass().isAnnotationPresent(Form.class)) {
-                style = PresentationStyle.EDIT;
-            }
-        }
+        // } else {
+        // if (dataAsObject.getClass().isAnnotationPresent(Presentation.class)) {
+        // Presentation annotation = dataAsObject.getClass().getAnnotation(Presentation.class);
+        // style = annotation.preferred();
+        // } else if (dataAsObject.getClass().isAnnotationPresent(Form.class)) {
+        // style = PresentationStyle.EDIT;
+        // }
+        // }
         return style;
     }
 
@@ -261,7 +260,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
     }
 
     private String createFormForContent(String page, Object response) {
-        StringBuilder sb = new StringBuilder("<form class='form-horizontal' action='../connections' method='POST'>\n");
+        StringBuilder sb = new StringBuilder("<form class='form-horizontal' action='../connections/' method='POST'>\n");
 
         java.lang.reflect.Field[] fields = response.getClass().getDeclaredFields();
         for (java.lang.reflect.Field field : fields) {
