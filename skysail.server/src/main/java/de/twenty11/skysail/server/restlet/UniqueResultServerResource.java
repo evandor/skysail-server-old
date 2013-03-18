@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -15,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.DetailsLinkProvider;
-import de.twenty11.skysail.common.forms.ConstraintViolations;
+import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
@@ -59,12 +60,12 @@ public class UniqueResultServerResource<T> extends SkysailServerResource2<T> {
         }
     }
 
-    protected SkysailResponse<T> addEntity(EntityManager em, T entity, ConstraintViolations<T> constraintViolations) {
-        if (constraintViolations.size() > 0) {
+    protected SkysailResponse<T> addEntity(EntityManager em, T entity, Set<ConstraintViolation<T>> violations) {
+        if (violations.size() > 0) {
             // if (constraintViolations.getMsg() != null) {
-            logger.warn("contraint violations found on {}: {}", entity, constraintViolations);
+            logger.warn("contraint violations found on {}: {}", entity, violations);
             // return new FailureResponse<ConstraintViolations<T>>(constraintViolations);
-            return new FailureResponse<T>(entity, constraintViolations);
+            return new ConstraintViolationsResponse<T>(entity, violations);
         }
         try {
             em.getTransaction().begin();

@@ -8,11 +8,14 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
-import org.apache.commons.beanutils.PropertyUtils;
+import javax.validation.ConstraintViolation;
+
 import org.restlet.data.MediaType;
 import org.restlet.data.Reference;
 import org.restlet.engine.converter.ConverterHelper;
@@ -31,8 +34,10 @@ import de.twenty11.skysail.common.PresentableHeader;
 import de.twenty11.skysail.common.Presentation;
 import de.twenty11.skysail.common.PresentationStyle;
 import de.twenty11.skysail.common.commands.Command;
+import de.twenty11.skysail.common.forms.ConstraintViolations;
 import de.twenty11.skysail.common.forms.Field;
 import de.twenty11.skysail.common.navigation.LinkedPage;
+import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.internal.Configuration.DefaultSkysailApplication;
@@ -40,6 +45,10 @@ import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.restlet.SkysailServerResource2;
 
 public class Json2BootstrapConverter extends ConverterHelper {
+
+    public class Violation {
+
+    }
 
     private InputStream bootstrapTemplateResource = this.getClass().getResourceAsStream("bootstrap.template");
     private final String rootTemplate = convertStreamToString(bootstrapTemplateResource);
@@ -173,6 +182,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
         page = page.replace("${filterExpression}", getFilter());
         page = page.replace("${history}", getHistory());
 
+        // TODO revisit
         Object skysailResponseAsObject = skysailResponse.getData();
         if (skysailResponseAsObject != null) {
             if (style.equals(PresentationStyle.LIST)) {
@@ -180,10 +190,14 @@ public class Json2BootstrapConverter extends ConverterHelper {
             } else if (style.equals(PresentationStyle.TABLE)) {
                 page = createTableForContent(page, skysailResponseAsObject);
             } else if (style.equals(PresentationStyle.EDIT)) {
-                page = createFormForContent(page, skysailResponseAsObject);
+                page = createFormForContent(page, skysailResponseAsObject, skysailResponse);
             }
         } else {
-            page = page.replace("${content}", "");
+            if (skysailResponse instanceof ConstraintViolationsResponse) {
+                page = createFormForContent(page, skysailResponseAsObject, skysailResponse);
+            } else {
+                page = page.replace("${content}", "");
+            }
         }
 
         StringBuilder breadcrumb = getBreadcrumbHtml(resource);
@@ -205,24 +219,10 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
     private PresentationStyle evalPresentationStyle(Resource resource) {
         PresentationStyle style = PresentationStyle.LIST;
-        // Object dataAsObject = resource.getData();
-        // if (dataAsObject == null) {
-        // return style;
-        // }
-        // if (dataAsObject instanceof List && ((List) dataAsObject).size() > 0) {
-        // List<?> data = (List<?>) dataAsObject;
         if (resource.getClass().isAnnotationPresent(Presentation.class)) {
             Presentation annotation = resource.getClass().getAnnotation(Presentation.class);
-                style = annotation.preferred();
-            }
-        // } else {
-        // if (dataAsObject.getClass().isAnnotationPresent(Presentation.class)) {
-        // Presentation annotation = dataAsObject.getClass().getAnnotation(Presentation.class);
-        // style = annotation.preferred();
-        // } else if (dataAsObject.getClass().isAnnotationPresent(Form.class)) {
-        // style = PresentationStyle.EDIT;
-        // }
-        // }
+            style = annotation.preferred();
+        }
         return style;
     }
 
@@ -262,7 +262,21 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return page;
     }
 
-    private String createFormForContent(String page, Object response) {
+    private String createFormForContent(String page, Object response, SkysailResponse<?> skysailResponse) {
+
+        Set<ConstraintViolation> violations = null;
+        Map<String, ConstraintViolation<?>> violationsMap = new HashMap<String, ConstraintViolation<?>>();
+
+        if (skysailResponse instanceof ConstraintViolationsResponse) {
+            ConstraintViolationsResponse cvr = (ConstraintViolationsResponse) skysailResponse;
+            violations = cvr.getViolations();
+            for (ConstraintViolation<?> violation : violations) {
+                if (violation.getInvalidValue() != null) {
+                    violationsMap.put(violation.getPropertyPath().toString(), violation);
+                }
+            }
+        }
+
         StringBuilder sb = new StringBuilder("<form class='form-horizontal' action='../connections/' method='POST'>\n");
 
         java.lang.reflect.Field[] fields = response.getClass().getDeclaredFields();
@@ -272,30 +286,36 @@ public class Json2BootstrapConverter extends ConverterHelper {
                 continue;
             }
 
-            try {
-                Object value2 = PropertyUtils.getProperty(response, field.getName());
-                System.out.println(value2);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-
             String value = "";
             try {
-                PropertyDescriptor pd = new PropertyDescriptor(field.getName(), response.getClass());
-                Method readMethod = pd.getReadMethod();
-                value = (String) readMethod.invoke(response);
+                // Field f = response.getClass().getDeclaredField("stuffIWant"); //NoSuchFieldException
+                field.setAccessible(true);
+                Object object = field.get(response);
+                if (object instanceof String) {
+                    value = (String) object;
+                }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
-            sb.append("<div class='control-group'>\n");
-            sb.append("<label class='control-label' for='" + field.getName() + "'>").append(field.getName())
-                    .append("</label>\n");
-            sb.append("<div class='controls'>\n");
-            sb.append("<input type='text' id='" + field.getName() + "' name='" + field.getName()
-                            + "' placeholder='' value='").append(value).append("'>\n");
-            sb.append("</div>\n");
+            String id = field.getName();
+            String help = "";
+            String cssClass = "control-group";
+            if (violationsMap.containsKey(id)) {
+                // Object object = constraintViolations.
+                id = "inputError";
+                cssClass = "control-group error";
+                help = "<span class='help-inline'>" + violationsMap.get(id).getMessage() + "</span>";
+            }
+
+            sb.append("<div class='" + cssClass + "'>\n");
+            sb.append("  <label class='control-label' for='" + id + "'>").append(field.getName()).append("</label>\n");
+            sb.append("  <div class='controls'>\n");
+            sb.append("<input type='text' id='" + id + "' name='" + field.getName() + "' placeholder='' value='")
+                    .append(value).append("'>\n");
+            sb.append(help);
+            sb.append("  </div>\n");
             sb.append("</div>\n");
 
         }
