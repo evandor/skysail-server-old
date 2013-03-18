@@ -1,15 +1,18 @@
 package de.twenty11.skysail.server.converter;
 
 import java.awt.Color;
+import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.restlet.data.MediaType;
 import org.restlet.data.Reference;
 import org.restlet.engine.converter.ConverterHelper;
@@ -268,12 +271,30 @@ public class Json2BootstrapConverter extends ConverterHelper {
             if (formField == null) {
                 continue;
             }
+
+            try {
+                Object value2 = PropertyUtils.getProperty(response, field.getName());
+                System.out.println(value2);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+
+            String value = "";
+            try {
+                PropertyDescriptor pd = new PropertyDescriptor(field.getName(), response.getClass());
+                Method readMethod = pd.getReadMethod();
+                value = (String) readMethod.invoke(response);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
             sb.append("<div class='control-group'>\n");
             sb.append("<label class='control-label' for='" + field.getName() + "'>").append(field.getName())
                     .append("</label>\n");
             sb.append("<div class='controls'>\n");
             sb.append("<input type='text' id='" + field.getName() + "' name='" + field.getName()
-                    + "' placeholder=''>\n");
+                            + "' placeholder='' value='").append(value).append("'>\n");
             sb.append("</div>\n");
             sb.append("</div>\n");
 

@@ -6,6 +6,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.bootstrap.GenericBootstrap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +24,16 @@ public class UniqueResultServerResource<T> extends SkysailServerResource2<T> {
 
     /** slf4j based logger implementation. */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Validator validator;
+
+    public UniqueResultServerResource() {
+        GenericBootstrap validationProvider = Validation.byDefaultProvider();
+
+        javax.validation.Configuration<?> config = validationProvider.providerResolver(new OSGiServiceDiscoverer())
+                .configure();
+        ValidatorFactory factory = config.buildValidatorFactory();
+        validator = factory.getValidator();
+    }
 
     protected SkysailResponse<T> getEntity(T data) {
         try {
@@ -63,6 +77,10 @@ public class UniqueResultServerResource<T> extends SkysailServerResource2<T> {
             return new FailureResponse<T>(e.getMessage());
         }
 
+    }
+
+    public Validator getValidator() {
+        return validator;
     }
 
 }
