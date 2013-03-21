@@ -1,12 +1,10 @@
 package de.twenty11.skysail.server.converter;
 
 import java.awt.Color;
-import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,11 +32,11 @@ import de.twenty11.skysail.common.PresentableHeader;
 import de.twenty11.skysail.common.Presentation;
 import de.twenty11.skysail.common.PresentationStyle;
 import de.twenty11.skysail.common.commands.Command;
-import de.twenty11.skysail.common.forms.ConstraintViolations;
 import de.twenty11.skysail.common.forms.Field;
 import de.twenty11.skysail.common.navigation.LinkedPage;
 import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FailureResponse;
+import de.twenty11.skysail.common.responses.FormResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.internal.Configuration.DefaultSkysailApplication;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
@@ -267,6 +265,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
         Set<ConstraintViolation> violations = null;
         Map<String, ConstraintViolation<?>> violationsMap = new HashMap<String, ConstraintViolation<?>>();
 
+        String action = ".";
         if (skysailResponse instanceof ConstraintViolationsResponse) {
             ConstraintViolationsResponse cvr = (ConstraintViolationsResponse) skysailResponse;
             violations = cvr.getViolations();
@@ -275,9 +274,12 @@ public class Json2BootstrapConverter extends ConverterHelper {
                     violationsMap.put(violation.getPropertyPath().toString(), violation);
                 }
             }
+        } else if (skysailResponse instanceof FormResponse) {
+            FormResponse formResponse = (FormResponse) skysailResponse;
+            action = formResponse.getTarget();
         }
 
-        StringBuilder sb = new StringBuilder("<form class='form-horizontal' action='../connections/' method='POST'>\n");
+        StringBuilder sb = new StringBuilder("<form class='form-horizontal' action='" + action + "' method='POST'>\n");
 
         java.lang.reflect.Field[] fields = response.getClass().getDeclaredFields();
         for (java.lang.reflect.Field field : fields) {
