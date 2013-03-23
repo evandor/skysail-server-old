@@ -21,7 +21,6 @@ import java.lang.management.OperatingSystemMXBean;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -38,8 +37,6 @@ import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.DetailsLinkProvider;
-import de.twenty11.skysail.common.forms.ConstraintViolations;
 import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
@@ -111,17 +108,17 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
                     .getMappings() : null;
             Reference ref = getReference();
 
-            for (T payload : data) {
-                if (payload instanceof DetailsLinkProvider) {
-                    Map<String, String> links = new HashMap<String, String>();
-                    DetailsLinkProvider dlp = (DetailsLinkProvider) payload;
-                    for (Entry<String, String> linkEntry : dlp.getLinkMap().entrySet()) {
-                        links.put(linkEntry.getKey(), ref.toString() + linkEntry.getValue());
-                    }
-                    dlp.setLinks(links);
-                }
-
-            }
+            // for (T payload : data) {
+            // if (payload instanceof DetailsLinkProvider) {
+            // Map<String, String> links = new HashMap<String, String>();
+            // DetailsLinkProvider dlp = (DetailsLinkProvider) payload;
+            // for (Entry<String, String> linkEntry : dlp.getLinkMap().entrySet()) {
+            // links.put(linkEntry.getKey(), ref.toString() + linkEntry.getValue());
+            // }
+            // dlp.setLinks(links);
+            // }
+            //
+            // }
 
             SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data, getRequest(), mappings);
             successResponse.setMessage(defaultMsg);

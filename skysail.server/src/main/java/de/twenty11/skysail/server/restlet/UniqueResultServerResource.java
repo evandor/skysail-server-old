@@ -1,8 +1,5 @@
 package de.twenty11.skysail.server.restlet;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -15,7 +12,6 @@ import javax.validation.bootstrap.GenericBootstrap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.DetailsLinkProvider;
 import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
@@ -39,16 +35,16 @@ public class UniqueResultServerResource<T> extends SkysailServerResource2<T> {
     protected SkysailResponse<T> getEntity(T data) {
         try {
 
-            if (data instanceof DetailsLinkProvider) {
-                Map<String, String> links = new HashMap<String, String>();
-                DetailsLinkProvider dlp = (DetailsLinkProvider) data;
-                for (Entry<String, String> linkEntry : dlp.getLinkMap().entrySet()) {
-                    if (getReference() != null) { // e.g. during testing
-                        links.put(linkEntry.getKey(), getReference().toString() + linkEntry.getValue());
-                    }
-                }
-                dlp.setLinks(links);
-            }
+            // if (data instanceof DetailsLinkProvider) {
+            // Map<String, String> links = new HashMap<String, String>();
+            // DetailsLinkProvider dlp = (DetailsLinkProvider) data;
+            // for (Entry<String, String> linkEntry : dlp.getLinkMap().entrySet()) {
+            // if (getReference() != null) { // e.g. during testing
+            // links.put(linkEntry.getKey(), getReference().toString() + linkEntry.getValue());
+            // }
+            // }
+            // dlp.setLinks(links);
+            // }
 
             SkysailApplication app = (SkysailApplication) getApplication();
             Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener()

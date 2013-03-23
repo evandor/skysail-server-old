@@ -44,15 +44,14 @@ import de.twenty11.skysail.server.restlet.SkysailServerResource2;
 
 public class Json2BootstrapConverter extends ConverterHelper {
 
-    public class Violation {
-
-    }
-
     private InputStream bootstrapTemplateResource = this.getClass().getResourceAsStream("bootstrap.template");
     private final String rootTemplate = convertStreamToString(bootstrapTemplateResource);
 
     private InputStream accordionGroupTemplateResource = this.getClass().getResourceAsStream("accordionGroup.template");
     private final String accordionGroupTemplate = convertStreamToString(accordionGroupTemplateResource);
+
+    private InputStream d3SimpleGraphTemplateResource = this.getClass().getResourceAsStream("d3SimpleGraph.template");
+    private final String d3SimpleGraphTemplate = convertStreamToString(d3SimpleGraphTemplateResource);
 
     private static final VariantInfo VARIANT_JSON = new VariantInfo(MediaType.APPLICATION_JSON);
 
@@ -169,9 +168,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
         float performance = new Long(1000000000) / executionTimeInNanos;
         page = page.replace("${performance}", String.format("%s", performance));
         page = page.replace("${serverLoad}", String.format("%s", skysailResponse.getServerLoad()));
-        page = page.replace("${result}",
-                skysailResponse.getSuccess() ? "<span class=\"label label-success\">Success</span>"
-                        : "<span class=\"label label-important\">failure</span>");
+        page = page.replace("${result}", calcResult(skysailResponse));
         page = page.replace("${message}", skysailResponse.getMessage() == null ? "no message available"
                 : skysailResponse.getMessage());
         page = page.replace("${linkedPages}", linkedPages(resource));
@@ -189,6 +186,10 @@ public class Json2BootstrapConverter extends ConverterHelper {
                 page = createTableForContent(page, skysailResponseAsObject);
             } else if (style.equals(PresentationStyle.EDIT)) {
                 page = createFormForContent(page, skysailResponseAsObject, skysailResponse);
+            } else if (style.equals(PresentationStyle.D3_SIMPLE_GRAPH)) {
+                page = createD3SimpleGraphForContent(skysailResponseAsObject, skysailResponse);
+            } else if (style.equals(PresentationStyle.IFRAME)) {
+                page = createIFrameForContent(page, skysailResponseAsObject, skysailResponse);
             }
         } else {
             if (skysailResponse instanceof ConstraintViolationsResponse) {
@@ -260,6 +261,45 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return page;
     }
 
+    private String createIFrameForContent(String page, Object skysailResponseAsObject,
+            SkysailResponse<List<?>> skysailResponse) {
+        StringBuilder sb = new StringBuilder("<iframe src='");
+        sb.append("asGraph/d3Simple");
+        sb.append("' style='width:100%;height:600px;' frameBorder=0>\n");
+        sb.append("</iframe>\n");
+        page = page.replace("${content}", sb.toString());
+        return page;
+    }
+
+    private String createD3SimpleGraphForContent(Object skysailResponseAsObject,
+            SkysailResponse<List<?>> skysailResponse) {
+
+        String template = d3SimpleGraphTemplate;
+        StringBuilder links = new StringBuilder();
+
+        List<Map<String, String>> data = (List<Map<String, String>>) skysailResponse.getData();
+        boolean found = false;
+        for (Map<String, String> object : data) {
+            found = true;
+            links.append("\n{source: '");
+            links.append(object.get("source"));
+            links.append("', target: '");
+            links.append(object.get("target"));
+            links.append("', type: 'licensing'},");
+        }
+        if (found) {
+            links = links.delete(links.length() - 1, links.length());
+        }
+        // {source: "Microsoft", target: "Amazon", type: "licensing"},
+        // {source: "Microsoft", target: "HTC", type: "licensing"},
+        // {source: "Apple", target: "Samsung", type: "suit"},
+        // {source: "Kodak", target: "RIM", type: "suit"},
+        // {source: "Nokia", target: "Qualcomm", type: "suit"}
+        //
+        template = template.replace("${links}", links.toString());
+        return template;
+    }
+
     private String createFormForContent(String page, Object response, SkysailResponse<?> skysailResponse) {
 
         Set<ConstraintViolation> violations = null;
@@ -270,7 +310,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
             ConstraintViolationsResponse cvr = (ConstraintViolationsResponse) skysailResponse;
             violations = cvr.getViolations();
             for (ConstraintViolation<?> violation : violations) {
-                if (violation.getInvalidValue() != null) {
+                if (violation.getPropertyPath() != null) {
                     violationsMap.put(violation.getPropertyPath().toString(), violation);
                 }
             }
@@ -308,7 +348,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
                 // Object object = constraintViolations.
                 id = "inputError";
                 cssClass = "control-group error";
-                help = "<span class='help-inline'>" + violationsMap.get(id).getMessage() + "</span>";
+                help = "<span class='help-inline'>" + violationsMap.get(field.getName()).getMessage() + "</span>";
             }
 
             sb.append("<div class='" + cssClass + "'>\n");
@@ -474,13 +514,25 @@ public class Json2BootstrapConverter extends ConverterHelper {
         StringBuilder sb = new StringBuilder("<table class=\"table table-hover\" style='width:90%'>\n");
         for (Entry<String, Object> row : presentable.getContent().entrySet()) {
             sb.append("<tr>\n");
-            if (row.getValue() instanceof PresentableHeader) {
-                PresentableHeader header = ((PresentableHeader) row.getValue());
-                sb.append("<th style='width:200px;'>").append(row.getKey()).append("</th>");
-                sb.append("<td style='width:600px;'><a href='" + header.getLink() + "'>").append(header.getText())
-                        .append("</a></td>\n");
+            sb.append("<th style='width:200px;'>").append(row.getKey()).append("</th>");
+
+            if (row.getValue() instanceof List) {
+                List<?> list = (List<?>) row.getValue();
+                StringBuilder valueSb = new StringBuilder();
+                // sb.append("<td style='width:600px;'>");
+                for (Object object : list) {
+                    if (object instanceof Presentable) {
+                        PresentableHeader header = ((Presentable) object).getHeader();
+                        valueSb.append("<a href='" + header.getLink() + "'>").append(header.getText()).append("</a>");
+                    } else {
+                        valueSb.append(object.toString()).append(", ");
+                    }
+                }
+                // sb.append("</td>\n");
+                sb.append("<td style='width:600px;'>").append(valueSb.toString()).append("</td>\n");
+            } else if (row.getValue() instanceof Presentable) {
+                printPresentableHeader(sb, row);
             } else {
-                sb.append("<th style='width:200px;'>").append(row.getKey()).append("</th>");
                 sb.append("<td style='width:600px;'>").append(row.getValue()).append("</td>\n");
             }
             sb.append("</tr>\n");
@@ -488,10 +540,25 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return sb.append("</table>\n").toString();
     }
 
+    private void printPresentableHeader(StringBuilder sb, Entry<String, Object> row) {
+        PresentableHeader header = ((Presentable) row.getValue()).getHeader();
+        sb.append("<td style='width:600px;'><a href='" + header.getLink() + "'>").append(header.getText())
+                .append("</a></td>\n");
+    }
+
     public static String convertStreamToString(java.io.InputStream is) {
         @SuppressWarnings("resource")
         java.util.Scanner s = new java.util.Scanner(is, "UTF-8").useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
+    }
+
+    private String calcResult(SkysailResponse<List<?>> skysailResponse) {
+        if (skysailResponse instanceof ConstraintViolationsResponse) {
+            return skysailResponse.getSuccess() ? "<span class=\"label label-success\">Success</span>"
+                    : "<span class=\"label label-warning\">business rule violation</span>";
+        }
+        return skysailResponse.getSuccess() ? "<span class=\"label label-success\">Success</span>"
+                : "<span class=\"label label-important\">failure</span>";
     }
 
 }

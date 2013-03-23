@@ -23,6 +23,7 @@ import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.server.converter.IFrame2BootstrapConverter;
 import de.twenty11.skysail.server.converter.Json2BootstrapConverter;
 import de.twenty11.skysail.server.converter.Json2HtmlConverter;
 import de.twenty11.skysail.server.converter.ToCsvConverter;
@@ -59,6 +60,7 @@ public abstract class SkysailApplication extends Application {
         List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
         registeredConverters.add(new Json2HtmlConverter());
         registeredConverters.add(new Json2BootstrapConverter());
+        registeredConverters.add(new IFrame2BootstrapConverter());
         registeredConverters.add(new ToCsvConverter());
         setContext(context);
     }
