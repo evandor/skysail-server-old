@@ -13,7 +13,6 @@ import org.restlet.data.Protocol;
 import org.restlet.engine.Engine;
 import org.restlet.engine.converter.ConverterHelper;
 import org.restlet.resource.ServerResource;
-import org.restlet.routing.Router;
 import org.restlet.security.ChallengeAuthenticator;
 import org.restlet.security.Enroler;
 import org.restlet.security.MapVerifier;
@@ -45,7 +44,7 @@ public abstract class SkysailApplication extends Application {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /** the restlet router. */
-    protected volatile Router router;
+    protected volatile SkysailRouter router;
 
     private Verifier verifier = new MapVerifier();
 
@@ -79,7 +78,7 @@ public abstract class SkysailApplication extends Application {
     public Restlet createInboundRoot() {
 
         logger.info("creating new Router in {}", this.getClass().getName());
-        router = new Router(getContext());
+        router = new SkysailRouter(getContext());
         // router.setDefaultMatchingQuery(true);
 
         // see
