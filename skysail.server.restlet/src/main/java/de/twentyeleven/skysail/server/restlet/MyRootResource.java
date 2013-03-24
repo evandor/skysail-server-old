@@ -1,6 +1,5 @@
 package de.twentyeleven.skysail.server.restlet;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.restlet.Restlet;
@@ -9,13 +8,11 @@ import org.restlet.resource.Get;
 import org.restlet.resource.ServerResource;
 import org.restlet.routing.Route;
 import org.restlet.routing.TemplateRoute;
-import org.restlet.util.RouteList;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.selfdescription.ResourceDetails;
 import de.twenty11.skysail.common.selfdescription.RestfulRoot;
 import de.twenty11.skysail.server.restlet.ListServerResource;
-import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.restlet.SkysailServerResource2;
 
 /**
@@ -34,18 +31,6 @@ public class MyRootResource extends ListServerResource<ResourceDetails> implemen
     @Get("html|json")
     public SkysailResponse<List<ResourceDetails>> getMethods() {
         return getEntities(allMethods(), "listing all entry points for the skysail osgimonitor application");
-    }
-
-    private List<ResourceDetails> allMethods() {
-        List<ResourceDetails> result = new ArrayList<ResourceDetails>();
-        SkysailApplication restletOsgiApp = (SkysailApplication) getApplication();
-        RouteList routes = restletOsgiApp.getRoutes();
-        for (Route route : routes) {
-            if (route instanceof TemplateRoute) {
-                handleTemplateRoutes(result, route);
-            }
-        }
-        return result;
     }
 
     private void handleTemplateRoutes(List<ResourceDetails> result, Route route) {
