@@ -3,6 +3,7 @@ package de.twenty11.skysail.server.restlet.test;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
@@ -35,7 +36,7 @@ public class RouteBuilderTest {
         assertThat(routeBuilder.getPathTemplate(), is(equalTo("path")));
         assertThat(routeBuilder.getTargetClass().getName(), is(equalTo(ServerResource.class.getName())));
         assertThat(routeBuilder.isVisible(), is(true));
-        assertThat(routeBuilder.getText(), is(equalTo("")));
+        assertThat(routeBuilder.getText(), is(nullValue()));
     }
 
     @Test

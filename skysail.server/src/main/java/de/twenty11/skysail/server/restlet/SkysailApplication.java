@@ -2,6 +2,7 @@ package de.twenty11.skysail.server.restlet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.osgi.framework.BundleContext;
 import org.restlet.Application;
@@ -126,6 +127,10 @@ public abstract class SkysailApplication extends Application {
 
     public RouteList getRoutes() {
         return router.getRoutes();
+    }
+
+    public Map<String, RouteBuilder> getSkysailRoutes() {
+        return router.getRouteBuilders();
     }
 
     public UrlMappingServiceListener getUrlMappingServiceListener() {

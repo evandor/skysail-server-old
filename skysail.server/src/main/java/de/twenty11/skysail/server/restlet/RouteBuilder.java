@@ -7,7 +7,7 @@ public class RouteBuilder {
 
     private String pathTemplate;
     private Class<? extends ServerResource> targetClass;
-    private String text = "";
+    private String text = null;
     private boolean visible = true;
 
     public RouteBuilder(String pathTemplate, Class<? extends ServerResource> targetClass) {

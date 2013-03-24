@@ -1,5 +1,6 @@
 package de.twenty11.skysail.server.restlet;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,6 +23,10 @@ public class SkysailRouter extends Router {
 
     public RouteBuilder getRouteBuilder(String pathTemplate) {
         return routes.get(pathTemplate);
+    }
+
+    public Map<String, RouteBuilder> getRouteBuilders() {
+        return Collections.unmodifiableMap(routes);
     }
 
 }
