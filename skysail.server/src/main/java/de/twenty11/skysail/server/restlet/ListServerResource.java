@@ -123,7 +123,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
             //
             // }
 
-            SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data, getRequest(), mappings);
+            SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data);
             successResponse.setMessage(defaultMsg);
             if (this.getMessage() != null && !"".equals(this.getMessage().trim())) {
                 successResponse.setMessage(getMessage());
@@ -153,7 +153,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
             SkysailApplication app = (SkysailApplication) getApplication();
             Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener()
                     .getMappings() : null;
-            return new SuccessResponse<T>(data, getRequest(), mappings);
+            return new SuccessResponse<T>(data);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return new FailureResponse<T>(e);

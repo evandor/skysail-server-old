@@ -62,7 +62,7 @@ public class ToCsvConverterTest {
     
     @Test
     public void gives_no_data_representation_for_empty_input() {
-        SkysailResponse<SomeDetails> source = new SkysailResponse<SomeDetails>();
+        SkysailResponse<SomeDetails> source = new SuccessResponse<SomeDetails>();
         Resource resource = Mockito.mock(Resource.class);
         Representation representation = toCsvConverter.toRepresentation(source, null, resource);
         assertThat(representation.toString(), is(equalTo("no data")));
