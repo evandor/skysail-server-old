@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>skysail.server.static</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.3</version>
 	<name>SKYSAIL :: server :: static - javascripts, images and css</name>
 	<packaging>bundle</packaging>
 
@@ -21,7 +21,7 @@
 		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
 		<!-- A publicly browsable repository. For example, via ViewCVS. -->
 		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>skysail.server.static-0.0.3</tag>
 	</scm>
 
 	<properties>
