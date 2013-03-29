@@ -33,7 +33,6 @@ import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
 import org.restlet.Restlet;
-import org.restlet.data.Reference;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
@@ -93,7 +92,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
     @Override
     protected void doInit() throws ResourceException {
         super.doInit();
-        filterExpression = getQuery().getFirstValue("filter");
+        filterExpression = getQuery() != null ? getQuery().getFirstValue("filter") : "";
     }
 
     public void buildGrid() {
@@ -106,22 +105,6 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
 
     protected SkysailResponse<List<T>> getEntities(List<T> data, String defaultMsg) {
         try {
-            SkysailApplication app = (SkysailApplication) getApplication();
-            Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener()
-                    .getMappings() : null;
-            Reference ref = getReference();
-
-            // for (T payload : data) {
-            // if (payload instanceof DetailsLinkProvider) {
-            // Map<String, String> links = new HashMap<String, String>();
-            // DetailsLinkProvider dlp = (DetailsLinkProvider) payload;
-            // for (Entry<String, String> linkEntry : dlp.getLinkMap().entrySet()) {
-            // links.put(linkEntry.getKey(), ref.toString() + linkEntry.getValue());
-            // }
-            // dlp.setLinks(links);
-            // }
-            //
-            // }
 
             SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data);
             successResponse.setMessage(defaultMsg);
