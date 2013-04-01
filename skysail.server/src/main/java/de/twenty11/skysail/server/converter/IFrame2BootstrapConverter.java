@@ -24,6 +24,15 @@ public class IFrame2BootstrapConverter extends Json2BootstrapConverter {
 
     @Override
     public <T> float score(Representation source, Class<T> target, Resource resource) {
-        throw new NotImplementedException();
+        float result = -1.0F;
+        // if (!(source instanceof de.twenty11.skysail.common.responses.SkysailResponse)) {
+        // return 0.0F;
+        // }
+        // if (target.getMediaType().equals(MediaType.TEXT_HTML)) {
+        // result = 1.0F;
+        // } else {
+        // result = 0.5F;
+        // }
+        return result;
     }
 }
