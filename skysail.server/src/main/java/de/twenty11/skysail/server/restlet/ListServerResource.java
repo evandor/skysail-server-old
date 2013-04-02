@@ -103,6 +103,37 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         return doHandlePagination("skysail.server.osgi.bundles.entriesPerPage", 15);
     }
 
+    protected SkysailResponse<List<T>> getEntities(String defaultMsg) {
+        try {
+            List<T> data = getData();
+            SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data);
+            successResponse.setMessage(defaultMsg);
+            if (this.getMessage() != null && !"".equals(this.getMessage().trim())) {
+                successResponse.setMessage(getMessage());
+            }
+            if (getContext() != null) {
+                Object beanAsObject = getContext().getAttributes().get(Configuration.CONTEXT_OPERATING_SYSTEM_BEAN);
+                if (beanAsObject != null && beanAsObject instanceof OperatingSystemMXBean) {
+                    OperatingSystemMXBean bean = (OperatingSystemMXBean) beanAsObject;
+                    successResponse.setServerLoad(bean.getSystemLoadAverage());
+                }
+                Long executionStarted = (Long) getContext().getAttributes().get(Timer.CONTEXT_EXECUTION_STARTED);
+                if (executionStarted != null) {
+                    successResponse.setExecutionTime(System.nanoTime() - executionStarted);
+                }
+            }
+
+            return successResponse;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return new FailureResponse<List<T>>(e);
+        }
+    }
+
+    protected List<T> getData() {
+        return null;
+    }
+
     protected SkysailResponse<List<T>> getEntities(List<T> data, String defaultMsg) {
         try {
 

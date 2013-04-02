@@ -1,6 +1,5 @@
 package de.twenty11.skysail.server.converter;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.Variant;
