@@ -488,6 +488,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
         sb.append("<li><a href='?media=json'>Json</a></li>\n");
         sb.append("<li><a href='?media=xml'>XML</a></li>\n");
         sb.append("<li><a href='?media=csv'>CSV</a></li>\n");
+        sb.append("<li><a href='?media=pdf'>PDF</a></li>\n");
         sb.append("</ul>\n");
         return sb.toString();
     }
