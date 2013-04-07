@@ -33,6 +33,8 @@ import de.twenty11.skysail.common.Presentation;
 import de.twenty11.skysail.common.PresentationStyle;
 import de.twenty11.skysail.common.commands.Command;
 import de.twenty11.skysail.common.forms.Field;
+import de.twenty11.skysail.common.grids.GridData;
+import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.common.navigation.LinkedPage;
 import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FailureResponse;
@@ -253,6 +255,12 @@ public class Json2BootstrapConverter extends ConverterHelper {
                     i = handleDataElementsForTable(sb, i, object);
                 }
             }
+        } else if (skysailResponseAsObject instanceof GridData) {
+            GridData data = (GridData) skysailResponseAsObject;
+            List<RowData> rows = data.getRows();
+            for (RowData rowData : rows) {
+                handleDataElementsForRow(sb, rowData);
+            }
         } else {
             handleDataElementsForList(sb, 1, skysailResponseAsObject);
         }
@@ -290,12 +298,6 @@ public class Json2BootstrapConverter extends ConverterHelper {
         if (found) {
             links = links.delete(links.length() - 1, links.length());
         }
-        // {source: "Microsoft", target: "Amazon", type: "licensing"},
-        // {source: "Microsoft", target: "HTC", type: "licensing"},
-        // {source: "Apple", target: "Samsung", type: "suit"},
-        // {source: "Kodak", target: "RIM", type: "suit"},
-        // {source: "Nokia", target: "Qualcomm", type: "suit"}
-        //
         template = template.replace("${links}", links.toString());
         return template;
     }
@@ -429,6 +431,21 @@ public class Json2BootstrapConverter extends ConverterHelper {
         sb.append("</tr>");
         sb.append(row).append("\n");
         return i;
+    }
+
+    private void handleDataElementsForRow(StringBuilder sb, RowData rowData) {
+        StringBuilder row = new StringBuilder("<tr>\n");
+        // i++;
+
+        for (String key : rowData.getCells().keySet()) {
+            sb.append("<td>");
+            sb.append(rowData.getCells().get(key));
+            sb.append("</td>");
+        }
+        sb.append("<td>").append("there").append("</td>");
+
+        sb.append("</tr>");
+        sb.append(row).append("\n");
     }
 
     private CharSequence getFilter() {
