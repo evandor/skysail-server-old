@@ -37,8 +37,8 @@ public class Json2BootstrapConverter extends ConverterHelper {
     private InputStream bootstrapTemplateResource = this.getClass().getResourceAsStream("bootstrap.template");
     private final String rootTemplate = convertStreamToString(bootstrapTemplateResource);
 
-    private InputStream accordionGroupTemplateResource = this.getClass().getResourceAsStream("accordionGroup.template");
-    private final String accordionGroupTemplate = convertStreamToString(accordionGroupTemplateResource);
+    //private InputStream accordionGroupTemplateResource = this.getClass().getResourceAsStream("accordionGroup.template");
+    //private final String accordionGroupTemplate = convertStreamToString(accordionGroupTemplateResource);
 
     private InputStream d3SimpleGraphTemplateResource = this.getClass().getResourceAsStream("d3SimpleGraph.template");
     private final String d3SimpleGraphTemplate = convertStreamToString(d3SimpleGraphTemplateResource);
@@ -163,7 +163,6 @@ public class Json2BootstrapConverter extends ConverterHelper {
         page = page.replace("${filterExpression}", getFilter());
         page = page.replace("${history}", getHistory());
 
-        // TODO revisit
         Object skysailResponseAsObject = skysailResponse.getData();
         if (skysailResponseAsObject != null) {
             if (style.equals(PresentationStyle.LIST)) {
@@ -182,7 +181,9 @@ public class Json2BootstrapConverter extends ConverterHelper {
             } else if (style.equals(PresentationStyle.D3_SIMPLE_GRAPH)) {
                 page = createD3SimpleGraphForContent(skysailResponseAsObject, skysailResponse);
             } else if (style.equals(PresentationStyle.IFRAME)) {
-                page = createIFrameForContent(page, skysailResponseAsObject, skysailResponse);
+                StrategyContext context = new StrategyContext(new IFrameForContentStrategy());
+                page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
+                //page = createIFrameForContent(page, skysailResponseAsObject, skysailResponse);
             }
         } else {
             if (skysailResponse instanceof ConstraintViolationsResponse) {
@@ -208,16 +209,6 @@ public class Json2BootstrapConverter extends ConverterHelper {
             }
         }
         page = page.replace("${stacktrace}", stacktrace);
-        return page;
-    }
-
-    private String createIFrameForContent(String page, Object skysailResponseAsObject,
-            SkysailResponse<List<?>> skysailResponse) {
-        StringBuilder sb = new StringBuilder("<iframe src='");
-        sb.append("asGraph/d3Simple");
-        sb.append("' style='width:100%;height:600px;' frameBorder=0>\n");
-        sb.append("</iframe>\n");
-        page = page.replace("${content}", sb.toString());
         return page;
     }
 
