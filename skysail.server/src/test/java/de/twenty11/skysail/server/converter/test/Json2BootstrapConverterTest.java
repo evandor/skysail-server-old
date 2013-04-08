@@ -1,9 +1,5 @@
 package de.twenty11.skysail.server.converter.test;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +16,11 @@ import org.restlet.util.RouteList;
 import de.twenty11.skysail.server.converter.Breadcrumb;
 import de.twenty11.skysail.server.converter.Json2BootstrapConverter;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
+
+import static org.junit.Assert.assertThat;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 public class Json2BootstrapConverterTest {
 
@@ -65,6 +66,11 @@ public class Json2BootstrapConverterTest {
         List<Breadcrumb> breadcrumbs = converter.getBreadcrumbList(resource);
 
         assertThat(breadcrumbs.size(), is(equalTo(3)));
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void toObject_throws_unsupportedOperationException() throws Exception {
+        converter.toObject(null, null, resource);
     }
 
     private void addRoute(String uriTemplate) {

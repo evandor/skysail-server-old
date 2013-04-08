@@ -27,6 +27,7 @@ import de.twenty11.skysail.server.converter.IFrame2BootstrapConverter;
 import de.twenty11.skysail.server.converter.Json2BootstrapConverter;
 import de.twenty11.skysail.server.converter.Json2HtmlConverter;
 import de.twenty11.skysail.server.converter.ToCsvConverter;
+import de.twenty11.skysail.server.converter.ToPdfConverter;
 import de.twenty11.skysail.server.internal.Blocker;
 import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
 
@@ -62,6 +63,7 @@ public abstract class SkysailApplication extends Application {
         registeredConverters.add(new Json2BootstrapConverter());
         registeredConverters.add(new IFrame2BootstrapConverter());
         registeredConverters.add(new ToCsvConverter());
+        registeredConverters.add(new ToPdfConverter());
         setContext(context);
     }
 

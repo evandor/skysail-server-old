@@ -1,8 +1,5 @@
 package de.twenty11.skysail.server.testing.utils;
 
-import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
-import static org.ops4j.pax.exam.CoreOptions.systemProperty;
-
 import java.util.EnumSet;
 import java.util.List;
 
@@ -12,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.testing.utils.PaxExamOptionSet;
 import de.twenty11.skysail.common.testing.utils.SkysailCommonOsgiSetup;
+import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
+import static org.ops4j.pax.exam.CoreOptions.systemProperty;
 
 /**
  * This class defines the bundles skysail.server depends on (used by pax-exam), i.e. the bundles to be used containing
@@ -89,7 +88,9 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("org.codehaus.jackson", "jackson-mapper-lgpl", "1.9.5"));
         //options.add(mavenBundle("org.apache.commons", "com.springsource.org.apache.commons.beanutils", "1.8.3"));
         //options.add(mavenBundle("org.apache.commons", "com.springsource.org.apache.commons.collections", "3.2.1"));
-
+        options.add(mavenBundle("org.apache.pdfbox", "pdfbox", "1.8.0"));
+        options.add(mavenBundle("org.apache.pdfbox", "fontbox", "1.8.0"));
+        options.add(mavenBundle("org.apache.pdfbox", "jempbox", "1.8.0"));
 
         logger.info("using options from {} for tests", this.getClass());
 

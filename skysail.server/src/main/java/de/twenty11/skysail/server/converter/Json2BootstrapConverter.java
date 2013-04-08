@@ -1,18 +1,13 @@
 package de.twenty11.skysail.server.converter;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
 
 import org.restlet.data.MediaType;
 import org.restlet.data.Reference;
@@ -27,18 +22,11 @@ import org.restlet.routing.Route;
 import org.restlet.routing.TemplateRoute;
 import org.restlet.util.RouteList;
 
-import de.twenty11.skysail.common.Presentable;
-import de.twenty11.skysail.common.PresentableHeader;
-import de.twenty11.skysail.common.Presentation;
 import de.twenty11.skysail.common.PresentationStyle;
 import de.twenty11.skysail.common.commands.Command;
-import de.twenty11.skysail.common.forms.Field;
-import de.twenty11.skysail.common.grids.GridData;
-import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.common.navigation.LinkedPage;
 import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FailureResponse;
-import de.twenty11.skysail.common.responses.FormResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.internal.Configuration.DefaultSkysailApplication;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
@@ -88,19 +76,16 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
     @Override
     public <T> T toObject(Representation source, Class<T> target, Resource resource) throws IOException {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("not implemented");
     }
 
     @Override
     public List<Class<?>> getObjectClasses(Variant source) {
         List<Class<?>> result = null;
-
         if (VARIANT_JSON.isCompatible(source)) {
             result = addObjectClass(result, Object.class);
             result = addObjectClass(result, JacksonRepresentation.class);
         }
-
         return result;
     }
 
@@ -162,10 +147,9 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
     private String jsonToHtml(SkysailResponse<List<?>> skysailResponse, Resource resource) {
 
-        PresentationStyle style = evalPresentationStyle(resource);
+        PresentationStyle style = ConverterUtils.evalPresentationStyle(resource);
 
         String page = rootTemplate;
-        // template = template.replace("${originalJson}", json);
         long executionTimeInNanos = skysailResponse.getExecutionTime();
         float performance = new Long(1000000000) / executionTimeInNanos;
         page = page.replace("${performance}", String.format("%s", performance));
@@ -183,11 +167,18 @@ public class Json2BootstrapConverter extends ConverterHelper {
         Object skysailResponseAsObject = skysailResponse.getData();
         if (skysailResponseAsObject != null) {
             if (style.equals(PresentationStyle.LIST)) {
-                page = createListForContent(page, skysailResponseAsObject);
+
+                StrategyContext context = new StrategyContext(new ListForContentStrategy());
+                page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
+                // page = createListForContent(page, skysailResponseAsObject);
             } else if (style.equals(PresentationStyle.TABLE)) {
-                page = createTableForContent(page, skysailResponseAsObject);
+                StrategyContext context = new StrategyContext(new TableForContentStrategy());
+                page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
+                // page = createTableForContent(page, skysailResponseAsObject);
             } else if (style.equals(PresentationStyle.EDIT)) {
-                page = createFormForContent(page, skysailResponseAsObject, skysailResponse);
+                StrategyContext context = new StrategyContext(new FormForContentStrategy());
+                page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
+                // page = createFormForContent(page, skysailResponseAsObject, skysailResponse);
             } else if (style.equals(PresentationStyle.D3_SIMPLE_GRAPH)) {
                 page = createD3SimpleGraphForContent(skysailResponseAsObject, skysailResponse);
             } else if (style.equals(PresentationStyle.IFRAME)) {
@@ -195,7 +186,9 @@ public class Json2BootstrapConverter extends ConverterHelper {
             }
         } else {
             if (skysailResponse instanceof ConstraintViolationsResponse) {
-                page = createFormForContent(page, skysailResponseAsObject, skysailResponse);
+                StrategyContext context = new StrategyContext(new FormForContentStrategy());
+                page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
+                // page = createFormForContent(page, skysailResponseAsObject, skysailResponse);
             } else {
                 page = page.replace("${content}", "");
             }
@@ -215,57 +208,6 @@ public class Json2BootstrapConverter extends ConverterHelper {
             }
         }
         page = page.replace("${stacktrace}", stacktrace);
-        return page;
-    }
-
-    private PresentationStyle evalPresentationStyle(Resource resource) {
-        PresentationStyle style = PresentationStyle.LIST;
-        if (resource.getClass().isAnnotationPresent(Presentation.class)) {
-            Presentation annotation = resource.getClass().getAnnotation(Presentation.class);
-            style = annotation.preferred();
-        }
-        return style;
-    }
-
-    private String createListForContent(String page, Object skysailResponseAsObject) {
-        StringBuilder sb = new StringBuilder("<div class=\"accordion\" id=\"accordion2\">\n");
-        if (skysailResponseAsObject instanceof List) {
-            List<?> data = (List<?>) skysailResponseAsObject;
-            int i = 0;
-            if (data != null) {
-                for (Object object : data) {
-                    i = handleDataElementsForList(sb, i, object);
-                }
-            }
-        } else {
-            handleDataElementsForList(sb, 1, skysailResponseAsObject);
-        }
-        sb.append("</div>\n");
-        page = page.replace("${content}", sb.toString());
-        return page;
-    }
-
-    private String createTableForContent(String page, Object skysailResponseAsObject) {
-        StringBuilder sb = new StringBuilder("<table  class=\"table table-hover\">\n");
-        if (skysailResponseAsObject instanceof List) {
-            List<?> data = (List<?>) skysailResponseAsObject;
-            int i = 0;
-            if (data != null) {
-                for (Object object : data) {
-                    i = handleDataElementsForTable(sb, i, object);
-                }
-            }
-        } else if (skysailResponseAsObject instanceof GridData) {
-            GridData data = (GridData) skysailResponseAsObject;
-            List<RowData> rows = data.getRows();
-            for (RowData rowData : rows) {
-                handleDataElementsForRow(sb, rowData);
-            }
-        } else {
-            handleDataElementsForList(sb, 1, skysailResponseAsObject);
-        }
-        sb.append("</table>\n");
-        page = page.replace("${content}", sb.toString());
         return page;
     }
 
@@ -302,79 +244,6 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return template;
     }
 
-    private String createFormForContent(String page, Object response, SkysailResponse<?> skysailResponse) {
-
-        Set<ConstraintViolation> violations = null;
-        Map<String, ConstraintViolation<?>> violationsMap = new HashMap<String, ConstraintViolation<?>>();
-
-        String action = ".";
-        if (skysailResponse instanceof ConstraintViolationsResponse) {
-            ConstraintViolationsResponse cvr = (ConstraintViolationsResponse) skysailResponse;
-            violations = cvr.getViolations();
-            for (ConstraintViolation<?> violation : violations) {
-                if (violation.getPropertyPath() != null) {
-                    violationsMap.put(violation.getPropertyPath().toString(), violation);
-                }
-            }
-        } else if (skysailResponse instanceof FormResponse) {
-            FormResponse formResponse = (FormResponse) skysailResponse;
-            action = formResponse.getTarget();
-        }
-
-        StringBuilder sb = new StringBuilder("<form class='form-horizontal' action='" + action + "' method='POST'>\n");
-
-        java.lang.reflect.Field[] fields = response.getClass().getDeclaredFields();
-        for (java.lang.reflect.Field field : fields) {
-            Field formField = field.getAnnotation(Field.class);
-            if (formField == null) {
-                continue;
-            }
-
-            String value = "";
-            try {
-                // Field f = response.getClass().getDeclaredField("stuffIWant"); //NoSuchFieldException
-                field.setAccessible(true);
-                Object object = field.get(response);
-                if (object instanceof String) {
-                    value = (String) object;
-                }
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            String id = field.getName();
-            String help = "";
-            String cssClass = "control-group";
-            if (violationsMap.containsKey(id)) {
-                // Object object = constraintViolations.
-                id = "inputError";
-                cssClass = "control-group error";
-                help = "<span class='help-inline'>" + violationsMap.get(field.getName()).getMessage() + "</span>";
-            }
-
-            sb.append("<div class='" + cssClass + "'>\n");
-            sb.append("  <label class='control-label' for='" + id + "'>").append(field.getName()).append("</label>\n");
-            sb.append("  <div class='controls'>\n");
-            sb.append("<input type='text' id='" + id + "' name='" + field.getName() + "' placeholder='' value='")
-                    .append(value).append("'>\n");
-            sb.append(help);
-            sb.append("  </div>\n");
-            sb.append("</div>\n");
-
-        }
-
-        sb.append("<div class='control-group'>\n");
-        sb.append("  <div class='controls'>\n");
-        sb.append("    <button type='submit' class='btn'>Submit</button>\n");
-        sb.append("  </div>\n");
-        sb.append("</div>\n");
-
-        sb.append("</form>\n");
-        page = page.replace("${content}", sb.toString());
-        return page;
-    }
-
     private CharSequence getHistory() {
         return "";
     }
@@ -392,94 +261,8 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return breadcrumb;
     }
 
-    private int handleDataElementsForList(StringBuilder sb, int i, Object object) {
-        String accordionGroup = accordionGroupTemplate;
-        i++;
-        if (object instanceof Presentable) {
-            Presentable presentable = (Presentable) object;
-            accordionGroup = accordionGroup.replace("${headerText}", presentable.getHeader().getText());
-            accordionGroup = accordionGroup.replace("${headerImage}", presentable.getHeader().getImage());
-            accordionGroup = accordionGroup.replace("${headerCategoryIcon}", headerCategory(presentable));
-            accordionGroup = accordionGroup.replace("${headerLink}", headerlink(presentable));
-            accordionGroup = accordionGroup.replace("${inner}", getInner(presentable));
-        } else {
-            accordionGroup = accordionGroup.replace("${headerText}", "Entry #" + i);
-            accordionGroup = accordionGroup.replace("${headerImage}", "icon-list-alt");
-            accordionGroup = accordionGroup.replace("${headerCategoryIcon}", "");
-            accordionGroup = accordionGroup.replace("${headerLink}", "");
-            accordionGroup = accordionGroup.replace("${inner}", object.toString());
-        }
-        accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
-        sb.append(accordionGroup).append("\n");
-        return i;
-    }
-
-    private int handleDataElementsForTable(StringBuilder sb, int i, Object object) {
-        StringBuilder row = new StringBuilder("<tr>\n");
-        i++;
-        if (object instanceof Presentable) {
-            Presentable presentable = (Presentable) object;
-            for (Entry<String, Object> rowContent : presentable.getContent().entrySet()) {
-                sb.append("<td>");
-                sb.append(rowContent.getValue());
-                sb.append("</td>");
-            }
-            sb.append("<td>").append(headerlink(presentable)).append("</td>");
-        } else {
-
-        }
-        sb.append("</tr>");
-        sb.append(row).append("\n");
-        return i;
-    }
-
-    private void handleDataElementsForRow(StringBuilder sb, RowData rowData) {
-        StringBuilder row = new StringBuilder("<tr>\n");
-        // i++;
-
-        for (String key : rowData.getCells().keySet()) {
-            sb.append("<td>");
-            sb.append(rowData.getCells().get(key));
-            sb.append("</td>");
-        }
-        sb.append("<td>").append("there").append("</td>");
-
-        sb.append("</tr>");
-        sb.append(row).append("\n");
-    }
-
     private CharSequence getFilter() {
         return "";
-    }
-
-    private String headerlink(Presentable presentable) {
-        if (presentable.getHeader().getLink() == null) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.append("<a href='").append(presentable.getHeader().getLink())
-.append("' id='")
-                .append(presentable.getHeader().getText())
-                .append("'>&nbsp;<i class='icon-chevron-right'></i>&nbsp;</a>\n");
-        return sb.toString();
-    }
-
-    private String headerCategory(Presentable presentable) {
-        if ((presentable.getHeader().getCategoryText() == null || presentable.getHeader().getCategoryText().equals(""))
-                && presentable.getHeader().getCategoryColor() == null) {
-            return "";
-        }
-        String text = presentable.getHeader().getCategoryText();
-        Color color = presentable.getHeader().getCategoryColor();
-        String hex = "#ffffff";
-        if (color != null) {
-            hex = String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.append(
-                "<button class=\"btn btn-mini\" type=\"button\" style=\"background-image: linear-gradient(to bottom, "
-                        + hex + ", " + hex + ");\">").append(text == null ? "&nbsp;" : text).append("</button>\n");
-        return sb.toString();
     }
 
     private String presentations() {
@@ -528,42 +311,6 @@ public class Json2BootstrapConverter extends ConverterHelper {
             }
         }
         return "";
-    }
-
-    private String getInner(Presentable presentable) {
-        StringBuilder sb = new StringBuilder("<table class=\"table table-hover\" style='width:90%'>\n");
-        for (Entry<String, Object> row : presentable.getContent().entrySet()) {
-            sb.append("<tr>\n");
-            sb.append("<th style='width:200px;'>").append(row.getKey()).append("</th>");
-
-            if (row.getValue() instanceof List) {
-                List<?> list = (List<?>) row.getValue();
-                StringBuilder valueSb = new StringBuilder();
-                // sb.append("<td style='width:600px;'>");
-                for (Object object : list) {
-                    if (object instanceof Presentable) {
-                        PresentableHeader header = ((Presentable) object).getHeader();
-                        valueSb.append("<a href='" + header.getLink() + "'>").append(header.getText()).append("</a>");
-                    } else {
-                        valueSb.append(object.toString()).append(", ");
-                    }
-                }
-                // sb.append("</td>\n");
-                sb.append("<td style='width:600px;'>").append(valueSb.toString()).append("</td>\n");
-            } else if (row.getValue() instanceof Presentable) {
-                printPresentableHeader(sb, row);
-            } else {
-                sb.append("<td style='width:600px;'>").append(row.getValue()).append("</td>\n");
-            }
-            sb.append("</tr>\n");
-        }
-        return sb.append("</table>\n").toString();
-    }
-
-    private void printPresentableHeader(StringBuilder sb, Entry<String, Object> row) {
-        PresentableHeader header = ((Presentable) row.getValue()).getHeader();
-        sb.append("<td style='width:600px;'><a href='" + header.getLink() + "'>").append(header.getText())
-                .append("</a></td>\n");
     }
 
     public static String convertStreamToString(java.io.InputStream is) {

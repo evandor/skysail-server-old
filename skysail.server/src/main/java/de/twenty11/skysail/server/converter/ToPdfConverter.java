@@ -9,7 +9,6 @@ import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.restlet.data.MediaType;
 import org.restlet.engine.converter.ConverterHelper;
@@ -49,6 +48,8 @@ public class ToPdfConverter extends ConverterHelper {
             } catch (COSVisitorException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+            } finally {
+                document.close();
             }
         }
 
@@ -121,7 +122,7 @@ public class ToPdfConverter extends ConverterHelper {
         } catch (Exception e) {
             representation = toPdf(new FailureResponse(e), resource);
         }
-        representation.setMediaType(MediaType.TEXT_CSV);
+        representation.setMediaType(MediaType.APPLICATION_PDF);
         return representation;
     }
 
@@ -143,60 +144,60 @@ public class ToPdfConverter extends ConverterHelper {
         PDDocument document;
         try {
             document = new PDDocument();
-            PDPage page = new PDPage();
-            document.addPage(page);
-
-            PDFont font = PDType1Font.HELVETICA_BOLD;
-            PDPageContentStream contentStream = new PDPageContentStream(document, page);
-            contentStream.beginText();
-            contentStream.setFont(font, 12);
-            contentStream.moveTextPositionByAmount(100, 700);
-            contentStream.drawString("Hello World");
-            contentStream.endText();
-
-            contentStream.close();
+            writeToPdf(document, skysailResponseAsObject);
             PdfOutputRepresentation por = new PdfOutputRepresentation(MediaType.APPLICATION_PDF, document);
-
-            document.close();
             return por;
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return null;
         }
-
-        // StringBuilder sb = new StringBuilder("");
-        // if (skysailResponseAsObject instanceof List) {
-        // List<?> data = (List<?>) skysailResponseAsObject;
-        // if (data != null) {
-        // if (data.size() > 0) {
-        // handleHeaderElementsForList(sb, data.get(0));
-        // }
-        // for (Object object : data) {
-        // handleDataElementsForList(sb, object);
-        // }
-        // }
-        // } else {
-        // handleDataElementsForList(sb, skysailResponseAsObject);
-        // }
-        // sb.append("");
-        // return sb.toString();
     }
 
-    private void handleDataElementsForList(StringBuilder sb, Object object) {
+    private void writeToPdf(PDDocument document, Object skysailResponseAsObject) throws IOException {
+
+        PDPage page = new PDPage();
+        document.addPage(page);
+        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+        if (skysailResponseAsObject instanceof List) {
+            List<?> data = (List<?>) skysailResponseAsObject;
+            if (data != null) {
+                int i = 0;
+                int pos = 700;
+                for (Object object : data) {
+                    pos = pos - (i * 10);
+                    if (pos < 10) {
+                        contentStream.close();
+                        page = new PDPage();
+                        document.addPage(page);
+                        contentStream = new PDPageContentStream(document, page);
+                        pos += 700;
+                    }
+                    handleDataElementsForList(document, contentStream, object, pos, i++);
+                }
+            }
+        } else {
+            // handleDataElementsForList(sb, skysailResponseAsObject);
+        }
+        contentStream.close();
+    }
+
+    private void handleDataElementsForList(PDDocument document, PDPageContentStream contentStream, Object object,
+            int pos, int cnt)
+            throws IOException {
+
         if (object instanceof Presentable) {
             Presentable presentable = (Presentable) object;
-            boolean empty = true;
             for (Entry<String, Object> row : presentable.getContent().entrySet()) {
-                sb.append(row.getValue() != null ? row.getValue().toString() : "".replace("\"", "\\\"")).append(",");
-                empty = false;
+                contentStream.beginText();
+                contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
+                contentStream.moveTextPositionByAmount(20, pos);
+                contentStream.drawString(row.getValue() != null ? row.getValue().toString() : "-");
+                contentStream.endText();
             }
-            if (!empty) {
-                sb.deleteCharAt(sb.length() - 1);
-            }
-            sb.append("\n");
         }
+
     }
 
     private void handleHeaderElementsForList(StringBuilder sb, Object object) {
