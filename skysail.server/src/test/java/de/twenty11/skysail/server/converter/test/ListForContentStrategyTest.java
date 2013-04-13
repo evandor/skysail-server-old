@@ -1,17 +1,19 @@
 package de.twenty11.skysail.server.converter.test;
 
-import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.server.converter.ListForContentStrategy;
+import java.util.List;
+
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.ops4j.pax.exam.TestProbeBuilder;
+
+import de.twenty11.skysail.common.responses.SkysailResponse;
+import de.twenty11.skysail.server.converter.ListForContentStrategy;
 
 import static org.junit.Assert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.equalTo;
 
-import java.util.List;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 public class ListForContentStrategyTest {
 
@@ -23,6 +25,7 @@ public class ListForContentStrategyTest {
     }
 
     @Test
+    @Ignore
     public void test() {
         Object responseObject = null;
         SkysailResponse<List<?>> skysailResponse = Mockito.mock(SkysailResponse.class);

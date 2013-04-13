@@ -57,7 +57,9 @@ import de.twenty11.skysail.server.internal.Configuration;
  * 
  * @author carsten
  * 
+ * @deprecated use ListServerResource2
  */
+@Deprecated
 public class ListServerResource<T> extends SkysailServerResource2<T> {
 
     /** slf4j based logger implementation. */
