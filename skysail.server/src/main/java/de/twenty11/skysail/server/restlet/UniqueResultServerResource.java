@@ -17,6 +17,10 @@ import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 
+/**
+ * @deprecated use UniqueResultServerResource2
+ */
+@Deprecated
 public class UniqueResultServerResource<T> extends SkysailServerResource2<T> {
 
     /** slf4j based logger implementation. */
