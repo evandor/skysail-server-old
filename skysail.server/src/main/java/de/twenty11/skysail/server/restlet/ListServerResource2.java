@@ -18,9 +18,11 @@
 package de.twenty11.skysail.server.restlet;
 
 import java.lang.management.OperatingSystemMXBean;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -37,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
+import de.twenty11.skysail.common.selfdescription.ResourceDetails;
 import de.twenty11.skysail.server.internal.Configuration;
 
 /**
@@ -68,7 +71,7 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
         validator = factory.getValidator();
     }
 
-    @Get
+    @Get("html|json|csv")
     public SkysailResponse<List<T>> getEntities() {
         return getEntities("default implementation... you might want to override ListServerResource2#getEntities in "
                 + this.getClass().getName());
@@ -113,6 +116,16 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
         }
     }
 
+    protected List<ResourceDetails> allMethods() {
+        List<ResourceDetails> result = new ArrayList<ResourceDetails>();
+        SkysailApplication restletOsgiApp = (SkysailApplication) getApplication();
+        Map<String, RouteBuilder> skysailRoutes = restletOsgiApp.getSkysailRoutes();
+        for (Entry<String, RouteBuilder> entry : skysailRoutes.entrySet()) {
+            handleSkysailRoute(result, entry);
+        }
+        return result;
+    }
+
     protected Validator getValidator() {
         return validator;
     }
@@ -134,6 +147,17 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
             return match(t, filterExpression);
         } else {
             return true;
+        }
+    }
+
+    private void handleSkysailRoute(List<ResourceDetails> result, Entry<String, RouteBuilder> entry) {
+        RouteBuilder builder = entry.getValue();
+        if (builder.isVisible()) {
+            String from = getHostRef() + "/" + getApplication().getName() + entry.getKey();
+            String text = builder.getText() != null ? builder.getText() : from;
+            ResourceDetails resourceDetails = new ResourceDetails(from, text, builder.getTargetClass().toString(),
+                    "desc");
+            result.add(resourceDetails);
         }
     }
 

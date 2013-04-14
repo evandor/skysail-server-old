@@ -56,7 +56,6 @@ public abstract class SkysailApplication extends Application {
     protected UrlMappingServiceListener urlMappingServiceListener;
 
     public SkysailApplication(Context context) {
-        // ConfigService configService = null;// ConfigServiceProvider.getConfigService();
         List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
         registeredConverters.add(new Json2HtmlConverter());
         registeredConverters.add(new Json2BootstrapConverter());
