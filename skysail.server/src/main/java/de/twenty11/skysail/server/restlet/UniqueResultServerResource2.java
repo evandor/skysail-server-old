@@ -29,16 +29,20 @@ public abstract class UniqueResultServerResource2<T> extends SkysailServerResour
         validator = factory.getValidator();
     }
 
-    protected abstract T getData();
-
     /**
      * If you have a route defined as "/repository/{key}", you can get the key like this: key = (String)
      * getRequest().getAttributes().get("key");
+     * 
+     * To get hold on any parameters passed, consider using this pattern:
+     * 
+     * Form form = new Form(getRequest().getEntity()); action = form.getFirstValue("action");
      * 
      * @see de.twenty11.skysail.server.restlet.SkysailServerResource2#doInit()
      */
     @Override
     protected abstract void doInit() throws ResourceException;
+
+    protected abstract T getData();
 
     @Get("html|json")
     public SkysailResponse<T> getEntity() {
