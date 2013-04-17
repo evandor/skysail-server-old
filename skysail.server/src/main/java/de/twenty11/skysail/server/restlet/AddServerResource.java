@@ -1,20 +1,26 @@
 package de.twenty11.skysail.server.restlet;
 
-import de.twenty11.skysail.common.responses.*;
-import org.restlet.data.Form;
-import org.restlet.resource.Get;
-import org.restlet.resource.Post;
-import org.restlet.resource.ResourceException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
-import java.util.Set;
 
+import org.restlet.data.Form;
+import org.restlet.resource.Get;
+import org.restlet.resource.Post;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.twenty11.skysail.common.Presentation;
+import de.twenty11.skysail.common.PresentationStyle;
+import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
+import de.twenty11.skysail.common.responses.FormResponse;
+import de.twenty11.skysail.common.responses.SkysailResponse;
+
+@Presentation(preferred = PresentationStyle.EDIT)
 public abstract class AddServerResource<T> extends SkysailServerResource2<T> {
 
     /** slf4j based logger implementation. */
@@ -34,14 +40,17 @@ public abstract class AddServerResource<T> extends SkysailServerResource2<T> {
      * return new FormResponse<T>(new T(), "../triggers/");
      */
     @Get("html")
-    protected abstract FormResponse<T> createForm();
+    public abstract FormResponse<T> createForm();
 
-    protected abstract T getData(Form form);
+    /**
+     * return new JobDescriptor(form.getFirstValue("name"));
+     */
+    public abstract T getData(Form form);
 
-    protected abstract SkysailResponse<T> addEntity(T entity);
+    public abstract SkysailResponse<T> addEntity(T entity);
 
     @Post("x-www-form-urlencoded:html")
-    protected SkysailResponse<T> addFromForm(Form form) {
+    public SkysailResponse<T> addFromForm(Form form) {
         T entity = getData(form);
         Set<ConstraintViolation<T>> violations = validate(entity);
         if (violations.size() > 0) {
