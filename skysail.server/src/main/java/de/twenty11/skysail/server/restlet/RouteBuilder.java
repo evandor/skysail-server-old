@@ -1,6 +1,7 @@
 package de.twenty11.skysail.server.restlet;
 
 import org.apache.commons.lang.Validate;
+import org.restlet.Restlet;
 import org.restlet.resource.ServerResource;
 
 public class RouteBuilder {
@@ -9,12 +10,20 @@ public class RouteBuilder {
     private Class<? extends ServerResource> targetClass;
     private String text = null;
     private boolean visible = true;
+    private Restlet restlet;
 
     public RouteBuilder(String pathTemplate, Class<? extends ServerResource> targetClass) {
         Validate.notNull(pathTemplate, "pathTemplate may not be null");
         Validate.notNull(targetClass, "targetClass may not be null");
         this.pathTemplate = pathTemplate;
         this.targetClass = targetClass;
+    }
+
+    public RouteBuilder(String pathTemplate, Restlet restlet) {
+        Validate.notNull(pathTemplate, "pathTemplate may not be null");
+        Validate.notNull(restlet, "target may not be null");
+        this.pathTemplate = pathTemplate;
+        this.restlet = restlet;
     }
 
     public RouteBuilder setText(String text) {
@@ -38,6 +47,10 @@ public class RouteBuilder {
 
     public Class<? extends ServerResource> getTargetClass() {
         return targetClass;
+    }
+
+    public Restlet getRestlet() {
+        return restlet;
     }
 
     public String getPathTemplate() {

@@ -8,6 +8,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.restlet.Restlet;
 import org.restlet.resource.ServerResource;
 
 import de.twenty11.skysail.server.restlet.RouteBuilder;
@@ -28,7 +29,7 @@ public class RouteBuilderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void null_class_gives_execption() {
-        new RouteBuilder("", null);
+        new RouteBuilder("", (Restlet) null);
     }
 
     @Test

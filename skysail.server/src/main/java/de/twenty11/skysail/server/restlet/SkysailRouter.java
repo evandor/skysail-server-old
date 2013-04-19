@@ -9,7 +9,6 @@ import org.restlet.routing.Router;
 
 public class SkysailRouter extends Router {
 
-
     private Map<String, RouteBuilder> routes = new ConcurrentHashMap<String, RouteBuilder>();
 
     public SkysailRouter(Context context) {
@@ -18,7 +17,11 @@ public class SkysailRouter extends Router {
 
     public void attach(RouteBuilder routeBuilder) {
         routes.put(routeBuilder.getPathTemplate(), routeBuilder);
-        attach(routeBuilder.getPathTemplate(), routeBuilder.getTargetClass());
+        if (routeBuilder.getTargetClass() != null) {
+            attach(routeBuilder.getPathTemplate(), routeBuilder.getTargetClass());
+        } else {
+            attach(routeBuilder.getPathTemplate(), routeBuilder.getRestlet());
+        }
     }
 
     public RouteBuilder getRouteBuilder(String pathTemplate) {
