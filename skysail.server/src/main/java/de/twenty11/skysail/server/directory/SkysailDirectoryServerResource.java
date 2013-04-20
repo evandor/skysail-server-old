@@ -20,8 +20,11 @@ import org.restlet.data.Status;
 import org.restlet.engine.local.Entity;
 import org.restlet.representation.Representation;
 import org.restlet.representation.Variant;
+import org.restlet.resource.Get;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+
+import de.twenty11.skysail.common.responses.SkysailResponse;
 
 public class SkysailDirectoryServerResource extends ServerResource {
 
@@ -42,60 +45,6 @@ public class SkysailDirectoryServerResource extends ServerResource {
     private volatile Reference uniqueReference;
     private volatile List<Variant> cachedVariantsForGet;
 
-    @Override
-    public Representation delete() throws ResourceException {
-        if (this.directory.isModifiable()) {
-            Request contextRequest = new Request(Method.DELETE, this.targetUri);
-            Response contextResponse = new Response(contextRequest);
-
-            if (this.directoryTarget && !this.indexTarget) {
-                contextRequest.setResourceRef(this.targetUri);
-                getClientDispatcher().handle(contextRequest, contextResponse);
-            } else {
-                // Check if there is only one representation
-                // Try to get the unique representation of the resource
-                SkysailReferenceList references = getVariantsReferences();
-                if (!references.isEmpty()) {
-                    if (this.uniqueReference != null) {
-                        contextRequest.setResourceRef(this.uniqueReference);
-                        getClientDispatcher().handle(contextRequest, contextResponse);
-                    } else {
-                        // We found variants, but not the right one
-                        contextResponse
-                                .setStatus(new Status(Status.CLIENT_ERROR_NOT_ACCEPTABLE,
-                                        "Unable to process properly the request. Several variants exist but none of them suits precisely. "));
-                    }
-                } else {
-                    contextResponse.setStatus(Status.CLIENT_ERROR_NOT_FOUND);
-                }
-            }
-
-            setStatus(contextResponse.getStatus());
-        } else {
-            setStatus(Status.CLIENT_ERROR_METHOD_NOT_ALLOWED, "The directory is not modifiable.");
-        }
-
-        return null;
-    }
-
-    /**
-     * This initialization method aims at answering the following questions:<br>
-     * <ul>
-     * <li>does this request target a directory?</li>
-     * <li>does this request target a directory, with an index file?</li>
-     * <li>should this request be redirected (target is a directory with no trailing "/")?</li>
-     * <li>does this request target a file?</li>
-     * </ul>
-     * <br>
-     * The following constraints must be taken into account:<br>
-     * <ul>
-     * <li>the underlying helper may not support content negotiation and be able to return the list of possible variants
-     * of the target file (e.g. the CLAP helper).</li>
-     * <li>the underlying helper may not support directory listing</li>
-     * <li>the extensions tunneling cannot apply on a directory</li>
-     * <li>underlying helpers that do not support content negotiation cannot support extensions tunneling</li>
-     * </ul>
-     */
     @Override
     public void doInit() throws ResourceException {
         try {
@@ -631,6 +580,12 @@ public class SkysailDirectoryServerResource extends ServerResource {
         return result;
     }
 
+    @Get("html|json")
+    public SkysailResponse handleGet() {
+        List<Variant> variants2 = getVariants();
+        return (SkysailResponse) variants2.get(0);
+    }
+
     @Override
     public Representation handle() {
         Representation result = null;
@@ -656,43 +611,12 @@ public class SkysailDirectoryServerResource extends ServerResource {
         return result;
     }
 
-    /**
-     * Indicates if the target resource is a directory.
-     * 
-     * @return True if the target resource is a directory.
-     */
     public boolean isDirectoryTarget() {
         return this.directoryTarget;
     }
 
-    /**
-     * Indicates if the target resource is a file.
-     * 
-     * @return True if the target resource is a file.
-     */
     public boolean isFileTarget() {
         return this.fileTarget;
-    }
-
-    @Override
-    public Representation put(Representation entity) throws ResourceException {
-        if (this.directory.isModifiable()) {
-            // Transfer of PUT calls is only allowed if the readOnly flag is
-            // not set.
-            Request contextRequest = new Request(Method.PUT, this.targetUri);
-
-            // Add support of partial PUT calls.
-            contextRequest.getRanges().addAll(getRanges());
-            contextRequest.setEntity(entity);
-            Response contextResponse = new Response(contextRequest);
-            contextRequest.setResourceRef(this.targetUri);
-            getClientDispatcher().handle(contextRequest, contextResponse);
-            setStatus(contextResponse.getStatus());
-        } else {
-            setStatus(Status.CLIENT_ERROR_METHOD_NOT_ALLOWED, "The directory is not modifiable.");
-        }
-
-        return null;
     }
 
     private void checkIfResourceExists() {

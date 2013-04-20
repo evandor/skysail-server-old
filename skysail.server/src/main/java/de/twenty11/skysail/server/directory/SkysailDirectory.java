@@ -3,20 +3,22 @@ package de.twenty11.skysail.server.directory;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
+import org.restlet.Restlet;
 import org.restlet.data.MediaType;
 import org.restlet.data.Reference;
+import org.restlet.data.Status;
 import org.restlet.engine.util.AlphaNumericComparator;
 import org.restlet.engine.util.AlphabeticalComparator;
 import org.restlet.representation.Variant;
-import org.restlet.resource.Finder;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
 
-public class SkysailDirectory extends Finder {
+public class SkysailDirectory extends Restlet {
 
     private volatile String indexName;
     private volatile boolean modifiable;
@@ -33,8 +35,7 @@ public class SkysailDirectory extends Finder {
         }
         this.comparator = new AlphaNumericComparator();
         this.indexName = "index";
-        this.modifiable = false;
-        setTargetClass(SkysailDirectoryServerResource.class);
+        this.modifiable = true;
     }
 
     public SkysailDirectory(Context context, String rootUri) {
@@ -65,8 +66,6 @@ public class SkysailDirectory extends Finder {
     public List<Variant> getIndexVariants(SkysailReferenceList indexContent) {
         final List<Variant> result = new ArrayList<Variant>();
         result.add(new Variant(MediaType.APPLICATION_JSON));
-        // result.add(new Variant(MediaType.TEXT_HTML));
-        // result.add(new Variant(MediaType.TEXT_URI_LIST));
         return result;
     }
 
@@ -76,8 +75,29 @@ public class SkysailDirectory extends Finder {
 
     @Override
     public void handle(Request request, Response response) {
-        request.getAttributes().put("org.restlet.directory", this);
         super.handle(request, response);
+
+        if (isStarted()) {
+
+            request.getAttributes().put("org.restlet.directory", this);
+            SkysailDirectoryServerResource result = null;
+            try {
+                result = SkysailDirectoryServerResource.class.newInstance();
+            } catch (Exception e) {
+                getLogger().log(Level.WARNING, "Exception while instantiating the target server resource.", e);
+            }
+            if (result == null) {
+                response.setStatus(Status.CLIENT_ERROR_NOT_FOUND);
+                return;
+            }
+            result.init(getContext(), request, response);
+
+            if ((response == null) || response.getStatus().isSuccess()) {
+                result.handle();
+                // response.setEntity(handleGet);
+            }
+            result.release();
+        }
     }
 
     public boolean isListingAllowed() {
