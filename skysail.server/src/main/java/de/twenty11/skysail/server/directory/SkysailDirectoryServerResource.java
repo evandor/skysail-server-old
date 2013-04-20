@@ -25,55 +25,21 @@ import org.restlet.resource.ServerResource;
 
 public class SkysailDirectoryServerResource extends ServerResource {
 
-    /**
-     * The local base name of the resource. For example, "foo.en" and "foo.en-GB.html" return "foo".
-     */
     private volatile String baseName;
-
-    /** The base variant. */
     private volatile Variant baseVariant;
-
-    /** The parent directory handler. */
     private volatile SkysailDirectory directory;
-
-    /** If the resource is a directory, this contains its content. */
-    private volatile ReferenceList directoryContent;
-
-    /**
-     * If the resource is a directory, the non-trailing slash character leads to redirection.
-     */
+    private volatile SkysailReferenceList directoryContent;
     private volatile boolean directoryRedirection;
-
-    /** Indicates if the target resource is a directory. */
     private volatile boolean directoryTarget;
-
-    /** The context's directory URI (file, clap URI). */
     private volatile String directoryUri;
-
-    /** If the resource is a file, this contains its content. */
     private volatile Representation fileContent;
-
-    /** Indicates if the target resource is a file. */
     private volatile boolean fileTarget;
-
-    /** Indicates if the target resource is a directory with an index. */
     private volatile boolean indexTarget;
-
-    /** The original target URI, in case of extensions tunneling. */
     private volatile Reference originalRef;
-
-    /** The prototype variant. */
     private volatile Variant protoVariant;
-
-    /** The resource path relative to the directory URI. */
     private volatile String relativePart;
-
-    /** The context's target URI (file, clap URI). */
     private volatile String targetUri;
-
-    /** The unique representation of the target URI, if it exists. */
     private volatile Reference uniqueReference;
-
     private volatile List<Variant> cachedVariantsForGet;
 
     @Override
@@ -88,7 +54,7 @@ public class SkysailDirectoryServerResource extends ServerResource {
             } else {
                 // Check if there is only one representation
                 // Try to get the unique representation of the resource
-                ReferenceList references = getVariantsReferences();
+                SkysailReferenceList references = getVariantsReferences();
                 if (!references.isEmpty()) {
                     if (this.uniqueReference != null) {
                         contextRequest.setResourceRef(this.uniqueReference);
@@ -174,7 +140,7 @@ public class SkysailDirectoryServerResource extends ServerResource {
                     if (MediaType.TEXT_URI_LIST.equals(contextResponse.getEntity().getMediaType())) {
                         this.directoryTarget = true;
                         this.fileTarget = false;
-                        this.directoryContent = new ReferenceList(contextResponse.getEntity());
+                        this.directoryContent = new SkysailReferenceList(contextResponse.getEntity());
 
                         if (!getReference().getPath().endsWith("/")) {
                             // All requests will be automatically redirected
@@ -212,7 +178,7 @@ public class SkysailDirectoryServerResource extends ServerResource {
                             if (contextResponse.getEntity() != null) {
                                 this.baseName = getDirectory().getIndexName();
                                 this.targetUri = this.directoryUri + this.baseName;
-                                this.directoryContent = new ReferenceList();
+                                this.directoryContent = new SkysailReferenceList();
                                 this.directoryContent.add(new Reference(this.targetUri));
                                 this.indexTarget = true;
                             }
@@ -260,7 +226,7 @@ public class SkysailDirectoryServerResource extends ServerResource {
                         contextResponse = getRepresentation(this.directoryUri);
                         if ((contextResponse.getEntity() != null)
                                 && MediaType.TEXT_URI_LIST.equals(contextResponse.getEntity().getMediaType())) {
-                            this.directoryContent = new ReferenceList(contextResponse.getEntity());
+                            this.directoryContent = new SkysailReferenceList(contextResponse.getEntity());
                         }
                     }
 
@@ -308,7 +274,7 @@ public class SkysailDirectoryServerResource extends ServerResource {
             this.targetUri = this.directoryUri + this.baseName;
             this.directoryTarget = true;
             this.directoryRedirection = true;
-            this.directoryContent = new ReferenceList();
+            this.directoryContent = new SkysailReferenceList();
             this.directoryContent.add(new Reference(this.targetUri));
             this.indexTarget = true;
         }
@@ -552,7 +518,7 @@ public class SkysailDirectoryServerResource extends ServerResource {
 
     private List<Variant> handleResultSetEmpty(List<Variant> result, String baseRef, int rootLength) {
         if (this.directoryTarget && getDirectory().isListingAllowed()) {
-            ReferenceList userList = new ReferenceList(this.directoryContent.size());
+            SkysailReferenceList userList = new SkysailReferenceList(this.directoryContent.size());
             // Set the list identifier
             userList.setIdentifier(baseRef);
 
@@ -606,8 +572,8 @@ public class SkysailDirectoryServerResource extends ServerResource {
      * 
      * @return The list of variants references
      */
-    private ReferenceList getVariantsReferences() {
-        ReferenceList result = new ReferenceList(0);
+    private SkysailReferenceList getVariantsReferences() {
+        SkysailReferenceList result = new SkysailReferenceList(0);
 
         try {
             this.uniqueReference = null;
