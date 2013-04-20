@@ -1,38 +1,5 @@
 package de.twenty11.skysail.server.directory;
 
-/**
- * Copyright 2005-2012 Restlet S.A.S.
- * 
- * The contents of this file are subject to the terms of one of the following
- * open source licenses: Apache 2.0 or LGPL 3.0 or LGPL 2.1 or CDDL 1.0 or EPL
- * 1.0 (the "Licenses"). You can select the license that you prefer but you may
- * not use this file except in compliance with one of these Licenses.
- * 
- * You can obtain a copy of the Apache 2.0 license at
- * http://www.opensource.org/licenses/apache-2.0
- * 
- * You can obtain a copy of the LGPL 3.0 license at
- * http://www.opensource.org/licenses/lgpl-3.0
- * 
- * You can obtain a copy of the LGPL 2.1 license at
- * http://www.opensource.org/licenses/lgpl-2.1
- * 
- * You can obtain a copy of the CDDL 1.0 license at
- * http://www.opensource.org/licenses/cddl1
- * 
- * You can obtain a copy of the EPL 1.0 license at
- * http://www.opensource.org/licenses/eclipse-1.0
- * 
- * See the Licenses for the specific language governing permissions and
- * limitations under the Licenses.
- * 
- * Alternatively, you can obtain a royalty free commercial license with less
- * limitations, transferable or non-transferable, directly at
- * http://www.restlet.com/products/restlet-framework
- * 
- * Restlet is a registered trademark of Restlet S.A.S.
- */
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -56,19 +23,7 @@ import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
-/**
- * Resource supported by a set of context representations (from file system, class loaders and webapp context). A
- * content negotiation mechanism (similar to Apache HTTP server) is available. It is based on path extensions to detect
- * variants (languages, media types or character sets).
- * 
- * @see <a href="http://httpd.apache.org/docs/2.0/content-negotiation.html">Apache mod_negotiation module</a>
- * @author Jerome Louvel
- * @author Thierry Boileau
- */
 public class SkysailDirectoryServerResource extends ServerResource {
-
-    /** The list of variants for the GET method. */
-    private volatile List<Variant> variantsGet;
 
     /**
      * The local base name of the resource. For example, "foo.en" and "foo.en-GB.html" return "foo".
@@ -118,6 +73,8 @@ public class SkysailDirectoryServerResource extends ServerResource {
 
     /** The unique representation of the target URI, if it exists. */
     private volatile Reference uniqueReference;
+
+    private volatile List<Variant> cachedVariantsForGet;
 
     @Override
     public Representation delete() throws ResourceException {
@@ -228,17 +185,7 @@ public class SkysailDirectoryServerResource extends ServerResource {
                             this.targetUri += "/";
                             this.relativePart += "/";
                         }
-
-                        // Append the index name
-                        if ((getDirectory().getIndexName() != null) && (getDirectory().getIndexName().length() > 0)) {
-                            this.directoryUri = this.targetUri;
-                            this.baseName = getDirectory().getIndexName();
-                            this.targetUri = this.directoryUri + this.baseName;
-                            this.indexTarget = true;
-                        } else {
-                            this.directoryUri = this.targetUri;
-                            this.baseName = null;
-                        }
+                        appendIndexName();
                     } else {
                         // Allows underlying helpers that do not support
                         // "content negotiation" to return the targeted file.
@@ -276,17 +223,7 @@ public class SkysailDirectoryServerResource extends ServerResource {
                         // redirection.
                         if ((getDirectory().getIndexName() != null) && (getDirectory().getIndexName().length() > 0)) {
                             // Append the index name
-                            contextResponse = getRepresentation(this.targetUri + "/" + getDirectory().getIndexName());
-                            if (contextResponse.getEntity() != null) {
-                                this.directoryUri = this.targetUri + "/";
-                                this.baseName = getDirectory().getIndexName();
-                                this.targetUri = this.directoryUri + this.baseName;
-                                this.directoryTarget = true;
-                                this.directoryRedirection = true;
-                                this.directoryContent = new ReferenceList();
-                                this.directoryContent.add(new Reference(this.targetUri));
-                                this.indexTarget = true;
-                            }
+                            appendIndexname2();
                         }
                     }
                 }
@@ -332,11 +269,7 @@ public class SkysailDirectoryServerResource extends ServerResource {
                         analyzeExtensions();
                     }
 
-                    // Check if the resource exists or not.
-                    List<Variant> variants = getVariants(Method.GET);
-                    if ((variants == null) || (variants.isEmpty())) {
-                        setExisting(false);
-                    }
+                    checkIfResourceExists();
                 }
             }
 
@@ -345,6 +278,51 @@ public class SkysailDirectoryServerResource extends ServerResource {
             getLogger().fine("Converted base name : " + this.baseName);
         } catch (IOException ioe) {
             throw new ResourceException(ioe);
+        }
+    }
+
+    @Override
+    protected Representation get() throws ResourceException {
+        List<Variant> variants = getVariants(Method.GET);
+        if ((variants == null) || (variants.isEmpty())) {
+            getResponse().setStatus(Status.CLIENT_ERROR_NOT_FOUND);
+            return null;
+        }
+        if (variants.size() == 1) {
+            return (Representation) variants.get(0);
+        }
+        ReferenceList variantRefs = handleMultipleVariants(variants);
+        if (variantRefs.size() > 0) {
+            return returnListOfVariants(variantRefs);
+        }
+        setStatus(Status.CLIENT_ERROR_NOT_FOUND);
+        return null;
+    }
+
+    private void appendIndexname2() {
+        Response contextResponse;
+        contextResponse = getRepresentation(this.targetUri + "/" + getDirectory().getIndexName());
+        if (contextResponse.getEntity() != null) {
+            this.directoryUri = this.targetUri + "/";
+            this.baseName = getDirectory().getIndexName();
+            this.targetUri = this.directoryUri + this.baseName;
+            this.directoryTarget = true;
+            this.directoryRedirection = true;
+            this.directoryContent = new ReferenceList();
+            this.directoryContent.add(new Reference(this.targetUri));
+            this.indexTarget = true;
+        }
+    }
+
+    private void appendIndexName() {
+        if ((getDirectory().getIndexName() != null) && (getDirectory().getIndexName().length() > 0)) {
+            this.directoryUri = this.targetUri;
+            this.baseName = getDirectory().getIndexName();
+            this.targetUri = this.directoryUri + this.baseName;
+            this.indexTarget = true;
+        } else {
+            this.directoryUri = this.targetUri;
+            this.baseName = null;
         }
     }
 
@@ -367,43 +345,25 @@ public class SkysailDirectoryServerResource extends ServerResource {
         }
     }
 
-    @Override
-    protected Representation get() throws ResourceException {
-        // Content negotiation has been disabled
-        // The variant that may need to meet the request conditions
-        Representation result = null;
+    private Representation returnListOfVariants(ReferenceList variantRefs) {
+        // Return the list of variants
+        setStatus(Status.REDIRECTION_MULTIPLE_CHOICES);
+        return variantRefs.getTextRepresentation();
+    }
 
-        List<Variant> variants = getVariants(Method.GET);
-        if ((variants == null) || (variants.isEmpty())) {
-            // Resource not found
-            getResponse().setStatus(Status.CLIENT_ERROR_NOT_FOUND);
-        } else {
-            if (variants.size() == 1) {
-                result = (Representation) variants.get(0);
+    private ReferenceList handleMultipleVariants(List<Variant> variants) {
+        ReferenceList variantRefs = new ReferenceList();
+
+        for (Variant variant : variants) {
+            if (variant.getLocationRef() != null) {
+                variantRefs.add(variant.getLocationRef());
             } else {
-                ReferenceList variantRefs = new ReferenceList();
-
-                for (Variant variant : variants) {
-                    if (variant.getLocationRef() != null) {
-                        variantRefs.add(variant.getLocationRef());
-                    } else {
-                        getLogger()
-                                .warning(
-                                        "A resource with multiple variants should provide a location for each variant when content negotiation is turned off");
-                    }
-                }
-
-                if (variantRefs.size() > 0) {
-                    // Return the list of variants
-                    setStatus(Status.REDIRECTION_MULTIPLE_CHOICES);
-                    result = variantRefs.getTextRepresentation();
-                } else {
-                    setStatus(Status.CLIENT_ERROR_NOT_FOUND);
-                }
+                getLogger()
+                        .warning(
+                                "A resource with multiple variants should provide a location for each variant when content negotiation is turned off");
             }
         }
-
-        return result;
+        return variantRefs;
     }
 
     /**
@@ -526,115 +486,119 @@ public class SkysailDirectoryServerResource extends ServerResource {
         return getVariants(getMethod());
     }
 
-    /**
-     * Returns the list of variants for the given method.
-     * 
-     * @param method
-     *            The related method.
-     * @return The list of variants for the given method.
-     */
     @Override
     protected List<Variant> getVariants(Method method) {
-        List<Variant> result = null;
+        if (!(Method.GET.equals(method) || Method.HEAD.equals(method))) {
+            return null;
+        }
+        if (cachedVariantsForGet != null) {
+            return cachedVariantsForGet;
+        }
+        if ((this.directoryContent != null) && (getReference() != null) && (getReference().getBaseRef() != null)) {
+            this.cachedVariantsForGet = handleCaseA(null);
+        } else if (this.fileTarget && (this.fileContent != null)) {
+            this.cachedVariantsForGet = handleCaseB();
+        }
+        return this.cachedVariantsForGet;
+    }
 
-        if ((Method.GET.equals(method) || Method.HEAD.equals(method))) {
-            if (variantsGet != null) {
-                result = variantsGet;
-            } else {
-                getLogger().fine("Getting variants for: " + getTargetUri());
-
-                if ((this.directoryContent != null) && (getReference() != null)
-                        && (getReference().getBaseRef() != null)) {
-
-                    // Allows to sort the list of representations
-                    SortedSet<Representation> resultSet = new TreeSet<Representation>(getRepresentationsComparator());
-
-                    // Compute the base reference (from a call's client point of
-                    // view)
-                    String baseRef = getReference().getBaseRef().toString(false, false);
-
-                    if (!baseRef.endsWith("/")) {
-                        baseRef += "/";
-                    }
-
-                    int lastIndex = this.relativePart.lastIndexOf("/");
-
-                    if (lastIndex != -1) {
-                        baseRef += this.relativePart.substring(0, lastIndex);
-                    }
-
-                    int rootLength = getDirectoryUri().length();
-
-                    if (this.baseName != null) {
-                        String filePath;
-                        for (Reference ref : getVariantsReferences()) {
-                            // Add the new variant to the result list
-                            Response contextResponse = getRepresentation(ref.toString());
-                            if (contextResponse.getStatus().isSuccess() && (contextResponse.getEntity() != null)) {
-                                filePath = ref.toString(false, false).substring(rootLength);
-                                Representation rep = contextResponse.getEntity();
-
-                                if (filePath.startsWith("/")) {
-                                    rep.setLocationRef(baseRef + filePath);
-                                } else {
-                                    rep.setLocationRef(baseRef + "/" + filePath);
-                                }
-
-                                resultSet.add(rep);
-                            }
-                        }
-                    }
-
-                    if (!resultSet.isEmpty()) {
-                        result = new ArrayList<Variant>(resultSet);
-                    }
-
-                    if (resultSet.isEmpty()) {
-                        if (this.directoryTarget && getDirectory().isListingAllowed()) {
-                            ReferenceList userList = new ReferenceList(this.directoryContent.size());
-                            // Set the list identifier
-                            userList.setIdentifier(baseRef);
-
-                            SortedSet<Reference> sortedSet = new TreeSet<Reference>(getDirectory().getComparator());
-                            sortedSet.addAll(this.directoryContent);
-
-                            for (Reference ref : sortedSet) {
-                                String filePart = ref.toString(false, false).substring(rootLength);
-                                StringBuilder filePath = new StringBuilder();
-                                if ((!baseRef.endsWith("/")) && (!filePart.startsWith("/"))) {
-                                    filePath.append('/');
-                                }
-                                filePath.append(filePart);
-                                userList.add(baseRef + filePath);
-                            }
-                            List<Variant> list = getDirectory().getIndexVariants(userList);
-                            for (Variant variant : list) {
-                                if (result == null) {
-                                    result = new ArrayList<Variant>();
-                                }
-
-                                result.add(getDirectory().getIndexRepresentation(variant, userList));
-                            }
-
-                        }
-                    }
-                } else if (this.fileTarget && (this.fileContent != null)) {
-                    // Sets the location of the target representation.
-                    if (getOriginalRef() != null) {
-                        this.fileContent.setLocationRef(getRequest().getOriginalRef());
-                    } else {
-                        this.fileContent.setLocationRef(getReference());
-                    }
-
-                    result = new ArrayList<Variant>();
-                    result.add(this.fileContent);
-                }
-
-                this.variantsGet = result;
-            }
+    private List<Variant> handleCaseB() {
+        List<Variant> result;
+        // Sets the location of the target representation.
+        if (getOriginalRef() != null) {
+            this.fileContent.setLocationRef(getRequest().getOriginalRef());
+        } else {
+            this.fileContent.setLocationRef(getReference());
         }
 
+        result = new ArrayList<Variant>();
+        result.add(this.fileContent);
         return result;
+    }
+
+    private List<Variant> handleCaseA(List<Variant> result) {
+        // Allows to sort the list of representations
+        SortedSet<Representation> resultSet = new TreeSet<Representation>(getRepresentationsComparator());
+
+        // Compute the base reference (from a call's client point of
+        // view)
+        String baseRef = getReference().getBaseRef().toString(false, false);
+
+        if (!baseRef.endsWith("/")) {
+            baseRef += "/";
+        }
+
+        int lastIndex = this.relativePart.lastIndexOf("/");
+
+        if (lastIndex != -1) {
+            baseRef += this.relativePart.substring(0, lastIndex);
+        }
+
+        int rootLength = getDirectoryUri().length();
+
+        if (this.baseName != null) {
+            handleBasenameNotNull(resultSet, baseRef, rootLength);
+        }
+
+        if (!resultSet.isEmpty()) {
+            result = new ArrayList<Variant>(resultSet);
+        }
+
+        if (resultSet.isEmpty()) {
+            result = handleResultSetEmpty(result, baseRef, rootLength);
+        }
+        return result;
+    }
+
+    private List<Variant> handleResultSetEmpty(List<Variant> result, String baseRef, int rootLength) {
+        if (this.directoryTarget && getDirectory().isListingAllowed()) {
+            ReferenceList userList = new ReferenceList(this.directoryContent.size());
+            // Set the list identifier
+            userList.setIdentifier(baseRef);
+
+            SortedSet<Reference> sortedSet = new TreeSet<Reference>(getDirectory().getComparator());
+            sortedSet.addAll(this.directoryContent);
+
+            for (Reference ref : sortedSet) {
+                String filePart = ref.toString(false, false).substring(rootLength);
+                StringBuilder filePath = new StringBuilder();
+                if ((!baseRef.endsWith("/")) && (!filePart.startsWith("/"))) {
+                    filePath.append('/');
+                }
+                filePath.append(filePart);
+                userList.add(baseRef + filePath);
+            }
+            List<Variant> list = getDirectory().getIndexVariants(userList);
+            for (Variant variant : list) {
+                if (result == null) {
+                    result = new ArrayList<Variant>();
+                }
+
+                result.add(getDirectory().getIndexRepresentation(variant, userList));
+            }
+
+        }
+        return result;
+    }
+
+    private void handleBasenameNotNull(SortedSet<Representation> resultSet, String baseRef, int rootLength) {
+        String filePath;
+        for (Reference ref : getVariantsReferences()) {
+            // Add the new variant to the result list
+            Response contextResponse = getRepresentation(ref.toString());
+            if (contextResponse.getStatus().isSuccess() && (contextResponse.getEntity() != null)) {
+                filePath = ref.toString(false, false).substring(rootLength);
+                Representation rep = contextResponse.getEntity();
+
+                if (filePath.startsWith("/")) {
+                    rep.setLocationRef(baseRef + filePath);
+                } else {
+                    rep.setLocationRef(baseRef + "/" + filePath);
+                }
+
+                resultSet.add(rep);
+            }
+        }
     }
 
     /**
@@ -763,6 +727,13 @@ public class SkysailDirectoryServerResource extends ServerResource {
         }
 
         return null;
+    }
+
+    private void checkIfResourceExists() {
+        List<Variant> variants = getVariants(Method.GET);
+        if ((variants == null) || (variants.isEmpty())) {
+            setExisting(false);
+        }
     }
 
     /**

@@ -1,38 +1,5 @@
 package de.twenty11.skysail.server.directory;
 
-/**
- * Copyright 2005-2012 Restlet S.A.S.
- * 
- * The contents of this file are subject to the terms of one of the following
- * open source licenses: Apache 2.0 or LGPL 3.0 or LGPL 2.1 or CDDL 1.0 or EPL
- * 1.0 (the "Licenses"). You can select the license that you prefer but you may
- * not use this file except in compliance with one of these Licenses.
- * 
- * You can obtain a copy of the Apache 2.0 license at
- * http://www.opensource.org/licenses/apache-2.0
- * 
- * You can obtain a copy of the LGPL 3.0 license at
- * http://www.opensource.org/licenses/lgpl-3.0
- * 
- * You can obtain a copy of the LGPL 2.1 license at
- * http://www.opensource.org/licenses/lgpl-2.1
- * 
- * You can obtain a copy of the CDDL 1.0 license at
- * http://www.opensource.org/licenses/cddl1
- * 
- * You can obtain a copy of the EPL 1.0 license at
- * http://www.opensource.org/licenses/eclipse-1.0
- * 
- * See the Licenses for the specific language governing permissions and
- * limitations under the Licenses.
- * 
- * Alternatively, you can obtain a royalty free commercial license with less
- * limitations, transferable or non-transferable, directly at
- * http://www.restlet.com/products/restlet-framework
- * 
- * Restlet is a registered trademark of Restlet S.A.S.
- */
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -184,6 +151,7 @@ public class SkysailDirectory extends Finder {
         } else if (variant.getMediaType().equals(MediaType.TEXT_URI_LIST)) {
             result = indexContent.getTextRepresentation();
         }
+
         return result;
     }
 
@@ -247,30 +215,31 @@ public class SkysailDirectory extends Finder {
         return this.negotiatingContent;
     }
 
-    /**
-     * Sets the reference comparator based on classic alphabetical order.
-     * 
-     * @see #setComparator(Comparator)
-     * @deprecated Call {@link #useAlphaComparator()} instead
-     */
-    @Deprecated
-    public void setAlphaComparator() {
-        useAlphaComparator();
-    }
+    // /**
+    // * Sets the reference comparator based on classic alphabetical order.
+    // *
+    // * @see #setComparator(Comparator)
+    // * @deprecated Call {@link #useAlphaComparator()} instead
+    // */
+    // @Deprecated
+    // public void setAlphaComparator() {
+    // useAlphaComparator();
+    // }
 
-    /**
-     * Sets the reference comparator based on the more friendly "Alphanum Algorithm" created by David Koelle. The
-     * internal implementation used is based on an optimized public domain implementation provided by Rob Heittman from
-     * the Solertium Corporation.
-     * 
-     * @see <a href="http://www.davekoelle.com/alphanum.html">The original Alphanum Algorithm from David Koelle</a>
-     * @see #setComparator(Comparator)
-     * @deprecated Call {@link #useAlphaComparator()} instead
-     */
-    @Deprecated
-    public void setAlphaNumComparator() {
-        useAlphaNumComparator();
-    }
+    // /**
+    // * Sets the reference comparator based on the more friendly "Alphanum Algorithm" created by David Koelle. The
+    // * internal implementation used is based on an optimized public domain implementation provided by Rob Heittman
+    // from
+    // * the Solertium Corporation.
+    // *
+    // * @see <a href="http://www.davekoelle.com/alphanum.html">The original Alphanum Algorithm from David Koelle</a>
+    // * @see #setComparator(Comparator)
+    // * @deprecated Call {@link #useAlphaComparator()} instead
+    // */
+    // @Deprecated
+    // public void setAlphaNumComparator() {
+    // useAlphaNumComparator();
+    // }
 
     /**
      * Sets the reference comparator based on classic alphabetical order.
