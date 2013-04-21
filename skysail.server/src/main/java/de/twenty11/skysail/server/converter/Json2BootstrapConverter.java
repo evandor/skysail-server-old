@@ -37,9 +37,6 @@ public class Json2BootstrapConverter extends ConverterHelper {
     private InputStream bootstrapTemplateResource = this.getClass().getResourceAsStream("bootstrap.template");
     private final String rootTemplate = convertStreamToString(bootstrapTemplateResource);
 
-    //private InputStream accordionGroupTemplateResource = this.getClass().getResourceAsStream("accordionGroup.template");
-    //private final String accordionGroupTemplate = convertStreamToString(accordionGroupTemplateResource);
-
     private InputStream d3SimpleGraphTemplateResource = this.getClass().getResourceAsStream("d3SimpleGraph.template");
     private final String d3SimpleGraphTemplate = convertStreamToString(d3SimpleGraphTemplateResource);
 
@@ -169,27 +166,25 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
                 StrategyContext context = new StrategyContext(new ListForContentStrategy());
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
-                // page = createListForContent(page, skysailResponseAsObject);
             } else if (style.equals(PresentationStyle.TABLE)) {
                 StrategyContext context = new StrategyContext(new TableForContentStrategy());
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
-                // page = createTableForContent(page, skysailResponseAsObject);
             } else if (style.equals(PresentationStyle.EDIT)) {
                 StrategyContext context = new StrategyContext(new FormForContentStrategy());
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
-                // page = createFormForContent(page, skysailResponseAsObject, skysailResponse);
             } else if (style.equals(PresentationStyle.D3_SIMPLE_GRAPH)) {
                 page = createD3SimpleGraphForContent(skysailResponseAsObject, skysailResponse);
             } else if (style.equals(PresentationStyle.IFRAME)) {
                 StrategyContext context = new StrategyContext(new IFrameForContentStrategy());
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
-                //page = createIFrameForContent(page, skysailResponseAsObject, skysailResponse);
+            } else if (style.equals(PresentationStyle.ACE_EDITOR)) {
+                StrategyContext context = new StrategyContext(new AceEditorForContentStrategy());
+                page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
             }
         } else {
             if (skysailResponse instanceof ConstraintViolationsResponse) {
                 StrategyContext context = new StrategyContext(new FormForContentStrategy());
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
-                // page = createFormForContent(page, skysailResponseAsObject, skysailResponse);
             } else {
                 page = page.replace("${content}", "");
             }

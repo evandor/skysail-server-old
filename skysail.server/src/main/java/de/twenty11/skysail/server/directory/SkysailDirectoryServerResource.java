@@ -20,13 +20,11 @@ import org.restlet.data.Status;
 import org.restlet.engine.local.Entity;
 import org.restlet.representation.Representation;
 import org.restlet.representation.Variant;
-import org.restlet.resource.Get;
 import org.restlet.resource.ResourceException;
-import org.restlet.resource.ServerResource;
 
-import de.twenty11.skysail.common.responses.SkysailResponse;
+import de.twenty11.skysail.server.restlet.ListServerResource2;
 
-public class SkysailDirectoryServerResource extends ServerResource {
+public class SkysailDirectoryServerResource extends ListServerResource2 {
 
     private volatile String baseName;
     private volatile Variant baseVariant;
@@ -580,11 +578,11 @@ public class SkysailDirectoryServerResource extends ServerResource {
         return result;
     }
 
-    @Get("html|json")
-    public SkysailResponse handleGet() {
-        List<Variant> variants2 = getVariants();
-        return (SkysailResponse) variants2.get(0);
-    }
+    // @Get("html|json")
+    // public SkysailResponse handleGet() {
+    // List<Variant> variants2 = getVariants();
+    // return (SkysailResponse) variants2.get(0);
+    // }
 
     @Override
     public Representation handle() {
@@ -634,5 +632,11 @@ public class SkysailDirectoryServerResource extends ServerResource {
      */
     public void setTargetUri(String targetUri) {
         this.targetUri = targetUri;
+    }
+
+    @Override
+    protected List getData() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

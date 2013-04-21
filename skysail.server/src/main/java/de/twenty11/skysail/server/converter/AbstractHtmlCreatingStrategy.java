@@ -33,6 +33,7 @@ public abstract class AbstractHtmlCreatingStrategy implements HtmlCreatingStrate
             accordionGroup = accordionGroup.replace("${headerImage}", presentable.getHeader().getImage());
             accordionGroup = accordionGroup.replace("${headerCategoryIcon}", headerCategory(presentable));
             accordionGroup = accordionGroup.replace("${headerLink}", headerlink(presentable));
+            accordionGroup = accordionGroup.replace("${hlink}", link(presentable));
             accordionGroup = accordionGroup.replace("${inner}", getInner(presentable));
         } else {
             accordionGroup = accordionGroup.replace("${headerText}", "Entry #" + i);
@@ -44,6 +45,13 @@ public abstract class AbstractHtmlCreatingStrategy implements HtmlCreatingStrate
         accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
         sb.append(accordionGroup).append("\n");
         return i;
+    }
+
+    private String link(Presentable presentable) {
+        if (presentable.getHeader().getLink() == null) {
+            return "";
+        }
+        return presentable.getHeader().getLink();
     }
 
     protected String headerlink(Presentable presentable) {
