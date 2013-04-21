@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.InvalidSyntaxException;
-import org.osgi.framework.ServiceReference;
 import org.restlet.Application;
 import org.restlet.resource.Get;
 import org.restlet.resource.ResourceException;
@@ -17,8 +15,8 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.common.Presentable;
 import de.twenty11.skysail.common.PresentableHeader;
 import de.twenty11.skysail.common.responses.SkysailResponse;
+import de.twenty11.skysail.server.internal.ApplicationsService;
 import de.twenty11.skysail.server.restlet.DefaultResource.AvailableApplication;
-import de.twenty11.skysail.server.services.ApplicationProvider;
 
 public class DefaultResource extends ListServerResource<AvailableApplication> {
 
@@ -40,6 +38,10 @@ public class DefaultResource extends ListServerResource<AvailableApplication> {
         @Override
         public Map<String, Object> getContent() {
             return Collections.emptyMap();
+        }
+
+        public String getName() {
+            return name;
         }
     }
 
@@ -71,26 +73,7 @@ public class DefaultResource extends ListServerResource<AvailableApplication> {
     protected void doInit() throws ResourceException {
         SkysailApplication app = (SkysailApplication) getApplication();
         BundleContext bundleContext = app.getBundleContext();
-        if (bundleContext == null) {
-            applications = Collections.emptyList();
-        } else {
-            ServiceReference[] allServiceReferences;
-            try {
-                allServiceReferences = bundleContext.getAllServiceReferences(ApplicationProvider.class.getName(), null);
-                if (allServiceReferences != null) {
-                    for (ServiceReference serviceReference : allServiceReferences) {
-                        ApplicationProvider provider = (ApplicationProvider) bundleContext.getService(serviceReference);
-                        if (provider == null) {
-                            logger.warn("ApplicationProvider from ServiceRegistry was null!");
-                            continue;
-                        }
-                        applications.add(provider.getApplication());
-                    }
-                }
-            } catch (InvalidSyntaxException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+        applications = ApplicationsService.getApplications(bundleContext);
     }
+
 }

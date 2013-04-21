@@ -1,5 +1,9 @@
 package de.twenty11.skysail.server.converter.test;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,11 +21,6 @@ import de.twenty11.skysail.server.converter.Breadcrumb;
 import de.twenty11.skysail.server.converter.Json2BootstrapConverter;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 
-import static org.junit.Assert.assertThat;
-
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-
 public class Json2BootstrapConverterTest {
 
     private Json2BootstrapConverter converter;
@@ -33,7 +32,7 @@ public class Json2BootstrapConverterTest {
 
     @Before
     public void setUp() throws Exception {
-        converter = new Json2BootstrapConverter();
+        converter = new Json2BootstrapConverter(null);
         resource = Mockito.mock(Resource.class);
         myApplication = Mockito.mock(SkysailApplication.class);
         myReference = Mockito.mock(Reference.class);
@@ -77,8 +76,5 @@ public class Json2BootstrapConverterTest {
         routes.add(new TemplateRoute(router, uriTemplate, new Restlet() {
         }));
     }
-
-
-
 
 }

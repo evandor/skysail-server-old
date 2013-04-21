@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.osgi.framework.BundleContext;
+import org.restlet.Application;
 import org.restlet.data.MediaType;
 import org.restlet.data.Reference;
 import org.restlet.engine.converter.ConverterHelper;
@@ -28,6 +30,7 @@ import de.twenty11.skysail.common.navigation.LinkedPage;
 import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
+import de.twenty11.skysail.server.internal.ApplicationsService;
 import de.twenty11.skysail.server.internal.Configuration.DefaultSkysailApplication;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.restlet.SkysailServerResource2;
@@ -39,8 +42,13 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
     private InputStream d3SimpleGraphTemplateResource = this.getClass().getResourceAsStream("d3SimpleGraph.template");
     private final String d3SimpleGraphTemplate = convertStreamToString(d3SimpleGraphTemplateResource);
+    private BundleContext bundleContext;
 
     private static final VariantInfo VARIANT_JSON = new VariantInfo(MediaType.APPLICATION_JSON);
+
+    public Json2BootstrapConverter(BundleContext bundleContext) {
+        this.bundleContext = bundleContext;
+    }
 
     @Override
     public float score(Object source, Variant target, Resource resource) {
@@ -111,7 +119,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
     public List<Breadcrumb> getBreadcrumbList(Resource resource) {
 
         List<Breadcrumb> breadcrumbs = new ArrayList<Breadcrumb>();
-        breadcrumbs.add(new Breadcrumb("/", null, "Home"));
+        breadcrumbs.add(new Breadcrumb("/", null, "<i class='icon-home'></i>"));
 
         Reference reference = resource.getReference();
         SkysailApplication application = (SkysailApplication) resource.getApplication();
@@ -159,6 +167,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
         page = page.replace("${presentations}", presentations());
         page = page.replace("${filterExpression}", getFilter());
         page = page.replace("${history}", getHistory());
+        page = page.replace("${mainNav}", getMainNav(bundleContext));
 
         Object skysailResponseAsObject = skysailResponse.getData();
         if (skysailResponseAsObject != null) {
@@ -205,6 +214,16 @@ public class Json2BootstrapConverter extends ConverterHelper {
         }
         page = page.replace("${stacktrace}", stacktrace);
         return page;
+    }
+
+    private String getMainNav(BundleContext bundleContext) {
+        StringBuilder sb = new StringBuilder();
+        List<Application> applications = ApplicationsService.getApplications(bundleContext);
+        for (Application application : applications) {
+            String name = application.getName().substring(0, 1).toUpperCase() + application.getName().substring(1);
+            sb.append("<li><a href='").append(application.getName()).append("'>").append(name).append("</a></li>\n");
+        }
+        return sb.toString();
     }
 
     private String createD3SimpleGraphForContent(Object skysailResponseAsObject,

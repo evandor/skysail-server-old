@@ -51,7 +51,7 @@ public class Configuration implements ComponentProvider {
     public class DefaultSkysailApplication extends SkysailApplication {
 
         public DefaultSkysailApplication(BundleContext bundleContext, Context componentContext) {
-            super(componentContext.createChildContext());
+            super(componentContext.createChildContext(), bundleContext);
             setBundleContext(bundleContext);
         }
 

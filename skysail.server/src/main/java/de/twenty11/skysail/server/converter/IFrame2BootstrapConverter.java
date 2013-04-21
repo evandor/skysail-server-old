@@ -1,11 +1,16 @@
 package de.twenty11.skysail.server.converter;
 
+import org.osgi.framework.BundleContext;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.Resource;
 
 public class IFrame2BootstrapConverter extends Json2BootstrapConverter {
+
+    public IFrame2BootstrapConverter(BundleContext bundleContext) {
+        super(bundleContext);
+    }
 
     @Override
     public float score(Object source, Variant target, Resource resource) {
