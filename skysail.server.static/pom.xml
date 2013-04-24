@@ -11,7 +11,7 @@
 
 	<artifactId>skysail.server.static</artifactId>
 	<version>0.0.4-SNAPSHOT</version>
-	<name>SKYSAIL :: server :: static - javascripts, images and css</name>
+	<name>SKYSAIL :: server :: static</name>
 	<packaging>bundle</packaging>
 
 	<scm>
