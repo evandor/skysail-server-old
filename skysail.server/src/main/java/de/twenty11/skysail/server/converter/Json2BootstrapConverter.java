@@ -221,7 +221,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
         List<Application> applications = ApplicationsService.getApplications(bundleContext);
         for (Application application : applications) {
             String name = application.getName().substring(0, 1).toUpperCase() + application.getName().substring(1);
-            sb.append("<li><a href='").append(application.getName()).append("'>").append(name).append("</a></li>\n");
+            sb.append("<li><a href='/").append(application.getName()).append("'>").append(name).append("</a></li>\n");
         }
         return sb.toString();
     }
