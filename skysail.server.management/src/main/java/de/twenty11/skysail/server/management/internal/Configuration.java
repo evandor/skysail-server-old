@@ -1,38 +1,39 @@
 package de.twenty11.skysail.server.management.internal;
 
-import java.util.Dictionary;
-
-import org.osgi.service.cm.ConfigurationAdmin;
-import org.osgi.service.cm.ConfigurationException;
-import org.osgi.service.cm.ManagedService;
-import org.osgi.service.component.ComponentContext;
+import org.restlet.Application;
+import org.restlet.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Configuration implements ManagedService {
+import de.twenty11.skysail.server.services.ApplicationProvider;
+import de.twenty11.skysail.server.services.ComponentProvider;
+
+public class Configuration implements ApplicationProvider {
 
     private static Logger logger = LoggerFactory.getLogger(Configuration.class);
-    private static ConfigurationAdmin configadmin;
-    private ManagementApplication app;
+    private ComponentProvider componentProvider;
+    private Component component;
+    private MyApplication application;
 
-    protected void activate(ComponentContext ctxt) {
-        // logger.info("Activating Skysail Ext DbViewer Configuration Component");
-        // dbViewerComponent = new ManagementComponent(ctxt.getBundleContext());
-        app = new ManagementApplication(ctxt.getBundleContext(), "/static");
+    public void activate() {
+        logger.info("Activating Configuration Component for Skysail Bookmarks Extension");
+        Component component = componentProvider.getComponent();
+        application = new MyApplication(component.getContext());
     }
 
-    protected void deactivate(ComponentContext ctxt) {
-        app = null;
+    public void deactivate() {
+        logger.info("Deactivating Configuration Component for Skysail Bookmarks Extension");
+        application = null;
+
     }
 
-    public synchronized void setConfigAdmin(ConfigurationAdmin configadmin) {
-        Configuration.configadmin = configadmin;
+    public void setComponentProvider(ComponentProvider componentProvider) {
+        this.componentProvider = componentProvider;
     }
 
     @Override
-    public void updated(Dictionary properties) throws ConfigurationException {
-        // TODO Auto-generated method stub
-
+    public Application getApplication() {
+        return application;
     }
 
 }

@@ -1,0 +1,20 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+	xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0">
+
+	<ext:property-placeholder />
+
+	<bean id="setup"
+		class="de.twenty11.skysail.server.management.internal.Configuration"
+		init-method="activate" destroy-method="deactivate">
+		<property name="componentProvider" ref="componentProviderRef" />
+	</bean>
+
+	<service ref="setup"
+		interface="de.twenty11.skysail.server.services.ApplicationProvider" />
+
+	<reference id="componentProviderRef"
+		interface="de.twenty11.skysail.server.services.ComponentProvider" />
+
+
+</blueprint>
+

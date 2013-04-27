@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.restlet.Restlet;
@@ -55,6 +56,7 @@ public class Json2BootstrapConverterTest {
     }
 
     @Test
+    @Ignore
     public void calculates_correct_osgimonitor_breadcrumb_for_bundlePath() {
         addRoute("");
         addRoute("/");

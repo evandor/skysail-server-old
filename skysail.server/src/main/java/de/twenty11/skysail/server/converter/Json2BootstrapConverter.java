@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
 import org.osgi.framework.BundleContext;
 import org.restlet.Application;
+import org.restlet.Request;
 import org.restlet.data.MediaType;
 import org.restlet.data.Reference;
 import org.restlet.engine.converter.ConverterHelper;
@@ -21,7 +23,6 @@ import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.Resource;
 import org.restlet.routing.Route;
-import org.restlet.routing.TemplateRoute;
 import org.restlet.util.RouteList;
 
 import de.twenty11.skysail.common.PresentationStyle;
@@ -125,29 +126,44 @@ public class Json2BootstrapConverter extends ConverterHelper {
         SkysailApplication application = (SkysailApplication) resource.getApplication();
         RouteList routes = application.getRoutes();
 
+        List<String> segments = getCleanedSegments(reference);
+
         Reference rootRef = resource.getRootRef();
         if (!(resource.getApplication() instanceof DefaultSkysailApplication)) {
-            breadcrumbs.add(new Breadcrumb(rootRef.toString(), null, resource.getApplication().getName()));
+            breadcrumbs.add(new Breadcrumb(segments.size() <= 1 ? null : rootRef.toString(), null, resource
+                    .getApplication().getName()));
         }
 
-        List<String> segments = reference.getSegments();
-        String path = "/";
+        String path = "";
+        Route match = null;
         for (int i = 1; i < segments.size(); i++) {
-            path = path + segments.get(i);
-            for (Route route : routes) {
-                if (route instanceof TemplateRoute) {
-                    TemplateRoute tr = (TemplateRoute) route;
-                    String pattern = tr.getTemplate().getPattern();
-                    if (pattern.equals(path)) {
-                        breadcrumbs.add(new Breadcrumb("/" + resource.getApplication().getName() + path, null, path
-                                .replace("/", "")));
-                        break;
-                    }
+            path = path + "/" + segments.get(i);
+
+            Request request = resource.getRequest();
+            request.setResourceRef(new Reference(path));
+            Route best = routes.getBest(request, resource.getResponse(), 0.5f);
+            if (best != match) {
+                match = best;
+                if (i < segments.size() - 1) {
+                    breadcrumbs.add(new Breadcrumb("/" + resource.getApplication().getName() + path, null, segments
+                            .get(i)));
+                } else {
+                    breadcrumbs.add(new Breadcrumb(null, null, segments.get(i)));
                 }
             }
-
         }
         return breadcrumbs;
+    }
+
+    private List<String> getCleanedSegments(Reference reference) {
+        List<String> segments = reference.getSegments();
+        List<String> results = new ArrayList<String>();
+        for (String segment : segments) {
+            if (!StringUtils.isBlank(segment)) {
+                results.add(segment);
+            }
+        }
+        return results;
     }
 
     private String jsonToHtml(SkysailResponse<List<?>> skysailResponse, Resource resource) {
@@ -158,7 +174,6 @@ public class Json2BootstrapConverter extends ConverterHelper {
         long executionTimeInNanos = skysailResponse.getExecutionTime();
         float performance = new Long(1000000000) / executionTimeInNanos;
         page = page.replace("${performance}", String.format("%s", performance));
-        page = page.replace("${serverLoad}", String.format("%s", skysailResponse.getServerLoad()));
         page = page.replace("${result}", calcResult(skysailResponse));
         page = page.replace("${message}", skysailResponse.getMessage() == null ? "no message available"
                 : skysailResponse.getMessage());
@@ -220,6 +235,9 @@ public class Json2BootstrapConverter extends ConverterHelper {
         StringBuilder sb = new StringBuilder();
         List<Application> applications = ApplicationsService.getApplications(bundleContext);
         for (Application application : applications) {
+            if (application.getName().equalsIgnoreCase("static")) {
+                continue;
+            }
             String name = application.getName().substring(0, 1).toUpperCase() + application.getName().substring(1);
             sb.append("<li><a href='/").append(application.getName()).append("'>").append(name).append("</a></li>\n");
         }
@@ -258,9 +276,18 @@ public class Json2BootstrapConverter extends ConverterHelper {
         StringBuilder breadcrumb = new StringBuilder("<ul class=\"breadcrumb\">\n");
 
         List<Breadcrumb> breadcrumbList = getBreadcrumbList(resource);
+        int cnt = 0;
         for (Breadcrumb bc : breadcrumbList) {
-            breadcrumb.append("<li><a href=\"").append(bc.getHref()).append("\">");
-            breadcrumb.append(bc.getValue()).append("</a> <span class=\"divider\">/</span></li>\n");
+            if (bc.getHref() != null) {
+                breadcrumb.append("<li><a href=\"").append(bc.getHref()).append("\">");
+                breadcrumb.append(bc.getValue()).append("</a>");
+            } else {
+                breadcrumb.append("<li><b>");
+                breadcrumb.append(bc.getValue()).append("</b>");
+            }
+            if (++cnt < breadcrumbList.size()) {
+                breadcrumb.append(" <span class=\"divider\">/</span></li>\n");
+            }
         }
         breadcrumb.append("</ul>\n");
         return breadcrumb;

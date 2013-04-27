@@ -6,13 +6,22 @@
 	<parent>
 		<groupId>de.twentyeleven.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.8.33</version>
+		<version>0.8.34-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>skysail.server.management</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>skysail.server.management created by skysail archetype</name>
+    <name>SKYSAIL :: server :: management</name>
 	<packaging>bundle</packaging>
+
+	<scm>
+		<!-- read access -->
+		<connection>scm:git:git@github.com:evandor/skysail-server.git</connection>
+		<!-- write access -->
+		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
+		<!-- A publicly browsable repository. For example, via ViewCVS. -->
+		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
+	</scm>
 
 	<build>
 		<plugins>
@@ -33,15 +42,7 @@
 		<dependency>
 			<groupId>de.twentyeleven.skysail</groupId>
 			<artifactId>skysail.server</artifactId>
-			<version>[0.2.11-SNAPSHOT, 1.0)</version>
-		</dependency>
-
-		<dependency>
-			<groupId>de.twentyeleven.skysail</groupId>
-			<artifactId>skysail.common</artifactId>
-			<version>[0.3.18, 1.0)</version>
-			<scope>test</scope>
-			<type>test-jar</type>
+			<version>[0.2.13-SNAPSHOT, 1.0)</version>
 		</dependency>
 
         <!-- testing with pax exam -->

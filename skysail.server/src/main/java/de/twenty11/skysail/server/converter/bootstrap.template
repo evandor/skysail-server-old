@@ -101,7 +101,7 @@
 				<p id="history">no history</p>
 				<hr>
 				<h6>Performance</h6>
-				<p><small>Speed: ${performance} / Load: ${serverLoad}</small></p>
+				<p><small>Speed: ${performance} / Load: <span id="serverLoad" title="serverLoad refreshing every 10 sec.">...</span></small></p>
 				<hr>
 				<h6>Alternative Presentations</h6>
 				<p>${presentations}</p>
@@ -148,6 +148,28 @@
 		}
 
 		history.innerHTML = historyHtml;
+				
+    	function poll(){
+           setTimeout(function(){
+              $.ajax({ 
+                url: "/management/serverLoad?media=json", 
+                success: function(data) {
+                  $("#serverLoad").html(data.data);
+                  poll();
+                }, 
+                error: function(xhr, status, error) {
+                  $("#serverLoad").html(status);
+                }, 
+                dataType: "json"
+              });
+           }, 
+           10000);
+        }	
+
+        $( document ).ready(function() {
+            // trigger first execution
+            poll();
+        });
 				
 	</script>
 

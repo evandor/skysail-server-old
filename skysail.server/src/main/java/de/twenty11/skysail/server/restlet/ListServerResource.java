@@ -17,7 +17,6 @@
 
 package de.twenty11.skysail.server.restlet;
 
-import java.lang.management.OperatingSystemMXBean;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +42,6 @@ import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.common.selfdescription.ResourceDetails;
-import de.twenty11.skysail.server.internal.Configuration;
 
 /**
  * An class dealing with common functionality for a skysail server resource..
@@ -114,11 +112,6 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
                 successResponse.setMessage(getMessage());
             }
             if (getContext() != null) {
-                Object beanAsObject = getContext().getAttributes().get(Configuration.CONTEXT_OPERATING_SYSTEM_BEAN);
-                if (beanAsObject != null && beanAsObject instanceof OperatingSystemMXBean) {
-                    OperatingSystemMXBean bean = (OperatingSystemMXBean) beanAsObject;
-                    successResponse.setServerLoad(bean.getSystemLoadAverage());
-                }
                 Long executionStarted = (Long) getContext().getAttributes().get(Timer.CONTEXT_EXECUTION_STARTED);
                 if (executionStarted != null) {
                     successResponse.setExecutionTime(System.nanoTime() - executionStarted);
@@ -145,11 +138,6 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
                 successResponse.setMessage(getMessage());
             }
             if (getContext() != null) {
-                Object beanAsObject = getContext().getAttributes().get(Configuration.CONTEXT_OPERATING_SYSTEM_BEAN);
-                if (beanAsObject != null && beanAsObject instanceof OperatingSystemMXBean) {
-                    OperatingSystemMXBean bean = (OperatingSystemMXBean) beanAsObject;
-                    successResponse.setServerLoad(bean.getSystemLoadAverage());
-                }
                 Long executionStarted = (Long) getContext().getAttributes().get(Timer.CONTEXT_EXECUTION_STARTED);
                 if (executionStarted != null) {
                     successResponse.setExecutionTime(System.nanoTime() - executionStarted);
@@ -188,8 +176,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         }
     }
 
-    protected SkysailResponse<T> addEntity(EntityManager em, T entity,
-            Set<ConstraintViolation<T>> violations) {
+    protected SkysailResponse<T> addEntity(EntityManager em, T entity, Set<ConstraintViolation<T>> violations) {
         if (violations.size() > 0) {
             // if (constraintViolations.getMsg() != null) {
             logger.warn("contraint violations found on {}: {}", entity, violations);
@@ -312,8 +299,8 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
         if (builder.isVisible()) {
             String from = getHostRef() + "/" + getApplication().getName() + entry.getKey();
             String text = builder.getText() != null ? builder.getText() : from;
-            ResourceDetails resourceDetails = new ResourceDetails(from, text, builder.getTargetClass()
-                    .toString(), "desc");
+            ResourceDetails resourceDetails = new ResourceDetails(from, text, builder.getTargetClass().toString(),
+                    "desc");
             result.add(resourceDetails);
         }
     }

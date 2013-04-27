@@ -23,4 +23,11 @@ public final class Breadcrumb {
     public String getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(value);
+        sb.append(" (").append(href).append(")");
+        return sb.toString();
+    }
 }

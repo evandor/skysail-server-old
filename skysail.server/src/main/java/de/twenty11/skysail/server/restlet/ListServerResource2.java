@@ -17,7 +17,6 @@
 
 package de.twenty11.skysail.server.restlet;
 
-import java.lang.management.OperatingSystemMXBean;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +39,6 @@ import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.common.selfdescription.ResourceDetails;
-import de.twenty11.skysail.server.internal.Configuration;
 
 /**
  * trying to improve ListServerResource
@@ -98,11 +96,6 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
                 successResponse.setMessage(getMessage());
             }
             if (getContext() != null) {
-                Object beanAsObject = getContext().getAttributes().get(Configuration.CONTEXT_OPERATING_SYSTEM_BEAN);
-                if (beanAsObject != null && beanAsObject instanceof OperatingSystemMXBean) {
-                    OperatingSystemMXBean bean = (OperatingSystemMXBean) beanAsObject;
-                    successResponse.setServerLoad(bean.getSystemLoadAverage());
-                }
                 Long executionStarted = (Long) getContext().getAttributes().get(Timer.CONTEXT_EXECUTION_STARTED);
                 if (executionStarted != null) {
                     successResponse.setExecutionTime(System.nanoTime() - executionStarted);
