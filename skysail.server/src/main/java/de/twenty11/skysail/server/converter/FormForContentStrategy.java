@@ -1,5 +1,6 @@
 package de.twenty11.skysail.server.converter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class FormForContentStrategy extends AbstractHtmlCreatingStrategy {
 
         StringBuilder sb = new StringBuilder("<form class='form-horizontal' action='" + action + "' method='POST'>\n");
 
-        java.lang.reflect.Field[] fields = response.getClass().getDeclaredFields();
+        List<java.lang.reflect.Field> fields = getInheritedFields(response.getClass());// response.getClass().getFields();
         for (java.lang.reflect.Field field : fields) {
             Field formField = field.getAnnotation(Field.class);
             if (formField == null) {
@@ -88,6 +89,24 @@ public class FormForContentStrategy extends AbstractHtmlCreatingStrategy {
         sb.append("</form>\n");
         page = page.replace("${content}", sb.toString());
         return page;
+    }
+
+    private List<java.lang.reflect.Field> getInheritedFields(Class<?> type) {
+        List<java.lang.reflect.Field> result = new ArrayList<java.lang.reflect.Field>();
+
+        Class<?> i = type;
+        while (i != null && i != Object.class) {
+            while (i != null && i != Object.class) {
+                for (java.lang.reflect.Field field : i.getDeclaredFields()) {
+                    if (!field.isSynthetic()) {
+                        result.add(field);
+                    }
+                }
+                i = i.getSuperclass();
+            }
+        }
+
+        return result;
     }
 
     private int handleDataElementsForTable(StringBuilder sb, int i, Object object) {

@@ -84,6 +84,9 @@ public abstract class AbstractHtmlCreatingStrategy implements HtmlCreatingStrate
 
     private String getInner(Presentable presentable) {
         StringBuilder sb = new StringBuilder("<table class=\"table table-hover\" style='width:90%'>\n");
+        if (presentable.getContent() == null) {
+            return sb.append("</table>\n").toString();
+        }
         for (Entry<String, Object> row : presentable.getContent().entrySet()) {
             sb.append("<tr>\n");
             sb.append("<th style='width:200px;'>").append(row.getKey()).append("</th>");
@@ -95,7 +98,7 @@ public abstract class AbstractHtmlCreatingStrategy implements HtmlCreatingStrate
                 for (Object object : list) {
                     if (object instanceof Presentable) {
                         PresentableHeader header = ((Presentable) object).getHeader();
-                        valueSb.append("<a href='" + header.getLink() + "'>").append(header.getText()).append("</a>");
+                        valueSb.append(header.getLink());
                     } else {
                         valueSb.append(object.toString()).append(", ");
                     }
@@ -114,8 +117,7 @@ public abstract class AbstractHtmlCreatingStrategy implements HtmlCreatingStrate
 
     private void printPresentableHeader(StringBuilder sb, Entry<String, Object> row) {
         PresentableHeader header = ((Presentable) row.getValue()).getHeader();
-        sb.append("<td style='width:600px;'><a href='" + header.getLink() + "'>").append(header.getText())
-                .append("</a></td>\n");
+        sb.append("<td style='width:600px;'>").append(header.getLink()).append("</td>\n");
     }
 
 }
