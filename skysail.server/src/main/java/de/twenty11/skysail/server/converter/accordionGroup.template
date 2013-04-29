@@ -1,6 +1,6 @@
 					<div class="accordion-group">
 						<div class="accordion-heading">
-							<i class="${headerImage}"></i>&nbsp;<a href='${hlink}'>${headerText}</a>&nbsp;<a class="accordion-toggle" data-toggle="collapse" style="display:inline;"
+							<i class="${headerImage}"></i>&nbsp;${hlink}&nbsp;<a class="accordion-toggle" data-toggle="collapse" style="display:inline;"
 								data-parent="#accordion2" href="#collapse${index}"><i class="icon-zoom-in"></i></a>&nbsp;
 						</div>
 						<div id="collapse${index}" class="accordion-body collapse">

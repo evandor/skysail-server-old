@@ -2,9 +2,11 @@ package de.twenty11.skysail.server.restlet;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.restlet.Context;
+import org.restlet.resource.ServerResource;
 import org.restlet.routing.Router;
 
 public class SkysailRouter extends Router {
@@ -30,6 +32,15 @@ public class SkysailRouter extends Router {
 
     public Map<String, RouteBuilder> getRouteBuilders() {
         return Collections.unmodifiableMap(routes);
+    }
+
+    public String getTemplatePathForResource(Class<? extends ServerResource> cls) {
+        for (Entry<String, RouteBuilder> entries : routes.entrySet()) {
+            if (entries.getValue().getTargetClass().equals(cls)) {
+                return entries.getKey();
+            }
+        }
+        return null;
     }
 
 }

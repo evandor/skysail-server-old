@@ -150,4 +150,8 @@ public abstract class SkysailApplication extends Application {
         this.verifier = verifier;
     }
 
+    public String getLinkTo(Class<? extends ServerResource> cls) {
+        return router.getTemplatePathForResource(cls);
+    }
+
 }
