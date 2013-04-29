@@ -153,7 +153,7 @@ public abstract class SkysailApplication extends Application {
 
     public String getLinkTo(Reference reference, Class<? extends ServerResource> cls) {
         String relativePath = router.getTemplatePathForResource(cls);
-        return new Reference(reference, relativePath).getTargetRef().toString();
+        return reference.toString() + relativePath;
     }
 
 }
