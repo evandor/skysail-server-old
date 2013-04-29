@@ -11,6 +11,7 @@ import org.restlet.Restlet;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.data.ClientInfo;
 import org.restlet.data.Protocol;
+import org.restlet.data.Reference;
 import org.restlet.engine.Engine;
 import org.restlet.engine.converter.ConverterHelper;
 import org.restlet.resource.ServerResource;
@@ -150,8 +151,9 @@ public abstract class SkysailApplication extends Application {
         this.verifier = verifier;
     }
 
-    public String getLinkTo(Class<? extends ServerResource> cls) {
-        return router.getTemplatePathForResource(cls);
+    public String getLinkTo(Reference reference, Class<? extends ServerResource> cls) {
+        String relativePath = router.getTemplatePathForResource(cls);
+        return new Reference(reference, relativePath).getTargetRef().toString();
     }
 
 }

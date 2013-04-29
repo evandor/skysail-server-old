@@ -27,6 +27,7 @@ public class SkysailRouterTest {
         skysailRouter.attach(routeBuilder);
         assertThat(skysailRouter.getRoutes().size(), is(equalTo(1)));
         assertThat(skysailRouter.getRouteBuilder("path").getText(), is(equalTo("hi")));
+        assertThat(skysailRouter.getTemplatePathForResource(ServerResource.class),is(equalTo("path")));
     }
 
 }
