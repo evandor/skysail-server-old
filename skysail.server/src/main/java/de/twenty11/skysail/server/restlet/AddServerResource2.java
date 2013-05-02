@@ -9,7 +9,6 @@ import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
 import org.restlet.data.Form;
-import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.slf4j.Logger;
@@ -17,7 +16,9 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.Presentation;
 import de.twenty11.skysail.common.PresentationStyle;
+import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FormResponse;
+import de.twenty11.skysail.common.responses.SkysailResponse;
 
 @Presentation(preferred = PresentationStyle.EDIT)
 public abstract class AddServerResource2<T> extends SkysailServerResource2<T> {
@@ -46,14 +47,14 @@ public abstract class AddServerResource2<T> extends SkysailServerResource2<T> {
      */
     public abstract T getData(Form form);
 
-    public abstract Representation addEntity(T entity);
+    public abstract SkysailResponse<?> addEntity(T entity);
 
     @Post("x-www-form-urlencoded:html")
-    public Representation addFromForm(Form form) {
+    public SkysailResponse<?> addFromForm(Form form) {
         T entity = getData(form);
         Set<ConstraintViolation<T>> violations = validate(entity);
         if (violations.size() > 0) {
-            // return new ConstraintViolationsResponse(entity, violations);
+            return new ConstraintViolationsResponse(entity, violations);
         }
         return addEntity(entity);
     }

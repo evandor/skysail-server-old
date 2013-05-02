@@ -69,6 +69,11 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
         validator = factory.getValidator();
     }
 
+    public ListServerResource2(ServerResource sr) {
+        super();
+        init(sr.getContext(), sr.getRequest(), sr.getResponse());
+    }
+
     @Get("html|json|csv")
     public SkysailResponse<List<T>> getEntities() {
         return getEntities("default implementation... you might want to override ListServerResource2#getEntities in "

@@ -42,6 +42,10 @@ public abstract class SkysailRepository<T> {
         entityManager.getTransaction().commit();
     }
 
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
     private String getEntityName() {
         return getEntityClass().getName();
     }

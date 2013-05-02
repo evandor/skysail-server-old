@@ -230,7 +230,7 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
 
     /**
      * Describes the OPTIONS method.<br>
-     * By default it describes the response with the available variants based on the {@link #getWadlVariants()} method.
+     * By default it describes the response with the available variants based on the  method.
      * 
      * @param info
      *            The method description to update.
@@ -295,6 +295,29 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
         pages.add(page);
         ConcurrentMap<String, Object> attributes = getContext().getAttributes();
         attributes.put(CONTEXT_LINKED_PAGES, pages);
+
+    }
+
+    protected LinkedPage addResourceLink(final String linkText, final Class<? extends ServerResource> sr) {
+        LinkedPage linkedPage = new LinkedPage() {
+
+            @Override
+            public boolean applicable() {
+                return true;
+            }
+
+            @Override
+            public String getHref() {
+                return ((SkysailApplication) getApplication()).getLinkTo(getRootRef(), sr);
+            }
+
+            @Override
+            public String getLinkText() {
+                return linkText;
+            }
+        };
+        registerLinkedPage(linkedPage);
+        return linkedPage;
 
     }
 
