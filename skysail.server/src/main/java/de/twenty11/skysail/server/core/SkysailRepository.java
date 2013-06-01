@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server;
+package de.twenty11.skysail.server.core;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +22,8 @@ public abstract class SkysailRepository<T> {
         List<T> resultList = entityManager.createQuery(getAllQuery()).getResultList();
         List<T> filteredResults = new ArrayList<T>();
         for (T details : resultList) {
-            // if (filterMatches(details)) {
+            // TODO add (filterMatches(details)) {
             filteredResults.add(details);
-            // }
         }
         return filteredResults;
     }
@@ -32,8 +31,7 @@ public abstract class SkysailRepository<T> {
     public T find(String name) {
         TypedQuery<T> query = entityManager.createQuery(getQuery(), getEntityClass());
         query.setParameter("name", name);
-        T result = (T) query.getSingleResult();
-        return result;
+        return (T) query.getSingleResult();
     }
 
     public void add(T entity) {

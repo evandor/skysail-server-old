@@ -110,7 +110,8 @@ public class ServerConfiguration {// used to implements ManagedService,
             server.start();
             return server;
         } catch (Exception e) {
-            logger.error("Exception when starting standalone server trying to parse provided port ("+portAsString+")", e);
+            logger.error("Exception when starting standalone server trying to parse provided port (" + portAsString
+                    + ")", e);
             return null;
         }
     }
@@ -125,7 +126,6 @@ public class ServerConfiguration {// used to implements ManagedService,
             return verifier;
         } catch (Exception e) {
             logger.error("Configuring secretVerifier encountered a problem: {}", e.getMessage());
-            e.printStackTrace();
             throw new ConfigurationException("secrets", "file not found", e);
         }
     }
