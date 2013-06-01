@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.converter.test;
+package de.twenty11.skysail.server.presentation.test;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -18,8 +18,8 @@ import org.restlet.routing.Router;
 import org.restlet.routing.TemplateRoute;
 import org.restlet.util.RouteList;
 
-import de.twenty11.skysail.server.converter.Breadcrumb;
-import de.twenty11.skysail.server.converter.Json2BootstrapConverter;
+import de.twenty11.skysail.server.presentation.Breadcrumb;
+import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 
 public class Json2BootstrapConverterTest {

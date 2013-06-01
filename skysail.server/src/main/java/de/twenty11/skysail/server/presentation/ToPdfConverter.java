@@ -1,15 +1,21 @@
-package de.twenty11.skysail.server.converter;
+package de.twenty11.skysail.server.presentation;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.restlet.data.MediaType;
 import org.restlet.engine.converter.ConverterHelper;
 import org.restlet.engine.resource.VariantInfo;
 import org.restlet.ext.jackson.JacksonRepresentation;
+import org.restlet.representation.OutputRepresentation;
 import org.restlet.representation.Representation;
-import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.Resource;
 
@@ -23,7 +29,31 @@ import de.twenty11.skysail.common.responses.SkysailResponse;
  * @author carsten
  * 
  */
-public class ToCsvConverter extends ConverterHelper {
+public class ToPdfConverter extends ConverterHelper {
+
+    public class PdfOutputRepresentation extends OutputRepresentation {
+
+
+        private PDDocument document;
+
+        public PdfOutputRepresentation(MediaType mediaType, PDDocument document) {
+            super(mediaType);
+            this.document = document;
+        }
+
+        @Override
+        public void write(OutputStream outputStream) throws IOException {
+            try {
+                document.save(outputStream);
+            } catch (COSVisitorException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } finally {
+                document.close();
+            }
+        }
+
+    }
 
     private static final VariantInfo VARIANT_JSON = new VariantInfo(MediaType.APPLICATION_EXCEL);
 
@@ -33,7 +63,7 @@ public class ToCsvConverter extends ConverterHelper {
         if (!(source instanceof de.twenty11.skysail.common.responses.SkysailResponse)) {
             return 0.0F;
         }
-        if (target.getMediaType().equals(MediaType.TEXT_CSV)) {
+        if (target.getMediaType().equals(MediaType.APPLICATION_PDF)) {
             result = 1.0F;
         } else {
             result = 0.1F;
@@ -85,62 +115,89 @@ public class ToCsvConverter extends ConverterHelper {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public Representation toRepresentation(Object source, Variant target, Resource resource) {
-        Representation representation;
+    public OutputRepresentation toRepresentation(Object source, Variant target, Resource resource) {
+        OutputRepresentation representation;
         try {
-            representation = new StringRepresentation(toCsv((SkysailResponse) source, resource));
+            representation = toPdf((SkysailResponse) source, resource);
         } catch (Exception e) {
-            representation = new StringRepresentation(toCsv(new FailureResponse(e), resource));
+            representation = toPdf(new FailureResponse(e), resource);
         }
-        representation.setMediaType(MediaType.TEXT_CSV);
+        representation.setMediaType(MediaType.APPLICATION_PDF);
         return representation;
     }
 
-    private String toCsv(SkysailResponse<List<?>> skysailResponse, Resource resource) {
+    private OutputRepresentation toPdf(SkysailResponse<List<?>> skysailResponse, Resource resource) {
         if (skysailResponse instanceof FailureResponse) {
-            return skysailResponse.getMessage();
+            return null;// skysailResponse.getMessage();
         }
 
         Object skysailResponseAsObject = skysailResponse.getData();
         if (skysailResponseAsObject != null) {
-            return createCsvForContent(skysailResponseAsObject);
+            return createPdfForContent(skysailResponseAsObject);
         } else {
-            return "no data";
+            return null;// "no data";
         }
     }
 
-    private String createCsvForContent(Object skysailResponseAsObject) {
-        StringBuilder sb = new StringBuilder("");
+    private OutputRepresentation createPdfForContent(Object skysailResponseAsObject) {
+
+        PDDocument document;
+        try {
+            document = new PDDocument();
+            writeToPdf(document, skysailResponseAsObject);
+            PdfOutputRepresentation por = new PdfOutputRepresentation(MediaType.APPLICATION_PDF, document);
+            return por;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void writeToPdf(PDDocument document, Object skysailResponseAsObject) throws IOException {
+
+        PDPage page = new PDPage();
+        document.addPage(page);
+        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
         if (skysailResponseAsObject instanceof List) {
             List<?> data = (List<?>) skysailResponseAsObject;
             if (data != null) {
-                if (data.size() > 0) {
-                    handleHeaderElementsForList(sb, data.get(0));
-                }
+                int i = 0;
+                int pos = 700;
                 for (Object object : data) {
-                    handleDataElementsForList(sb, object);
+                    pos = pos - (i * 10);
+                    if (pos < 10) {
+                        contentStream.close();
+                        page = new PDPage();
+                        document.addPage(page);
+                        contentStream = new PDPageContentStream(document, page);
+                        pos += 700;
+                    }
+                    handleDataElementsForList(document, contentStream, object, pos, i++);
                 }
             }
         } else {
-            handleDataElementsForList(sb, skysailResponseAsObject);
+            // handleDataElementsForList(sb, skysailResponseAsObject);
         }
-        sb.append("");
-        return sb.toString();
+        contentStream.close();
     }
 
-    private void handleDataElementsForList(StringBuilder sb, Object object) {
+    private void handleDataElementsForList(PDDocument document, PDPageContentStream contentStream, Object object,
+            int pos, int cnt)
+            throws IOException {
+
         if (object instanceof Presentable) {
             Presentable presentable = (Presentable) object;
-            boolean empty = true;
             for (Entry<String, Object> row : presentable.getContent().entrySet()) {
-                sb.append(row.getValue() != null ? row.getValue().toString() : "".replace("\"", "\\\"")).append(",");
-                empty = false;
+                contentStream.beginText();
+                contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
+                contentStream.moveTextPositionByAmount(20, pos);
+                contentStream.drawString(row.getValue() != null ? row.getValue().toString() : "-");
+                contentStream.endText();
             }
-            if (!empty) {
-                sb.deleteCharAt(sb.length() - 1);
-            }
-            sb.append("\n");
         }
+
     }
 
     private void handleHeaderElementsForList(StringBuilder sb, Object object) {

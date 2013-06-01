@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.converter;
+package de.twenty11.skysail.server.presentation;
 
 import org.osgi.framework.BundleContext;
 import org.restlet.data.MediaType;

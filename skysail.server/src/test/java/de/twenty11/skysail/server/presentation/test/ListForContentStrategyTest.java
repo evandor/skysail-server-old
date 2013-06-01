@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.converter.test;
+package de.twenty11.skysail.server.presentation.test;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.server.converter.ListForContentStrategy;
+import de.twenty11.skysail.server.presentation.ListForContentStrategy;
 
 import static org.junit.Assert.assertThat;
 

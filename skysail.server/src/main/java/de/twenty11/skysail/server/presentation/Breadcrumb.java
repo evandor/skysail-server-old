@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.converter;
+package de.twenty11.skysail.server.presentation;
 
 public final class Breadcrumb {
 

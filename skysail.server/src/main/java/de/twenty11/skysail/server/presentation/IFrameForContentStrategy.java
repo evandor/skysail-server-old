@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.converter;
+package de.twenty11.skysail.server.presentation;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
 

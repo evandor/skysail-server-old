@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.converter.test;
+package de.twenty11.skysail.server.presentation.test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import de.twenty11.skysail.server.converter.Json2HtmlConverter;
+import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
 
 public class Json2HtmlConverterTest {
 

@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.converter.test;
+package de.twenty11.skysail.server.presentation.test;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +8,7 @@ import org.restlet.resource.Resource;
 
 import de.twenty11.skysail.common.Presentation;
 import de.twenty11.skysail.common.PresentationStyle;
-import de.twenty11.skysail.server.converter.ConverterUtils;
+import de.twenty11.skysail.server.presentation.ConverterUtils;
 
 import static org.junit.Assert.assertThat;
 
