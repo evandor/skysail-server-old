@@ -22,7 +22,7 @@ public abstract class SkysailRepository<T> {
         List<T> resultList = entityManager.createQuery(getAllQuery()).getResultList();
         List<T> filteredResults = new ArrayList<T>();
         for (T details : resultList) {
-            // TODO add (filterMatches(details)) {
+            // TODO add filterMatches
             filteredResults.add(details);
         }
         return filteredResults;

@@ -18,14 +18,10 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.config.ConfigurationProvider;
 
-public class ServerConfiguration {// used to implements ManagedService,
+public class ServerConfiguration {
 
     private final static Logger logger = LoggerFactory.getLogger(ServerConfiguration.class);
     private static BasicDataSource defaultDS;
-
-    public ServerConfiguration() {
-        System.out.println("hier");
-    }
 
     private List<ConfigurationProvider> configurationProviders = Collections
             .synchronizedList(new ArrayList<ConfigurationProvider>());
@@ -44,7 +40,6 @@ public class ServerConfiguration {// used to implements ManagedService,
         configurationProviders.remove(provider);
     }
 
-    // @Override
     public String getConfigForKey(String key) {
         for (ConfigurationProvider provider : configurationProviders) {
             if (provider.getConfigForKey(key) != null) {
@@ -83,11 +78,13 @@ public class ServerConfiguration {// used to implements ManagedService,
             logger.error("could not find 'secrets' configuration; no one will be able to log in!");
             return false;
         }
+        @SuppressWarnings("rawtypes")
         Dictionary secretsProperties = secrets.getProperties();
         if (secretsProperties == null || secretsProperties.keys() == null) {
             logger.error("secretProperties is null or empty; no one will be able to log in!");
             return false;
         }
+        @SuppressWarnings("rawtypes")
         Enumeration keys = secretsProperties.keys();
         while (keys.hasMoreElements()) {
             String key = (String) keys.nextElement();
