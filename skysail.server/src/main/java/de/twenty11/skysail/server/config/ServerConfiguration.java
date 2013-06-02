@@ -7,7 +7,6 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.cm.ConfigurationException;
 import org.restlet.Server;
@@ -18,25 +17,27 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.config.ConfigurationProvider;
 
+/**
+ * keeps a list of {@link ConfigurationProvider}s to query for configuration keys.
+ * 
+ * ConfigurationProviders can be added or removed; the first provider with a not-null value for a given key is used.
+ * There is no specific order enforced on the ConfigurationProviders.
+ * 
+ */
 public class ServerConfiguration {
 
     private static Logger logger = LoggerFactory.getLogger(ServerConfiguration.class);
-    private static BasicDataSource defaultDS;
 
     private List<ConfigurationProvider> configurationProviders = Collections
             .synchronizedList(new ArrayList<ConfigurationProvider>());
 
-    public static BasicDataSource getDefaultDS() {
-        return defaultDS;
-    }
-
     public void addConfigurationProvider(ConfigurationProvider provider) {
-        if (!(provider instanceof ServerConfiguration)) {
-            configurationProviders.add(provider);
-        }
+        logger.info("adding configuration provider {}", provider.getName());
+        configurationProviders.add(provider);
     }
 
     public void removeConfigurationProvider(ConfigurationProvider provider) {
+        logger.info("removing configuration provider {}", provider.getName());
         configurationProviders.remove(provider);
     }
 
@@ -49,22 +50,22 @@ public class ServerConfiguration {
         return null;
     }
 
-    public boolean shouldStartComponent(String classname) {
-        String componentToStart = (String) getConfigForKey("component");
-        if (componentToStart == null || componentToStart.trim().length() == 0) {
-            return true;
-        }
-        String[] packageParts = classname.split("\\.");
-        for (String part : packageParts) {
-            if (part.equals("de") || part.equals("server") || part.equals("ext") || part.equals("internal")) {
-                continue;
-            }
-            if (part.equals(componentToStart)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // public boolean shouldStartComponent(String classname) {
+    // String componentToStart = (String) getConfigForKey("component");
+    // if (componentToStart == null || componentToStart.trim().length() == 0) {
+    // return true;
+    // }
+    // String[] packageParts = classname.split("\\.");
+    // for (String part : packageParts) {
+    // if (part.equals("de") || part.equals("server") || part.equals("ext") || part.equals("internal")) {
+    // continue;
+    // }
+    // if (part.equals(componentToStart)) {
+    // return true;
+    // }
+    // }
+    // return false;
+    // }
 
     public boolean setSecretVerifier(MapVerifier verifier, ConfigurationAdmin configadmin) throws IOException {
         org.osgi.service.cm.Configuration secrets;
