@@ -154,9 +154,6 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
     // TODO move to uniqueresultServerResource
     protected SkysailResponse<T> getEntity(T data) {
         try {
-            SkysailApplication app = (SkysailApplication) getApplication();
-            Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener()
-                    .getMappings() : null;
             return new SuccessResponse<T>(data);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

@@ -11,8 +11,7 @@ public class ApplicationInfo extends DocumentedInfo {
     private List<MethodInfo> methods;
 
     /**
-     * Map of namespaces used in the WADL document. The key is the URI of the
-     * namespace and the value, the prefix.
+     * Map of namespaces used in the WADL document. The key is the URI of the namespace and the value, the prefix.
      */
     private Map<String, String> namespaces;
 
@@ -21,12 +20,6 @@ public class ApplicationInfo extends DocumentedInfo {
 
     /** Resources provided by the application. */
     private ResourcesInfo resources;
-
-    /**
-     * Describes a set of methods that define the behavior of a type of
-     * resource.
-     */
-    //private List<ResourceTypeInfo> resourceTypes;
 
     @Override
     public String toString() {
@@ -78,9 +71,9 @@ public class ApplicationInfo extends DocumentedInfo {
      * 
      * @return The grammar elements.
      */
-//    public GrammarsInfo getGrammars() {
-//        return this.grammars;
-//    }
+    // public GrammarsInfo getGrammars() {
+    // return this.grammars;
+    // }
 
     /**
      * Returns the list of method elements.
@@ -144,38 +137,38 @@ public class ApplicationInfo extends DocumentedInfo {
      * 
      * @return The resources root element.
      */
-//    public ResourcesInfo getResources() {
-//        // Lazy initialization with double-check.
-//        ResourcesInfo r = this.resources;
-//        if (r == null) {
-//            synchronized (this) {
-//                r = this.resources;
-//                if (r == null) {
-//                    this.resources = r = new ResourcesInfo();
-//                }
-//            }
-//        }
-//        return r;
-//    }
+    // public ResourcesInfo getResources() {
+    // // Lazy initialization with double-check.
+    // ResourcesInfo r = this.resources;
+    // if (r == null) {
+    // synchronized (this) {
+    // r = this.resources;
+    // if (r == null) {
+    // this.resources = r = new ResourcesInfo();
+    // }
+    // }
+    // }
+    // return r;
+    // }
 
     /**
      * Returns the list of resource type elements.
      * 
      * @return The list of resource type elements.
      */
-//    public List<ResourceTypeInfo> getResourceTypes() {
-//        // Lazy initialization with double-check.
-//        List<ResourceTypeInfo> rt = this.resourceTypes;
-//        if (rt == null) {
-//            synchronized (this) {
-//                rt = this.resourceTypes;
-//                if (rt == null) {
-//                    this.resourceTypes = rt = new ArrayList<ResourceTypeInfo>();
-//                }
-//            }
-//        }
-//        return rt;
-//    }
+    // public List<ResourceTypeInfo> getResourceTypes() {
+    // // Lazy initialization with double-check.
+    // List<ResourceTypeInfo> rt = this.resourceTypes;
+    // if (rt == null) {
+    // synchronized (this) {
+    // rt = this.resourceTypes;
+    // if (rt == null) {
+    // this.resourceTypes = rt = new ArrayList<ResourceTypeInfo>();
+    // }
+    // }
+    // }
+    // return rt;
+    // }
 
     /**
      * Sets the grammars element.
@@ -183,10 +176,10 @@ public class ApplicationInfo extends DocumentedInfo {
      * @param grammars
      *            The grammars element.
      */
-//    public void setGrammars(GrammarsInfo grammars) {
-//        this.grammars = grammars;
-//    }
-    
+    // public void setGrammars(GrammarsInfo grammars) {
+    // this.grammars = grammars;
+    // }
+
     /**
      * Sets the list of resource elements.
      * 
@@ -200,7 +193,7 @@ public class ApplicationInfo extends DocumentedInfo {
     public void setRepresentations(List<RepresentationInfo> representations) {
         this.representations = representations;
     }
-    
+
     /**
      * Sets the list of documentation elements.
      * 
@@ -212,8 +205,8 @@ public class ApplicationInfo extends DocumentedInfo {
     }
 
     /**
-     * Sets the map of namespaces used in the WADL document. The key is the URI
-     * of the namespace and the value, the prefix.
+     * Sets the map of namespaces used in the WADL document. The key is the URI of the namespace and the value, the
+     * prefix.
      * 
      * @param namespaces
      *            The map of namespaces used in the WADL document.
@@ -225,28 +218,26 @@ public class ApplicationInfo extends DocumentedInfo {
     @Override
     public void updateNamespaces(Map<String, String> namespaces) {
         namespaces.putAll(resolveNamespaces());
-//
-//        if (getGrammars() != null) {
-//            getGrammars().updateNamespaces(namespaces);
-//        }
-//
-//        for (final MethodInfo methodInfo : getMethods()) {
-//            methodInfo.updateNamespaces(namespaces);
-//        }
-//
-//        for (final RepresentationInfo representationInfo : getRepresentations()) {
-//            representationInfo.updateNamespaces(namespaces);
-//        }
-//
-//        if (getResources() != null) {
-//            getResources().updateNamespaces(namespaces);
-//        }
-//
-//        for (final ResourceTypeInfo resourceTypeInfo : getResourceTypes()) {
-//            resourceTypeInfo.updateNamespaces(namespaces);
-//        }
+        //
+        // if (getGrammars() != null) {
+        // getGrammars().updateNamespaces(namespaces);
+        // }
+        //
+        // for (final MethodInfo methodInfo : getMethods()) {
+        // methodInfo.updateNamespaces(namespaces);
+        // }
+        //
+        // for (final RepresentationInfo representationInfo : getRepresentations()) {
+        // representationInfo.updateNamespaces(namespaces);
+        // }
+        //
+        // if (getResources() != null) {
+        // getResources().updateNamespaces(namespaces);
+        // }
+        //
+        // for (final ResourceTypeInfo resourceTypeInfo : getResourceTypes()) {
+        // resourceTypeInfo.updateNamespaces(namespaces);
+        // }
     }
-
-
 
 }

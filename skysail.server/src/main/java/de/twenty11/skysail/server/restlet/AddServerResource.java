@@ -21,6 +21,7 @@ import de.twenty11.skysail.common.responses.FormResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 
 @Presentation(preferred = PresentationStyle.EDIT)
+@Deprecated
 public abstract class AddServerResource<T> extends SkysailServerResource2<T> {
 
     /** slf4j based logger implementation. */
