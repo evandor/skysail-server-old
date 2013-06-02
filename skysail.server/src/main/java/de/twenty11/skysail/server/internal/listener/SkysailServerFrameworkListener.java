@@ -15,7 +15,7 @@
  * 
  */
 
-package de.twenty11.skysail.server.listener;
+package de.twenty11.skysail.server.internal.listener;
 
 import org.osgi.framework.FrameworkEvent;
 import org.osgi.framework.FrameworkListener;

@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.listener.test;
+package de.twenty11.skysail.server.internal.listener.test;
 
 
 import static org.hamcrest.Matchers.equalTo;
@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.osgi.framework.BundleEvent;
 
-import de.twenty11.skysail.server.listener.SkysailServerBundleListener;
+import de.twenty11.skysail.server.internal.listener.SkysailServerBundleListener;
 
 public class SkysailServerBundleListenerTest {
 

@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.server.internal.Blocker;
-import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
 import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
 import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
 import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
@@ -52,9 +51,6 @@ public abstract class SkysailApplication extends Application {
 
     /** the osgi bundle context. */
     private BundleContext bundleContext;
-
-    /** listener keeping track of all url mappings. */
-    protected UrlMappingServiceListener urlMappingServiceListener;
 
     public SkysailApplication(Context context) {
         this(context, null);
@@ -141,10 +137,6 @@ public abstract class SkysailApplication extends Application {
 
     public Map<String, RouteBuilder> getSkysailRoutes() {
         return router.getRouteBuilders();
-    }
-
-    public UrlMappingServiceListener getUrlMappingServiceListener() {
-        return urlMappingServiceListener;
     }
 
     public void setVerifier(Verifier verifier) {

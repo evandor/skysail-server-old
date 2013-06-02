@@ -23,9 +23,9 @@ import org.osgi.framework.BundleListener;
 import org.osgi.framework.FrameworkListener;
 import org.osgi.framework.ServiceListener;
 
-import de.twenty11.skysail.server.listener.SkysailServerBundleListener;
-import de.twenty11.skysail.server.listener.SkysailServerFrameworkListener;
-import de.twenty11.skysail.server.listener.SkysailServerServiceListener;
+import de.twenty11.skysail.server.internal.listener.SkysailServerBundleListener;
+import de.twenty11.skysail.server.internal.listener.SkysailServerFrameworkListener;
+import de.twenty11.skysail.server.internal.listener.SkysailServerServiceListener;
 
 /**
  * The bundles activator.
