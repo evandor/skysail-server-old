@@ -1,5 +1,8 @@
 package de.twenty11.skysail.server.testing.utils;
 
+import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
+import static org.ops4j.pax.exam.CoreOptions.systemProperty;
+
 import java.util.EnumSet;
 import java.util.List;
 
@@ -9,8 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.testing.utils.PaxExamOptionSet;
 import de.twenty11.skysail.common.testing.utils.SkysailCommonOsgiSetup;
-import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
-import static org.ops4j.pax.exam.CoreOptions.systemProperty;
 
 /**
  * This class defines the bundles skysail.server depends on (used by pax-exam), i.e. the bundles to be used containing
@@ -58,7 +59,7 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("javax.validation", "com.springsource.javax.validation", "1.0.0.GA"));
         options.add(mavenBundle("org.hibernate", "hibernate-validator", "4.3.0.Final"));
         options.add(mavenBundle("org.jboss.logging", "jboss-logging", "3.1.2.GA"));
-        
+
         // Felix file install and configadmin
         options.add(mavenBundle("org.apache.felix", "org.apache.felix.configadmin", "1.4.0 "));
         options.add(mavenBundle("org.apache.felix", "org.apache.felix.fileinstall", "3.2.4"));
@@ -74,7 +75,7 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.jpa", "2.2.0"));
         options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.asm", "2.2.0"));
         options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.osgi", "2.2.0"));
-        // options.add(mavenBundle("de.twentyeleven.skysail", "skysail.server.eclipselink", "0.0.3-SNAPSHOT"));
+        // "de.twentyeleven.skysail", "skysail.server.eclipselink", "0.0.3-SNAPSHOT"));
 
         // other
         options.add(mavenBundle("com.thoughtworks.xstream", "com.springsource.com.thoughtworks.xstream", "1.3.1"));
@@ -86,8 +87,8 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("commons-pool", "commons-pool", "1.6"));
         options.add(mavenBundle("org.codehaus.jackson", "jackson-core-lgpl", "1.9.5"));
         options.add(mavenBundle("org.codehaus.jackson", "jackson-mapper-lgpl", "1.9.5"));
-        //options.add(mavenBundle("org.apache.commons", "com.springsource.org.apache.commons.beanutils", "1.8.3"));
-        //options.add(mavenBundle("org.apache.commons", "com.springsource.org.apache.commons.collections", "3.2.1"));
+        // "org.apache.commons", "com.springsource.org.apache.commons.beanutils", "1.8.3"));
+        // "org.apache.commons", "com.springsource.org.apache.commons.collections", "3.2.1"));
         options.add(mavenBundle("org.apache.pdfbox", "pdfbox", "1.8.0"));
         options.add(mavenBundle("org.apache.pdfbox", "fontbox", "1.8.0"));
         options.add(mavenBundle("org.apache.pdfbox", "jempbox", "1.8.0"));

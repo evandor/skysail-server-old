@@ -20,7 +20,7 @@ import de.twenty11.skysail.common.config.ConfigurationProvider;
 
 public class ServerConfiguration {
 
-    private static final Logger logger = LoggerFactory.getLogger(ServerConfiguration.class);
+    private static Logger logger = LoggerFactory.getLogger(ServerConfiguration.class);
     private static BasicDataSource defaultDS;
 
     private List<ConfigurationProvider> configurationProviders = Collections
