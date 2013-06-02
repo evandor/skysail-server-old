@@ -19,6 +19,7 @@ import de.twenty11.skysail.common.PresentationStyle;
 import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FormResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
+import de.twenty11.skysail.server.core.restlet.SkysailServerResource2;
 
 @Presentation(preferred = PresentationStyle.EDIT)
 @Deprecated

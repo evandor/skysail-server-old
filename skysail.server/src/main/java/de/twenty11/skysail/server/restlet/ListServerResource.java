@@ -42,6 +42,8 @@ import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.common.selfdescription.ResourceDetails;
+import de.twenty11.skysail.server.core.restlet.RouteBuilder;
+import de.twenty11.skysail.server.core.restlet.SkysailServerResource2;
 
 /**
  * An class dealing with common functionality for a skysail server resource..

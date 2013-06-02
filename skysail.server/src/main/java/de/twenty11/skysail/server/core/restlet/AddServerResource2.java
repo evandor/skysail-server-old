@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.restlet;
+package de.twenty11.skysail.server.core.restlet;
 
 import java.util.Set;
 
@@ -19,6 +19,7 @@ import de.twenty11.skysail.common.PresentationStyle;
 import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FormResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
+import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
 
 @Presentation(preferred = PresentationStyle.EDIT)
 public abstract class AddServerResource2<T> extends SkysailServerResource2<T> {

@@ -24,6 +24,8 @@ import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.server.core.restlet.RouteBuilder;
+import de.twenty11.skysail.server.core.restlet.SkysailRouter;
 import de.twenty11.skysail.server.internal.Blocker;
 import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
 import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;

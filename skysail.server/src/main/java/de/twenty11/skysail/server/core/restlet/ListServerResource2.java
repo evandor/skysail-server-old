@@ -15,7 +15,7 @@
  * 
  */
 
-package de.twenty11.skysail.server.restlet;
+package de.twenty11.skysail.server.core.restlet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +39,9 @@ import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.common.selfdescription.ResourceDetails;
+import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
+import de.twenty11.skysail.server.restlet.SkysailApplication;
+import de.twenty11.skysail.server.restlet.Timer;
 
 /**
  * trying to improve ListServerResource

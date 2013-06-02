@@ -16,6 +16,7 @@ import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
+import de.twenty11.skysail.server.core.restlet.SkysailServerResource2;
 
 /**
  * @deprecated use UniqueResultServerResource2

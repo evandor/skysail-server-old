@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.restlet;
+package de.twenty11.skysail.server.core.restlet;
 
 import org.apache.commons.lang.Validate;
 import org.restlet.Restlet;

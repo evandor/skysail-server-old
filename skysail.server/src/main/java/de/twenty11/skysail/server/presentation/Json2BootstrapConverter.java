@@ -31,10 +31,10 @@ import de.twenty11.skysail.common.navigation.LinkedPage;
 import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
+import de.twenty11.skysail.server.core.restlet.SkysailServerResource2;
 import de.twenty11.skysail.server.internal.ApplicationsService;
 import de.twenty11.skysail.server.internal.Configuration.DefaultSkysailApplication;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
-import de.twenty11.skysail.server.restlet.SkysailServerResource2;
 
 public class Json2BootstrapConverter extends ConverterHelper {
 

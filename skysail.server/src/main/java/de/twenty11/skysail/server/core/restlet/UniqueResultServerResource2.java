@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.restlet;
+package de.twenty11.skysail.server.core.restlet;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
+import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
 
 public abstract class UniqueResultServerResource2<T> extends SkysailServerResource2<T> {
 
@@ -37,7 +38,7 @@ public abstract class UniqueResultServerResource2<T> extends SkysailServerResour
      * 
      * Form form = new Form(getRequest().getEntity()); action = form.getFirstValue("action");
      * 
-     * @see de.twenty11.skysail.server.restlet.SkysailServerResource2#doInit()
+     * @see de.twenty11.skysail.server.core.restlet.SkysailServerResource2#doInit()
      */
     @Override
     protected abstract void doInit() throws ResourceException;

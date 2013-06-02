@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.restlet;
+package de.twenty11.skysail.server.core.restlet;
 
 import java.util.Collections;
 import java.util.Map;

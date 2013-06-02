@@ -22,7 +22,7 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
 
-import de.twenty11.skysail.server.restlet.ListServerResource2;
+import de.twenty11.skysail.server.core.restlet.ListServerResource2;
 
 public class SkysailDirectoryServerResource extends ListServerResource2 {
 

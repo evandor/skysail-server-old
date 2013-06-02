@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.restlet.test;
+package de.twenty11.skysail.server.core.restlet;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.restlet.Restlet;
 import org.restlet.resource.ServerResource;
 
-import de.twenty11.skysail.server.restlet.RouteBuilder;
+import de.twenty11.skysail.server.core.restlet.RouteBuilder;
 
 public class RouteBuilderTest {
 
