@@ -12,17 +12,17 @@ import org.restlet.resource.Directory;
  */
 public class ClassLoaderDirectory extends Directory {
 
-    private ClassLoader _cl;
+    private ClassLoader cl;
 
     public ClassLoaderDirectory(Context context, Reference rootLocalReference, ClassLoader cl) {
         super(context, rootLocalReference);
-        this._cl = cl;
+        this.cl = cl;
     }
 
     @Override
     public void handle(Request request, Response response) {
         final ClassLoader saveCL = Thread.currentThread().getContextClassLoader();
-        Thread.currentThread().setContextClassLoader(_cl);
+        Thread.currentThread().setContextClassLoader(cl);
         super.handle(request, response);
         Thread.currentThread().setContextClassLoader(saveCL);
     }
