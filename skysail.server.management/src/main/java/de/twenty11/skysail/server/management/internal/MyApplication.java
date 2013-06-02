@@ -2,8 +2,8 @@ package de.twenty11.skysail.server.management.internal;
 
 import org.restlet.Context;
 
+import de.twenty11.skysail.server.core.restlet.RouteBuilder;
 import de.twenty11.skysail.server.management.MyRootResource;
-import de.twenty11.skysail.server.restlet.RouteBuilder;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 
 /**

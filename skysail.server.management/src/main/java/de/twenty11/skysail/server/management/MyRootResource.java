@@ -6,7 +6,7 @@ import org.restlet.resource.Get;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.selfdescription.ResourceDetails;
-import de.twenty11.skysail.server.restlet.ListServerResource2;
+import de.twenty11.skysail.server.core.restlet.ListServerResource2;
 
 /**
  * Restlet Root Resource for dbViewer application.
