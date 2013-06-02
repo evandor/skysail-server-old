@@ -15,7 +15,6 @@ import de.twenty11.skysail.server.restlet.ListServerResource2;
 public class MyRootResource extends ListServerResource2<ResourceDetails> {
 
     public MyRootResource() {
-        setAutoDescribing(false);
         setName("management root resource");
         setDescription("The root resource of the skysail management application");
     }
