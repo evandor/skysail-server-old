@@ -16,6 +16,7 @@ import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
+import de.twenty11.skysail.server.core.restlet.SkysailServerResource2;
 
 /**
  * @deprecated use UniqueResultServerResource2
@@ -51,8 +52,6 @@ public class UniqueResultServerResource<T> extends SkysailServerResource2<T> {
             // }
 
             SkysailApplication app = (SkysailApplication) getApplication();
-            Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener()
-                    .getMappings() : null;
             return new SuccessResponse<T>(data);
         } catch (Exception e) {
             // logger.error(e.getMessage(), e);

@@ -7,7 +7,6 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.cm.ConfigurationException;
 import org.restlet.Server;
@@ -18,33 +17,30 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.config.ConfigurationProvider;
 
-public class ServerConfiguration {// used to implements ManagedService,
+/**
+ * keeps a list of {@link ConfigurationProvider}s to query for configuration keys.
+ * 
+ * ConfigurationProviders can be added or removed; the first provider with a not-null value for a given key is used.
+ * There is no specific order enforced on the ConfigurationProviders.
+ * 
+ */
+public class ServerConfiguration {
 
-    private final static Logger logger = LoggerFactory.getLogger(ServerConfiguration.class);
-    private static BasicDataSource defaultDS;
-
-    public ServerConfiguration() {
-        System.out.println("hier");
-    }
+    private static Logger logger = LoggerFactory.getLogger(ServerConfiguration.class);
 
     private List<ConfigurationProvider> configurationProviders = Collections
             .synchronizedList(new ArrayList<ConfigurationProvider>());
 
-    public static BasicDataSource getDefaultDS() {
-        return defaultDS;
-    }
-
     public void addConfigurationProvider(ConfigurationProvider provider) {
-        if (!(provider instanceof ServerConfiguration)) {
-            configurationProviders.add(provider);
-        }
+        logger.info("adding configuration provider {}", provider.getName());
+        configurationProviders.add(provider);
     }
 
     public void removeConfigurationProvider(ConfigurationProvider provider) {
+        logger.info("removing configuration provider {}", provider.getName());
         configurationProviders.remove(provider);
     }
 
-    // @Override
     public String getConfigForKey(String key) {
         for (ConfigurationProvider provider : configurationProviders) {
             if (provider.getConfigForKey(key) != null) {
@@ -54,22 +50,22 @@ public class ServerConfiguration {// used to implements ManagedService,
         return null;
     }
 
-    public boolean shouldStartComponent(String classname) {
-        String componentToStart = (String) getConfigForKey("component");
-        if (componentToStart == null || componentToStart.trim().length() == 0) {
-            return true;
-        }
-        String[] packageParts = classname.split("\\.");
-        for (String part : packageParts) {
-            if (part.equals("de") || part.equals("server") || part.equals("ext") || part.equals("internal")) {
-                continue;
-            }
-            if (part.equals(componentToStart)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // public boolean shouldStartComponent(String classname) {
+    // String componentToStart = (String) getConfigForKey("component");
+    // if (componentToStart == null || componentToStart.trim().length() == 0) {
+    // return true;
+    // }
+    // String[] packageParts = classname.split("\\.");
+    // for (String part : packageParts) {
+    // if (part.equals("de") || part.equals("server") || part.equals("ext") || part.equals("internal")) {
+    // continue;
+    // }
+    // if (part.equals(componentToStart)) {
+    // return true;
+    // }
+    // }
+    // return false;
+    // }
 
     public boolean setSecretVerifier(MapVerifier verifier, ConfigurationAdmin configadmin) throws IOException {
         org.osgi.service.cm.Configuration secrets;
@@ -83,11 +79,13 @@ public class ServerConfiguration {// used to implements ManagedService,
             logger.error("could not find 'secrets' configuration; no one will be able to log in!");
             return false;
         }
+        @SuppressWarnings("rawtypes")
         Dictionary secretsProperties = secrets.getProperties();
         if (secretsProperties == null || secretsProperties.keys() == null) {
             logger.error("secretProperties is null or empty; no one will be able to log in!");
             return false;
         }
+        @SuppressWarnings("rawtypes")
         Enumeration keys = secretsProperties.keys();
         while (keys.hasMoreElements()) {
             String key = (String) keys.nextElement();
@@ -110,7 +108,8 @@ public class ServerConfiguration {// used to implements ManagedService,
             server.start();
             return server;
         } catch (Exception e) {
-            logger.error("Exception when starting standalone server trying to parse provided port ("+portAsString+")", e);
+            logger.error("Exception when starting standalone server trying to parse provided port (" + portAsString
+                    + ")", e);
             return null;
         }
     }
@@ -125,7 +124,6 @@ public class ServerConfiguration {// used to implements ManagedService,
             return verifier;
         } catch (Exception e) {
             logger.error("Configuring secretVerifier encountered a problem: {}", e.getMessage());
-            e.printStackTrace();
             throw new ConfigurationException("secrets", "file not found", e);
         }
     }

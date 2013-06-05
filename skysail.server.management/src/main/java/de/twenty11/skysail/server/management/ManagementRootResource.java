@@ -12,8 +12,8 @@ import org.restlet.routing.TemplateRoute;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.selfdescription.ResourceDetails;
 import de.twenty11.skysail.common.selfdescription.RestfulRoot;
+import de.twenty11.skysail.server.core.restlet.SkysailServerResource2;
 import de.twenty11.skysail.server.restlet.ListServerResource;
-import de.twenty11.skysail.server.restlet.SkysailServerResource2;
 
 /**
  * Restlet Root Resource for dbViewer application.
@@ -22,11 +22,10 @@ import de.twenty11.skysail.server.restlet.SkysailServerResource2;
 public class ManagementRootResource extends ListServerResource<ResourceDetails> implements RestfulRoot {
 
     public ManagementRootResource() {
-        setAutoDescribing(false);
         setName("osgimonitor root resource");
         setDescription("The root resource of the osgimonitor application");
     }
-    
+
     @Override
     @Get
     public SkysailResponse<List<ResourceDetails>> getMethods() {
@@ -36,7 +35,7 @@ public class ManagementRootResource extends ListServerResource<ResourceDetails> 
     private void handleTemplateRoutes(List<ResourceDetails> result, Route route) {
         TemplateRoute tr = (TemplateRoute) route;
         String from = (tr.getTemplate() == null) ? super.toString() : tr.getTemplate().getPattern();
-        
+
         if (!from.contains("{")) { // some link we can acutally follow
             from = getHostRef() + from + "?media=json";
             String to = (tr.getNext() == null) ? "null" : tr.getNext().toString();

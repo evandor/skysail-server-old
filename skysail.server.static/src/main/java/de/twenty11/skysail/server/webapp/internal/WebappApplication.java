@@ -27,7 +27,6 @@ import org.restlet.routing.Router;
 
 import de.twenty11.skysail.server.directory.ClassLoaderDirectory;
 import de.twenty11.skysail.server.directory.CompositeClassLoader;
-import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 
@@ -83,7 +82,7 @@ public class WebappApplication extends SkysailApplication implements Application
     // TODO proper place for this here? what about multiple instances?
     protected void attach() {
         if (FrameworkUtil.getBundle(SkysailApplication.class) != null) {
-            urlMappingServiceListener = new UrlMappingServiceListener(this);
+            // urlMappingServiceListener = new UrlMappingServiceListener(this);
             // new SkysailApplicationServiceListener(this);
         }
     }

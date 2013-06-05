@@ -42,6 +42,8 @@ import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.common.selfdescription.ResourceDetails;
+import de.twenty11.skysail.server.core.restlet.RouteBuilder;
+import de.twenty11.skysail.server.core.restlet.SkysailServerResource2;
 
 /**
  * An class dealing with common functionality for a skysail server resource..
@@ -154,9 +156,6 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
     // TODO move to uniqueresultServerResource
     protected SkysailResponse<T> getEntity(T data) {
         try {
-            SkysailApplication app = (SkysailApplication) getApplication();
-            Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener()
-                    .getMappings() : null;
             return new SuccessResponse<T>(data);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

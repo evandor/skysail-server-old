@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
+import de.twenty11.skysail.server.core.restlet.SkysailServerResource2;
 
 /**
  * An class dealing with common functionality for a skysail server resource..

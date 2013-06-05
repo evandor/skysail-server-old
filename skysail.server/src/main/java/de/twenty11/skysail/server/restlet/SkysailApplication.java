@@ -24,12 +24,13 @@ import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.converter.IFrame2BootstrapConverter;
-import de.twenty11.skysail.server.converter.Json2BootstrapConverter;
-import de.twenty11.skysail.server.converter.Json2HtmlConverter;
-import de.twenty11.skysail.server.converter.ToCsvConverter;
+import de.twenty11.skysail.server.core.restlet.RouteBuilder;
+import de.twenty11.skysail.server.core.restlet.SkysailRouter;
 import de.twenty11.skysail.server.internal.Blocker;
-import de.twenty11.skysail.server.listener.UrlMappingServiceListener;
+import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
+import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
+import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
+import de.twenty11.skysail.server.presentation.ToCsvConverter;
 
 /**
  * 
@@ -52,9 +53,6 @@ public abstract class SkysailApplication extends Application {
 
     /** the osgi bundle context. */
     private BundleContext bundleContext;
-
-    /** listener keeping track of all url mappings. */
-    protected UrlMappingServiceListener urlMappingServiceListener;
 
     public SkysailApplication(Context context) {
         this(context, null);
@@ -141,10 +139,6 @@ public abstract class SkysailApplication extends Application {
 
     public Map<String, RouteBuilder> getSkysailRoutes() {
         return router.getRouteBuilders();
-    }
-
-    public UrlMappingServiceListener getUrlMappingServiceListener() {
-        return urlMappingServiceListener;
     }
 
     public void setVerifier(Verifier verifier) {

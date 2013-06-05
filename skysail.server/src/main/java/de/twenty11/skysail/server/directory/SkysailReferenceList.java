@@ -22,10 +22,6 @@ public class SkysailReferenceList extends ReferenceList {
     }
 
     public VariantInfo getJsonVariant() {
-        // for (final Reference ref : this) {
-        // // .append("<a href=\"" + ref.toString() + "\">"
-        // // + ref.getRelativeRef(getIdentifier()) + "</a><br>\n");
-        // }
         return new VariantInfo(MediaType.APPLICATION_JSON);
     }
 
