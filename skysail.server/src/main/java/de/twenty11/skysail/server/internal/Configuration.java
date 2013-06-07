@@ -117,12 +117,12 @@ public class Configuration implements ComponentProvider {
     }
 
     public synchronized void setConfigAdmin(ConfigurationAdmin configadmin) {
-        logger.info("setting configadmin in OsgiMonitor Configuration");
+        logger.info("setting configadmin in Skysail Configuration");
         this.configadmin = configadmin;
     }
 
     public synchronized void setServerConfiguration(de.twenty11.skysail.server.config.ServerConfiguration serverConfig) {
-        logger.info("setting configadmin in OsgiMonitor Configuration");
+        logger.info("setting ServerConfiguration in Skysail Configuration");
         this.serverConfig = serverConfig;
     }
 
