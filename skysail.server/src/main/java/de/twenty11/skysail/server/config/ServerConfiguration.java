@@ -50,23 +50,6 @@ public class ServerConfiguration {
         return null;
     }
 
-    // public boolean shouldStartComponent(String classname) {
-    // String componentToStart = (String) getConfigForKey("component");
-    // if (componentToStart == null || componentToStart.trim().length() == 0) {
-    // return true;
-    // }
-    // String[] packageParts = classname.split("\\.");
-    // for (String part : packageParts) {
-    // if (part.equals("de") || part.equals("server") || part.equals("ext") || part.equals("internal")) {
-    // continue;
-    // }
-    // if (part.equals(componentToStart)) {
-    // return true;
-    // }
-    // }
-    // return false;
-    // }
-
     public boolean setSecretVerifier(MapVerifier verifier, ConfigurationAdmin configadmin) throws IOException {
         org.osgi.service.cm.Configuration secrets;
         logger.info("gettings 'secrets' configuration...");

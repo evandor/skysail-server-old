@@ -89,7 +89,7 @@ public class Configuration implements ComponentProvider {
         logger.info("====================================");
         logger.info("");
 
-        restletComponent = new SkysailComponent(this.context, verifier);
+        restletComponent = new SkysailComponent(this.context);
 
         // Restlet defaultTargetClass = new DefaultResource(componentContext.getBundleContext());
         // restletComponent.getDefaultHost().attachDefault(defaultTargetClass);

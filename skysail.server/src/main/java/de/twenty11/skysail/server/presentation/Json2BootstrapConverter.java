@@ -183,6 +183,8 @@ public class Json2BootstrapConverter extends ConverterHelper {
         page = page.replace("${filterExpression}", getFilter());
         page = page.replace("${history}", getHistory());
         page = page.replace("${mainNav}", getMainNav(bundleContext));
+        page = page.replace("${username}", "<li><a href='#'><i class=\"icon-user icon-white\"></i>&nbsp;"
+                + resource.getRequest().getChallengeResponse().getIdentifier() + "</a></li>\n");
 
         Object skysailResponseAsObject = skysailResponse.getData();
         if (skysailResponseAsObject != null) {
