@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.osgi.framework.BundleContext;
+import org.osgi.service.cm.ConfigurationException;
+import org.osgi.service.component.ComponentContext;
 import org.restlet.Application;
 import org.restlet.Context;
 import org.restlet.Restlet;
@@ -57,6 +59,8 @@ public abstract class SkysailApplication extends Application {
 
     private ServerConfiguration config;
 
+    private ComponentContext componentContext;
+
     public SkysailApplication(Context context) {
         this(context, null);
     }
@@ -78,12 +82,12 @@ public abstract class SkysailApplication extends Application {
 
     abstract protected void attach();
 
-    public void setBundleContext(BundleContext bundleContext) {
-        this.bundleContext = bundleContext;
-    }
+    // public void setBundleContext(BundleContext bundleContext) {
+    // this.bundleContext = bundleContext;
+    // }
 
     public BundleContext getBundleContext() {
-        return bundleContext;
+        return componentContext != null ? componentContext.getBundleContext() : null;
     }
 
     @Override
@@ -148,6 +152,11 @@ public abstract class SkysailApplication extends Application {
         this.verifier = verifier;
     }
 
+    @Override
+    public Application getApplication() {
+        return this;
+    }
+
     public String getLinkTo(Reference reference, Class<? extends ServerResource> cls) {
         String relativePath = router.getTemplatePathForResource(cls);
         return reference.toString() + relativePath;
@@ -159,6 +168,16 @@ public abstract class SkysailApplication extends Application {
 
     public String getConfigForKey(String key) {
         return this.config.getConfigForKey(key);
+    }
+
+    protected void activate(ComponentContext componentContext) throws ConfigurationException {
+        logger.info("Activating Application {}", this.getClass().getName());
+        this.componentContext = componentContext;
+    }
+
+    protected void deactivate(ComponentContext componentContext) {
+        logger.info("Deactivating Application {}", this.getClass().getName());
+        this.componentContext = null;
     }
 
 }

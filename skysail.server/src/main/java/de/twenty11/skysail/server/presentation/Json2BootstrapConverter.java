@@ -240,7 +240,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
         StringBuilder sb = new StringBuilder();
         List<Application> applications = ApplicationsService.getApplications(bundleContext);
         for (Application application : applications) {
-            if (application.getName().equalsIgnoreCase("static")) {
+            if (application.getName().equalsIgnoreCase("static") || application.getName().equalsIgnoreCase("default")) {
                 continue;
             }
             String name = application.getName().substring(0, 1).toUpperCase() + application.getName().substring(1);

@@ -52,7 +52,7 @@ public class Configuration implements ComponentProvider {
 
         public DefaultSkysailApplication(BundleContext bundleContext, Context componentContext) {
             super(componentContext.createChildContext(), bundleContext);
-            setBundleContext(bundleContext);
+            setName("default");
         }
 
         @Override
