@@ -43,12 +43,14 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
     private InputStream d3SimpleGraphTemplateResource = this.getClass().getResourceAsStream("d3SimpleGraph.template");
     private final String d3SimpleGraphTemplate = convertStreamToString(d3SimpleGraphTemplateResource);
-    private BundleContext bundleContext;
+    // private BundleContext bundleContext;
+    private SkysailApplication skysailApplication;
 
     private static final VariantInfo VARIANT_JSON = new VariantInfo(MediaType.APPLICATION_JSON);
 
-    public Json2BootstrapConverter(BundleContext bundleContext) {
-        this.bundleContext = bundleContext;
+    public Json2BootstrapConverter(SkysailApplication skysailApplication) {
+        // this.bundleContext = skysailApplication.getBundleContext();
+        this.skysailApplication = skysailApplication;
     }
 
     @Override
@@ -182,9 +184,10 @@ public class Json2BootstrapConverter extends ConverterHelper {
         page = page.replace("${presentations}", presentations());
         page = page.replace("${filterExpression}", getFilter());
         page = page.replace("${history}", getHistory());
-        page = page.replace("${mainNav}", getMainNav(bundleContext));
+        page = page.replace("${mainNav}", getMainNav(skysailApplication.getBundleContext()));
         page = page.replace("${username}", "<li><a href='#'><i class=\"icon-user icon-white\"></i>&nbsp;"
                 + resource.getRequest().getChallengeResponse().getIdentifier() + "</a></li>\n");
+        page = page.replace("${productName}", skysailApplication.getConfigForKey("productName"));
 
         Object skysailResponseAsObject = skysailResponse.getData();
         if (skysailResponseAsObject != null) {

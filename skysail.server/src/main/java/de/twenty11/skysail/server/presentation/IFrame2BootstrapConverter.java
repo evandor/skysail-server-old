@@ -1,15 +1,16 @@
 package de.twenty11.skysail.server.presentation;
 
-import org.osgi.framework.BundleContext;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.Resource;
 
+import de.twenty11.skysail.server.restlet.SkysailApplication;
+
 public class IFrame2BootstrapConverter extends Json2BootstrapConverter {
 
-    public IFrame2BootstrapConverter(BundleContext bundleContext) {
-        super(bundleContext);
+    public IFrame2BootstrapConverter(SkysailApplication skysailApplication) {
+        super(skysailApplication);
     }
 
     @Override

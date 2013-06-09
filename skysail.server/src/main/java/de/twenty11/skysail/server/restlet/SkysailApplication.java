@@ -24,6 +24,7 @@ import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.core.restlet.RouteBuilder;
 import de.twenty11.skysail.server.core.restlet.SkysailRouter;
 import de.twenty11.skysail.server.internal.Blocker;
@@ -54,6 +55,8 @@ public abstract class SkysailApplication extends Application {
     /** the osgi bundle context. */
     private BundleContext bundleContext;
 
+    private ServerConfiguration config;
+
     public SkysailApplication(Context context) {
         this(context, null);
     }
@@ -61,8 +64,8 @@ public abstract class SkysailApplication extends Application {
     public SkysailApplication(Context context, BundleContext bundleContext) {
         List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
         registeredConverters.add(new Json2HtmlConverter());
-        registeredConverters.add(new Json2BootstrapConverter(bundleContext));
-        registeredConverters.add(new IFrame2BootstrapConverter(bundleContext));
+        registeredConverters.add(new Json2BootstrapConverter(this));
+        registeredConverters.add(new IFrame2BootstrapConverter(this));
         registeredConverters.add(new ToCsvConverter());
         // try {
         // registeredConverters.add(new ToPdfConverter());
@@ -148,6 +151,14 @@ public abstract class SkysailApplication extends Application {
     public String getLinkTo(Reference reference, Class<? extends ServerResource> cls) {
         String relativePath = router.getTemplatePathForResource(cls);
         return reference.toString() + relativePath;
+    }
+
+    public void setServerConfiguration(ServerConfiguration config) {
+        this.config = config;
+    }
+
+    public String getConfigForKey(String key) {
+        return this.config.getConfigForKey(key);
     }
 
 }
