@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import de.twenty11.skysail.common.Presentable;
+import de.twenty11.skysail.common.Presentable2;
 import de.twenty11.skysail.common.PresentableHeader;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 
@@ -34,6 +35,9 @@ public abstract class AbstractHtmlCreatingStrategy implements HtmlCreatingStrate
             accordionGroup = accordionGroup.replace("${headerLink}", headerlink(presentable));
             accordionGroup = accordionGroup.replace("${hlink}", link(presentable));
             accordionGroup = accordionGroup.replace("${inner}", getInner(presentable));
+        } else if (object instanceof Presentable2) {
+            Presentable2 presentable = (Presentable2) object;
+            accordionGroup = presentable.getHtml();
         } else {
             accordionGroup = accordionGroup.replace("${headerText}", "Entry #" + i);
             accordionGroup = accordionGroup.replace("${headerImage}", "icon-list-alt");

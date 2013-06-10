@@ -58,7 +58,7 @@ public class SkysailServerOsgiIT {
     }
 
     @Test
-    public void shouldFindCommonBundleInActiveState() {
+    public void shouldFindServerBundleInActiveState() {
         Bundle skysailServerBundle = OsgiTestingUtils.getBundleForSymbolicName(context, "skysail.server");
         assertTrue(skysailServerBundle != null);
         assertTrue(skysailServerBundle.getState() == 32);
@@ -110,7 +110,5 @@ public class SkysailServerOsgiIT {
     // assertTrue(service != null);
     // // EntityManager entityManager = service.getEntityManager("SkysailPU");
     // }
-
-
 
 }
