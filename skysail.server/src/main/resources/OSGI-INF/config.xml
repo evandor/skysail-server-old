@@ -29,7 +29,7 @@
 	<reference 
 		cardinality="0..n" 
 		interface="de.twenty11.skysail.server.services.ApplicationProvider" 
-		bind="setApplicationProvider" 
+		bind="addApplicationProvider" 
 		unbind="unsetApplicationProvider"
 		name="ApplicationProvider" 
 		policy="dynamic" 

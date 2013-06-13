@@ -134,6 +134,12 @@
 			<artifactId>org.antlr.stringtemplate-osgi</artifactId>
 			<version>4.0.2</version>
 		</dependency>
+
+        <dependency>
+            <groupId>de.twentyeleven.skysail</groupId>
+            <artifactId>com.googlecode.stateless4j-osgi</artifactId>
+            <version>1.0</version>
+        </dependency>
 		
 		<!-- (pure) osgi -->
 		<dependency>

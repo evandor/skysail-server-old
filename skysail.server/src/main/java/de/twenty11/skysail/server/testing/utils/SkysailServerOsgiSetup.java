@@ -94,8 +94,10 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("org.apache.pdfbox", "jempbox", "1.8.0"));
 
         // stringtemplate
-        // options.add(mavenBundle("org.antlr", "com.springsource.org.antlr.stringtemplate", "3.2.0"));
         options.add(mavenBundle("de.twentyeleven.skysail", "org.antlr.stringtemplate-osgi", "4.0.2"));
+
+        // stateless4j
+        options.add(mavenBundle("de.twentyeleven.skysail", "com.googlecode.stateless4j-osgi", "1.0"));
 
         logger.info("using options from {} for tests", this.getClass());
 
