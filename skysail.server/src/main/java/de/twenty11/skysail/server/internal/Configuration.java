@@ -17,8 +17,6 @@
 
 package de.twenty11.skysail.server.internal;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -48,8 +46,6 @@ import de.twenty11.skysail.server.services.ComponentProvider;
 public class Configuration implements ComponentProvider {
 
     public static final String CONTEXT_OPERATING_SYSTEM_BEAN = "de.twenty11.skysail.server.internal.Configuration.operatingSystemMxBean";
-
-    private OperatingSystemMXBean operatingSystemMxBean = ManagementFactory.getOperatingSystemMXBean();
 
     public class DefaultSkysailApplication extends SkysailApplication {
 
@@ -104,6 +100,7 @@ public class Configuration implements ComponentProvider {
                 restletComponent.getContext());
         defaultApplication.setVerifier(verifier);
         defaultApplication.setServerConfiguration(serverConfig);
+
         restletComponent.getDefaultHost().attachDefault(defaultApplication);
 
         server = serverConfig.startStandaloneServer(port, restletComponent);
@@ -120,7 +117,7 @@ public class Configuration implements ComponentProvider {
         List<Application> newApplications = applications.getApplicationsInState(ApplicationState.NEW);
         for (Application application : newApplications) {
             try {
-                applications.attach(application, restletComponent);
+                applications.attach(application, restletComponent, verifier);
             } catch (Exception e) {
                 logger.error("Problem with Application Lifecycle Management Defintion", e);
             }
@@ -148,7 +145,7 @@ public class Configuration implements ComponentProvider {
         this.configadmin = configadmin;
     }
 
-    public synchronized void setServerConfiguration(de.twenty11.skysail.server.config.ServerConfiguration serverConfig) {
+    public synchronized void setServerConfiguration(ServerConfiguration serverConfig) {
         logger.info("setting ServerConfiguration in Skysail Configuration");
         this.serverConfig = serverConfig;
     }
@@ -156,26 +153,15 @@ public class Configuration implements ComponentProvider {
     public void addApplicationProvider(ApplicationProvider provider) {
         Validate.notNull(provider, "provider may not be null");
 
-        logger.info("");
-        logger.info("trying to add new application from {}", provider);
         Application application = provider.getApplication();
-        if (application != null) {
-            logger.info("==================================================");
-            logger.info(" >>> found application '{}'", application.getName());
-            logger.info("==================================================");
-        } else {
-            logger.warn("no application found, aborting...");
+        if (application == null) {
+            logger.warn("provider {}'s application was null, ignoring...", provider.getClass().getName());
             return;
         }
-        // TODO set verifier the same way?
-        if (application.getContext() != null) {
-            application.getContext().getAttributes().put(CONTEXT_OPERATING_SYSTEM_BEAN, operatingSystemMxBean);
-        }
-        if (application instanceof SkysailApplication) {
-            logger.info("setting applications verifier from server configuration");
-            ((SkysailApplication) application).setVerifier(verifier);
-        }
-        logger.info("attaching '{}' to defaultHost", "/" + application.getName());
+        logger.info("");
+        logger.info("==================================================");
+        logger.info(" >>> new application '{}' registered <<<", application.getName());
+        logger.info("==================================================");
 
         try {
             applications.add(application);
