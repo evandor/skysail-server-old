@@ -3,7 +3,7 @@
 	name="de.twenty11.skysail.server.config.ServerConfiguration"
 	immediate="true">
 	
-   <implementation class="de.twenty11.skysail.server.config.ServerConfiguration"/>
+   <implementation class="de.twenty11.skysail.server.config.ServerConfigurationImpl"/>
    
    <reference 
 	   	cardinality="1..n" 
