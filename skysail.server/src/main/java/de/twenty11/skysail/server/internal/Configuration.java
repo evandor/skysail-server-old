@@ -21,14 +21,12 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.apache.commons.lang.Validate;
-import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.component.ComponentContext;
 import org.restlet.Application;
 import org.restlet.Component;
-import org.restlet.Context;
 import org.restlet.Server;
 import org.restlet.engine.Engine;
 import org.restlet.security.MapVerifier;
@@ -38,30 +36,15 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.core.osgi.internal.ApplicationState;
-import de.twenty11.skysail.server.restlet.DefaultResource;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ComponentProvider;
 
 public class Configuration implements ComponentProvider {
 
+    private static Logger logger = LoggerFactory.getLogger(Configuration.class);
     public static final String CONTEXT_OPERATING_SYSTEM_BEAN = "de.twenty11.skysail.server.internal.Configuration.operatingSystemMxBean";
 
-    public class DefaultSkysailApplication extends SkysailApplication {
-
-        public DefaultSkysailApplication(BundleContext bundleContext, Context componentContext) {
-            super(componentContext.createChildContext(), bundleContext);
-            setName("default");
-        }
-
-        @Override
-        protected void attach() {
-            router.attach("/", DefaultResource.class);
-        }
-
-    }
-
-    private static Logger logger = LoggerFactory.getLogger(Configuration.class);
     private SkysailComponent restletComponent;
     private Server server;
     private ComponentContext context;
@@ -69,9 +52,7 @@ public class Configuration implements ComponentProvider {
     private ServerConfiguration serverConfig;
     private ServiceRegistration registration;
     private MapVerifier verifier;
-
     private ApplicationsHolder applications = new ApplicationsHolder();
-
     private boolean serverActive = false;
 
     protected synchronized void activate(ComponentContext componentContext) throws ConfigurationException {
@@ -79,9 +60,8 @@ public class Configuration implements ComponentProvider {
         this.context = componentContext;
         this.verifier = serverConfig.getVerifier(configadmin);
 
-        // Engine.setLogLevel(Level.ALL);
         Engine.setRestletLogLevel(Level.ALL);
-        // System.setProperty("java.util.logging.config.file", "logging.config");
+
         logger.info("Starting component for Skysail...");
         String port = (String) serverConfig.getConfigForKey("port");
         logger.info("port was configured on {}", port);
@@ -94,8 +74,6 @@ public class Configuration implements ComponentProvider {
 
         restletComponent = new SkysailComponent(this.context);
 
-        // Restlet defaultTargetClass = new DefaultResource(componentContext.getBundleContext());
-        // restletComponent.getDefaultHost().attachDefault(defaultTargetClass);
         SkysailApplication defaultApplication = new DefaultSkysailApplication(componentContext.getBundleContext(),
                 restletComponent.getContext());
         defaultApplication.setVerifier(verifier);
@@ -110,19 +88,6 @@ public class Configuration implements ComponentProvider {
         triggerAttachmentOfNewApplications();
     }
 
-    private void triggerAttachmentOfNewApplications() {
-        if (!serverActive) {
-            return;
-        }
-        List<Application> newApplications = applications.getApplicationsInState(ApplicationState.NEW);
-        for (Application application : newApplications) {
-            try {
-                applications.attach(application, restletComponent, verifier);
-            } catch (Exception e) {
-                logger.error("Problem with Application Lifecycle Management Defintion", e);
-            }
-        }
-    }
 
     protected void deactivate(ComponentContext ctxt) {
         logger.info("Deactivating Skysail Ext Osgimonitor Configuration Component");
@@ -140,14 +105,18 @@ public class Configuration implements ComponentProvider {
         }
     }
 
-    public synchronized void setConfigAdmin(ConfigurationAdmin configadmin) {
-        logger.info("setting configadmin in Skysail Configuration");
-        this.configadmin = configadmin;
-    }
-
-    public synchronized void setServerConfiguration(ServerConfiguration serverConfig) {
-        logger.info("setting ServerConfiguration in Skysail Configuration");
-        this.serverConfig = serverConfig;
+    private void triggerAttachmentOfNewApplications() {
+    	if (!serverActive) {
+    		return;
+    	}
+    	List<Application> newApplications = applications.getApplicationsInState(ApplicationState.NEW);
+    	for (Application application : newApplications) {
+    		try {
+    			applications.attach(application, restletComponent, verifier);
+    		} catch (Exception e) {
+    			logger.error("Problem with Application Lifecycle Management Defintion", e);
+    		}
+    	}
     }
 
     public void addApplicationProvider(ApplicationProvider provider) {
@@ -171,8 +140,8 @@ public class Configuration implements ComponentProvider {
 
         triggerAttachmentOfNewApplications();
     }
-
-    public void unsetApplicationProvider(ApplicationProvider provider) {
+    
+    public void removeApplicationProvider(ApplicationProvider provider) {
         Application application = provider.getApplication();
         if (application != null) {
             logger.info("======================================================");
@@ -182,6 +151,16 @@ public class Configuration implements ComponentProvider {
         } else {
             logger.warn("provider {}'s application was null", provider);
         }
+    }
+
+    public synchronized void setConfigAdmin(ConfigurationAdmin configadmin) {
+    	logger.info("setting configadmin in Skysail Configuration");
+    	this.configadmin = configadmin;
+    }
+    
+    public synchronized void setServerConfiguration(ServerConfiguration serverConfig) {
+    	logger.info("setting ServerConfiguration in Skysail Configuration");
+    	this.serverConfig = serverConfig;
     }
 
     @Override
