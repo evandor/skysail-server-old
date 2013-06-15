@@ -88,7 +88,6 @@ public class Configuration implements ComponentProvider {
         triggerAttachmentOfNewApplications();
     }
 
-
     protected void deactivate(ComponentContext ctxt) {
         logger.info("Deactivating Skysail Ext Osgimonitor Configuration Component");
         serverActive = false;
@@ -105,20 +104,6 @@ public class Configuration implements ComponentProvider {
         }
     }
 
-    private void triggerAttachmentOfNewApplications() {
-    	if (!serverActive) {
-    		return;
-    	}
-    	List<Application> newApplications = applications.getApplicationsInState(ApplicationState.NEW);
-    	for (Application application : newApplications) {
-    		try {
-    			applications.attach(application, restletComponent, verifier);
-    		} catch (Exception e) {
-    			logger.error("Problem with Application Lifecycle Management Defintion", e);
-    		}
-    	}
-    }
-
     public void addApplicationProvider(ApplicationProvider provider) {
         Validate.notNull(provider, "provider may not be null");
 
@@ -127,10 +112,7 @@ public class Configuration implements ComponentProvider {
             logger.warn("provider {}'s application was null, ignoring...", provider.getClass().getName());
             return;
         }
-        logger.info("");
-        logger.info("==================================================");
         logger.info(" >>> new application '{}' registered <<<", application.getName());
-        logger.info("==================================================");
 
         try {
             applications.add(application);
@@ -140,7 +122,7 @@ public class Configuration implements ComponentProvider {
 
         triggerAttachmentOfNewApplications();
     }
-    
+
     public void removeApplicationProvider(ApplicationProvider provider) {
         Application application = provider.getApplication();
         if (application != null) {
@@ -153,14 +135,28 @@ public class Configuration implements ComponentProvider {
         }
     }
 
-    public synchronized void setConfigAdmin(ConfigurationAdmin configadmin) {
-    	logger.info("setting configadmin in Skysail Configuration");
-    	this.configadmin = configadmin;
+    private void triggerAttachmentOfNewApplications() {
+        if (!serverActive) {
+            return;
+        }
+        List<Application> newApplications = applications.getApplicationsInState(ApplicationState.NEW);
+        for (Application application : newApplications) {
+            try {
+                applications.attach(application, restletComponent, verifier);
+            } catch (Exception e) {
+                logger.error("Problem with Application Lifecycle Management Defintion", e);
+            }
+        }
     }
-    
+
+    public synchronized void setConfigAdmin(ConfigurationAdmin configadmin) {
+        logger.info("setting configadmin in Skysail Configuration");
+        this.configadmin = configadmin;
+    }
+
     public synchronized void setServerConfiguration(ServerConfiguration serverConfig) {
-    	logger.info("setting ServerConfiguration in Skysail Configuration");
-    	this.serverConfig = serverConfig;
+        logger.info("setting ServerConfiguration in Skysail Configuration");
+        this.serverConfig = serverConfig;
     }
 
     @Override

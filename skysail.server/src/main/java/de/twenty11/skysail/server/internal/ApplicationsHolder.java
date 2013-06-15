@@ -31,18 +31,25 @@ public class ApplicationsHolder {
     }
 
     public void attach(Application application, SkysailComponent restletComponent, Verifier verifier) throws Exception {
+
+        logger.info("");
+        logger.info("==================================================");
+        logger.info(" >>> attaching application '{}' <<<", application.getName());
+
         // TODO set verifier the same way?
         if (application.getContext() != null) {
             application.getContext().getAttributes()
                     .put(Configuration.CONTEXT_OPERATING_SYSTEM_BEAN, operatingSystemMxBean);
         }
         if (application instanceof SkysailApplication) {
-            logger.info("setting applications verifier from server configuration");
             ((SkysailApplication) application).setVerifier(verifier);
+            logger.info(" >>> setting verifier from serverConfiguration");
         }
-        logger.info("attaching '{}' to defaultHost", "/" + application.getName());
-
+        logger.info(" >>> attaching '{}' to defaultHost", "/" + application.getName());
         restletComponent.getDefaultHost().attach("/" + application.getName(), application);
+        logger.info("==================================================");
+
+        // TODO: move about into some trigger-action?
         lifecycles.get(application).Fire(Trigger.ATTACH);
     }
 
