@@ -62,10 +62,6 @@ public abstract class SkysailApplication extends Application {
     private ComponentContext componentContext;
 
     public SkysailApplication(Context context) {
-        this(context, null);
-    }
-
-    public SkysailApplication(Context context, BundleContext bundleContext) {
         List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
         registeredConverters.add(new Json2HtmlConverter());
         registeredConverters.add(new Json2BootstrapConverter(this));
