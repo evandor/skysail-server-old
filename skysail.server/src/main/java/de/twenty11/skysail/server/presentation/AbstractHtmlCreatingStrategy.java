@@ -2,8 +2,13 @@ package de.twenty11.skysail.server.presentation;
 
 import java.awt.Color;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+
+import org.apache.commons.beanutils.BeanMap;
+import org.stringtemplate.v4.ST;
 
 import de.twenty11.skysail.common.Presentable;
 import de.twenty11.skysail.common.Presentable2;
@@ -48,6 +53,54 @@ public abstract class AbstractHtmlCreatingStrategy implements HtmlCreatingStrate
         accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
         sb.append(accordionGroup).append("\n");
         return i;
+    }
+
+    protected int handleDataElementsForList2(StringBuilder sb, int i, Object object) {
+        String accordionGroup = accordionGroupTemplate;
+        i++;
+        BeanMap beanMap = new BeanMap(object);
+
+        ST html = new ST("#map.keys:{k| <tr><td style='width:300px;'><b>#k#</b></td><td>#map.(k)#</td></tr>}#\n", '#',
+                '#');
+        // properties.put("provided by", providingBundle);
+        // properties.put("used by", usingBundles);
+        Map<String, Object> resultMap = determineResultMap(beanMap);
+        html.add("map", resultMap);
+
+        String tmp = "<table class='table table-hover table-bordered'>\n<tr><th colspan=2 style='background-color:#F5F5F5;'></th></tr>\n"
+                + html.render() + "</table>\n";
+
+        accordionGroup = accordionGroup.replace("${inner}", tmp);
+        accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
+        sb.append(accordionGroup).append("\n");
+        return i;
+    }
+
+    private Map<String, Object> determineResultMap(Map beanMap) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        for (Object key : beanMap.keySet()) {
+            if ("class".equals(key)) {
+                continue;
+            }
+            if (beanMap.get(key) instanceof Map) {
+                Map subMap = determineResultMap((Map) beanMap.get(key));
+                resultMap.put((String) key, new ST("#map.keys:{k| <ul><li><b>#k#</b>: #map.(k)#</li></ul>}#\n", '#',
+                        '#').add("map", subMap).render());
+            } else if (beanMap.get(key) instanceof Object[]) {
+                Object[] arr = (Object[]) beanMap.get(key);
+                Map<String, Object> subMap = new HashMap<String, Object>();
+                int i = 1;
+                for (Object value : arr) {
+                    subMap.put("(" + Integer.toString(i++) + ")", value);
+                }
+                subMap = determineResultMap(subMap);
+                resultMap.put((String) key, new ST("#map.keys:{k| <ul><li><b>#k#</b>: #map.(k)#</li></ul>}#\n", '#',
+                        '#').add("map", subMap).render());
+            } else {
+                resultMap.put((String) key, beanMap.get(key));
+            }
+        }
+        return resultMap;
     }
 
     private String link(Presentable presentable) {

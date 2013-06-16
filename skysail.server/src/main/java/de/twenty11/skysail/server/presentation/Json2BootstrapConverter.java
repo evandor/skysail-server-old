@@ -192,8 +192,10 @@ public class Json2BootstrapConverter extends ConverterHelper {
         Object skysailResponseAsObject = skysailResponse.getData();
         if (skysailResponseAsObject != null) {
             if (style.equals(PresentationStyle.LIST)) {
-
                 StrategyContext context = new StrategyContext(new ListForContentStrategy());
+                page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
+            } else if (style.equals(PresentationStyle.LIST2)) {
+                StrategyContext context = new StrategyContext(new ListForContentStrategy2());
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
             } else if (style.equals(PresentationStyle.TABLE)) {
                 StrategyContext context = new StrategyContext(new TableForContentStrategy());

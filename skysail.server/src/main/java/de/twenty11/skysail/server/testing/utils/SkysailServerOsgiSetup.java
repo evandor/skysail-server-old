@@ -99,6 +99,10 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         // stateless4j
         options.add(mavenBundle("de.twentyeleven.skysail", "com.googlecode.stateless4j-osgi", "1.0"));
 
+        // apache beanutils
+        options.add(mavenBundle("de.twentyeleven.skysail", "commons-beanutils-osgi", "1.8.3"));
+        options.add(mavenBundle("org.apache.commons", "com.springsource.org.apache.commons.collections", "3.2.1"));
+
         logger.info("using options from {} for tests", this.getClass());
 
         return options;
