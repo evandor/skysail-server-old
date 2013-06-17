@@ -47,7 +47,7 @@ public class Configuration implements ComponentProvider {
 
     private SkysailComponent restletComponent;
     private Server server;
-    private ComponentContext context;
+    private ComponentContext componentContext;
     private ConfigurationAdmin configadmin;
     private ServerConfiguration serverConfig;
     private ServiceRegistration registration;
@@ -57,7 +57,7 @@ public class Configuration implements ComponentProvider {
 
     protected synchronized void activate(ComponentContext componentContext) throws ConfigurationException {
         logger.info("Activating Skysail Component");
-        this.context = componentContext;
+        this.componentContext = componentContext;
         this.verifier = serverConfig.getVerifier(configadmin);
 
         Engine.setRestletLogLevel(Level.ALL);
@@ -72,7 +72,7 @@ public class Configuration implements ComponentProvider {
         logger.info("====================================");
         logger.info("");
 
-        restletComponent = new SkysailComponent(this.context);
+        restletComponent = new SkysailComponent(this.componentContext);
 
         SkysailApplication defaultApplication = new DefaultSkysailApplication(componentContext.getBundleContext(),
                 restletComponent.getContext());
@@ -91,7 +91,7 @@ public class Configuration implements ComponentProvider {
     protected void deactivate(ComponentContext ctxt) {
         logger.info("Deactivating Skysail Ext Osgimonitor Configuration Component");
         serverActive = false;
-        this.context = null;
+        this.componentContext = null;
         try {
             if (server != null) {
                 server.stop();

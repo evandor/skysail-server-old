@@ -1,10 +1,17 @@
 package de.twenty11.skysail.server.presentation;
 
+import java.net.URL;
 import java.util.List;
+
+import org.osgi.framework.BundleContext;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
 
 public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
+
+    public ListForContentStrategy2(BundleContext bundleContext) {
+        URL resource = bundleContext.getBundle().getResource("map.stg");
+    }
 
     @Override
     public String createHtml(String page, Object skysailResponseAsObject, SkysailResponse<List<?>> skysailResponse) {

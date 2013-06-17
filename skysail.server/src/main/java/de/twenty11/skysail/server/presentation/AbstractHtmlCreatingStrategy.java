@@ -14,6 +14,9 @@ import de.twenty11.skysail.common.Presentable;
 import de.twenty11.skysail.common.Presentable2;
 import de.twenty11.skysail.common.PresentableHeader;
 import de.twenty11.skysail.common.responses.SkysailResponse;
+import de.twenty11.skysail.server.presentation.render.DefaultCleaningStrategy;
+import de.twenty11.skysail.server.presentation.render.HtmlRenderer;
+import de.twenty11.skysail.server.presentation.render.MapTransformer;
 
 public abstract class AbstractHtmlCreatingStrategy implements HtmlCreatingStrategy {
 
@@ -60,15 +63,16 @@ public abstract class AbstractHtmlCreatingStrategy implements HtmlCreatingStrate
         i++;
         BeanMap beanMap = new BeanMap(object);
 
-        ST html = new ST("#map.keys:{k| <tr><td style='width:300px;'><b>#k#</b></td><td>#map.(k)#</td></tr>}#\n", '#',
-                '#');
-        // properties.put("provided by", providingBundle);
-        // properties.put("used by", usingBundles);
-        Map<String, Object> resultMap = determineResultMap(beanMap);
-        html.add("map", resultMap);
+        String tmpl = "#map.keys:{k| <tr><td style='width:300px;'><b>#k#</b></td><td>#map.(k)#</td></tr>}#\n";
+
+        HtmlRenderer renderer = new HtmlRenderer("templates/test.stg");
+        renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
+
+        // HtmlRenderer htmlRenderer = new HtmlRenderer(tmpl, new MapTransformer(beanMap).clean(
+        // new DefaultCleaningStrategy()).asRendererInput());
 
         String tmp = "<table class='table table-hover table-bordered'>\n<tr><th colspan=2 style='background-color:#F5F5F5;'></th></tr>\n"
-                + html.render() + "</table>\n";
+                + renderer.render() + "</table>\n";
 
         accordionGroup = accordionGroup.replace("${inner}", tmp);
         accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));

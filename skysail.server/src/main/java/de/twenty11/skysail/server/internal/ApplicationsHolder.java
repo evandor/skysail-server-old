@@ -44,6 +44,8 @@ public class ApplicationsHolder {
         if (application instanceof SkysailApplication) {
             ((SkysailApplication) application).setVerifier(verifier);
             logger.info(" >>> setting verifier from serverConfiguration");
+            // ((SkysailApplication) application).setComponentContext(componentContext);
+
         }
         logger.info(" >>> attaching '{}' to defaultHost", "/" + application.getName());
         restletComponent.getDefaultHost().attach("/" + application.getName(), application);

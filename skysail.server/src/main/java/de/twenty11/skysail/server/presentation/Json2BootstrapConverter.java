@@ -35,14 +35,15 @@ import de.twenty11.skysail.server.core.restlet.SkysailServerResource2;
 import de.twenty11.skysail.server.internal.ApplicationsService;
 import de.twenty11.skysail.server.internal.DefaultSkysailApplication;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
+import de.twenty11.skysail.server.utils.IOUtils;
 
 public class Json2BootstrapConverter extends ConverterHelper {
 
     private InputStream bootstrapTemplateResource = this.getClass().getResourceAsStream("bootstrap.template");
-    private final String rootTemplate = convertStreamToString(bootstrapTemplateResource);
+    private final String rootTemplate = IOUtils.convertStreamToString(bootstrapTemplateResource);
 
     private InputStream d3SimpleGraphTemplateResource = this.getClass().getResourceAsStream("d3SimpleGraph.template");
-    private final String d3SimpleGraphTemplate = convertStreamToString(d3SimpleGraphTemplateResource);
+    private final String d3SimpleGraphTemplate = IOUtils.convertStreamToString(d3SimpleGraphTemplateResource);
     // private BundleContext bundleContext;
     private SkysailApplication skysailApplication;
 
@@ -195,7 +196,8 @@ public class Json2BootstrapConverter extends ConverterHelper {
                 StrategyContext context = new StrategyContext(new ListForContentStrategy());
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
             } else if (style.equals(PresentationStyle.LIST2)) {
-                StrategyContext context = new StrategyContext(new ListForContentStrategy2());
+                StrategyContext context = new StrategyContext(new ListForContentStrategy2(
+                        skysailApplication.getBundleContext()));
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
             } else if (style.equals(PresentationStyle.TABLE)) {
                 StrategyContext context = new StrategyContext(new TableForContentStrategy());
@@ -350,12 +352,6 @@ public class Json2BootstrapConverter extends ConverterHelper {
             }
         }
         return "";
-    }
-
-    public static String convertStreamToString(java.io.InputStream is) {
-        @SuppressWarnings("resource")
-        java.util.Scanner s = new java.util.Scanner(is, "UTF-8").useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
     }
 
     private String calcResult(SkysailResponse<List<?>> skysailResponse) {
