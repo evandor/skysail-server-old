@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.beanutils.BeanMap;
 import org.stringtemplate.v4.ST;
+import org.stringtemplate.v4.STGroupString;
 
 import de.twenty11.skysail.common.Presentable;
 import de.twenty11.skysail.common.Presentable2;
@@ -58,14 +59,14 @@ public abstract class AbstractHtmlCreatingStrategy implements HtmlCreatingStrate
         return i;
     }
 
-    protected int handleDataElementsForList2(StringBuilder sb, int i, Object object) {
+    protected int handleDataElementsForList2(StringBuilder sb, int i, Object object, STGroupString template) {
         String accordionGroup = accordionGroupTemplate;
         i++;
         BeanMap beanMap = new BeanMap(object);
 
         String tmpl = "#map.keys:{k| <tr><td style='width:300px;'><b>#k#</b></td><td>#map.(k)#</td></tr>}#\n";
 
-        HtmlRenderer renderer = new HtmlRenderer("templates/test.stg");
+        HtmlRenderer renderer = new HtmlRenderer(template);
         renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
 
         // HtmlRenderer htmlRenderer = new HtmlRenderer(tmpl, new MapTransformer(beanMap).clean(

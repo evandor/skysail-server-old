@@ -1,19 +1,17 @@
 package de.twenty11.skysail.server.presentation.render;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.stringtemplate.v4.ST;
+import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.STGroupString;
-
-import de.twenty11.skysail.server.utils.IOUtils;
 
 public class HtmlRenderer implements Renderer {
 
     private RendererInput rendererInput;
     private String tmpl;
-    private STGroupString template;
+    private STGroup template;
 
     // public HtmlRenderer(String tmpl, RendererInput rendererInput) {
     // this.tmpl = tmpl;
@@ -30,18 +28,22 @@ public class HtmlRenderer implements Renderer {
     // System.out.println(result);
     // }
     //
-    public HtmlRenderer(String relativeTemplateFilePath) {
-        Class<? extends HtmlRenderer> rendererClass = this.getClass();
-        InputStream resourceAsStream = rendererClass.getResourceAsStream(tmpl);
-        String templateGroup = IOUtils.convertStreamToString(resourceAsStream);
-        System.out.println(templateGroup);
-        template = new STGroupString(tmpl, templateGroup, '%', '%');
-    }
+//    public HtmlRenderer(String relativeTemplateFilePath) {
+//        Class<? extends HtmlRenderer> rendererClass = this.getClass();
+//        InputStream resourceAsStream = rendererClass.getResourceAsStream(tmpl);
+//        String templateGroup = IOUtils.convertStreamToString(resourceAsStream);
+//        System.out.println(templateGroup);
+//        template = new STGroupString(tmpl, templateGroup, '%', '%');
+//    }
 
-    @Override
+    public HtmlRenderer(STGroup template2) {
+		this.template = template2;
+	}
+
+	@Override
     public String render() {
         Map<String, Object> outputMap = determineResultMap(rendererInput.getMap());
-        ST html = new ST(tmpl, '#', '#');
+        ST html = template.getInstanceOf("mapIteration");// new ST(template, '#', '#');
         html.add("map", outputMap);
 
         return html.render();

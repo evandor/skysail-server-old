@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.stringtemplate.v4.STGroup;
+import org.stringtemplate.v4.STGroupString;
 
 import de.twenty11.skysail.server.presentation.render.DefaultCleaningStrategy;
 import de.twenty11.skysail.server.presentation.render.HtmlRenderer;
@@ -29,7 +31,18 @@ public class HtmlRendererTest {
         map.put("stringKey", "stringValue");
         String tmpl = "#map.keys:{k| <tr><td style='width:300px;'><b>#k#</b></td><td>#map.(k)#</td></tr>}#\n";
 
-        htmlRenderer = new HtmlRenderer("test.stg");
+        // @formatter:off
+        String template = 
+        "mapIteration(map) ::= \"$map.keys:{key| <tr>$withTDs(key)$$withTDs(map.(key))$</tr>}$\n\"" +
+        "withTableCols(x)  ::= \"<td>$x$</td>\"";
+
+        template = 
+        "mapIteration(map) ::= \"$map.keys:{key| $asRow(map,key)$}$\n\"" +
+        "asRow(map,k)      ::= \"<tr><td><b>$k$</b></td><td>$map.(k)$</td></tr>\"";
+
+        
+        STGroup group = new STGroupString("template", template, '$','$');
+		htmlRenderer = new HtmlRenderer(group);
         htmlRenderer.setRendererInput(new MapTransformer(map).clean(new DefaultCleaningStrategy()).asRendererInput());
         // htmlRenderer = new HtmlRenderer("templates/test.stg", new MapTransformer(map).clean(
         // new DefaultCleaningStrategy()).asRendererInput());
