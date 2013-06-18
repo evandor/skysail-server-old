@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.component.ComponentContext;
 import org.restlet.Application;
-import org.restlet.Context;
 import org.restlet.Restlet;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.data.ClientInfo;
@@ -54,14 +54,14 @@ public abstract class SkysailApplication extends Application {
 
     private Verifier verifier = new MapVerifier();
 
-    /** the osgi bundle context. */
-    private BundleContext bundleContext;
-
     private ServerConfiguration config;
 
     private ComponentContext componentContext;
 
-    public SkysailApplication(Context context) {
+    /**
+     * extending classes should always call super();
+     */
+    public SkysailApplication() {
         List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
         registeredConverters.add(new Json2HtmlConverter());
         registeredConverters.add(new Json2BootstrapConverter(this));
@@ -72,8 +72,7 @@ public abstract class SkysailApplication extends Application {
         // } catch (Exception e) {
         // logger.warn("pdf converter not available: " + e.getMessage());
         // }
-
-        setContext(context);
+        // setContext(restletContext);
     }
 
     abstract protected void attach();
@@ -174,6 +173,17 @@ public abstract class SkysailApplication extends Application {
     protected void deactivate(ComponentContext componentContext) {
         logger.info("Deactivating Application {}", this.getClass().getName());
         this.componentContext = null;
+    }
+
+    protected void setComponentContext(ComponentContext componentContext) {
+        this.componentContext = componentContext;
+    }
+
+    public Bundle getBundle() {
+        if (componentContext == null) {
+            return null;
+        }
+        return componentContext.getBundleContext().getBundle();
     }
 
 }

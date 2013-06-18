@@ -21,7 +21,7 @@ public class ManagementApplication extends SkysailApplication {
      * @param staticPathTemplate
      */
     public ManagementApplication(BundleContext bundleContext, String staticPathTemplate) {
-        super(null);
+        super();
         setDescription("RESTful skysail.server.management bundle");
         setOwner("twentyeleven");
         self = this;

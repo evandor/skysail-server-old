@@ -13,7 +13,8 @@ import de.twenty11.skysail.server.restlet.SkysailApplication;
 public class MyApplication extends SkysailApplication {
 
     public MyApplication(Context componentContext) {
-        super(componentContext == null ? null : componentContext.createChildContext());
+        super();
+        setContext(getContext().createChildContext());
         setDescription("RESTful Skysail server management bundle");
         setOwner("twentyeleven");
         setName("management");

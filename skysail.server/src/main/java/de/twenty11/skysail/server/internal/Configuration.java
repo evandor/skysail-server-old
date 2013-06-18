@@ -74,8 +74,7 @@ public class Configuration implements ComponentProvider {
 
         restletComponent = new SkysailComponent(this.componentContext);
 
-        SkysailApplication defaultApplication = new DefaultSkysailApplication(componentContext.getBundleContext(),
-                restletComponent.getContext());
+        SkysailApplication defaultApplication = new DefaultSkysailApplication(componentContext);
         defaultApplication.setVerifier(verifier);
         defaultApplication.setServerConfiguration(serverConfig);
 

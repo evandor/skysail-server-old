@@ -1,19 +1,18 @@
 package de.twenty11.skysail.server.internal;
 
-import org.osgi.framework.BundleContext;
-import org.restlet.Context;
+import org.osgi.service.component.ComponentContext;
 
 import de.twenty11.skysail.server.restlet.DefaultResource;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 
-/**
- * TODO wird anscheinend nur in Json2BootstrapConverter & Configuration benutzt... ???
- * 
- */
 public class DefaultSkysailApplication extends SkysailApplication {
 
-    public DefaultSkysailApplication(BundleContext bundleContext, Context componentContext) {
-        super(componentContext.createChildContext());
+    public DefaultSkysailApplication(ComponentContext componentContext) {
+        super();
+        if (getContext() != null) {
+            setContext(getContext().createChildContext());
+        }
+        setComponentContext(componentContext);
         setName("default");
     }
 

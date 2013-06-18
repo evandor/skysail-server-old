@@ -34,13 +34,19 @@
 			<resource>
 				<directory>src/main/java</directory>
 				<includes>
-					<include>**/*.template</include>
-                    <include>**/*.stg</include>
+					<include>**/*.stg</include>
 				</includes>
 			</resource>
 			<resource>
+				<directory>src/main/resources/</directory>
 				<filtering>true</filtering>
-				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>src/main/resources/</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/*.stg</include>
+				</includes>
 			</resource>
 		</resources>
 
@@ -112,6 +118,8 @@
 			<version>1.4</version>
 		</dependency>
 
+		<!-- <dependency> <groupId>org.apache.commons</groupId> <artifactId>com.springsource.org.apache.commons.io</artifactId> 
+			<version>1.4.0</version> </dependency> -->
 		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
