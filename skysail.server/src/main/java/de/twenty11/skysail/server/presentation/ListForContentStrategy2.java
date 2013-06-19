@@ -26,13 +26,19 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
     private static Logger logger = LoggerFactory.getLogger(ListForContentStrategy2.class);
 
     private STGroupString template;
+    private STGroupString headerTemplate;
 
-    public ListForContentStrategy2(BundleContext bundleContext, Resource resource2, String templateSourceFile) {
+    public ListForContentStrategy2(BundleContext bundleContext, Resource resource2, 
+    		String templateSourceFile, String templateSourceFile4Header) {
         SkysailApplication currentApplication = (SkysailApplication) resource2.getApplication();
         Bundle currentBundle = currentApplication.getBundle();
         template = findTemplate(currentBundle, templateSourceFile);
         if (template == null) { // default template
-            findTemplate(bundleContext.getBundle(), templateSourceFile);
+            template = findTemplate(bundleContext.getBundle(), templateSourceFile);
+        }
+        headerTemplate = findTemplate(currentBundle, templateSourceFile4Header);
+        if (headerTemplate == null) { // default template
+            headerTemplate = findTemplate(bundleContext.getBundle(), templateSourceFile4Header);
         }
     }
 
@@ -78,8 +84,13 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
         HtmlRenderer renderer = new HtmlRenderer(template);
         renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
 
+        HtmlRenderer headerRenderer = new HtmlRenderer(headerTemplate);
+        headerRenderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
+        headerRenderer.render("header");
+        
+        
         String tmp = "<table class='table table-hover table-bordered'>\n<tr><th colspan=2 style='background-color:#F5F5F5;'></th></tr>\n"
-                + renderer.render() + "</table>\n";
+                + renderer.render("mapIteration") + "</table>\n";
 
         accordionGroup = accordionGroup.replace("${inner}", tmp);
         accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));

@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.not;
 
 import java.util.HashMap;
 
+import org.apache.commons.beanutils.BeanMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.stringtemplate.v4.STGroup;
@@ -17,7 +18,15 @@ import de.twenty11.skysail.server.presentation.render.MapTransformer;
 
 public class HtmlRendererTest {
 
-    private HtmlRenderer htmlRenderer;
+    public class DummyEntity {
+    	public String testprop = "test";
+    	@Override
+    	public String toString() {
+    		return testprop;
+    	}
+	}
+
+	private HtmlRenderer htmlRenderer;
     private HashMap<String, Object> map;
 
     @Before
@@ -29,28 +38,34 @@ public class HtmlRendererTest {
     @Test
     public void renders_string_attribute() throws Exception {
         map.put("stringKey", "stringValue");
-        String tmpl = "#map.keys:{k| <tr><td style='width:300px;'><b>#k#</b></td><td>#map.(k)#</td></tr>}#\n";
 
         // @formatter:off
         String template = 
-        "mapIteration(map) ::= \"$map.keys:{key| <tr>$withTDs(key)$$withTDs(map.(key))$</tr>}$\n\"" +
-        "withTableCols(x)  ::= \"<td>$x$</td>\"";
-
-        template = 
         "mapIteration(map) ::= \"$map.keys:{key| $asRow(map,key)$}$\n\"" +
         "asRow(map,k)      ::= \"<tr><td><b>$k$</b></td><td>$map.(k)$</td></tr>\"";
-
+        // @formatter:on
         
         STGroup group = new STGroupString("template", template, '$','$');
 		htmlRenderer = new HtmlRenderer(group);
         htmlRenderer.setRendererInput(new MapTransformer(map).clean(new DefaultCleaningStrategy()).asRendererInput());
-        // htmlRenderer = new HtmlRenderer("templates/test.stg", new MapTransformer(map).clean(
-        // new DefaultCleaningStrategy()).asRendererInput());
-        String renderedHtml = htmlRenderer.render();
+        String renderedHtml = htmlRenderer.render("mapIteration");
         System.out.println(renderedHtml);
 
         assertThat(renderedHtml, containsString("stringKey"));
         assertThat(renderedHtml, containsString("stringValue"));
         assertThat(renderedHtml, not(containsString("myClass")));
     }
+    
+    @Test
+	public void renders_default_header() throws Exception {
+    	BeanMap beanMap = new BeanMap(new DummyEntity());
+    	
+    	String template = "header(map)       ::= \"<b>$map.toString$</b>\"";
+    	STGroup group = new STGroupString("template", template, '$','$');
+    	htmlRenderer = new HtmlRenderer(group);
+        htmlRenderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
+        
+        String renderedHtml = htmlRenderer.render("header");
+        System.out.println(renderedHtml);
+	}
 }

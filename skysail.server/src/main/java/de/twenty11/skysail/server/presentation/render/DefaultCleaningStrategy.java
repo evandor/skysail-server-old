@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.beanutils.BeanMap;
+
 public class DefaultCleaningStrategy implements CleaningStrategy {
 
     public static final String CLASS_INDENTIFIER = "class";
@@ -16,6 +18,9 @@ public class DefaultCleaningStrategy implements CleaningStrategy {
                 continue;
             }
             result.put(entry.getKey(), entry.getValue());
+        }
+        if (inputMap instanceof BeanMap && !result.containsKey("toString")) {
+        	result.put("toString", ((BeanMap)inputMap).getBean().toString());
         }
         return result;
     }
