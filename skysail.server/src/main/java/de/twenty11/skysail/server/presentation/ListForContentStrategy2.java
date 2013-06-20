@@ -28,22 +28,17 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
     private STGroupString template;
     private STGroupString headerTemplate;
 
-    public ListForContentStrategy2(BundleContext bundleContext, Resource resource2, 
-    		String templateSourceFile, String templateSourceFile4Header) {
+    public ListForContentStrategy2(BundleContext bundleContext, Resource resource2) {
         SkysailApplication currentApplication = (SkysailApplication) resource2.getApplication();
         Bundle currentBundle = currentApplication.getBundle();
-        template = findTemplate(currentBundle, templateSourceFile);
+        template = findTemplate(currentBundle, resource2.getClass().getSimpleName() + ".stg");
         if (template == null) { // default template
-            template = findTemplate(bundleContext.getBundle(), templateSourceFile);
-        }
-        headerTemplate = findTemplate(currentBundle, templateSourceFile4Header);
-        if (headerTemplate == null) { // default template
-            headerTemplate = findTemplate(bundleContext.getBundle(), templateSourceFile4Header);
+            template = findTemplate(bundleContext.getBundle(), "list.stg");
         }
     }
 
     private STGroupString findTemplate(Bundle bundle, String templateSourceFile) {
-        URL bundleResourceUrl = bundle.getResource(templateSourceFile);
+        URL bundleResourceUrl = bundle.getResource("templates/" + templateSourceFile);
         if (bundleResourceUrl == null) {
             return null;
         }
@@ -84,16 +79,11 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
         HtmlRenderer renderer = new HtmlRenderer(template);
         renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
 
-        HtmlRenderer headerRenderer = new HtmlRenderer(headerTemplate);
-        headerRenderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
-        headerRenderer.render("header");
-        
-        
         String tmp = "<table class='table table-hover table-bordered'>\n<tr><th colspan=2 style='background-color:#F5F5F5;'></th></tr>\n"
                 + renderer.render("mapIteration") + "</table>\n";
 
         accordionGroup = accordionGroup.replace("${inner}", tmp);
-        accordionGroup = accordionGroup.replace("${hlink}", object.toString());
+        accordionGroup = accordionGroup.replace("${hlink}", renderer.render("header"));
         accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
         sb.append(accordionGroup).append("\n");
         return i;
