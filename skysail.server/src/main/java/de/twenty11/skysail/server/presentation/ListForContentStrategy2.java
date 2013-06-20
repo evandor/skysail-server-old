@@ -82,6 +82,7 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
                 + renderer.render() + "</table>\n";
 
         accordionGroup = accordionGroup.replace("${inner}", tmp);
+        accordionGroup = accordionGroup.replace("${hlink}", object.toString());
         accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
         sb.append(accordionGroup).append("\n");
         return i;
