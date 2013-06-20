@@ -24,6 +24,8 @@ import org.restlet.representation.Variant;
 import org.restlet.resource.Resource;
 import org.restlet.routing.Route;
 import org.restlet.util.RouteList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.PresentationStyle;
 import de.twenty11.skysail.common.commands.Command;
@@ -39,19 +41,31 @@ import de.twenty11.skysail.server.utils.IOUtils;
 
 public class Json2BootstrapConverter extends ConverterHelper {
 
-    private InputStream bootstrapTemplateResource = this.getClass().getResourceAsStream("bootstrap.template");
-    private final String rootTemplate = IOUtils.convertStreamToString(bootstrapTemplateResource);
-
-    private InputStream d3SimpleGraphTemplateResource = this.getClass().getResourceAsStream("d3SimpleGraph.template");
-    private final String d3SimpleGraphTemplate = IOUtils.convertStreamToString(d3SimpleGraphTemplateResource);
-    // private BundleContext bundleContext;
+    private static final Logger logger = LoggerFactory.getLogger(Json2BootstrapConverter.class);
     private SkysailApplication skysailApplication;
+    private String rootTemplate;
+    private String d3SimpleGraphTemplate;
 
     private static final VariantInfo VARIANT_JSON = new VariantInfo(MediaType.APPLICATION_JSON);
 
     public Json2BootstrapConverter(SkysailApplication skysailApplication) {
-        // this.bundleContext = skysailApplication.getBundleContext();
         this.skysailApplication = skysailApplication;
+
+        InputStream bootstrapTemplateResource = this.getClass().getResourceAsStream("bootstrap.template");
+        rootTemplate = IOUtils.convertStreamToString(bootstrapTemplateResource);
+        try {
+            bootstrapTemplateResource.close();
+        } catch (IOException e) {
+            logger.error("Problem closing resource", e);
+        }
+        
+        InputStream d3SimpleGraphTemplateResource = this.getClass().getResourceAsStream("d3SimpleGraph.template");
+        d3SimpleGraphTemplate = IOUtils.convertStreamToString(d3SimpleGraphTemplateResource);
+        try {
+            d3SimpleGraphTemplateResource.close();
+        } catch (IOException e) {
+            logger.error("Problem closing resource", e);
+        }
     }
 
     @Override
@@ -107,7 +121,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return result;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     public Representation toRepresentation(Object source, Variant target, Resource resource) {
         Representation representation;
@@ -178,7 +192,8 @@ public class Json2BootstrapConverter extends ConverterHelper {
         float performance = new Long(1000000000) / executionTimeInNanos;
         page = page.replace("${performance}", String.format("%s", performance));
         page = page.replace("${result}", calcResult(skysailResponse));
-        page = page.replace("${message}", skysailResponse.getMessage() == null ? "no message available"
+        page = page.replace("${message}", skysailResponse.getMessage() == null
+                ? "no message available"
                 : skysailResponse.getMessage());
         page = page.replace("${linkedPages}", linkedPages(resource));
         page = page.replace("${commands}", commands(resource));
@@ -356,10 +371,12 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
     private String calcResult(SkysailResponse<List<?>> skysailResponse) {
         if (skysailResponse instanceof ConstraintViolationsResponse) {
-            return skysailResponse.getSuccess() ? "<span class=\"label label-success\">Success</span>"
+            return skysailResponse.getSuccess()
+                    ? "<span class=\"label label-success\">Success</span>"
                     : "<span class=\"label label-warning\">business rule violation</span>";
         }
-        return skysailResponse.getSuccess() ? "<span class=\"label label-success\">Success</span>"
+        return skysailResponse.getSuccess()
+                ? "<span class=\"label label-success\">Success</span>"
                 : "<span class=\"label label-important\">failure</span>";
     }
 

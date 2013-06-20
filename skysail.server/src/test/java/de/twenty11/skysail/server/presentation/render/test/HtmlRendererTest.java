@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 
+import java.io.InputStream;
 import java.util.HashMap;
 
 import org.apache.commons.beanutils.BeanMap;
@@ -15,6 +16,7 @@ import org.stringtemplate.v4.STGroupString;
 import de.twenty11.skysail.server.presentation.render.DefaultCleaningStrategy;
 import de.twenty11.skysail.server.presentation.render.HtmlRenderer;
 import de.twenty11.skysail.server.presentation.render.MapTransformer;
+import de.twenty11.skysail.server.utils.IOUtils;
 
 public class HtmlRendererTest {
 
@@ -28,23 +30,22 @@ public class HtmlRendererTest {
 
 	private HtmlRenderer htmlRenderer;
     private HashMap<String, Object> map;
+    private String template;
 
     @Before
     public void setUp() throws Exception {
         map = new HashMap<String, Object>();
         map.put(DefaultCleaningStrategy.CLASS_INDENTIFIER, "myClass");
+        
+        InputStream is = this.getClass().getResourceAsStream("ListServerResource2.stg");
+        template = IOUtils.convertStreamToString(is);
+        is.close();
     }
 
     @Test
     public void renders_string_attribute() throws Exception {
         map.put("stringKey", "stringValue");
 
-        // @formatter:off
-        String template = 
-        "mapIteration(map) ::= \"$map.keys:{key| $asRow(map,key)$}$\n\"" +
-        "asRow(map,k)      ::= \"<tr><td><b>$k$</b></td><td>$map.(k)$</td></tr>\"";
-        // @formatter:on
-        
         STGroup group = new STGroupString("template", template, '$','$');
 		htmlRenderer = new HtmlRenderer(group);
         htmlRenderer.setRendererInput(new MapTransformer(map).clean(new DefaultCleaningStrategy()).asRendererInput());

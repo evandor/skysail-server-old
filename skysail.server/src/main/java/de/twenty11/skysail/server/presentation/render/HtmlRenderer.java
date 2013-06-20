@@ -9,7 +9,6 @@ import org.stringtemplate.v4.STGroup;
 public class HtmlRenderer implements Renderer {
 
     private RendererInput rendererInput;
-    private String tmpl;
     private STGroup template;
 
     public HtmlRenderer(STGroup template2) {

@@ -26,14 +26,14 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
     private static Logger logger = LoggerFactory.getLogger(ListForContentStrategy2.class);
 
     private STGroupString template;
-    private STGroupString headerTemplate;
 
     public ListForContentStrategy2(BundleContext bundleContext, Resource resource2) {
         SkysailApplication currentApplication = (SkysailApplication) resource2.getApplication();
         Bundle currentBundle = currentApplication.getBundle();
         template = findTemplate(currentBundle, resource2.getClass().getSimpleName() + ".stg");
         if (template == null) { // default template
-            template = findTemplate(bundleContext.getBundle(), "list.stg");
+            template = findTemplate(bundleContext.getBundle(), 
+            		resource2.getClass().getSuperclass().getSimpleName() + ".stg");
         }
     }
 
@@ -45,7 +45,9 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
         InputStream is;
         try {
             is = new BufferedInputStream(bundleResourceUrl.openStream());
-            return new STGroupString(templateSourceFile, IOUtils.convertStreamToString(is), '$', '$');
+            STGroupString result = new STGroupString(templateSourceFile, IOUtils.convertStreamToString(is), '$', '$');
+            is.close();
+            return result;
         } catch (IOException e) {
             logger.error("Problem reading bundle resource '{}'", templateSourceFile);
             throw new RuntimeException(e);
@@ -71,7 +73,8 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
         return page;
     }
 
-    private int handleDataElementsForList2(StringBuilder sb, int i, Object object, STGroupString template) {
+    @SuppressWarnings("unchecked")
+	private int handleDataElementsForList2(StringBuilder sb, int i, Object object, STGroupString template) {
         String accordionGroup = accordionGroupTemplate;
         i++;
         BeanMap beanMap = new BeanMap(object);

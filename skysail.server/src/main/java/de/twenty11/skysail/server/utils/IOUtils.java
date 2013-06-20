@@ -8,7 +8,9 @@ public class IOUtils {
         	return null;
         }
         java.util.Scanner s = new java.util.Scanner(is, "UTF-8").useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
+        String result = s.hasNext() ? s.next() : "";
+        s.close();
+        return result;
     }
 
 }

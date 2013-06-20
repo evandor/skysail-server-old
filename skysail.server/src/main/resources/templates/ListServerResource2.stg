@@ -1,0 +1,3 @@
+mapIteration(map) ::= "$map.keys:{key| $asRow(map,key)$}$"
+asRow(map,k)      ::= "<tr><td><b>$k$</b></td><td>$map.(k)$</td></tr>"
+header(map)       ::= "<i class='icon-play'></i>&nbsp;<b>no template *.stg found</b>"

@@ -1,9 +1,13 @@
 package de.twenty11.skysail.server.presentation;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map.Entry;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.Presentable;
 import de.twenty11.skysail.common.Presentable2;
@@ -13,9 +17,20 @@ import de.twenty11.skysail.server.utils.IOUtils;
 
 public abstract class AbstractHtmlCreatingStrategy implements HtmlCreatingStrategy {
 
-    private InputStream accordionGroupTemplateResource = this.getClass().getResourceAsStream("accordionGroup.template");
-    final String accordionGroupTemplate = IOUtils.convertStreamToString(accordionGroupTemplateResource);
+	private static final Logger logger = LoggerFactory.getLogger(AbstractHtmlCreatingStrategy.class);
+	
+    protected String accordionGroupTemplate;
 
+	public AbstractHtmlCreatingStrategy() {
+        InputStream accordionGroupTemplateResource = this.getClass().getResourceAsStream("accordionGroup.template");
+        accordionGroupTemplate = IOUtils.convertStreamToString(accordionGroupTemplateResource);
+        try {
+			accordionGroupTemplateResource.close();
+		} catch (IOException e) {
+			logger.error("Problem closing resource",e);
+		}
+	}
+    
     @Override
     public abstract String createHtml(String page, Object skysailResponseAsObject,
             SkysailResponse<List<?>> skysailResponse);
