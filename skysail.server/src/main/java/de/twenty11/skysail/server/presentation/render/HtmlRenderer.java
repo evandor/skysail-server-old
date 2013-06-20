@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
-import org.stringtemplate.v4.STGroupString;
 
 public class HtmlRenderer implements Renderer {
 
@@ -13,37 +12,14 @@ public class HtmlRenderer implements Renderer {
     private String tmpl;
     private STGroup template;
 
-    // public HtmlRenderer(String tmpl, RendererInput rendererInput) {
-    // this.tmpl = tmpl;
-    // this.rendererInput = rendererInput;
-    //
-    // InputStream resourceAsStream = this.getClass().getResourceAsStream(tmpl);
-    // String templateGroup = IOUtils.convertStreamToString(resourceAsStream);
-    // System.out.println(templateGroup);
-    //
-    // STGroup g = new STGroupString(tmpl, templateGroup, '%', '%');
-    // ST st = g.getInstanceOf("mapIteration");
-    // st.add("map", new BeanMap());
-    // String result = st.render();
-    // System.out.println(result);
-    // }
-    //
-//    public HtmlRenderer(String relativeTemplateFilePath) {
-//        Class<? extends HtmlRenderer> rendererClass = this.getClass();
-//        InputStream resourceAsStream = rendererClass.getResourceAsStream(tmpl);
-//        String templateGroup = IOUtils.convertStreamToString(resourceAsStream);
-//        System.out.println(templateGroup);
-//        template = new STGroupString(tmpl, templateGroup, '%', '%');
-//    }
-
     public HtmlRenderer(STGroup template2) {
 		this.template = template2;
 	}
 
 	@Override
-    public String render() {
+    public String render(String declaration) {
         Map<String, Object> outputMap = determineResultMap(rendererInput.getMap());
-        ST html = template.getInstanceOf("mapIteration");// new ST(template, '#', '#');
+        ST html = template.getInstanceOf(declaration);// new ST(template, '#', '#');
         html.add("map", outputMap);
 
         return html.render();

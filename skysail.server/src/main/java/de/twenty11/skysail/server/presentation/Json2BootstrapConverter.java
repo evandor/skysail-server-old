@@ -197,7 +197,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
             } else if (style.equals(PresentationStyle.LIST2)) {
                 StrategyContext context = new StrategyContext(new ListForContentStrategy2(
-                        skysailApplication.getBundleContext(), resource, "templates/list.stg"));
+                        skysailApplication.getBundleContext(), resource, "templates/list.stg", "templates/header.stg"));
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
             } else if (style.equals(PresentationStyle.TABLE)) {
                 StrategyContext context = new StrategyContext(new TableForContentStrategy());
