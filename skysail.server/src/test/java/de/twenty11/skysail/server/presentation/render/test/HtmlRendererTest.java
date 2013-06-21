@@ -1,74 +1,66 @@
 package de.twenty11.skysail.server.presentation.render.test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.not;
-
 import java.io.InputStream;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.beanutils.BeanMap;
 import org.junit.Before;
 import org.junit.Test;
+import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.STGroupString;
 
-import de.twenty11.skysail.server.presentation.render.DefaultCleaningStrategy;
-import de.twenty11.skysail.server.presentation.render.HtmlRenderer;
-import de.twenty11.skysail.server.presentation.render.MapTransformer;
 import de.twenty11.skysail.server.utils.IOUtils;
+
+import static org.hamcrest.Matchers.containsString;
+
+import static org.junit.Assert.assertThat;
 
 public class HtmlRendererTest {
 
-    public class DummyEntity {
-        public String testprop = "test";
+    public class Entity {
 
-        @Override
-        public String toString() {
-            return testprop;
+        private String name;
+
+        public Entity(String name) {
+            this.name = name;
         }
+        
+        public String getName() {
+            return name;
+        }
+
     }
 
-    private HtmlRenderer htmlRenderer;
-    private HashMap<String, Object> map;
-    private String template;
+    private List<BeanMap> list;
+    private STGroup group;
 
     @Before
     public void setUp() throws Exception {
-        map = new HashMap<String, Object>();
-        map.put(DefaultCleaningStrategy.CLASS_INDENTIFIER, "myClass");
-
-        InputStream is = this.getClass().getResourceAsStream("/templates/ListServerResource2.stg");
-        template = IOUtils.convertStreamToString(is);
+        InputStream is = this.getClass().getResourceAsStream("/templates/ListServerResource2Test.stg");
+        String template = IOUtils.convertStreamToString(is);
         is.close();
+        group = new STGroupString("template", template, '$', '$');
+
+        list = new ArrayList<BeanMap>();
+        list.add(new BeanMap(new Entity("first")));
+        list.add(new BeanMap(new Entity("second")));
+
     }
 
     @Test
-    public void renders_string_attribute() throws Exception {
-        map.put("stringKey", "stringValue");
+    public void renders_listResource_as_accordion() throws Exception {
+ 
+        ST accordion = group.getInstanceOf("accordion");
+        accordion.add("list", list);
+        accordion.inspect();
 
-        STGroup group = new STGroupString("template", template, '$', '$');
-        htmlRenderer = new HtmlRenderer(group);
-        htmlRenderer.setRendererInput(new MapTransformer(map).clean(new DefaultCleaningStrategy()).asRendererInput());
-        String renderedHtml = htmlRenderer.render("mapIteration");
-        System.out.println(renderedHtml);
-
-        assertThat(renderedHtml, containsString("stringKey"));
-        assertThat(renderedHtml, containsString("stringValue"));
-        assertThat(renderedHtml, not(containsString("myClass")));
+        String renderedHtml = accordion.render();
+        assertThat(renderedHtml, containsString("<accordion>"));
+        assertThat(renderedHtml, containsString("</accordion>"));
+        
+        assertThat(renderedHtml, containsString("<asRow>name: first</asRow>"));
     }
 
-    @Test
-    public void renders_default_header() throws Exception {
-        BeanMap beanMap = new BeanMap(new DummyEntity());
-
-        String template = "header(map)       ::= \"<b>$map.toString$</b>\"";
-        STGroup group = new STGroupString("template", template, '$', '$');
-        htmlRenderer = new HtmlRenderer(group);
-        htmlRenderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy())
-                .asRendererInput());
-
-        String renderedHtml = htmlRenderer.render("header");
-        System.out.println(renderedHtml);
-    }
 }

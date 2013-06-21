@@ -4,16 +4,19 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanMap;
+import org.apache.commons.beanutils.LazyDynaList;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.restlet.resource.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupString;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
@@ -24,6 +27,20 @@ import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.utils.IOUtils;
 
 public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
+
+    public class ListWrapper {
+
+        private List obj;
+
+        public ListWrapper(List obj) {
+            this.obj = obj;
+        }
+
+        public List getObject() {
+            return this.obj;
+        }
+
+    }
 
     private static Logger logger = LoggerFactory.getLogger(ListForContentStrategy2.class);
 
@@ -58,39 +75,27 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
 
     @Override
     public String createHtml(String page, Object skysailResponseAsObject, SkysailResponse<List<?>> skysailResponse) {
-        StringBuilder sb = new StringBuilder("<div class=\"accordion\" id=\"accordion2\">\n");
-
         if (skysailResponseAsObject instanceof List) {
             List<?> data = (List<?>) skysailResponseAsObject;
-            Map<Integer,Object> result = new HashMap<Integer,Object>();
-            int i = 0;
+            List<Object> result = new ArrayList<Object>();
             if (data != null) {
                 for (Object object : data) {
-                    result.put(i++, object);
+                    result.add(new BeanMap(object));
                 }
             }
-            BeanMap beanMap = new BeanMap(result);
+            ST html = template.getInstanceOf("accordion");
+            html.add("list", result);
+            html.inspect();
 
-            HtmlRenderer renderer = new HtmlRenderer(template);
-            renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
-            page = page.replace("${content}", renderer.render("accordion"));
+//            BeanMap beanMap = new BeanMap(((List) skysailResponseAsObject).get(0));// new ListWrapper((List<?>)
+//                                                                                   // skysailResponseAsObject));
+//
+//            HtmlRenderer renderer = new HtmlRenderer(template);
+//            renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy())
+//                    .asRendererInput());
+            page = page.replace("${content}", html.render());
         }
 
-        
-
-        // if (skysailResponseAsObject instanceof List) {
-        // List<?> data = (List<?>) skysailResponseAsObject;
-        // int i = 0;
-        // if (data != null) {
-        // for (Object object : data) {
-        // i = handleDataElementsForList2(sb, i, object, template);
-        // }
-        // }
-        // } else {
-        // handleDataElementsForList2(sb, 1, skysailResponseAsObject, template);
-        // }
-        // sb.append("</div>\n");
-       
         return page;
     }
 

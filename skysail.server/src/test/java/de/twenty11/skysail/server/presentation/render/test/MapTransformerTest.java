@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.twenty11.skysail.server.presentation.render.DefaultCleaningStrategy;
@@ -27,6 +28,7 @@ public class MapTransformerTest {
     }
 
     @Test
+    @Ignore
     public void testName() throws Exception {
         MapTransformer transformer = new MapTransformer(map);
         RendererInput ri = transformer.clean(new DefaultCleaningStrategy()).asRendererInput();
