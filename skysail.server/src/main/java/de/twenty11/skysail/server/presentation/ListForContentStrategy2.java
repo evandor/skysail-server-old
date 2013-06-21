@@ -32,8 +32,8 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
         Bundle currentBundle = currentApplication.getBundle();
         template = findTemplate(currentBundle, resource2.getClass().getSimpleName() + ".stg");
         if (template == null) { // default template
-            template = findTemplate(bundleContext.getBundle(), 
-            		resource2.getClass().getSuperclass().getSimpleName() + ".stg");
+            template = findTemplate(bundleContext.getBundle(), resource2.getClass().getSuperclass().getSimpleName()
+                    + ".stg");
         }
     }
 
@@ -57,24 +57,40 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
     @Override
     public String createHtml(String page, Object skysailResponseAsObject, SkysailResponse<List<?>> skysailResponse) {
         StringBuilder sb = new StringBuilder("<div class=\"accordion\" id=\"accordion2\">\n");
+
         if (skysailResponseAsObject instanceof List) {
             List<?> data = (List<?>) skysailResponseAsObject;
             int i = 0;
             if (data != null) {
                 for (Object object : data) {
-                    i = handleDataElementsForList2(sb, i, object, template);
+                    // DynaB
                 }
             }
-        } else {
-            handleDataElementsForList2(sb, 1, skysailResponseAsObject, template);
         }
-        sb.append("</div>\n");
-        page = page.replace("${content}", sb.toString());
+
+        BeanMap beanMap = new BeanMap(skysailResponseAsObject);
+
+        HtmlRenderer renderer = new HtmlRenderer(template);
+        renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
+
+        // if (skysailResponseAsObject instanceof List) {
+        // List<?> data = (List<?>) skysailResponseAsObject;
+        // int i = 0;
+        // if (data != null) {
+        // for (Object object : data) {
+        // i = handleDataElementsForList2(sb, i, object, template);
+        // }
+        // }
+        // } else {
+        // handleDataElementsForList2(sb, 1, skysailResponseAsObject, template);
+        // }
+        // sb.append("</div>\n");
+        page = page.replace("${content}", renderer.render("accordion"));
         return page;
     }
 
     @SuppressWarnings("unchecked")
-	private int handleDataElementsForList2(StringBuilder sb, int i, Object object, STGroupString template) {
+    private int handleDataElementsForList2(StringBuilder sb, int i, Object object, STGroupString template) {
         String accordionGroup = accordionGroupTemplate;
         i++;
         BeanMap beanMap = new BeanMap(object);
@@ -82,13 +98,15 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
         HtmlRenderer renderer = new HtmlRenderer(template);
         renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
 
-        String tmp = "<table class='table table-hover table-bordered'>\n<tr><th colspan=2 style='background-color:#F5F5F5;'></th></tr>\n"
-                + renderer.render("mapIteration") + "</table>\n";
+        // String tmp =
+        // "<table class='table table-hover table-bordered'>\n<tr><th colspan=2 style='background-color:#F5F5F5;'></th></tr>\n"
+        // + renderer.render("mapIteration") + "</table>\n";
 
-        accordionGroup = accordionGroup.replace("${inner}", tmp);
-        accordionGroup = accordionGroup.replace("${hlink}", renderer.render("header"));
-        accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
-        sb.append(accordionGroup).append("\n");
+        // accordionGroup = accordionGroup.replace("${inner}", renderer.render("table"));
+        // accordionGroup = accordionGroup.replace("${hlink}", renderer.render("header"));
+        // accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
+        // sb.append(accordionGroup).append("\n");
+        sb.append(renderer.render("accordion"));
         return i;
     }
 

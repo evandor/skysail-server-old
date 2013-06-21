@@ -12,9 +12,9 @@ public class DefaultCleaningStrategy implements CleaningStrategy {
     public Map<String, Object> clean(Map<String, Object> inputMap) {
         Map<String, Object> result = new HashMap<String, Object>();
         for (Entry<String, Object> entry : inputMap.entrySet()) {
-            if (CLASS_INDENTIFIER.equals(entry.getKey())) {
-                continue;
-            }
+            // if (CLASS_INDENTIFIER.equals(entry.getKey())) {
+            // continue;
+            // }
             result.put(entry.getKey(), entry.getValue());
         }
         return result;

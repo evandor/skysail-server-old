@@ -6,6 +6,7 @@ Import-Package:	de.twenty11.skysail.common;version="[0.2.1, 1.0.0)",\
  org.restlet.ext.xstream;resolution:=optional,\
  org.codehaus.jackson.*;resolution:=optional,\
  org.apache.pdfbox.*;resolution:=optional,\
+ javax.swing.*;resolution:=optional,\
  org.restlet.*,\
  !org.ops4j.pax.exam.*,\
  *
