@@ -4,7 +4,9 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.BeanMap;
 import org.osgi.framework.Bundle;
@@ -60,18 +62,21 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
 
         if (skysailResponseAsObject instanceof List) {
             List<?> data = (List<?>) skysailResponseAsObject;
+            Map<Integer,Object> result = new HashMap<Integer,Object>();
             int i = 0;
             if (data != null) {
                 for (Object object : data) {
-                    // DynaB
+                    result.put(i++, object);
                 }
             }
+            BeanMap beanMap = new BeanMap(result);
+
+            HtmlRenderer renderer = new HtmlRenderer(template);
+            renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
+            page = page.replace("${content}", renderer.render("accordion"));
         }
 
-        BeanMap beanMap = new BeanMap(skysailResponseAsObject);
-
-        HtmlRenderer renderer = new HtmlRenderer(template);
-        renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
+        
 
         // if (skysailResponseAsObject instanceof List) {
         // List<?> data = (List<?>) skysailResponseAsObject;
@@ -85,7 +90,7 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
         // handleDataElementsForList2(sb, 1, skysailResponseAsObject, template);
         // }
         // sb.append("</div>\n");
-        page = page.replace("${content}", renderer.render("accordion"));
+       
         return page;
     }
 
