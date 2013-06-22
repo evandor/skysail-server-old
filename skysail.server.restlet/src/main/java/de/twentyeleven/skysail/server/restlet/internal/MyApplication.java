@@ -13,12 +13,12 @@ import de.twentyeleven.skysail.server.restlet.MyRootResource;
 public class MyApplication extends SkysailApplication {
 
     public MyApplication(BundleContext bundleContext) {
-        super(null);
+        super();
         setDescription("RESTful OsgiMonitor bundle");
         setOwner("twentyeleven");
         setName("restlet");
         setAuthor("twenty11");
-        setBundleContext(bundleContext);
+        //setBundleContext(bundleContext);
     }
     
     protected void attach() {
