@@ -14,6 +14,7 @@ import org.osgi.framework.BundleContext;
 import org.restlet.Application;
 import org.restlet.Request;
 import org.restlet.data.MediaType;
+import org.restlet.data.Parameter;
 import org.restlet.data.Reference;
 import org.restlet.engine.converter.ConverterHelper;
 import org.restlet.engine.resource.VariantInfo;

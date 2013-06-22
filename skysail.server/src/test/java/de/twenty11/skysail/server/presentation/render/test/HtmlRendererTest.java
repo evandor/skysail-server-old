@@ -54,7 +54,7 @@ public class HtmlRendererTest {
  
         ST accordion = group.getInstanceOf("accordion");
         accordion.add("list", list);
-        accordion.inspect();
+        //accordion.inspect();
 
         String renderedHtml = accordion.render();
         assertThat(renderedHtml, containsString("<accordion>"));
