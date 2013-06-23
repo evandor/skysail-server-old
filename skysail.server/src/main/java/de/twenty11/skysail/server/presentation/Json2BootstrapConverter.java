@@ -14,7 +14,6 @@ import org.osgi.framework.BundleContext;
 import org.restlet.Application;
 import org.restlet.Request;
 import org.restlet.data.MediaType;
-import org.restlet.data.Parameter;
 import org.restlet.data.Reference;
 import org.restlet.engine.converter.ConverterHelper;
 import org.restlet.engine.resource.VariantInfo;
@@ -43,14 +42,12 @@ import de.twenty11.skysail.server.utils.IOUtils;
 public class Json2BootstrapConverter extends ConverterHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(Json2BootstrapConverter.class);
-    private SkysailApplication skysailApplication;
     private String rootTemplate;
     private String d3SimpleGraphTemplate;
 
     private static final VariantInfo VARIANT_JSON = new VariantInfo(MediaType.APPLICATION_JSON);
 
-    public Json2BootstrapConverter(SkysailApplication skysailApplication) {
-        this.skysailApplication = skysailApplication;
+    public Json2BootstrapConverter() {
 
         InputStream bootstrapTemplateResource = this.getClass().getResourceAsStream("bootstrap.template");
         rootTemplate = IOUtils.convertStreamToString(bootstrapTemplateResource);
@@ -201,10 +198,10 @@ public class Json2BootstrapConverter extends ConverterHelper {
         page = page.replace("${presentations}", presentations());
         page = page.replace("${filterExpression}", getFilter());
         page = page.replace("${history}", getHistory());
-        page = page.replace("${mainNav}", getMainNav(skysailApplication.getBundleContext()));
+        page = page.replace("${mainNav}", getMainNav(((SkysailApplication)resource.getApplication()).getBundleContext()));
         page = page.replace("${username}", "<li><a href='#'><i class=\"icon-user icon-white\"></i>&nbsp;"
                 + resource.getRequest().getChallengeResponse().getIdentifier() + "</a></li>\n");
-        page = page.replace("${productName}", skysailApplication.getConfigForKey("productName"));
+        page = page.replace("${productName}", ((SkysailApplication)resource.getApplication()).getConfigForKey("productName"));
 
         Object skysailResponseAsObject = skysailResponse.getData();
         if (skysailResponseAsObject != null) {
@@ -213,7 +210,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
             } else if (style.equals(PresentationStyle.LIST2)) {
                 StrategyContext context = new StrategyContext(new ListForContentStrategy2(
-                        skysailApplication.getBundleContext(), resource));
+                        ((SkysailApplication)resource.getApplication()).getBundleContext(), resource));
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
             } else if (style.equals(PresentationStyle.TABLE)) {
                 StrategyContext context = new StrategyContext(new TableForContentStrategy());

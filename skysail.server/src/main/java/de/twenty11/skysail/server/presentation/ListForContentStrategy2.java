@@ -41,16 +41,26 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
         if (renderAs != null) {
             location = renderAs.getValue() + "/" + location;
         }
-        template = findTemplate(currentBundle, location);
+        if (currentBundle != null) {
+            template = findTemplate(currentBundle, location);
+        } else {
+            logger.info("Could not determine the current bundle");
+        }
         if (template == null) { // default template
             location = resource.getClass().getSuperclass().getSimpleName() + ".stg";
             if (renderAs != null) {
                 location = renderAs.getValue() + "/" + location;
             }
-            template = findTemplate(bundleContext.getBundle(), location);
-            if (template == null) {
-                location = resource.getClass().getSuperclass().getSimpleName() + ".stg";
-                template = findTemplate(bundleContext.getBundle(), location);
+            
+            Bundle[] allBundles = bundleContext.getBundles();
+            for (Bundle bundle : allBundles) {
+                if (bundle.getSymbolicName().equals("skysail.server")) {
+                    template = findTemplate(bundle, location);
+                    if (template == null) {
+                        location = resource.getClass().getSuperclass().getSimpleName() + ".stg";
+                        template = findTemplate(bundle, location);
+                    }
+                }
             }
         }
     }
@@ -71,14 +81,14 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
             }
             ST accordionHtml = template.getInstanceOf(templateIdentifier);
             accordionHtml.add("list", result);
-            //html.inspect();
+            // html.inspect();
 
-//            BeanMap beanMap = new BeanMap(((List) skysailResponseAsObject).get(0));// new ListWrapper((List<?>)
-//                                                                                   // skysailResponseAsObject));
-//
-//            HtmlRenderer renderer = new HtmlRenderer(template);
-//            renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy())
-//                    .asRendererInput());
+            // BeanMap beanMap = new BeanMap(((List) skysailResponseAsObject).get(0));// new ListWrapper((List<?>)
+            // // skysailResponseAsObject));
+            //
+            // HtmlRenderer renderer = new HtmlRenderer(template);
+            // renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy())
+            // .asRendererInput());
             page = page.replace("${content}", accordionHtml.render());
         }
 

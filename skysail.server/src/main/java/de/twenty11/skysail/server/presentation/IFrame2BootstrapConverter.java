@@ -9,10 +9,6 @@ import de.twenty11.skysail.server.restlet.SkysailApplication;
 
 public class IFrame2BootstrapConverter extends Json2BootstrapConverter {
 
-    public IFrame2BootstrapConverter(SkysailApplication skysailApplication) {
-        super(skysailApplication);
-    }
-
     @Override
     public float score(Object source, Variant target, Resource resource) {
         float result = -1.0F;

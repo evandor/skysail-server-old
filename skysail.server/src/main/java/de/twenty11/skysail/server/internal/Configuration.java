@@ -29,6 +29,7 @@ import org.restlet.Application;
 import org.restlet.Component;
 import org.restlet.Server;
 import org.restlet.engine.Engine;
+import org.restlet.engine.converter.ConverterHelper;
 import org.restlet.security.MapVerifier;
 import org.restlet.security.Verifier;
 import org.slf4j.Logger;
@@ -36,6 +37,10 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.core.osgi.internal.ApplicationState;
+import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
+import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
+import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
+import de.twenty11.skysail.server.presentation.ToCsvConverter;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ComponentProvider;
@@ -83,6 +88,12 @@ public class Configuration implements ComponentProvider {
         server = serverConfig.startStandaloneServer(port, restletComponent);
 
         serverActive = true;
+
+        List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
+        registeredConverters.add(new Json2HtmlConverter());
+        registeredConverters.add(new Json2BootstrapConverter());
+        registeredConverters.add(new IFrame2BootstrapConverter());
+        registeredConverters.add(new ToCsvConverter());
 
         triggerAttachmentOfNewApplications();
     }

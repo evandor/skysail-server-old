@@ -33,7 +33,7 @@ public class Json2BootstrapConverterTest {
 
     @Before
     public void setUp() throws Exception {
-        converter = new Json2BootstrapConverter(null);
+        converter = new Json2BootstrapConverter();
         resource = Mockito.mock(Resource.class);
         myApplication = Mockito.mock(SkysailApplication.class);
         myReference = Mockito.mock(Reference.class);

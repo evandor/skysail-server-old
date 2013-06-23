@@ -58,21 +58,12 @@ public abstract class SkysailApplication extends Application {
 
     private ComponentContext componentContext;
 
+    private BundleContext bundleContext;
+
     /**
      * extending classes should always call super();
      */
     public SkysailApplication() {
-        List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
-        registeredConverters.add(new Json2HtmlConverter());
-        registeredConverters.add(new Json2BootstrapConverter(this));
-        registeredConverters.add(new IFrame2BootstrapConverter(this));
-        registeredConverters.add(new ToCsvConverter());
-        // try {
-        // registeredConverters.add(new ToPdfConverter());
-        // } catch (Exception e) {
-        // logger.warn("pdf converter not available: " + e.getMessage());
-        // }
-        // setContext(restletContext);
     }
 
     abstract protected void attach();
@@ -82,6 +73,9 @@ public abstract class SkysailApplication extends Application {
     // }
 
     public BundleContext getBundleContext() {
+        if (this.bundleContext != null) {
+            return bundleContext;
+        }
         return componentContext != null ? componentContext.getBundleContext() : null;
     }
 
@@ -179,11 +173,23 @@ public abstract class SkysailApplication extends Application {
         this.componentContext = componentContext;
     }
 
+    /**
+     * Some bundles set the componentContext, others (via blueprint) only the bundleContext...
+     * need to revisit
+     * @return
+     */
     public Bundle getBundle() {
+        if (this.bundleContext != null) {
+            return this.bundleContext.getBundle();
+        }
         if (componentContext == null) {
             return null;
         }
         return componentContext.getBundleContext().getBundle();
+    }
+
+    public synchronized void setBundleContext(BundleContext bc) {
+        this.bundleContext = bc;
     }
 
 }
