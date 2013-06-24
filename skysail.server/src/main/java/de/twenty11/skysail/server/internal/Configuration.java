@@ -30,7 +30,6 @@ import org.restlet.Component;
 import org.restlet.Server;
 import org.restlet.engine.Engine;
 import org.restlet.engine.converter.ConverterHelper;
-import org.restlet.security.MapVerifier;
 import org.restlet.security.Verifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +55,6 @@ public class Configuration implements ComponentProvider {
     private ConfigurationAdmin configadmin;
     private ServerConfiguration serverConfig;
     private ServiceRegistration registration;
-    private MapVerifier verifier;
     private ApplicationsHolder applications = new ApplicationsHolder();
     private boolean serverActive = false;
 
@@ -65,8 +63,6 @@ public class Configuration implements ComponentProvider {
 
         logger.info("Activating Skysail Component");
         this.componentContext = componentContext;
-        this.verifier = serverConfig.getVerifier(configadmin);
-
 
         logger.info("Starting component for Skysail...");
         String port = (String) serverConfig.getConfigForKey("port");
@@ -81,7 +77,7 @@ public class Configuration implements ComponentProvider {
         restletComponent = new SkysailComponent(this.componentContext);
 
         SkysailApplication defaultApplication = new DefaultSkysailApplication(componentContext);
-        defaultApplication.setVerifier(verifier);
+        defaultApplication.setVerifier(serverConfig.getVerifier(configadmin));
         defaultApplication.setServerConfiguration(serverConfig);
 
         restletComponent.getDefaultHost().attachDefault(defaultApplication);
@@ -153,7 +149,7 @@ public class Configuration implements ComponentProvider {
         List<Application> newApplications = applications.getApplicationsInState(ApplicationState.NEW);
         for (Application application : newApplications) {
             try {
-                applications.attach(application, restletComponent, verifier);
+                applications.attach(application, restletComponent, serverConfig, configadmin);
             } catch (Exception e) {
                 logger.error("Problem with Application Lifecycle Management Defintion", e);
             }
@@ -176,8 +172,15 @@ public class Configuration implements ComponentProvider {
     }
 
     @Override
+    @Deprecated
     public Verifier getVerifier() {
-        return this.verifier;
+        try {
+            return serverConfig.getVerifier(configadmin);
+        } catch (ConfigurationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
