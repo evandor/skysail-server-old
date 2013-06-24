@@ -60,17 +60,11 @@ public abstract class SkysailApplication extends Application {
 
     private BundleContext bundleContext;
 
-    /**
-     * extending classes should always call super();
-     */
-    public SkysailApplication() {
-    }
-
     abstract protected void attach();
-
-    // public void setBundleContext(BundleContext bundleContext) {
-    // this.bundleContext = bundleContext;
-    // }
+    
+    public SkysailApplication() {
+        logger.info("Instanciating new Skysail Application '{}'", this.getClass().getSimpleName());
+    }
 
     public BundleContext getBundleContext() {
         if (this.bundleContext != null) {

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>de.twentyeleven.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.8.36</version>
+		<version>0.8.37</version>
 	</parent>
 
 	<artifactId>skysail.server</artifactId>
@@ -21,11 +21,10 @@
 		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
 		<!-- A publicly browsable repository. For example, via ViewCVS. -->
 		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
-		<tag>HEAD</tag>
 	</scm>
 
 	<properties>
-		<skysail.common.version>[0.3.35-SNAPSHOT, 1.0)</skysail.common.version>
+		<skysail.common.version>[0.4.0, 1.0)</skysail.common.version>
 	</properties>
 
 	<build>

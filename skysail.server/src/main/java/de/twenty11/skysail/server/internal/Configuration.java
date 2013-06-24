@@ -61,11 +61,12 @@ public class Configuration implements ComponentProvider {
     private boolean serverActive = false;
 
     protected synchronized void activate(ComponentContext componentContext) throws ConfigurationException {
+        Engine.setRestletLogLevel(Level.ALL);
+
         logger.info("Activating Skysail Component");
         this.componentContext = componentContext;
         this.verifier = serverConfig.getVerifier(configadmin);
 
-        Engine.setRestletLogLevel(Level.ALL);
 
         logger.info("Starting component for Skysail...");
         String port = (String) serverConfig.getConfigForKey("port");

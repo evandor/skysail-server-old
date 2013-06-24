@@ -11,13 +11,9 @@ public class SkysailComponent extends Component {
     private static Logger logger = LoggerFactory.getLogger(SkysailComponent.class);
 
     public SkysailComponent(ComponentContext componentContext) {
-
+        logger.info("Creating Restlet Component: {}", SkysailComponent.class.getName());
         getClients().add(Protocol.CLAP);
         getClients().add(Protocol.HTTP);
         getClients().add(Protocol.FILE);
-        // getClients().add(Protocol.WAR);
-
-        // Create a restlet component
-        logger.info("new restlet component: {}", SkysailComponent.class.getName());
     }
 }
