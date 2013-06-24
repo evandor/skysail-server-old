@@ -91,7 +91,7 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
 
     @Override
     protected void doInit() throws ResourceException {
-        super.doInit();
+        super.doInit(); // TODO: call important?
         filterExpression = getQuery() != null ? getQuery().getFirstValue("filter") : "";
     }
 

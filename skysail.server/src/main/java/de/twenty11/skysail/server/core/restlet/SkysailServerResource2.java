@@ -39,7 +39,6 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
 
     @Override
     protected void doInit() throws ResourceException {
-        // super.doInit();
         if (getContext() != null) {
             getContext().getAttributes().put(CONTEXT_COMMANDS, new HashMap<String, Command>());
             getContext().getAttributes().put(CONTEXT_LINKED_PAGES, new ArrayList<LinkedPage>());
