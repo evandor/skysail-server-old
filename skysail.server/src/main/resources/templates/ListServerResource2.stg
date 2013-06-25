@@ -31,6 +31,23 @@ mapIteration(map) ::= <<
             $map.keys:{key| $asRow(map,key,i)$}$
 >>
 
-asRow(map,k,i)      ::= "<tr><td><b>$k$</b></td><td>$map.(k)$</td></tr>"
+asRow(map,k,i)      ::= << 
+    <tr><td><b>$k$</b></td><td>$handleValue(map.(k))$</td></tr>
+>>
 
+handleValue(element) ::= <<
+    $if(rest(element))$
+      <ul>$element.keys:{key| $asList(element,key)$}$</ul>
+    $else$
+      $element$
+    $endif$ 
+>>
+
+asList(map,k) ::= <<
+    <li><b>$key$</b>: $element.(key)$</li>
+>>
+
+
+
+$! comment !$
 header(map)       ::= "<i class='icon-play'></i>&nbsp;<b>$map.serviceId$</b> [<b>$map.properties.objectClass$</b>]"
