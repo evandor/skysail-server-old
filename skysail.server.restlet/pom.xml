@@ -45,12 +45,6 @@
 			<version>[0.2.13-SNAPSHOT, 1.0)</version>
 		</dependency>
 
-		<dependency>
-			<groupId>de.twentyeleven.skysail</groupId>
-			<artifactId>skysail.common.restlet</artifactId>
-			<version>[0.0.2-SNAPSHOT, 1.0)</version>
-		</dependency>
-
         <!-- testing with pax exam -->
         <dependency>
             <groupId>org.ops4j.pax.exam</groupId>

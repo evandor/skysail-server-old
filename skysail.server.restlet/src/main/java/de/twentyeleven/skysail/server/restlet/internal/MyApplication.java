@@ -3,7 +3,6 @@ package de.twentyeleven.skysail.server.restlet.internal;
 import org.osgi.framework.BundleContext;
 
 import de.twenty11.skysail.server.restlet.SkysailApplication;
-import de.twentyeleven.skysail.server.restlet.ApplicationsResource;
 import de.twentyeleven.skysail.server.restlet.MyRootResource;
 
 /**
@@ -24,7 +23,6 @@ public class MyApplication extends SkysailApplication {
     protected void attach() {
         router.attach("", MyRootResource.class);
         router.attach("/", MyRootResource.class);
-        router.attach("/applications", ApplicationsResource.class);
     }
 
 }
