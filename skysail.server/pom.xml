@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>de.twentyeleven.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.8.39-SNAPSHOT</version>
+		<version>0.8.39</version>
 	</parent>
 
 	<artifactId>skysail.server</artifactId>
@@ -24,7 +24,7 @@
 	</scm>
 
 	<properties>
-		<skysail.common.version>[0.4.1-SNAPSHOT, 1.0)</skysail.common.version>
+		<skysail.common.version>[0.4.2, 1.0)</skysail.common.version>
 	</properties>
 
 	<build>
@@ -181,12 +181,6 @@
 			<groupId>de.twentyeleven.skysail</groupId>
 			<artifactId>com.googlecode.stateless4j-osgi</artifactId>
 			<version>1.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>de.twentyeleven.skysail</groupId>
-			<artifactId>commons-beanutils-osgi</artifactId>
-			<version>1.8.3</version>
 		</dependency>
 
 		<dependency>

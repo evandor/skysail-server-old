@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanMap;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -20,9 +19,6 @@ import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupString;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.server.presentation.render.DefaultCleaningStrategy;
-import de.twenty11.skysail.server.presentation.render.HtmlRenderer;
-import de.twenty11.skysail.server.presentation.render.MapTransformer;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.utils.IOUtils;
 
@@ -76,9 +72,7 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
             List<Object> result = new ArrayList<Object>();
             if (data != null) {
                 for (Object object : data) {
-                    
                     Map<String,Object> objectMap = mapper.convertValue(object, Map.class);
-                    new BeanMap(object);
                     result.add(objectMap);
                 }
             }
@@ -119,25 +113,25 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private int handleDataElementsForList2(StringBuilder sb, int i, Object object, STGroupString template) {
-        String accordionGroup = accordionGroupTemplate;
-        i++;
-        BeanMap beanMap = new BeanMap(object);
-
-        HtmlRenderer renderer = new HtmlRenderer(template);
-        renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
-
-        // String tmp =
-        // "<table class='table table-hover table-bordered'>\n<tr><th colspan=2 style='background-color:#F5F5F5;'></th></tr>\n"
-        // + renderer.render("mapIteration") + "</table>\n";
-
-        // accordionGroup = accordionGroup.replace("${inner}", renderer.render("table"));
-        // accordionGroup = accordionGroup.replace("${hlink}", renderer.render("header"));
-        // accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
-        // sb.append(accordionGroup).append("\n");
-        sb.append(renderer.render("accordion"));
-        return i;
-    }
+//    @SuppressWarnings("unchecked")
+//    private int handleDataElementsForList2(StringBuilder sb, int i, Object object, STGroupString template) {
+//        String accordionGroup = accordionGroupTemplate;
+//        i++;
+//        BeanMap beanMap = new BeanMap(object);
+//
+//        HtmlRenderer renderer = new HtmlRenderer(template);
+//        renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
+//
+//        // String tmp =
+//        // "<table class='table table-hover table-bordered'>\n<tr><th colspan=2 style='background-color:#F5F5F5;'></th></tr>\n"
+//        // + renderer.render("mapIteration") + "</table>\n";
+//
+//        // accordionGroup = accordionGroup.replace("${inner}", renderer.render("table"));
+//        // accordionGroup = accordionGroup.replace("${hlink}", renderer.render("header"));
+//        // accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
+//        // sb.append(accordionGroup).append("\n");
+//        sb.append(renderer.render("accordion"));
+//        return i;
+//    }
 
 }
