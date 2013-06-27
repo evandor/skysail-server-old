@@ -6,8 +6,10 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.BeanMap;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.restlet.data.Parameter;
@@ -31,6 +33,8 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
     private STGroupString template;
 
     private Parameter renderAs;
+    
+    private ObjectMapper mapper = new ObjectMapper();
 
     public ListForContentStrategy2(BundleContext bundleContext, Resource resource) {
         SkysailApplication currentApplication = (SkysailApplication) resource.getApplication();
@@ -72,7 +76,10 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
             List<Object> result = new ArrayList<Object>();
             if (data != null) {
                 for (Object object : data) {
-                    result.add(new BeanMap(object));
+                    
+                    Map<String,Object> objectMap = mapper.convertValue(object, Map.class);
+                    new BeanMap(object);
+                    result.add(objectMap);
                 }
             }
             String templateIdentifier = "accordion";
