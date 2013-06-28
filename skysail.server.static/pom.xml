@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>skysail.server.static</artifactId>
-	<version>0.0.6-SNAPSHOT</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<name>SKYSAIL :: server :: static</name>
 	<packaging>bundle</packaging>
 
@@ -75,7 +75,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
+										<ignore />
 									</action>
 								</pluginExecution>
 							</pluginExecutions>

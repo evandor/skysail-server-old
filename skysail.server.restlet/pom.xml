@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>skysail.server.restlet</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<name>SKYSAIL :: server :: restlet</name>
 	<packaging>bundle</packaging>
 
