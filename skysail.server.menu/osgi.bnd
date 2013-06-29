@@ -1,3 +1,2 @@
-Export-Package: de.twenty11.skysail.server.osgi.services;version="0.0.1",
- !*
+Export-Package: !*
 Bundle-SymbolicName: skysail.server.menu

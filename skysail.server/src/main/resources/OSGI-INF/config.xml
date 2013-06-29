@@ -34,4 +34,14 @@
 		name="ApplicationProvider" 
 		policy="dynamic" 
 	/>
+
+	<reference 
+		cardinality="0..1" 
+		interface="de.twenty11.skysail.server.menu.osgi.services.MenuService" 
+		bind="setMenuService" 
+		unbind="unsetMenuService"
+		name="menuService" 
+		policy="dynamic" 
+	/>
+
 </scr:component>

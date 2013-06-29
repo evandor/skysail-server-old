@@ -3,8 +3,8 @@ package de.twenty11.skysail.server.menu;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.twenty11.skysail.server.MenuService;
 import de.twenty11.skysail.server.menu.domain.Menu;
-import de.twenty11.skysail.server.menu.osgi.services.MenuService;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 
 public class MenuApplication extends SkysailApplication implements MenuService {

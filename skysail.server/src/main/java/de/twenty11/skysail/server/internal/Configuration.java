@@ -34,6 +34,7 @@ import org.restlet.security.Verifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.server.MenuService;
 import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.core.osgi.internal.ApplicationState;
 import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
@@ -181,6 +182,10 @@ public class Configuration implements ComponentProvider {
             e.printStackTrace();
             return null;
         }
+    }
+    
+    public synchronized setMenuService(MenuService menuService) {
+    	
     }
 
 }

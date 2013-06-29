@@ -185,5 +185,10 @@ public abstract class SkysailApplication extends Application {
     public synchronized void setBundleContext(BundleContext bc) {
         this.bundleContext = bc;
     }
+    
+    protected void addToMenu(String menuIdentifier) {
+    	//MenuService service.addApplicationToMenu(menuIdentifier, getName());
+	}
+
 
 }
