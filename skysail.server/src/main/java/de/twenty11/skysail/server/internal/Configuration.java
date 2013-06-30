@@ -34,9 +34,10 @@ import org.restlet.security.Verifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.MenuService;
 import de.twenty11.skysail.server.config.ServerConfiguration;
+import de.twenty11.skysail.server.core.MenuService;
 import de.twenty11.skysail.server.core.osgi.internal.ApplicationState;
+import de.twenty11.skysail.server.core.osgi.internal.MenuState;
 import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
 import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
 import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
@@ -44,6 +45,7 @@ import de.twenty11.skysail.server.presentation.ToCsvConverter;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ComponentProvider;
+import de.twenty11.skysail.server.services.MenuProvider;
 
 public class Configuration implements ComponentProvider {
 
@@ -57,6 +59,7 @@ public class Configuration implements ComponentProvider {
     private ServerConfiguration serverConfig;
     private ServiceRegistration registration;
     private ApplicationsHolder applications = new ApplicationsHolder();
+    private MenusHolder menus = new MenusHolder();
     private boolean serverActive = false;
 
     protected synchronized void activate(ComponentContext componentContext) throws ConfigurationException {
@@ -94,6 +97,7 @@ public class Configuration implements ComponentProvider {
         registeredConverters.add(new ToCsvConverter());
 
         triggerAttachmentOfNewApplications();
+        triggerAttachmentOfNewMenus();
     }
 
     protected void deactivate(ComponentContext ctxt) {
@@ -157,6 +161,41 @@ public class Configuration implements ComponentProvider {
         }
     }
 
+    public void addMenuProvider(MenuProvider provider) {
+        Validate.notNull(provider, "provider may not be null");
+        logger.info(" >>> registering menu entries <<<");
+        try {
+            menus.add(provider.getMenu());
+        } catch (Exception e) {
+            logger.error("Problem with the Menu Lifecycle Management", e);
+        }
+        triggerAttachmentOfNewMenus();
+    }
+
+    public void removeMenuProvider(MenuProvider provider) {
+    	Object menu = provider.getMenu();
+        if (menu != null) {
+            //restletComponent.getDefaultHost().detach(application);
+        } else {
+            logger.warn("provider {}'s menu was null", provider);
+        }
+    }
+
+    private void triggerAttachmentOfNewMenus() {
+        if (!serverActive) {
+            return;
+        }
+        List<Object> newMenus = menus.getMenusInState(MenuState.NEW);
+        for (Object menu : newMenus) {
+            try {
+                //applications.attach(application, restletComponent, serverConfig, configadmin);
+            	menus.attach(menu);
+            } catch (Exception e) {
+                logger.error("Problem with Application Lifecycle Management Defintion", e);
+            }
+        }
+    }
+
     public synchronized void setConfigAdmin(ConfigurationAdmin configadmin) {
         logger.info("setting configadmin in Skysail Configuration");
         this.configadmin = configadmin;
@@ -184,7 +223,7 @@ public class Configuration implements ComponentProvider {
         }
     }
     
-    public synchronized setMenuService(MenuService menuService) {
+    public synchronized void setMenuService(MenuService menuService) {
     	
     }
 

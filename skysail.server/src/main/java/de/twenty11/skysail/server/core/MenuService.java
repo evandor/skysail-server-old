@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server;
+package de.twenty11.skysail.server.core;
 
 public interface MenuService {
 	

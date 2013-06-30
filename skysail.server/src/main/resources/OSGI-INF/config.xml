@@ -36,8 +36,17 @@
 	/>
 
 	<reference 
+		cardinality="0..n" 
+		interface="de.twenty11.skysail.server.services.MenuProvider" 
+		bind="addMenuProvider" 
+		unbind="removeMenuProvider"
+		name="MenuProvider" 
+		policy="dynamic" 
+	/>
+
+	<reference 
 		cardinality="0..1" 
-		interface="de.twenty11.skysail.server.menu.osgi.services.MenuService" 
+		interface="de.twenty11.skysail.server.core.MenuService" 
 		bind="setMenuService" 
 		unbind="unsetMenuService"
 		name="menuService" 
