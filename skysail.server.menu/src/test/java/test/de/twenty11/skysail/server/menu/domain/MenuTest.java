@@ -57,4 +57,11 @@ public class MenuTest {
 		assertThat(mainMenu.getChildren("/").size(), is(2));
 		assertThat(mainMenu.getChildren("/sub1").size(), is(0));
 	}
+	
+	@Test
+    public void can_remove_child() {
+        new Menu(mainMenu, "sub1", "sublink1"); // path is '/name/sub1/'
+        mainMenu.remove("sub1");
+        assertThat(mainMenu.getChildren("/").size(), is(0));
+    }
 }

@@ -65,6 +65,11 @@ public class Menu {
 		return result;
 	}
 
+    public void remove(String menuIdentifier) {
+        
+    }
+
+
 	public String getName() {
 		return name;
 	}
@@ -89,7 +94,5 @@ public class Menu {
 	public String getPath() {
 		return path;
 	}
-
-
 
 }

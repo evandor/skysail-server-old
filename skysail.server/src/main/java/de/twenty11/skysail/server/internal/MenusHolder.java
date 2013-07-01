@@ -37,6 +37,15 @@ public class MenusHolder {
         lifecycles.get(menuEntry).Fire(Trigger.ATTACH);
     }
 
+    public void detach(MenuEntry menuEntry, MenuService menuService) throws Exception {
+        if (menuService == null) {
+            return;
+        }
+        menuService.removeApplicationFromMenu(menuEntry.getName(), menuEntry.getMenuIdentifier());
+        logger.info("removed menu entry");
+        lifecycles.get(menuEntry).Fire(Trigger.DETACH);
+    }
+
     public List<MenuEntry> getMenusInState(MenuState state) {
         List<MenuEntry> result = new ArrayList<MenuEntry>();
         for (Entry<MenuEntry, MenuLifecycle> entry : lifecycles.entrySet()) {

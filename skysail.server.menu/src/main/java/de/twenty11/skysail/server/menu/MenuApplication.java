@@ -54,6 +54,12 @@ public class MenuApplication extends SkysailApplication implements ApplicationPr
         new Menu(mainMenu, appIdentifier, link);
     }
 
+    @Override
+    public void removeApplicationFromMenu(String appIdentifier, String menuIdentifier) {
+        logger.debug("application {} is detached from menu {}", appIdentifier, menuIdentifier);
+        mainMenu.remove(appIdentifier);
+    }
+
     public List<Menu> getMenus(String path) {
         return root.getChildren(path);
     }

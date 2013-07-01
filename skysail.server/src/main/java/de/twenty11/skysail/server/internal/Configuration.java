@@ -104,6 +104,10 @@ public class Configuration implements ComponentProvider {
 
     protected void deactivate(ComponentContext ctxt) {
         logger.info("Deactivating Skysail Ext Osgimonitor Configuration Component");
+        
+        triggerDetachmentOfMenus();
+        // triggerDetachmentOfApplications();
+        
         serverActive = false;
         this.componentContext = null;
         try {
@@ -192,6 +196,20 @@ public class Configuration implements ComponentProvider {
             try {
                 //applications.attach(application, restletComponent, serverConfig, configadmin);
             	menus.attach(menu, menuService);
+            } catch (Exception e) {
+                logger.error("Problem with Application Lifecycle Management Defintion", e);
+            }
+        }
+    }
+
+    private void triggerDetachmentOfMenus() {
+        if (!serverActive) {
+            return;
+        }
+        List<MenuEntry> attachedMenus = menus.getMenusInState(MenuState.ATTACHED);
+        for (MenuEntry menu : attachedMenus) {
+            try {
+                menus.detach(menu, menuService);
             } catch (Exception e) {
                 logger.error("Problem with Application Lifecycle Management Defintion", e);
             }
