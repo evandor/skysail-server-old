@@ -45,6 +45,7 @@ import de.twenty11.skysail.server.presentation.ToCsvConverter;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ComponentProvider;
+import de.twenty11.skysail.server.services.MenuEntry;
 import de.twenty11.skysail.server.services.MenuProvider;
 
 public class Configuration implements ComponentProvider {
@@ -61,6 +62,7 @@ public class Configuration implements ComponentProvider {
     private ApplicationsHolder applications = new ApplicationsHolder();
     private MenusHolder menus = new MenusHolder();
     private boolean serverActive = false;
+    private MenuService menuService;
 
     protected synchronized void activate(ComponentContext componentContext) throws ConfigurationException {
         Engine.setRestletLogLevel(Level.ALL);
@@ -165,7 +167,7 @@ public class Configuration implements ComponentProvider {
         Validate.notNull(provider, "provider may not be null");
         logger.info(" >>> registering menu entries <<<");
         try {
-            menus.add(provider.getMenu());
+            menus.add(provider.getMenuEntries());
         } catch (Exception e) {
             logger.error("Problem with the Menu Lifecycle Management", e);
         }
@@ -173,8 +175,8 @@ public class Configuration implements ComponentProvider {
     }
 
     public void removeMenuProvider(MenuProvider provider) {
-    	Object menu = provider.getMenu();
-        if (menu != null) {
+    	List<MenuEntry> menuEntry = provider.getMenuEntries();
+        if (menuEntry != null) {
             //restletComponent.getDefaultHost().detach(application);
         } else {
             logger.warn("provider {}'s menu was null", provider);
@@ -185,11 +187,11 @@ public class Configuration implements ComponentProvider {
         if (!serverActive) {
             return;
         }
-        List<Object> newMenus = menus.getMenusInState(MenuState.NEW);
-        for (Object menu : newMenus) {
+        List<MenuEntry> newMenus = menus.getMenusInState(MenuState.NEW);
+        for (MenuEntry menu : newMenus) {
             try {
                 //applications.attach(application, restletComponent, serverConfig, configadmin);
-            	menus.attach(menu);
+            	menus.attach(menu, menuService);
             } catch (Exception e) {
                 logger.error("Problem with Application Lifecycle Management Defintion", e);
             }
@@ -224,7 +226,8 @@ public class Configuration implements ComponentProvider {
     }
     
     public synchronized void setMenuService(MenuService menuService) {
-    	
+    	this.menuService = menuService;
+    	triggerAttachmentOfNewMenus();
     }
 
 }

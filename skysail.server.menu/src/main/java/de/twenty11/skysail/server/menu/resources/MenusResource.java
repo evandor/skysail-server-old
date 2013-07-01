@@ -16,7 +16,8 @@ public class MenusResource extends ListServerResource2<Menu>{
 	@Override
 	protected void doInit() throws ResourceException {
 		menuApplication = (MenuApplication) getApplication();
-		path = (String) getRequest().getAttributes().get("path");
+		Object pathAsObject = getRequest().getAttributes().get("path");
+		path = (pathAsObject != null) ? "/" + (String)pathAsObject : "/";
 	}
 	
 	@Override

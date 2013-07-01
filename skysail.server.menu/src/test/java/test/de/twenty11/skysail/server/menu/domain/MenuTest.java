@@ -16,7 +16,7 @@ public class MenuTest {
 	@Before
 	public void setUp() throws Exception {
 		root = new Menu();
-		mainMenu = new Menu(root, "name");
+		mainMenu = new Menu(root, "name", "link");
 	}
 
 	@Test
@@ -35,7 +35,7 @@ public class MenuTest {
 
 	@Test
 	public void menu_with_parent_has_proper_path() {
-		Menu subMenu = new Menu(mainMenu, "sub");
+		Menu subMenu = new Menu(mainMenu, "sub", "sublink");
 		assertThat(subMenu.getName(), is("sub"));
 		assertThat(subMenu.getParent(), is(equalTo(mainMenu)));
 		assertThat(subMenu.getPath(), is(equalTo("/name/sub/")));
@@ -43,15 +43,15 @@ public class MenuTest {
 
 	@Test
 	public void parent_menu_knows_about_children() {
-		Menu subMenu = new Menu(mainMenu, "sub");
+		Menu subMenu = new Menu(mainMenu, "sub", "sublink");
 		assertThat(mainMenu.getChildren().size(), is(1));
 		assertThat(mainMenu.getChildren().get(0), is(equalTo(subMenu)));
 	}
 
 	@Test
 	public void children_are_found_via_path_from_root() {
-		new Menu(mainMenu, "sub1"); // path is '/name/sub1/'
-		new Menu(mainMenu, "sub2"); // path is '/name/sub2/'
+		new Menu(mainMenu, "sub1", "sublink1"); // path is '/name/sub1/'
+		new Menu(mainMenu, "sub2", "sublink2"); // path is '/name/sub2/'
 		assertThat(root.getChildren("/").size(), is(1));
 		assertThat(root.getChildren("/name/").size(), is(2));
 		assertThat(mainMenu.getChildren("/").size(), is(2));

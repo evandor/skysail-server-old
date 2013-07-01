@@ -91,6 +91,7 @@
 
 		<div class="row-fluid">
 			<div class="span2">
+				<div id="navMenu"></div>
 				<h5>Invocation <a href='javascript:location.reload(true)'><i class="icon-refresh"></a></i></h5>
 				<h6>Result</h6>
 				<p>${result}</p>
@@ -166,6 +167,15 @@
            }, 
            10000);
         }	
+
+        $.getJSON('/menu/main/', function(data) {
+			var items = [];
+			items.push('<li class="nav-header">Applications</li>');
+			$.each(data.data, function(key, val) {
+				items.push('<li><a href="'+val.link+'">' + val.name + '</a></li>');
+			});
+			$('<ul/>', { 'class': 'nav nav-list', html: items.join('')}).appendTo('#navMenu');
+		});
 
         $( document ).ready(function() {
             // trigger first execution

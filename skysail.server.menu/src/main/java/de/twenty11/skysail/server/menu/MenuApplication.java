@@ -1,11 +1,6 @@
 package de.twenty11.skysail.server.menu;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.restlet.routing.Router;
 import org.restlet.routing.Template;
@@ -21,60 +16,46 @@ import de.twenty11.skysail.server.services.ApplicationProvider;
 
 public class MenuApplication extends SkysailApplication implements ApplicationProvider, MenuService {
 
-	private static final Logger logger = LoggerFactory.getLogger(MenuApplication.class);
-	
-	public static final String MAIN_MENU_IDENTIFIER = "/main";
-	public static final String NAV_MENU_IDENTIFIER = "/nav";
+    private static final Logger logger = LoggerFactory.getLogger(MenuApplication.class);
 
-	//private Map<String, Menu> menus = new HashMap<String,Menu>();
+    public static final String MAIN_MENU_IDENTIFIER = "main";
+    public static final String NAV_MENU_IDENTIFIER = "nav";
 
-	private Menu root;
+    private Menu root;
 
-	public MenuApplication() {
-		setName("menu");
-		setDescription("provides the menus");
-		setOwner("twenty11");
-		
-		root = new Menu();
-		new Menu(root, MAIN_MENU_IDENTIFIER);
-		new Menu(root, NAV_MENU_IDENTIFIER);
-		
-//		menus.put(MAIN_MENU_IDENTIFIER, new Menu(MAIN_MENU_IDENTIFIER));
-//		menus.put(NAV_MENU_IDENTIFIER, new Menu(NAV_MENU_IDENTIFIER));
-	}
+    private Menu mainMenu;
 
-	@Override
-	protected void attach() {
+    private Menu navMenu;
 
-		router.setDefaultMatchingMode(Template.MODE_STARTS_WITH);
+    public MenuApplication() {
+        setName("menu");
+        setDescription("provides the menus");
+        setOwner("twenty11");
+
+        root = new Menu();
+        mainMenu = new Menu(root, MAIN_MENU_IDENTIFIER, "#");
+        navMenu = new Menu(root, NAV_MENU_IDENTIFIER, "#");
+    }
+
+    @Override
+    protected void attach() {
+
+        router.setDefaultMatchingMode(Template.MODE_STARTS_WITH);
         router.setRoutingMode(Router.MODE_LAST_MATCH);
 
-		router.attach(new RouteBuilder("", MenusResource.class).setText("menu"));
-		router.attach(new RouteBuilder("/{path}", MenusResource.class).setText("menupath"));
-	}
+        router.attach(new RouteBuilder("", MenusResource.class).setText("menu"));
+        router.attach(new RouteBuilder("/", MenusResource.class).setText("menu"));
+        router.attach(new RouteBuilder("/{path}", MenusResource.class).setText("menupath"));
+    }
 
-	@Override
-	public void addApplicationToMenu(String appIdentifier, String menuIdentifier) {
-		logger.debug("application {} is assigned to menu {}", appIdentifier, menuIdentifier);
-//		if (menus.containsKey(menuIdentifier)) {
-//			new Menu(menus.get(menuIdentifier), appIdentifier);
-//		} else {
-//			logger.warn("menuIdentifier {} is unknown...", menuIdentifier);
-//		}
- 	}
-	
-	public List<Menu> getMenus(String path) {
-		return root.getChildren(path);
-		
-//		if (path == null) {
-//			Collection<Menu> values = menus.values();
-//			List<Menu> result = new ArrayList<Menu>();
-//			for (Menu menu : values) {
-//				result.add(menu);
-//			}
-//			return result;
-//		}
-//		return Collections.emptyList();
-	}
+    @Override
+    public void addApplicationToMenu(String appIdentifier, String menuIdentifier, String link) {
+        logger.debug("application {} is assigned to menu {}", appIdentifier, menuIdentifier);
+        new Menu(mainMenu, appIdentifier, link);
+    }
+
+    public List<Menu> getMenus(String path) {
+        return root.getChildren(path);
+    }
 
 }

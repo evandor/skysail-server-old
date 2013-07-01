@@ -5,12 +5,16 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 public class Menu {
 
 	private String name;
 	private String path;
+    private String link;
 	private Menu parent = null;
+
+	@JsonIgnore
 	private List<Menu> children = new ArrayList<Menu>();
 
 	/**
@@ -19,6 +23,7 @@ public class Menu {
 	public Menu() {
 		this.name = null;
 		this.path = "/";
+		this.link = "#";
 	}
 	
 	/**
@@ -26,16 +31,16 @@ public class Menu {
 	 * 
 	 * The path always ends with '/'
 	 */
-	public Menu(Menu parentMenu, String name) {
+	public Menu(Menu parentMenu, String name, String link) {
 		Validate.notNull(parentMenu, "parent menu may not be null");
 		this.name = name;
 		this.parent = parentMenu;
 		this.parent.addChild(this);
 		this.path = parentMenu.getPath() + name + "/";
+        this.link = link;
 	}
 
-
-	public List<Menu> getChildren() {
+    public List<Menu> getChildren() {
 		return Collections.unmodifiableList(children);
 	}
 
@@ -54,6 +59,7 @@ public class Menu {
 		for (Menu child : getChildren()) {
 			if (child.getName().equals(pathParts[1])) {
 				result.addAll(child.getChildren());
+				break;
 			}
 		}
 		return result;
@@ -66,6 +72,10 @@ public class Menu {
 	public Menu getParent() {
 		return parent;
 	}
+
+	public String getLink() {
+        return link;
+    }
 
 	@Override
 	public String toString() {
