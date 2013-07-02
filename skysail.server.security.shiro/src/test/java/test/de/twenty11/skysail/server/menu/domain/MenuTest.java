@@ -12,7 +12,5 @@ public class MenuTest {
 
     @Before
     public void setUp() throws Exception {
-        root = new Menu();
-        mainMenu = new Menu(root, "name", "link");
     }
 }
