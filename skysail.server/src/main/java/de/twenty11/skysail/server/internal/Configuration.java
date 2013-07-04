@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.apache.commons.lang.Validate;
-import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.component.ComponentContext;
@@ -58,11 +57,14 @@ public class Configuration implements ComponentProvider {
     private ComponentContext componentContext;
     private ConfigurationAdmin configadmin;
     private ServerConfiguration serverConfig;
-    private ServiceRegistration registration;
     private ApplicationsHolder applications = new ApplicationsHolder();
-    private MenusHolder menus = new MenusHolder();
+    private MenusHolder menus;
     private boolean serverActive = false;
     private MenuService menuService;
+    
+    public Configuration() throws Exception {
+        menus = new MenusHolder(this);
+    }
 
     protected synchronized void activate(ComponentContext componentContext) throws ConfigurationException {
         Engine.setRestletLogLevel(Level.ALL);
@@ -117,9 +119,9 @@ public class Configuration implements ComponentProvider {
         } catch (Exception e) {
             logger.error("Exception when trying to stop standalone server", e);
         }
-        if (registration != null) {
-            registration.unregister();
-        }
+//        if (registration != null) {
+//            registration.unregister();
+//        }
     }
 
     public void addApplicationProvider(ApplicationProvider provider) {
@@ -194,7 +196,6 @@ public class Configuration implements ComponentProvider {
         List<MenuEntry> newMenus = menus.getMenusInState(MenuState.NEW);
         for (MenuEntry menu : newMenus) {
             try {
-                //applications.attach(application, restletComponent, serverConfig, configadmin);
             	menus.attach(menu, menuService);
             } catch (Exception e) {
                 logger.error("Problem with Application Lifecycle Management Defintion", e);
@@ -248,4 +249,11 @@ public class Configuration implements ComponentProvider {
     	triggerAttachmentOfNewMenus();
     }
 
+    public boolean getServerActive() {
+        return serverActive;
+    }
+
+    public MenuService getMenuService() {
+        return menuService;
+    }
 }

@@ -19,22 +19,27 @@ public class MenusHolder {
 
     private static Logger logger = LoggerFactory.getLogger(MenusHolder.class);
 
-    private Map<MenuEntry, MenuLifecycle> lifecycles = new HashMap<MenuEntry, MenuLifecycle>();
+    private Map<MenuEntry, MenuLifecycle> menu = new HashMap<MenuEntry, MenuLifecycle>();
+    private MenuLifecycle menuLifecycle;
+
+    private final Configuration configuration;
+
+    public MenusHolder(Configuration configuration)  {
+        this.configuration = configuration;
+    }
 
     public void add(List<MenuEntry> menuEntries) throws Exception {
         for (MenuEntry entry : menuEntries) {
-            lifecycles.put(entry, new MenuLifecycle());
+            menu.put(entry, new MenuLifecycle(configuration));
         }
     }
 
     public void attach(MenuEntry menuEntry, MenuService menuService) throws Exception {
-
         if (menuService == null) {
             return;
         }
-        menuService.addApplicationToMenu(menuEntry.getName(), menuEntry.getMenuIdentifier(), menuEntry.getLink());
-        logger.info("added menu entry");
-        lifecycles.get(menuEntry).Fire(Trigger.ATTACH);
+        MenuLifecycle menuEntryWithLifecycle = menu.get(menuEntry);
+        menuEntryWithLifecycle.<MenuEntry> Fire(menuEntryWithLifecycle.getAttachTriggerWithMenuEntry(), menuEntry);
     }
 
     public void detach(MenuEntry menuEntry, MenuService menuService) throws Exception {
@@ -43,12 +48,12 @@ public class MenusHolder {
         }
         menuService.removeApplicationFromMenu(menuEntry.getName(), menuEntry.getMenuIdentifier());
         logger.info("removed menu entry");
-        lifecycles.get(menuEntry).Fire(Trigger.DETACH);
+        menu.get(menuEntry).Fire(Trigger.DETACH);
     }
 
     public List<MenuEntry> getMenusInState(MenuState state) {
         List<MenuEntry> result = new ArrayList<MenuEntry>();
-        for (Entry<MenuEntry, MenuLifecycle> entry : lifecycles.entrySet()) {
+        for (Entry<MenuEntry, MenuLifecycle> entry : menu.entrySet()) {
             if (entry.getValue().getState().equals(state)) {
                 result.add(entry.getKey());
             }
