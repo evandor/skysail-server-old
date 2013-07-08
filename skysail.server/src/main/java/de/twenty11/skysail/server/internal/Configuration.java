@@ -17,6 +17,8 @@
 
 package de.twenty11.skysail.server.internal;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -100,8 +102,45 @@ public class Configuration implements ComponentProvider {
         registeredConverters.add(new IFrame2BootstrapConverter());
         registeredConverters.add(new ToCsvConverter());
 
+        updateDbConfig();
+        
         triggerAttachmentOfNewApplications();
         triggerAttachmentOfNewMenus();
+    }
+    
+    public void updateDbConfig() {
+        if (configadmin == null) {
+            //log
+            return;
+        }
+        try {
+            // http://wiki.eclipse.org/Gemini/JPA/Documentation/OtherTopics#Configuration_Admin
+            org.osgi.service.cm.Configuration config = configadmin.createFactoryConfiguration("gemini.jpa.punit", null);
+     
+            config.getProperties();
+            
+            // Create a dictionary and insert config properties (must include the punit name property)
+            Dictionary props = new Hashtable();
+            props.put("gemini.jpa.punit.name", "NotesPU");
+     
+            props.put("javax.persistence.jdbc.driver", "com.mysql.jdbc.Driver");
+            props.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/skysail");
+            props.put("javax.persistence.jdbc.user", "root");
+            props.put("javax.persistence.jdbc.password", "websphere");
+
+//            props.put("javax.persistence.jdbc.driver", "org.apache.derby.jdbc.EmbeddedDriver");
+//            props.put("javax.persistence.jdbc.url", "jdbc:derby:skysailDerbyDb;create=true");
+//            props.put("javax.persistence.jdbc.user", "skysail");
+//            props.put("javax.persistence.jdbc.password", "skysail");
+
+            // Causes config to be updated, or created if it did not already exist
+            config.update(props);
+     
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+        
     }
 
     protected void deactivate(ComponentContext ctxt) {
