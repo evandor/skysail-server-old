@@ -28,6 +28,7 @@ import org.osgi.framework.BundleListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.server.Constants;
 import de.twenty11.skysail.server.internal.LimitedQueue;
 
 /**
@@ -53,8 +54,9 @@ public class SkysailServerBundleListener implements BundleListener {
         if (event.getType() == BundleEvent.INSTALLED) {
             Bundle bundle = event.getBundle();
             Dictionary<String, String> headers = bundle.getHeaders();
-            String xSkysailPU = headers.get("x-skysail-persistenceUnit");
+            String xSkysailPU = headers.get(Constants.SKYSAIL_PERSISTENCE_UNIT);
             if (xSkysailPU != null) {
+                // TODO handle new skysail bundles (installed after framework startup)
                 skysailPUs.add(xSkysailPU);
             }
         }

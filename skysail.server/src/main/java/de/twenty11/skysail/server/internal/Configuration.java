@@ -17,7 +17,6 @@
 
 package de.twenty11.skysail.server.internal;
 
-import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -39,6 +38,7 @@ import org.restlet.security.Verifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.server.Constants;
 import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.core.MenuService;
 import de.twenty11.skysail.server.core.osgi.internal.ApplicationState;
@@ -67,7 +67,7 @@ public class Configuration implements ComponentProvider {
     private MenusHolder menus;
     private boolean serverActive = false;
     private MenuService menuService;
-    
+
     public Configuration() throws Exception {
         menus = new MenusHolder(this);
     }
@@ -105,69 +105,19 @@ public class Configuration implements ComponentProvider {
         registeredConverters.add(new Json2BootstrapConverter());
         registeredConverters.add(new IFrame2BootstrapConverter());
         registeredConverters.add(new ToCsvConverter());
-        
-        updateDbConfig(configadmin);
+
+        updateDbConfig();
 
         triggerAttachmentOfNewApplications();
         triggerAttachmentOfNewMenus();
-    }   
-    
-    private void updateDbConfig(ConfigurationAdmin configadmin) {
-        if (configadmin == null) {
-            return;
-        }
-        try {
-            Set<String> scanBundlesForSkysailPUHeader = scanBundlesForSkysailPUHeader();
-            
-            for (String puName : scanBundlesForSkysailPUHeader) {
-                createConfigForDb(configadmin, puName);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new RuntimeException(ex);
-        }
-        
-    }
-
-
-    private void createConfigForDb(ConfigurationAdmin configadmin2, String puName) throws Exception {
-        // http://wiki.eclipse.org/Gemini/JPA/Documentation/OtherTopics#Configuration_Admin
-        org.osgi.service.cm.Configuration config = configadmin.createFactoryConfiguration("gemini.jpa.punit", null);
- 
-        config.getProperties();
-        
-        // Create a dictionary and insert config properties (must include the punit name property)
-        Dictionary props = new Hashtable();
-        props.put("gemini.jpa.punit.name", puName);
- 
-        props.put("javax.persistence.jdbc.driver", "com.mysql.jdbc.Driver");
-        props.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/skysail");
-        props.put("javax.persistence.jdbc.user", "root");
-        props.put("javax.persistence.jdbc.password", "websphere");
-
-        // Causes config to be updated, or created if it did not already exist
-        config.update(props);
-    }
-
-    private Set<String> scanBundlesForSkysailPUHeader() {
-        Bundle[] bundles = componentContext.getBundleContext().getBundles();
-        Set<String> result = new HashSet<String>();
-        for (Bundle bundle : bundles) {
-            Dictionary<String, String> headers = bundle.getHeaders();
-            String xSkysailPU = headers.get("x-skysail-persistenceUnit");
-            if (xSkysailPU != null) {
-                result.add(xSkysailPU);
-            }
-        }
-        return result;
     }
 
     protected void deactivate(ComponentContext ctxt) {
         logger.info("Deactivating Skysail Ext Osgimonitor Configuration Component");
-        
+
         triggerDetachmentOfMenus();
         // triggerDetachmentOfApplications();
-        
+
         serverActive = false;
         this.componentContext = null;
         try {
@@ -177,9 +127,6 @@ public class Configuration implements ComponentProvider {
         } catch (Exception e) {
             logger.error("Exception when trying to stop standalone server", e);
         }
-//        if (registration != null) {
-//            registration.unregister();
-//        }
     }
 
     public void addApplicationProvider(ApplicationProvider provider) {
@@ -239,9 +186,9 @@ public class Configuration implements ComponentProvider {
     }
 
     public void removeMenuProvider(MenuProvider provider) {
-    	List<MenuEntry> menuEntry = provider.getMenuEntries();
+        List<MenuEntry> menuEntry = provider.getMenuEntries();
         if (menuEntry != null) {
-            //restletComponent.getDefaultHost().detach(application);
+            // restletComponent.getDefaultHost().detach(application);
         } else {
             logger.warn("provider {}'s menu was null", provider);
         }
@@ -254,7 +201,7 @@ public class Configuration implements ComponentProvider {
         List<MenuEntry> newMenus = menus.getMenusInState(MenuState.NEW);
         for (MenuEntry menu : newMenus) {
             try {
-            	menus.attach(menu, menuService);
+                menus.attach(menu, menuService);
             } catch (Exception e) {
                 logger.error("Problem with Application Lifecycle Management Defintion", e);
             }
@@ -301,10 +248,10 @@ public class Configuration implements ComponentProvider {
             return null;
         }
     }
-    
+
     public synchronized void setMenuService(MenuService menuService) {
-    	this.menuService = menuService;
-    	triggerAttachmentOfNewMenus();
+        this.menuService = menuService;
+        triggerAttachmentOfNewMenus();
     }
 
     public boolean getServerActive() {
@@ -314,4 +261,80 @@ public class Configuration implements ComponentProvider {
     public MenuService getMenuService() {
         return menuService;
     }
+
+    private void updateDbConfig() {
+        if (configadmin == null) {
+            return;
+        }
+        try {
+            for (String puName : scanBundlesForSkysailPUHeader()) {
+                createConfigForDb(puName);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private Set<String> scanBundlesForSkysailPUHeader() {
+        Bundle[] bundles = componentContext.getBundleContext().getBundles();
+        Set<String> result = new HashSet<String>();
+        for (Bundle bundle : bundles) {
+            Dictionary<String, String> headers = bundle.getHeaders();
+            String xSkysailPU = headers.get(Constants.SKYSAIL_PERSISTENCE_UNIT);
+            if (xSkysailPU != null) {
+                result.add(xSkysailPU);
+            }
+        }
+        return result;
+    }
+
+    private void createConfigForDb(String puName) throws Exception {
+        // http://wiki.eclipse.org/Gemini/JPA/Documentation/OtherTopics#Configuration_Admin
+        org.osgi.service.cm.Configuration config = configadmin.createFactoryConfiguration("gemini.jpa.punit", null);
+
+        config.getProperties();
+
+        // Create a dictionary and insert config properties (must include the punit name property)
+        Dictionary props = new Hashtable();
+        props.put("gemini.jpa.punit.name", puName);
+
+        props.put("javax.persistence.jdbc.driver", serverConfig.getConfigForKey(Constants.SKYSAIL_JDBC_DRIVER));
+        props.put("javax.persistence.jdbc.url", serverConfig.getConfigForKey(Constants.SKYSAIL_JDBC_URL));
+        props.put("javax.persistence.jdbc.user", serverConfig.getConfigForKey(Constants.SKYSAIL_JDBC_USER));
+        props.put("javax.persistence.jdbc.password", serverConfig.getConfigForKey(Constants.SKYSAIL_JDBC_PASSWORD));
+
+        // Causes config to be updated, or created if it did not already exist
+        config.update(props);
+    }
+
+//    private void createConfigForDb(String puName) throws Exception {
+//        // http://wiki.eclipse.org/Gemini/JPA/Documentation/OtherTopics#Configuration_Admin
+//        org.osgi.service.cm.Configuration config = configadmin.createFactoryConfiguration("gemini.jpa.punit", null);
+//
+//        // Config properties
+//        Dictionary props = new Hashtable();
+//
+//        // Must include the punit name
+//        props.put("gemini.jpa.punit.name", puName);
+//
+//        // Must include the bsn
+//        props.put("gemini.jpa.punit.bsn", "skysail.server.ext.notes");
+//
+//        // Specify the classes in the persistent unit
+////        props.put("gemini.jpa.punit.classes",
+////                "de.twenty11.skysail.server.ext.notes.domain.Folder,de.twenty11.skysail.server.ext.notes.domain.Note");
+//
+//        props.put("gemini.jpa.punit.excludeUnlistedClasses", false);
+//        
+//        // Specify JDBC properties
+//        props.put("javax.persistence.jdbc.driver", "com.mysql.jdbc.Driver");
+//        props.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/skysail");
+//        props.put("javax.persistence.jdbc.user", "root");
+//        props.put("javax.persistence.jdbc.password", "websphere");
+//
+//        // Causes config to be created
+//        config.update(props);
+//    }
+
 }
