@@ -3,7 +3,9 @@ package de.twenty11.skysail.server.internal;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -44,11 +46,13 @@ public class ApplicationsHolder {
                     .put(Configuration.CONTEXT_OPERATING_SYSTEM_BEAN, operatingSystemMxBean);
         }
         if (application instanceof SkysailApplication) {
-            ((SkysailApplication) application).setVerifier(serverConfig.getVerifier(configAdmin));
+            SkysailApplication skysailApplication = (SkysailApplication) application;
+            skysailApplication.setVerifier(serverConfig.getVerifier(configAdmin));
             logger.info(" >>> setting verifier from serverConfiguration");
 
-            ((SkysailApplication) application).setServerConfiguration(serverConfig);
+            skysailApplication.setServerConfiguration(serverConfig);
             logger.info(" >>> setting ServerConfiguration");
+            
         }
         logger.info(" >>> attaching '{}' to defaultHost", "/" + application.getName());
         restletComponent.getDefaultHost().attach("/" + application.getName(), application);

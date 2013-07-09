@@ -14,8 +14,6 @@ import org.restlet.data.ChallengeScheme;
 import org.restlet.data.ClientInfo;
 import org.restlet.data.Protocol;
 import org.restlet.data.Reference;
-import org.restlet.engine.Engine;
-import org.restlet.engine.converter.ConverterHelper;
 import org.restlet.resource.ServerResource;
 import org.restlet.security.ChallengeAuthenticator;
 import org.restlet.security.Enroler;
@@ -30,10 +28,6 @@ import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.core.restlet.RouteBuilder;
 import de.twenty11.skysail.server.core.restlet.SkysailRouter;
 import de.twenty11.skysail.server.internal.Blocker;
-import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
-import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
-import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
-import de.twenty11.skysail.server.presentation.ToCsvConverter;
 
 /**
  * 
@@ -185,10 +179,5 @@ public abstract class SkysailApplication extends Application {
     public synchronized void setBundleContext(BundleContext bc) {
         this.bundleContext = bc;
     }
-//    
-//    protected void addToMenu(String menuIdentifier) {
-//    	//MenuService service.addApplicationToMenu(menuIdentifier, getName());
-//	}
-
 
 }

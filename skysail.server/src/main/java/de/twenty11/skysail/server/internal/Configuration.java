@@ -17,12 +17,16 @@
 
 package de.twenty11.skysail.server.internal;
 
+import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.apache.commons.lang.Validate;
+import org.osgi.framework.Bundle;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.component.ComponentContext;
@@ -101,46 +105,61 @@ public class Configuration implements ComponentProvider {
         registeredConverters.add(new Json2BootstrapConverter());
         registeredConverters.add(new IFrame2BootstrapConverter());
         registeredConverters.add(new ToCsvConverter());
-
-        updateDbConfig();
         
+        updateDbConfig(configadmin);
+
         triggerAttachmentOfNewApplications();
         triggerAttachmentOfNewMenus();
-    }
+    }   
     
-    public void updateDbConfig() {
+    private void updateDbConfig(ConfigurationAdmin configadmin) {
         if (configadmin == null) {
-            //log
             return;
         }
         try {
-            // http://wiki.eclipse.org/Gemini/JPA/Documentation/OtherTopics#Configuration_Admin
-            org.osgi.service.cm.Configuration config = configadmin.createFactoryConfiguration("gemini.jpa.punit", null);
-     
-            config.getProperties();
+            Set<String> scanBundlesForSkysailPUHeader = scanBundlesForSkysailPUHeader();
             
-            // Create a dictionary and insert config properties (must include the punit name property)
-            Dictionary props = new Hashtable();
-            props.put("gemini.jpa.punit.name", "NotesPU");
-     
-            props.put("javax.persistence.jdbc.driver", "com.mysql.jdbc.Driver");
-            props.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/skysail");
-            props.put("javax.persistence.jdbc.user", "root");
-            props.put("javax.persistence.jdbc.password", "websphere");
-
-//            props.put("javax.persistence.jdbc.driver", "org.apache.derby.jdbc.EmbeddedDriver");
-//            props.put("javax.persistence.jdbc.url", "jdbc:derby:skysailDerbyDb;create=true");
-//            props.put("javax.persistence.jdbc.user", "skysail");
-//            props.put("javax.persistence.jdbc.password", "skysail");
-
-            // Causes config to be updated, or created if it did not already exist
-            config.update(props);
-     
+            for (String puName : scanBundlesForSkysailPUHeader) {
+                createConfigForDb(configadmin, puName);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new RuntimeException(ex);
         }
         
+    }
+
+
+    private void createConfigForDb(ConfigurationAdmin configadmin2, String puName) throws Exception {
+        // http://wiki.eclipse.org/Gemini/JPA/Documentation/OtherTopics#Configuration_Admin
+        org.osgi.service.cm.Configuration config = configadmin.createFactoryConfiguration("gemini.jpa.punit", null);
+ 
+        config.getProperties();
+        
+        // Create a dictionary and insert config properties (must include the punit name property)
+        Dictionary props = new Hashtable();
+        props.put("gemini.jpa.punit.name", puName);
+ 
+        props.put("javax.persistence.jdbc.driver", "com.mysql.jdbc.Driver");
+        props.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/skysail");
+        props.put("javax.persistence.jdbc.user", "root");
+        props.put("javax.persistence.jdbc.password", "websphere");
+
+        // Causes config to be updated, or created if it did not already exist
+        config.update(props);
+    }
+
+    private Set<String> scanBundlesForSkysailPUHeader() {
+        Bundle[] bundles = componentContext.getBundleContext().getBundles();
+        Set<String> result = new HashSet<String>();
+        for (Bundle bundle : bundles) {
+            Dictionary<String, String> headers = bundle.getHeaders();
+            String xSkysailPU = headers.get("x-skysail-persistenceUnit");
+            if (xSkysailPU != null) {
+                result.add(xSkysailPU);
+            }
+        }
+        return result;
     }
 
     protected void deactivate(ComponentContext ctxt) {

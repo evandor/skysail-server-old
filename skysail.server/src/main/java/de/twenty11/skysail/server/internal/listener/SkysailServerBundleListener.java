@@ -17,9 +17,12 @@
 
 package de.twenty11.skysail.server.internal.listener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Dictionary;
 import java.util.List;
 
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleEvent;
 import org.osgi.framework.BundleListener;
 import org.slf4j.Logger;
@@ -40,11 +43,25 @@ public class SkysailServerBundleListener implements BundleListener {
 
     /** slf4j based logger implementation. */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private List<String> skysailPUs = new ArrayList<String>();
     
     @Override
     public final void bundleChanged(final BundleEvent event) {
         lastEvents.add(event);
         logger.debug(event.toString());
+        if (event.getType() == BundleEvent.INSTALLED) {
+            Bundle bundle = event.getBundle();
+            Dictionary<String, String> headers = bundle.getHeaders();
+            String xSkysailPU = headers.get("x-skysail-persistenceUnit");
+            if (xSkysailPU != null) {
+                skysailPUs.add(xSkysailPU);
+            }
+        }
+    }
+    
+    public List<String> getSkysailPUs() {
+        return skysailPUs;
     }
 
     public int getQueueSize() {
