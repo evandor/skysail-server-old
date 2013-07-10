@@ -21,6 +21,7 @@ import de.twenty11.skysail.server.core.osgi.internal.ApplicationLifecycle;
 import de.twenty11.skysail.server.core.osgi.internal.ApplicationState;
 import de.twenty11.skysail.server.core.osgi.internal.Trigger;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
+import de.twenty11.skysail.server.security.AuthenticationService;
 
 public class ApplicationsHolder {
 
@@ -34,7 +35,7 @@ public class ApplicationsHolder {
         lifecycles.put(application, new ApplicationLifecycle());
     }
 
-    public void attach(Application application, SkysailComponent restletComponent, ServerConfiguration serverConfig, ConfigurationAdmin configAdmin) throws Exception {
+    public void attach(Application application, SkysailComponent restletComponent, ServerConfiguration serverConfig, ConfigurationAdmin configAdmin, AuthenticationService authService) throws Exception {
 
         logger.info("");
         logger.info("==================================================");
@@ -52,7 +53,8 @@ public class ApplicationsHolder {
 
             skysailApplication.setServerConfiguration(serverConfig);
             logger.info(" >>> setting ServerConfiguration");
-            
+
+            skysailApplication.setAuthenticationService(authService);
         }
         logger.info(" >>> attaching '{}' to defaultHost", "/" + application.getName());
         restletComponent.getDefaultHost().attach("/" + application.getName(), application);

@@ -14,24 +14,27 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
 import org.restlet.Context;
+import org.restlet.Request;
+import org.restlet.Response;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.data.ClientInfo;
 import org.restlet.security.Authenticator;
 import org.restlet.security.ChallengeAuthenticator;
 import org.restlet.security.Enroler;
 import org.restlet.security.Role;
+import org.restlet.security.Verifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ShiroServices implements AuthenticationService {
 
     private static final Logger logger = LoggerFactory.getLogger(ShiroServices.class);
+    private Verifier verifier;
 
     public ShiroServices() {
-//        IniSecurityManagerFactory factory = new IniSecurityManagerFactory("classpath:shiro.ini");
-//        SecurityManager securityManager = factory.getInstance();
-        //SecurityManager securityManager = new DefaultSecurityManager(realm);
-
+        // IniSecurityManagerFactory factory = new IniSecurityManagerFactory("classpath:shiro.ini");
+        // SecurityManager securityManager = factory.getInstance();
+        // SecurityManager securityManager = new DefaultSecurityManager(realm);
 
         Ini ini = new Ini();
         Section users = ini.addSection("users");
@@ -43,6 +46,24 @@ public class ShiroServices implements AuthenticationService {
         Factory<SecurityManager> factory = new IniSecurityManagerFactory(ini);
         SecurityManager securityManager = factory.getInstance();
         SecurityUtils.setSecurityManager(securityManager);
+
+        verifier = new Verifier() {
+
+            @Override
+            public int verify(Request request, Response response) {
+                Subject currentUser = SecurityUtils.getSubject();
+                if (currentUser.isAuthenticated()) {
+                    return Verifier.RESULT_VALID;
+                }
+                UsernamePasswordToken token = new UsernamePasswordToken(request.getChallengeResponse().getIdentifier(), request.getChallengeResponse().getSecret());
+                try {
+                    currentUser.login(token);
+                } catch (Exception e) {
+                    return Verifier.RESULT_INVALID;
+                }
+                return Verifier.RESULT_VALID;
+            }
+        };
     }
 
     @Override
@@ -61,7 +82,7 @@ public class ShiroServices implements AuthenticationService {
     @Override
     public Authenticator getAuthenticator(Context context) {
         ChallengeAuthenticator guard = new ChallengeAuthenticator(context, ChallengeScheme.HTTP_BASIC, "realm");
-        //guard.setVerifier(this.verifier);
+        guard.setVerifier(this.verifier);
         guard.setEnroler(new Enroler() {
             @Override
             public void enrole(ClientInfo clientInfo) {

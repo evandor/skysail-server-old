@@ -169,7 +169,7 @@ public class Configuration implements ComponentProvider {
         List<Application> newApplications = applications.getApplicationsInState(ApplicationState.NEW);
         for (Application application : newApplications) {
             try {
-                applications.attach(application, restletComponent, serverConfig, configadmin);
+                applications.attach(application, restletComponent, serverConfig, configadmin, authService);
             } catch (Exception e) {
                 logger.error("Problem with Application Lifecycle Management Defintion", e);
             }
