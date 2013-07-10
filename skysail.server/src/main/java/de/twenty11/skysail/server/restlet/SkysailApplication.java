@@ -1,7 +1,11 @@
 package de.twenty11.skysail.server.restlet;
 
-import java.util.ArrayList;
-import java.util.List;
+import de.twenty11.skysail.server.config.ServerConfiguration;
+import de.twenty11.skysail.server.core.restlet.RouteBuilder;
+import de.twenty11.skysail.server.core.restlet.SkysailRouter;
+import de.twenty11.skysail.server.internal.Blocker;
+import de.twenty11.skysail.server.security.AuthenticationService;
+
 import java.util.Map;
 
 import org.osgi.framework.Bundle;
@@ -10,41 +14,35 @@ import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.component.ComponentContext;
 import org.restlet.Application;
 import org.restlet.Restlet;
-import org.restlet.data.ChallengeScheme;
-import org.restlet.data.ClientInfo;
 import org.restlet.data.Protocol;
 import org.restlet.data.Reference;
 import org.restlet.resource.ServerResource;
-import org.restlet.security.ChallengeAuthenticator;
-import org.restlet.security.Enroler;
+import org.restlet.security.Authenticator;
 import org.restlet.security.MapVerifier;
-import org.restlet.security.Role;
 import org.restlet.security.Verifier;
 import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.config.ServerConfiguration;
-import de.twenty11.skysail.server.core.restlet.RouteBuilder;
-import de.twenty11.skysail.server.core.restlet.SkysailRouter;
-import de.twenty11.skysail.server.internal.Blocker;
-import de.twenty11.skysail.server.security.AuthenticationService;
-
 /**
- * 
+ *
  * Concurrency note from parent class: instances of this class or its subclasses can be invoked by several threads at
  * the same time and therefore must be thread-safe. You should be especially careful when storing state in member
  * variables.
- * 
+ *
  * @author carsten
- * 
+ *
  */
 public abstract class SkysailApplication extends Application {
 
-    /** slf4j based logger implementation. */
+    /**
+     * slf4j based logger implementation.
+     */
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    /** the restlet router. */
+    /**
+     * the restlet router.
+     */
     protected volatile SkysailRouter router;
 
     private Verifier verifier = new MapVerifier();
@@ -55,8 +53,10 @@ public abstract class SkysailApplication extends Application {
 
     private BundleContext bundleContext;
 
+    private AuthenticationService authenticationService;
+
     abstract protected void attach();
-    
+
     public SkysailApplication() {
         logger.info("Instanciating new Skysail Application '{}'", this.getClass().getSimpleName());
     }
@@ -91,18 +91,20 @@ public abstract class SkysailApplication extends Application {
         blocker.setNext(originalRequestFilter);
         originalRequestFilter.setNext(router);
 
-        ChallengeAuthenticator guard = new ChallengeAuthenticator(getContext(), ChallengeScheme.HTTP_BASIC, "realm");
-        guard.setVerifier(this.verifier);
-        guard.setEnroler(new Enroler() {
+        /*ChallengeAuthenticator guard = new ChallengeAuthenticator(getContext(), ChallengeScheme.HTTP_BASIC, "realm");
+         guard.setVerifier(this.verifier);
+         guard.setEnroler(new Enroler() {
+         @Override
+         public void enrole(ClientInfo clientInfo) {
+         List<Role> defaultRoles = new ArrayList<Role>();
+         Role userRole = new Role("user", "standard role");
+         defaultRoles.add(userRole);
+         clientInfo.setRoles(defaultRoles);
+         }
+         });*/
 
-            @Override
-            public void enrole(ClientInfo clientInfo) {
-                List<Role> defaultRoles = new ArrayList<Role>();
-                Role userRole = new Role("user", "standard role");
-                defaultRoles.add(userRole);
-                clientInfo.setRoles(defaultRoles);
-            }
-        });
+        Authenticator guard = getAuthenticationService().getAuthenticator(getContext());
+
         timer.setNext(blocker);
         guard.setNext(timer);
 
@@ -163,8 +165,8 @@ public abstract class SkysailApplication extends Application {
     }
 
     /**
-     * Some bundles set the componentContext, others (via blueprint) only the bundleContext...
-     * need to revisit
+     * Some bundles set the componentContext, others (via blueprint) only the bundleContext... need to revisit
+     *
      * @return
      */
     public Bundle getBundle() {
@@ -181,4 +183,11 @@ public abstract class SkysailApplication extends Application {
         this.bundleContext = bc;
     }
 
+    public AuthenticationService getAuthenticationService() {
+        return authenticationService;
+    }
+
+    public void setAuthenticationService(AuthenticationService authService) {
+        this.authenticationService = authService;
+    }
 }
