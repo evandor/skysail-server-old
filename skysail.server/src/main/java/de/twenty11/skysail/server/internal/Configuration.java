@@ -47,7 +47,6 @@ import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
 import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
 import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
 import de.twenty11.skysail.server.presentation.ToCsvConverter;
-import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.security.AuthenticationService;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ComponentProvider;
