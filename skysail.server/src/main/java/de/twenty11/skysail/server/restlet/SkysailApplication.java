@@ -28,6 +28,7 @@ import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.core.restlet.RouteBuilder;
 import de.twenty11.skysail.server.core.restlet.SkysailRouter;
 import de.twenty11.skysail.server.internal.Blocker;
+import de.twenty11.skysail.server.security.AuthenticationService;
 
 /**
  * 

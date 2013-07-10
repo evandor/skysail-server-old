@@ -52,5 +52,13 @@
 		name="menuService" 
 		policy="dynamic" 
 	/>
+	
+	<reference 
+		bind="setAuthenticationService" 
+		cardinality="1..1" 
+		interface="de.twenty11.skysail.server.security.AuthenticationService" 
+		name="AuthenticationService" 
+		policy="static"/>
+	
 
 </scr:component>

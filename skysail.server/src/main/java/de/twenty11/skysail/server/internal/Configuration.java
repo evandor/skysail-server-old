@@ -48,6 +48,7 @@ import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
 import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
 import de.twenty11.skysail.server.presentation.ToCsvConverter;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
+import de.twenty11.skysail.server.security.AuthenticationService;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ComponentProvider;
 import de.twenty11.skysail.server.services.MenuEntry;
@@ -67,6 +68,7 @@ public class Configuration implements ComponentProvider {
     private MenusHolder menus;
     private boolean serverActive = false;
     private MenuService menuService;
+    private AuthenticationService authService;
 
     public Configuration() throws Exception {
         menus = new MenusHolder(this);
@@ -90,9 +92,10 @@ public class Configuration implements ComponentProvider {
 
         restletComponent = new SkysailComponent(this.componentContext);
 
-        SkysailApplication defaultApplication = new DefaultSkysailApplication(componentContext);
+        DefaultSkysailApplication defaultApplication = new DefaultSkysailApplication(componentContext);
         defaultApplication.setVerifier(serverConfig.getVerifier(configadmin));
         defaultApplication.setServerConfiguration(serverConfig);
+        defaultApplication.setAuthenticationService(authService);
 
         restletComponent.getDefaultHost().attachDefault(defaultApplication);
 
@@ -260,6 +263,10 @@ public class Configuration implements ComponentProvider {
 
     public MenuService getMenuService() {
         return menuService;
+    }
+    
+    public void setAuthenticationService (AuthenticationService service) {
+        this.authService = service;
     }
 
     private void updateDbConfig() {
