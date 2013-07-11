@@ -11,23 +11,24 @@
  * specific language governing permissions and limitations under the License.
  *
  */
-package de.twenty11.skysail.server.um.internal;
+package de.twenty11.skysail.server.um.domain;
 
+import java.io.Serializable;
+
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-/**
- * @author carsten
- *
- */
-//@Entity(name = "SkysailRoles")
-public class SkysailRole {
+@Entity(name = "um_user")
+public class SkysailUser implements Serializable {
 
     @Id
     @GeneratedValue
     private int id;
 
-    private String rolename;
+    private String username;
+
+    private String password;
 
     public int getId() {
         return this.id;
@@ -37,11 +38,11 @@ public class SkysailRole {
         this.id = userId;
     }
 
-    public String getRolename() {
-        return this.rolename;
+    public String getUsername() {
+        return username;
     }
 
-    public void setRolename(final String name) {
-        this.rolename = name;
+    public String getPassword() {
+        return password;
     }
 }

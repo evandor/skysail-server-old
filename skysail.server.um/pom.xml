@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>de.twentyeleven.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.8.39</version>
+		<version>0.8.40-SNAPSHOT</version>
 		<relativePath />
 	</parent>
 
 	<artifactId>skysail.server.um</artifactId>
 	<version>0.0.2-SNAPSHOT</version>
-	<name>skysail server um</name>
+	<name>SKYSAIL :: server :: usermanagement</name>
 	<packaging>bundle</packaging>
 
 	<scm>
@@ -22,10 +22,10 @@
 		<!-- A publicly browsable repository. For example, via ViewCVS. -->
 		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
 	  <tag>HEAD</tag>
-  </scm>
+        </scm>
 
 	<properties>
-		<skysail.server.version>[0.3.0, 1.0)</skysail.server.version>
+		<skysail.server.version>[0.3.1-SNAPSHOT, 1.0)</skysail.server.version>
 	</properties>
 
 	<build>
@@ -44,6 +44,11 @@
 	</build>
 
 	<dependencies>
+            <dependency>
+			<groupId>de.twentyeleven.skysail</groupId>
+			<artifactId>skysail.server</artifactId>
+                        <version>${skysail.server.version}</version>
+            </dependency>
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>javax.persistence</artifactId>
