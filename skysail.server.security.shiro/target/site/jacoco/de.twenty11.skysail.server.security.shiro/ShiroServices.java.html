@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ShiroServices.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SKYSAIL :: server :: security :: shiro</a> &gt; <a href="index.html" class="el_package">de.twenty11.skysail.server.security.shiro</a> &gt; <span class="el_source">ShiroServices.java</span></div><h1>ShiroServices.java</h1><pre class="source lang-java linenums">package de.twenty11.skysail.server.security.shiro;
+
+import de.twenty11.skysail.server.security.AuthenticationService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.config.Ini;
+import org.apache.shiro.config.Ini.Section;
+import org.apache.shiro.config.IniSecurityManagerFactory;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.Factory;
+import org.restlet.Context;
+import org.restlet.data.ChallengeScheme;
+import org.restlet.data.ClientInfo;
+import org.restlet.security.Authenticator;
+import org.restlet.security.ChallengeAuthenticator;
+import org.restlet.security.Enroler;
+import org.restlet.security.Role;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class ShiroServices implements AuthenticationService {
+
+<span class="nc" id="L28">    private static final Logger logger = LoggerFactory.getLogger(ShiroServices.class);</span>
+
+<span class="nc" id="L30">    public ShiroServices() {</span>
+//        IniSecurityManagerFactory factory = new IniSecurityManagerFactory(&quot;classpath:shiro.ini&quot;);
+//        SecurityManager securityManager = factory.getInstance();
+        //SecurityManager securityManager = new DefaultSecurityManager(realm);
+
+
+<span class="nc" id="L36">        Ini ini = new Ini();</span>
+<span class="nc" id="L37">        Section users = ini.addSection(&quot;users&quot;);</span>
+<span class="nc" id="L38">        users.put(&quot;admin&quot;, &quot;secret&quot;);</span>
+
+<span class="nc" id="L40">        Section roles = ini.addSection(&quot;roles&quot;);</span>
+<span class="nc" id="L41">        roles.put(&quot;admin&quot;, &quot;*&quot;);</span>
+
+<span class="nc" id="L43">        Factory&lt;SecurityManager&gt; factory = new IniSecurityManagerFactory(ini);</span>
+<span class="nc" id="L44">        SecurityManager securityManager = factory.getInstance();</span>
+<span class="nc" id="L45">        SecurityUtils.setSecurityManager(securityManager);</span>
+<span class="nc" id="L46">    }</span>
+
+    @Override
+    public void login(String username, String password) {
+<span class="nc" id="L50">        Subject currentUser = SecurityUtils.getSubject();</span>
+<span class="nc" id="L51">        UsernamePasswordToken token = new UsernamePasswordToken(username, password);</span>
+<span class="nc" id="L52">        currentUser.login(token);</span>
+<span class="nc" id="L53">    }</span>
+
+    @Override
+    public void logout() {
+<span class="nc" id="L57">        Subject currentUser = SecurityUtils.getSubject();</span>
+<span class="nc" id="L58">        currentUser.logout();</span>
+<span class="nc" id="L59">    }</span>
+
+    @Override
+    public Authenticator getAuthenticator(Context context) {
+<span class="nc" id="L63">        ChallengeAuthenticator guard = new ChallengeAuthenticator(context, ChallengeScheme.HTTP_BASIC, &quot;realm&quot;);</span>
+        //guard.setVerifier(this.verifier);
+<span class="nc" id="L65">        guard.setEnroler(new Enroler() {</span>
+            @Override
+            public void enrole(ClientInfo clientInfo) {
+<span class="nc" id="L68">                List&lt;Role&gt; defaultRoles = new ArrayList&lt;Role&gt;();</span>
+<span class="nc" id="L69">                Role userRole = new Role(&quot;user&quot;, &quot;standard role&quot;);</span>
+<span class="nc" id="L70">                defaultRoles.add(userRole);</span>
+<span class="nc" id="L71">                clientInfo.setRoles(defaultRoles);</span>
+<span class="nc" id="L72">            }</span>
+        });
+<span class="nc" id="L74">        return guard;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>

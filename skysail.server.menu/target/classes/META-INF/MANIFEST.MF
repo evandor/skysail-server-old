@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1373275404335
+Build-Jdk: 1.6.0_24
+Built-By: graefca
+Bundle-Description: This is the parent pom for all skysail maven artifac
+ ts. Should be run with maven3.
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-ManifestVersion: 2
+Bundle-Name: SKYSAIL :: server :: menu
+Bundle-SymbolicName: skysail.server.menu
+Bundle-Version: 0.0.1.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Service: de.twenty11.skysail.server.core.MenuService,de.twenty11.
+ skysail.server.services.ApplicationProvider
+Import-Package: de.twenty11.skysail.server.core;version="[0.3,1)",de.twe
+ nty11.skysail.server.core.restlet;version="[0.3,1)",de.twenty11.skysail
+ .server.restlet;version="[0.2,1)",de.twenty11.skysail.server.services;v
+ ersion="[0.2,1)",org.apache.commons.lang;version="[2.6,3)",org.codehaus
+ .jackson.annotate;version="[1.9,2)",org.osgi.service.blueprint;version=
+ "[1.0.0,2.0.0)",org.restlet,org.restlet.resource,org.slf4j;version="[1.
+ 6,2)"
+Tool: Bnd-1.50.0
