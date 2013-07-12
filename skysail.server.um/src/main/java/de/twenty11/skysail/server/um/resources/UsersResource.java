@@ -16,6 +16,7 @@
 package de.twenty11.skysail.server.um.resources;
 
 import de.twenty11.skysail.server.core.restlet.ListServerResource2;
+import de.twenty11.skysail.server.um.UserManagementApplication;
 import de.twenty11.skysail.server.um.domain.SkysailUser;
 
 import java.util.List;
@@ -28,5 +29,7 @@ public class UsersResource extends ListServerResource2<SkysailUser> {
 
     @Override
     protected List<SkysailUser> getData() {
+        UserManagementApplication app = (UserManagementApplication)getApplication();
+        return app.getUserRepository().getEntities();
     }
 }

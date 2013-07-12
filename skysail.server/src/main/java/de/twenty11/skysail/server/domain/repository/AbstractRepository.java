@@ -15,14 +15,45 @@
  */
 package de.twenty11.skysail.server.domain.repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-public abstract class AbstractRepository implements Repository {
+public abstract class AbstractRepository<T> implements Repository<T> {
 
     private EntityManager entitiyManager;
 
     public AbstractRepository(EntityManagerFactory emf) {
         this.entitiyManager = emf.createEntityManager();
     }
+
+    protected EntityManager getEntityManager() {
+        return this.entitiyManager;
+    }
+
+    /**
+     * Typcially something like
+     * 
+     * {@code 
+     * TypedQuery<Note> query = getEntityManager()
+     *           .createQuery("SELECT c FROM Note c WHERE c.pid = :pid", Note.class);
+     *   query.setParameter("pid", id);
+     *   return (Note) query.getSingleResult(); }
+     */
+    @Override
+    public abstract T getById(Long id);
+
+    
+    /**
+     * Typically something like
+     * 
+     * {@code         TypedQuery<Note> query = getEntityManager()
+                .createQuery("SELECT c FROM Note c", Note.class);
+        return query.getResultList();}
+     */
+    @Override
+    public abstract List<T> getEntities();
+    
+    
 }

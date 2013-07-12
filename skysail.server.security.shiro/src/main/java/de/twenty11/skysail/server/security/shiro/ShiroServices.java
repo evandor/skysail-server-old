@@ -55,7 +55,9 @@ public class ShiroServices implements AuthenticationService {
                 if (currentUser.isAuthenticated()) {
                     return Verifier.RESULT_VALID;
                 }
-                UsernamePasswordToken token = new UsernamePasswordToken(request.getChallengeResponse().getIdentifier(), request.getChallengeResponse().getSecret());
+                String username = request.getChallengeResponse() == null ? null : request.getChallengeResponse().getIdentifier();
+                char[] secret = request.getChallengeResponse() == null ? null : request.getChallengeResponse().getSecret();
+                UsernamePasswordToken token = new UsernamePasswordToken(username, secret);
                 try {
                     currentUser.login(token);
                 } catch (Exception e) {
