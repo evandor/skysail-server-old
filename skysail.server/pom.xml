@@ -271,16 +271,11 @@
 			<artifactId>javax.persistence</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.apache.pdfbox</groupId>
 			<artifactId>pdfbox</artifactId>
 			<version>1.8.0</version>
 		</dependency>
 	</dependencies>
-
-	<!-- <repositories> <repository> <id>EclipseLink</id> <url>http://download.eclipse.org/rt/eclipselink/maven.repo</url> 
-		</repository> <repository> <id>maven-restlet</id> <name>Public online Restlet 
-		repository</name> <url>http://maven.restlet.org</url> </repository> </repositories> -->
 
 </project>
