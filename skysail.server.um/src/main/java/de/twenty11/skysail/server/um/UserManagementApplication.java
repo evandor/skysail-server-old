@@ -25,17 +25,23 @@ import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.MenuEntry;
 import de.twenty11.skysail.server.services.MenuProvider;
+import de.twenty11.skysail.server.um.repos.RoleRepository;
 import de.twenty11.skysail.server.um.repos.UserRepository;
+import de.twenty11.skysail.server.um.resources.AddRoleResource;
+import de.twenty11.skysail.server.um.resources.AddUserResource;
+import de.twenty11.skysail.server.um.resources.RolesResource;
+import de.twenty11.skysail.server.um.resources.UserManagementRootResource;
 import de.twenty11.skysail.server.um.resources.UsersResource;
 
 /**
- *
+ * 
  * @author graefca
  */
 public class UserManagementApplication extends SkysailApplication implements ApplicationProvider, MenuProvider {
 
     private EntityManagerFactory enitityManagerFactory;
     private UserRepository userRepository;
+    private RoleRepository roleRepository;
 
     public UserManagementApplication() {
         setName("usermanagement");
@@ -44,23 +50,35 @@ public class UserManagementApplication extends SkysailApplication implements App
 
     @Override
     protected void attach() {
+        router.attach(new RouteBuilder("", UserManagementRootResource.class).setVisible(false));
+        router.attach(new RouteBuilder("/", UserManagementRootResource.class).setVisible(false));
+        router.attach(new RouteBuilder("/roles", RolesResource.class).setVisible(true).setText("Roles"));
+        router.attach(new RouteBuilder("/roles/", AddRoleResource.class).setVisible(false));
         router.attach(new RouteBuilder("/users", UsersResource.class).setVisible(true).setText("Users"));
+        router.attach(new RouteBuilder("/users/", AddUserResource.class).setVisible(false));
     }
-    
+
     public synchronized UserRepository getUserRepository() {
         if (this.userRepository == null) {
             this.userRepository = new UserRepository(enitityManagerFactory);
         }
         return this.userRepository;
     }
-    
+
+    public synchronized RoleRepository getRoleRepository() {
+        if (this.roleRepository == null) {
+            this.roleRepository = new RoleRepository(enitityManagerFactory);
+        }
+        return this.roleRepository;
+    }
+
     public synchronized void setEntityManager(EntityManagerFactory emf) {
         this.enitityManagerFactory = emf;
     }
 
     @Override
     public List<MenuEntry> getMenuEntries() {
-        return Arrays.asList(new MenuEntry("main", "um", getName()));
+        return Arrays.asList(new MenuEntry("main", "um", getName() + "/users"));
     }
 
 }

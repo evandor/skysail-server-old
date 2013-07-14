@@ -8,7 +8,7 @@ accordionGroup(element,i) ::= <<
 
     <div class="accordion-group">
         <div class="accordion-heading">
-            hlink1&nbsp;<a class="accordion-toggle" data-toggle="collapse" style="display:inline;"
+            $i$. $head(element)$ <a class="accordion-toggle" data-toggle="collapse" style="display:inline;"
                 data-parent="#accordion2" href="#collapse$i$"><i class="icon-zoom-in"></i></a>&nbsp;
         </div>
         <div id="collapse$i$" class="accordion-body collapse">
@@ -18,6 +18,10 @@ accordionGroup(element,i) ::= <<
         </div> 
     </div>
     
+>>
+
+head(map)  ::= <<
+    <b>$map.toString$</b>
 >>
 
 table(map)  ::= <<

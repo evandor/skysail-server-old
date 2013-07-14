@@ -15,21 +15,44 @@
  */
 package de.twenty11.skysail.server.um.resources;
 
+import java.util.List;
+
+import de.twenty11.skysail.common.Presentation;
+import de.twenty11.skysail.common.PresentationStyle;
+import de.twenty11.skysail.common.navigation.LinkedPage;
+import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.core.restlet.ListServerResource2;
 import de.twenty11.skysail.server.um.UserManagementApplication;
 import de.twenty11.skysail.server.um.domain.SkysailUser;
 
-import java.util.List;
-
-/**
- *
- * @author graefca
- */
+@Presentation(preferred = PresentationStyle.LIST2)
 public class UsersResource extends ListServerResource2<SkysailUser> {
 
     @Override
+    public SkysailResponse<List<SkysailUser>> getEntities() {
+        return super.getEntities("Skysail System Users:");
+    }
+
+    @Override
     protected List<SkysailUser> getData() {
-        UserManagementApplication app = (UserManagementApplication)getApplication();
+        UserManagementApplication app = (UserManagementApplication) getApplication();
+        registerLinkedPage(new LinkedPage() {
+
+            @Override
+            public String getLinkText() {
+                return "add user";
+            }
+
+            @Override
+            public String getHref() {
+                return "users/";
+            }
+
+            @Override
+            public boolean applicable() {
+                return true;
+            }
+        });
         return app.getUserRepository().getEntities();
     }
 }

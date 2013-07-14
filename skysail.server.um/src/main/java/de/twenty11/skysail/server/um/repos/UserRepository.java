@@ -38,7 +38,7 @@ public class UserRepository extends AbstractRepository<SkysailUser> {
         TypedQuery<SkysailUser> query = getEntityManager().createQuery(
                 "SELECT c FROM SkysailUser c WHERE c.pid = :pid", SkysailUser.class);
         query.setParameter("pid", id);
-        return (SkysailUser) query.getSingleResult();
+        return query.getSingleResult();
 
     }
 
@@ -51,7 +51,8 @@ public class UserRepository extends AbstractRepository<SkysailUser> {
 
     @Override
     public void add(SkysailUser entity) {
-        // TODO Auto-generated method stub
-
+        getEntityManager().getTransaction().begin();
+        getEntityManager().persist(entity);
+        getEntityManager().getTransaction().commit();
     }
 }

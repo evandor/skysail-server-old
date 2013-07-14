@@ -10,6 +10,7 @@
 	<bean id="skysailApp"
 		class="de.twenty11.skysail.server.um.UserManagementApplication">
 		<property name="entityManager" ref="emfRef" />
+        <property name="bundleContext" ref="blueprintBundleContext"/>
 	</bean>
 
 	<service ref="skysailApp"

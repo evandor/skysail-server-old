@@ -19,6 +19,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import de.twenty11.skysail.common.forms.Field;
 
 @Entity
 @Table(name = "um_users")
@@ -30,9 +33,20 @@ public class SkysailUser implements Serializable {
     @GeneratedValue
     private int id;
 
+    @Field
+    @Size(min = 3, message = "username must have at least three characters")
     private String username;
 
+    @Field
     private String password;
+
+    public SkysailUser() {
+    }
+
+    public SkysailUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public int getId() {
         return this.id;
@@ -48,5 +62,10 @@ public class SkysailUser implements Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String toString() {
+        return username;
     }
 }

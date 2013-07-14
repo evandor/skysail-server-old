@@ -31,7 +31,7 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
 
     private Parameter renderAs;
 
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     public ListForContentStrategy2(BundleContext bundleContext, Resource resource) {
         SkysailApplication currentApplication = (SkysailApplication) resource.getApplication();
@@ -57,27 +57,27 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
         }
 
         template = searchIn(skysailServerBundle, ListServerResource2.class, false);
-        
-//        String location = determineLocation(resource.getClass().getSuperclass());
-//        if (skysailServerBundle != null) {
-//            template = findTemplate(skysailServerBundle, location);
-//            if (template == null) {
-//                location = determineLocation(resource.getClass().getSuperclass(), false);
-//                template = findTemplate(skysailServerBundle, location);
-//            }
-//
-//        }
+
+        // String location = determineLocation(resource.getClass().getSuperclass());
+        // if (skysailServerBundle != null) {
+        // template = findTemplate(skysailServerBundle, location);
+        // if (template == null) {
+        // location = determineLocation(resource.getClass().getSuperclass(), false);
+        // template = findTemplate(skysailServerBundle, location);
+        // }
+        //
+        // }
     }
 
     private STGroupString searchIn(Bundle bundle, Class<?> cls) {
         return searchIn(bundle, cls, true);
     }
-    
+
     private STGroupString searchIn(Bundle bundle, Class<?> cls, boolean considerRenderAsParam) {
         if (bundle == null) {
             return null;
         }
-        String location = determineLocation(cls,considerRenderAsParam);
+        String location = determineLocation(cls, considerRenderAsParam);
         logger.info("Trying location {} in Bundle {}", location, bundle.getSymbolicName());
         return findTemplate(bundle, location);
     }
@@ -108,6 +108,7 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
             if (data != null) {
                 for (Object object : data) {
                     Map<String, Object> objectMap = mapper.convertValue(object, Map.class);
+                    objectMap.put("toString", object.toString());
                     result.add(objectMap);
                 }
             }

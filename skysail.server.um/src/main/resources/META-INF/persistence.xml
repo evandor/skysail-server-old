@@ -5,12 +5,9 @@
 	<persistence-unit name="UserManagementPU"
 		transaction-type="RESOURCE_LOCAL">
         <class>de.twenty11.skysail.server.um.domain.SkysailUser</class>
+        <class>de.twenty11.skysail.server.um.domain.SkysailRole</class>
 		<properties>
-            <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:derby:skysailDerbyDb;create=true" />
-            <!-- EclipseLink should create the database schema automatically -->
             <property name="eclipselink.ddl-generation" value="create-tables" />
         </properties>
-		
 	</persistence-unit>
 </persistence>

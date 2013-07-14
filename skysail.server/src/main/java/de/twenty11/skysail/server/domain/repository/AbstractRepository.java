@@ -22,7 +22,7 @@ import javax.persistence.EntityManagerFactory;
 
 public abstract class AbstractRepository<T> implements Repository<T> {
 
-    private EntityManager entitiyManager;
+    private final EntityManager entitiyManager;
 
     public AbstractRepository(EntityManagerFactory emf) {
         this.entitiyManager = emf.createEntityManager();
@@ -44,7 +44,6 @@ public abstract class AbstractRepository<T> implements Repository<T> {
     @Override
     public abstract T getById(Long id);
 
-    
     /**
      * Typically something like
      * 
@@ -54,6 +53,18 @@ public abstract class AbstractRepository<T> implements Repository<T> {
      */
     @Override
     public abstract List<T> getEntities();
-    
-    
+
+    /**
+     * Typically something like
+     * 
+     * {@code 
+     *   entitiyManager.getTransaction().begin();
+     *   entitiyManager.persist(entity);
+     *   entitiyManager.getTransaction().commit();
+     * 
+     * }
+     */
+    @Override
+    public abstract void add(T entity);
+
 }

@@ -57,7 +57,7 @@ import de.twenty11.skysail.server.restlet.Timer;
 public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
 
     /** slf4j based logger implementation. */
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private Validator validator;
 
