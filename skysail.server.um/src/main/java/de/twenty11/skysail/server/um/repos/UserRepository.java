@@ -39,7 +39,11 @@ public class UserRepository extends AbstractRepository<SkysailUser> {
                 "SELECT c FROM SkysailUser c WHERE c.pid = :pid", SkysailUser.class);
         query.setParameter("pid", id);
         return query.getSingleResult();
+    }
 
+    public SkysailUser getByName(String username) {
+        return (SkysailUser) getEntityManager().createNamedQuery("findByName").setParameter("username", username)
+                .getSingleResult();
     }
 
     @Override
@@ -55,4 +59,5 @@ public class UserRepository extends AbstractRepository<SkysailUser> {
         getEntityManager().persist(entity);
         getEntityManager().getTransaction().commit();
     }
+
 }

@@ -18,6 +18,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -25,6 +26,7 @@ import de.twenty11.skysail.common.forms.Field;
 
 @Entity
 @Table(name = "um_users")
+@NamedQuery(name = "findByName", query = "SELECT c FROM SkysailUser c WHERE c.username = :username")
 public class SkysailUser implements Serializable {
 
     private static final long serialVersionUID = -3030387756527785881L;

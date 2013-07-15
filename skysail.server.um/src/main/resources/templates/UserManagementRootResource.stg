@@ -1,0 +1,13 @@
+accordion(list) ::= <<
+  <p>
+      $list:{ element | $li(element,i)$}$
+  </p>
+>>
+
+li(element,i) ::= <<
+
+    $header(element)$ <br />
+    
+>>
+
+header(map)       ::= "<img src='/static/img/silk/plugin.png' border=0>&nbsp;<a href='$map.path$'>$map.text$ </a>"

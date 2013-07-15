@@ -31,6 +31,7 @@ import de.twenty11.skysail.server.um.resources.AddRoleResource;
 import de.twenty11.skysail.server.um.resources.AddUserResource;
 import de.twenty11.skysail.server.um.resources.RolesResource;
 import de.twenty11.skysail.server.um.resources.UserManagementRootResource;
+import de.twenty11.skysail.server.um.resources.UserResource;
 import de.twenty11.skysail.server.um.resources.UsersResource;
 
 /**
@@ -56,6 +57,7 @@ public class UserManagementApplication extends SkysailApplication implements App
         router.attach(new RouteBuilder("/roles/", AddRoleResource.class).setVisible(false));
         router.attach(new RouteBuilder("/users", UsersResource.class).setVisible(true).setText("Users"));
         router.attach(new RouteBuilder("/users/", AddUserResource.class).setVisible(false));
+        router.attach(new RouteBuilder("/users/{username}", UserResource.class).setVisible(false));
     }
 
     public synchronized UserRepository getUserRepository() {

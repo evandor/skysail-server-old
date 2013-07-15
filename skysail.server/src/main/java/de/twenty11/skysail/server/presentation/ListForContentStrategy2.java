@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -57,16 +58,6 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
         }
 
         template = searchIn(skysailServerBundle, ListServerResource2.class, false);
-
-        // String location = determineLocation(resource.getClass().getSuperclass());
-        // if (skysailServerBundle != null) {
-        // template = findTemplate(skysailServerBundle, location);
-        // if (template == null) {
-        // location = determineLocation(resource.getClass().getSuperclass(), false);
-        // template = findTemplate(skysailServerBundle, location);
-        // }
-        //
-        // }
     }
 
     private STGroupString searchIn(Bundle bundle, Class<?> cls) {
@@ -102,32 +93,27 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
 
     @Override
     public String createHtml(String page, Object skysailResponseAsObject, SkysailResponse<List<?>> skysailResponse) {
+        List<?> data;
         if (skysailResponseAsObject instanceof List) {
-            List<?> data = (List<?>) skysailResponseAsObject;
-            List<Object> result = new ArrayList<Object>();
-            if (data != null) {
-                for (Object object : data) {
-                    Map<String, Object> objectMap = mapper.convertValue(object, Map.class);
-                    objectMap.put("toString", object.toString());
-                    result.add(objectMap);
-                }
-            }
-            String templateIdentifier = "accordion";
-            if (renderAs != null) {
-                templateIdentifier = renderAs.getValue();
-            }
-            ST accordionHtml = template.getInstanceOf(templateIdentifier);
-            accordionHtml.add("list", result);
-            // html.inspect();
-
-            // BeanMap beanMap = new BeanMap(((List) skysailResponseAsObject).get(0));// new ListWrapper((List<?>)
-            // // skysailResponseAsObject));
-            //
-            // HtmlRenderer renderer = new HtmlRenderer(template);
-            // renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy())
-            // .asRendererInput());
-            page = page.replace("${content}", accordionHtml.render());
+            data = (List<?>) skysailResponseAsObject;
+        } else {
+            data = Arrays.asList(skysailResponseAsObject);
         }
+        List<Object> result = new ArrayList<Object>();
+        if (data != null) {
+            for (Object object : data) {
+                Map<String, Object> objectMap = mapper.convertValue(object, Map.class);
+                objectMap.put("toString", object.toString());
+                result.add(objectMap);
+            }
+        }
+        String templateIdentifier = "accordion";
+        if (renderAs != null) {
+            templateIdentifier = renderAs.getValue();
+        }
+        ST accordionHtml = template.getInstanceOf(templateIdentifier);
+        accordionHtml.add("list", result);
+        page = page.replace("${content}", accordionHtml.render());
 
         return page;
     }
@@ -148,27 +134,5 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
             throw new RuntimeException(e);
         }
     }
-
-    // @SuppressWarnings("unchecked")
-    // private int handleDataElementsForList2(StringBuilder sb, int i, Object object, STGroupString template) {
-    // String accordionGroup = accordionGroupTemplate;
-    // i++;
-    // BeanMap beanMap = new BeanMap(object);
-    //
-    // HtmlRenderer renderer = new HtmlRenderer(template);
-    // renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
-    //
-    // // String tmp =
-    // //
-    // "<table class='table table-hover table-bordered'>\n<tr><th colspan=2 style='background-color:#F5F5F5;'></th></tr>\n"
-    // // + renderer.render("mapIteration") + "</table>\n";
-    //
-    // // accordionGroup = accordionGroup.replace("${inner}", renderer.render("table"));
-    // // accordionGroup = accordionGroup.replace("${hlink}", renderer.render("header"));
-    // // accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
-    // // sb.append(accordionGroup).append("\n");
-    // sb.append(renderer.render("accordion"));
-    // return i;
-    // }
 
 }
