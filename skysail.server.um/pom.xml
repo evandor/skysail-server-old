@@ -45,17 +45,18 @@
 	</build>
 
 	<dependencies>
-		<dependency>
-			<groupId>de.twentyeleven.skysail</groupId>
-			<artifactId>skysail.server</artifactId>
-			<version>${skysail.server.version}</version>
-		</dependency>
-		<dependency>
+        <dependency>
 			<groupId>de.twentyeleven.skysail</groupId>
 			<artifactId>skysail.server</artifactId>
 			<version>${skysail.server.version}</version>
 			<type>test-jar</type>
 		</dependency>
+		<dependency>
+			<groupId>de.twentyeleven.skysail</groupId>
+			<artifactId>skysail.server</artifactId>
+			<version>${skysail.server.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>javax.persistence</artifactId>
