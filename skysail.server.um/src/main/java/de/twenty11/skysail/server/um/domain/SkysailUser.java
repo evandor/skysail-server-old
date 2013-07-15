@@ -14,6 +14,8 @@
 package de.twenty11.skysail.server.um.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,7 +44,10 @@ public class SkysailUser implements Serializable {
     @Field
     private String password;
 
+    private List<SkysailRole> roles = new ArrayList<SkysailRole>();
+
     public SkysailUser() {
+        roles.add(new SkysailRole("test"));
     }
 
     public SkysailUser(String username, String password) {
@@ -66,8 +71,16 @@ public class SkysailUser implements Serializable {
         return password;
     }
 
+    public List<SkysailRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<SkysailRole> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
-        return username;
+        return username + "[" + roles.toString() + "]";
     }
 }
