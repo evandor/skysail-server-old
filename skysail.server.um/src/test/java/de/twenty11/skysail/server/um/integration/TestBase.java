@@ -15,52 +15,57 @@
  */
 package de.twenty11.skysail.server.um.integration;
 
-import de.twenty11.skysail.server.um.resources.UsersResource;
-
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.restlet.Component;
 import org.restlet.data.Protocol;
-import org.restlet.representation.Representation;
 import org.restlet.resource.ClientResource;
-import org.restlet.routing.Router;
 
-public class TestBase {
+import de.twenty11.skysail.server.ResourceTestWithUnguardedAppication;
+import de.twenty11.skysail.server.internal.SkysailComponent;
+import de.twenty11.skysail.server.um.UserManagementApplication;
+import de.twenty11.skysail.server.um.domain.SkysailUser;
+
+import static org.hamcrest.Matchers.containsString;
+
+import static org.junit.Assert.assertThat;
+
+public class TestBase extends ResourceTestWithUnguardedAppication<UserManagementApplication> {
+
+    private UserManagementApplication application;
+    private static Component component = new SkysailComponent();
+
+    @BeforeClass
+    public static void init() throws Exception {
+        component.getServers().add(Protocol.HTTP, TEST_PORT);
+        component.start();
+    }
+
+    @AfterClass
+    public static void stop() throws Exception {
+        component.stop();
+    }
+
+    @Before
+    public void setUp() {
+        application = (UserManagementApplication) setUpApplication(new UserManagementApplication());
+        application.setEntityManager(getEmfForTests());
+        component.getDefaultHost().attach(application);
+    }
 
     @Test
-    public void test_server() throws Exception {
+    public void request_for_users_resource_succeeds() throws Exception {
+        ClientResource cr = new ClientResource(requestUrlFor("/users"));
+        String json = cr.get().getText();
+        assertThat(json, containsString("\"success\":true"));
+    }
 
-        final Component component = new Component();
-        component.getServers().add(Protocol.HTTP, 8182);
-        final Router router = new Router(component.getContext().createChildContext());
-        router.attach("/users", UsersResource.class);
-        // Attach the sample application.
-        component.getDefaultHost().attach("/restlet", router);
-        // Start the component.
-        final Thread t = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    component.start();
-                } catch (final Exception e) {
-                    e.printStackTrace();
-                }
-                super.run();
-            }
-        };
-
-        t.run();
-
-        final ClientResource cr = new ClientResource("http://localhost:8182/restlet/users");
-        Representation get = cr.get();
-        //final UsersResource resource = cr.wrap(UsersResource.class);
-        //final Person originalPerson = new Person("Peter", 20);
-        //final Person copiedPerson = resource.copy(originalPerson);
-
-        //Assert.assertFalse(originalPerson == copiedPerson);
-
-        //Assert.assertTrue(originalPerson.name.equals(copiedPerson.name));
-
-        System.out.println(get.getText());
-
+    @Test
+    public void added_user_is_found_again() throws Exception {
+        ClientResource cr = new ClientResource(requestUrlFor("/users/"));
+        String json = cr.post(new SkysailUser("user", "pass")).getText();
+        assertThat(json, containsString("\"success\":true"));
     }
 }

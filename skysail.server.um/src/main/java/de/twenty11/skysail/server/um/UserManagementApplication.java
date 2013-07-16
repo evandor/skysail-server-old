@@ -20,6 +20,9 @@ import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
 
+import org.restlet.Request;
+import org.restlet.Response;
+
 import de.twenty11.skysail.server.core.restlet.RouteBuilder;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
@@ -47,6 +50,11 @@ public class UserManagementApplication extends SkysailApplication implements App
     public UserManagementApplication() {
         setName("usermanagement");
         setDescription("Central User Configuration Application");
+    }
+
+    @Override
+    public void handle(Request request, Response response) {
+        super.handle(request, response);
     }
 
     @Override

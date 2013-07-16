@@ -63,8 +63,8 @@ public class Configuration implements ComponentProvider {
     private ComponentContext componentContext;
     private ConfigurationAdmin configadmin;
     private ServerConfiguration serverConfig;
-    private ApplicationsHolder applications = new ApplicationsHolder();
-    private MenusHolder menus;
+    private final ApplicationsHolder applications = new ApplicationsHolder();
+    private final MenusHolder menus;
     private boolean serverActive = false;
     private MenuService menuService;
     private AuthenticationService authService;
@@ -80,7 +80,7 @@ public class Configuration implements ComponentProvider {
         this.componentContext = componentContext;
 
         logger.info("Starting component for Skysail...");
-        String port = (String) serverConfig.getConfigForKey("port");
+        String port = serverConfig.getConfigForKey("port");
         logger.info("port was configured on {}", port);
 
         logger.info("");
@@ -89,7 +89,7 @@ public class Configuration implements ComponentProvider {
         logger.info("====================================");
         logger.info("");
 
-        restletComponent = new SkysailComponent(this.componentContext);
+        restletComponent = new SkysailComponent();
 
         DefaultSkysailApplication defaultApplication = new DefaultSkysailApplication(componentContext);
         defaultApplication.setVerifier(serverConfig.getVerifier(configadmin));
@@ -263,8 +263,8 @@ public class Configuration implements ComponentProvider {
     public MenuService getMenuService() {
         return menuService;
     }
-    
-    public void setAuthenticationService (AuthenticationService service) {
+
+    public void setAuthenticationService(AuthenticationService service) {
         this.authService = service;
     }
 
@@ -314,33 +314,33 @@ public class Configuration implements ComponentProvider {
         config.update(props);
     }
 
-//    private void createConfigForDb(String puName) throws Exception {
-//        // http://wiki.eclipse.org/Gemini/JPA/Documentation/OtherTopics#Configuration_Admin
-//        org.osgi.service.cm.Configuration config = configadmin.createFactoryConfiguration("gemini.jpa.punit", null);
-//
-//        // Config properties
-//        Dictionary props = new Hashtable();
-//
-//        // Must include the punit name
-//        props.put("gemini.jpa.punit.name", puName);
-//
-//        // Must include the bsn
-//        props.put("gemini.jpa.punit.bsn", "skysail.server.ext.notes");
-//
-//        // Specify the classes in the persistent unit
-////        props.put("gemini.jpa.punit.classes",
-////                "de.twenty11.skysail.server.ext.notes.domain.Folder,de.twenty11.skysail.server.ext.notes.domain.Note");
-//
-//        props.put("gemini.jpa.punit.excludeUnlistedClasses", false);
-//        
-//        // Specify JDBC properties
-//        props.put("javax.persistence.jdbc.driver", "com.mysql.jdbc.Driver");
-//        props.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/skysail");
-//        props.put("javax.persistence.jdbc.user", "root");
-//        props.put("javax.persistence.jdbc.password", "websphere");
-//
-//        // Causes config to be created
-//        config.update(props);
-//    }
+    // private void createConfigForDb(String puName) throws Exception {
+    // // http://wiki.eclipse.org/Gemini/JPA/Documentation/OtherTopics#Configuration_Admin
+    // org.osgi.service.cm.Configuration config = configadmin.createFactoryConfiguration("gemini.jpa.punit", null);
+    //
+    // // Config properties
+    // Dictionary props = new Hashtable();
+    //
+    // // Must include the punit name
+    // props.put("gemini.jpa.punit.name", puName);
+    //
+    // // Must include the bsn
+    // props.put("gemini.jpa.punit.bsn", "skysail.server.ext.notes");
+    //
+    // // Specify the classes in the persistent unit
+    // // props.put("gemini.jpa.punit.classes",
+    // // "de.twenty11.skysail.server.ext.notes.domain.Folder,de.twenty11.skysail.server.ext.notes.domain.Note");
+    //
+    // props.put("gemini.jpa.punit.excludeUnlistedClasses", false);
+    //
+    // // Specify JDBC properties
+    // props.put("javax.persistence.jdbc.driver", "com.mysql.jdbc.Driver");
+    // props.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/skysail");
+    // props.put("javax.persistence.jdbc.user", "root");
+    // props.put("javax.persistence.jdbc.password", "websphere");
+    //
+    // // Causes config to be created
+    // config.update(props);
+    // }
 
 }

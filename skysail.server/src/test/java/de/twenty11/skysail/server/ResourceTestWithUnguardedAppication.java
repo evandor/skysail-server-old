@@ -1,60 +1,94 @@
 package de.twenty11.skysail.server;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import org.mockito.Mockito;
 import org.restlet.Application;
 import org.restlet.Context;
+import org.restlet.Request;
+import org.restlet.Response;
 import org.restlet.data.ChallengeScheme;
-import org.restlet.resource.ServerResource;
 import org.restlet.security.Authenticator;
 import org.restlet.security.ChallengeAuthenticator;
+import org.restlet.security.Verifier;
 
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.security.AuthenticationService;
 
 public class ResourceTestWithUnguardedAppication<T extends SkysailApplication> {
 
+    public static final int TEST_PORT = 8182;
+
     private T application;
 
-    protected T setUpApplication(T freshApplicationInstance) throws ClassNotFoundException {
+    public class DummyChallengeAuthenticator extends ChallengeAuthenticator {
 
-        application = freshApplicationInstance;
-        application.setContext(new Context());
-        application.setAuthenticationService(new AuthenticationService() {
+        public DummyChallengeAuthenticator(Context context, ChallengeScheme challengeScheme, String realm) {
+            super(context, challengeScheme, realm);
+        }
 
-            @Override
-            public void logout() {
-            }
+        @Override
+        public Verifier getVerifier() {
+            return new Verifier() {
 
-            @Override
-            public void login(String username, String password) {
-            }
-
-            @Override
-            public Authenticator getAuthenticator(Context context) {
-                return new ChallengeAuthenticator(context, ChallengeScheme.HTTP_BASIC, "realm") {
-                    // will not guard anything
-                };
-            }
-        });
-        T spy = Mockito.spy(application);
-        Application.setCurrent(spy);
-        application.getInboundRoot();
-        addMappings();
-        return spy;
-    }
-
-    protected void addMappings() throws ClassNotFoundException {
-        Map<String, String> urlMapping = Collections.emptyMap();// new
-                                                                // Constants().provideUrlMapping();
-        for (Map.Entry<String, String> mapping : urlMapping.entrySet()) {
-            @SuppressWarnings("unchecked")
-            Class<? extends ServerResource> resourceClass = (Class<? extends ServerResource>) Class.forName(mapping
-                    .getValue());
-            application.attachToRouter("" + mapping.getKey(), resourceClass);
+                @Override
+                public int verify(Request request, Response response) {
+                    return Verifier.RESULT_VALID;
+                }
+            };
         }
     }
 
+    private class DummyAuthenticationService implements AuthenticationService {
+
+        @Override
+        public void logout() {
+        }
+
+        @Override
+        public void login(String username, String password) {
+        }
+
+        @Override
+        public Authenticator getAuthenticator(Context context) {
+            return new DummyChallengeAuthenticator(context, ChallengeScheme.HTTP_BASIC, "realm");
+        }
+    }
+
+    protected SkysailApplication setUpApplication(T application) {
+        application.setContext(new Context());
+        application.setAuthenticationService(new DummyAuthenticationService());
+        application.getInboundRoot();
+        return application;
+    }
+
+    protected T setUpMockedApplication(T freshApplicationInstance) throws ClassNotFoundException {
+        application = freshApplicationInstance;
+        application.setContext(new Context());
+        application.setAuthenticationService(new DummyAuthenticationService());
+        T spy = Mockito.spy(application);
+        Application.setCurrent(spy);
+        application.getInboundRoot();
+        return spy;
+    }
+
+    protected EntityManagerFactory getEmfForTests() {
+        Map<String, String> props = new HashMap<String, String>();
+
+        props.put("javax.persistence.jdbc.driver", "org.apache.derby.jdbc.EmbeddedDriver");
+        props.put("javax.persistence.jdbc.url", "jdbc:derby:skysailDerbyDb;create=true");
+        props.put("javax.persistence.jdbc.user", "skysail");
+        props.put("javax.persistence.jdbc.password", "skysail");
+        props.put("eclipselink.ddl-generation", "create-tables");
+
+        return Persistence.createEntityManagerFactory("UserManagementPU", props);
+    }
+
+    protected String requestUrlFor(String resource) {
+        return "http://localhost:" + TEST_PORT + resource;
+    }
 }

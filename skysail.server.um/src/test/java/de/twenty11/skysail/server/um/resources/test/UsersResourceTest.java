@@ -27,7 +27,7 @@ public class UsersResourceTest extends ResourceTestWithUnguardedAppication<UserM
 
     @Before
     public void setUp() throws Exception {
-        spy = setUpApplication(new UserManagementApplication());
+        spy = setUpMockedApplication(new UserManagementApplication());
         userRepository = Mockito.mock(UserRepository.class);
         resource = new UsersResource();
         setupUserRepository();
