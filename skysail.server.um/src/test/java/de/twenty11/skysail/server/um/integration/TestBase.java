@@ -26,7 +26,6 @@ import org.restlet.resource.ClientResource;
 import de.twenty11.skysail.server.ResourceTestWithUnguardedAppication;
 import de.twenty11.skysail.server.internal.SkysailComponent;
 import de.twenty11.skysail.server.um.UserManagementApplication;
-import de.twenty11.skysail.server.um.domain.SkysailUser;
 
 import static org.hamcrest.Matchers.containsString;
 
@@ -35,6 +34,7 @@ import static org.junit.Assert.assertThat;
 public class TestBase extends ResourceTestWithUnguardedAppication<UserManagementApplication> {
 
     private UserManagementApplication application;
+
     private static Component component = new SkysailComponent();
 
     @BeforeClass
@@ -65,7 +65,7 @@ public class TestBase extends ResourceTestWithUnguardedAppication<UserManagement
     @Test
     public void added_user_is_found_again() throws Exception {
         ClientResource cr = new ClientResource(requestUrlFor("/users/"));
-        String json = cr.post(new SkysailUser("user", "pass")).getText();
+        String json = cr.post(null).getText();
         assertThat(json, containsString("\"success\":true"));
     }
 }
