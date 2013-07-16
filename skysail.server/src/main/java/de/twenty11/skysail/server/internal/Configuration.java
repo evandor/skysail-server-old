@@ -1,21 +1,32 @@
 /**
- *  Copyright 2011 Carsten Gräf
+ * Copyright 2011 Carsten Gräf
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ *
  */
-
 package de.twenty11.skysail.server.internal;
+
+import de.twenty11.skysail.server.Constants;
+import de.twenty11.skysail.server.config.ServerConfiguration;
+import de.twenty11.skysail.server.core.MenuService;
+import de.twenty11.skysail.server.core.osgi.internal.ApplicationState;
+import de.twenty11.skysail.server.core.osgi.internal.MenuState;
+import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
+import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
+import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
+import de.twenty11.skysail.server.presentation.ToCsvConverter;
+import de.twenty11.skysail.server.security.AuthenticationService;
+import de.twenty11.skysail.server.services.ApplicationProvider;
+import de.twenty11.skysail.server.services.ComponentProvider;
+import de.twenty11.skysail.server.services.MenuEntry;
+import de.twenty11.skysail.server.services.MenuProvider;
 
 import java.util.Dictionary;
 import java.util.HashSet;
@@ -38,35 +49,30 @@ import org.restlet.security.Verifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.Constants;
-import de.twenty11.skysail.server.config.ServerConfiguration;
-import de.twenty11.skysail.server.core.MenuService;
-import de.twenty11.skysail.server.core.osgi.internal.ApplicationState;
-import de.twenty11.skysail.server.core.osgi.internal.MenuState;
-import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
-import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
-import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
-import de.twenty11.skysail.server.presentation.ToCsvConverter;
-import de.twenty11.skysail.server.security.AuthenticationService;
-import de.twenty11.skysail.server.services.ApplicationProvider;
-import de.twenty11.skysail.server.services.ComponentProvider;
-import de.twenty11.skysail.server.services.MenuEntry;
-import de.twenty11.skysail.server.services.MenuProvider;
-
 public class Configuration implements ComponentProvider {
 
     private static Logger logger = LoggerFactory.getLogger(Configuration.class);
+
     public static final String CONTEXT_OPERATING_SYSTEM_BEAN = "de.twenty11.skysail.server.internal.Configuration.operatingSystemMxBean";
 
     private SkysailComponent restletComponent;
+
     private Server server;
+
     private ComponentContext componentContext;
+
     private ConfigurationAdmin configadmin;
+
     private ServerConfiguration serverConfig;
+
     private final ApplicationsHolder applications = new ApplicationsHolder();
+
     private final MenusHolder menus;
+
     private boolean serverActive = false;
+
     private MenuService menuService;
+
     private AuthenticationService authService;
 
     public Configuration() throws Exception {
@@ -313,7 +319,6 @@ public class Configuration implements ComponentProvider {
         // Causes config to be updated, or created if it did not already exist
         config.update(props);
     }
-
     // private void createConfigForDb(String puName) throws Exception {
     // // http://wiki.eclipse.org/Gemini/JPA/Documentation/OtherTopics#Configuration_Admin
     // org.osgi.service.cm.Configuration config = configadmin.createFactoryConfiguration("gemini.jpa.punit", null);
@@ -342,5 +347,4 @@ public class Configuration implements ComponentProvider {
     // // Causes config to be created
     // config.update(props);
     // }
-
 }

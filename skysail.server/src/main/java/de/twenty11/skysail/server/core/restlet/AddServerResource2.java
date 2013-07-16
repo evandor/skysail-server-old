@@ -1,5 +1,12 @@
 package de.twenty11.skysail.server.core.restlet;
 
+import de.twenty11.skysail.common.Presentation;
+import de.twenty11.skysail.common.PresentationStyle;
+import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
+import de.twenty11.skysail.common.responses.FormResponse;
+import de.twenty11.skysail.common.responses.SkysailResponse;
+import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
+
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -9,23 +16,21 @@ import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
 import org.restlet.data.Form;
+import org.restlet.representation.Representation;
+import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.Presentation;
-import de.twenty11.skysail.common.PresentationStyle;
-import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
-import de.twenty11.skysail.common.responses.FormResponse;
-import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
-
 @Presentation(preferred = PresentationStyle.EDIT)
 public abstract class AddServerResource2<T> extends SkysailServerResource2<T> {
 
-    /** slf4j based logger implementation. */
+    /**
+     * slf4j based logger implementation.
+     */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private Validator validator;
 
     public AddServerResource2() {
@@ -58,6 +63,11 @@ public abstract class AddServerResource2<T> extends SkysailServerResource2<T> {
             return new ConstraintViolationsResponse(entity, violations);
         }
         return addEntity(entity);
+    }
+
+    @Post
+    public Representation acceptRepresentation(Representation entity) {
+        return new StringRepresentation("test");
     }
 
     private Set<ConstraintViolation<T>> validate(T entity) {
