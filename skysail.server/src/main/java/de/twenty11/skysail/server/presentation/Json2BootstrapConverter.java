@@ -42,8 +42,8 @@ import de.twenty11.skysail.server.utils.IOUtils;
 public class Json2BootstrapConverter extends ConverterHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(Json2BootstrapConverter.class);
-    private String rootTemplate;
-    private String d3SimpleGraphTemplate;
+    private final String rootTemplate;
+    private final String d3SimpleGraphTemplate;
 
     private static final VariantInfo VARIANT_JSON = new VariantInfo(MediaType.APPLICATION_JSON);
 
@@ -56,7 +56,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
         } catch (IOException e) {
             logger.error("Problem closing resource", e);
         }
-        
+
         InputStream d3SimpleGraphTemplateResource = this.getClass().getResourceAsStream("d3SimpleGraph.template");
         d3SimpleGraphTemplate = IOUtils.convertStreamToString(d3SimpleGraphTemplateResource);
         try {
@@ -119,7 +119,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return result;
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public Representation toRepresentation(Object source, Variant target, Resource resource) {
         Representation representation;
@@ -190,18 +190,24 @@ public class Json2BootstrapConverter extends ConverterHelper {
         float performance = new Long(1000000000) / executionTimeInNanos;
         page = page.replace("${performance}", String.format("%s", performance));
         page = page.replace("${result}", calcResult(skysailResponse));
-        page = page.replace("${message}", skysailResponse.getMessage() == null
-                ? "no message available"
+        page = page.replace("${message}", skysailResponse.getMessage() == null ? "no message available"
                 : skysailResponse.getMessage());
         page = page.replace("${linkedPages}", linkedPages(resource));
         page = page.replace("${commands}", commands(resource));
         page = page.replace("${presentations}", presentations());
         page = page.replace("${filterExpression}", getFilter());
         page = page.replace("${history}", getHistory());
-        page = page.replace("${mainNav}", getMainNav(((SkysailApplication)resource.getApplication()).getBundleContext()));
-        page = page.replace("${username}", "<li><a href='#'><i class=\"icon-user icon-white\"></i>&nbsp;"
-                + resource.getRequest().getChallengeResponse().getIdentifier() + "</a></li>\n");
-        page = page.replace("${productName}", ((SkysailApplication)resource.getApplication()).getConfigForKey("productName"));
+        page = page.replace("${mainNav}",
+                getMainNav(((SkysailApplication) resource.getApplication()).getBundleContext()));
+
+        String username = "unknown";
+        if (resource.getRequest().getChallengeResponse() != null) {
+            username = resource.getRequest().getChallengeResponse().getIdentifier();
+        }
+        page = page.replace("${username}", "<li><a href='#'><i class=\"icon-user icon-white\"></i>&nbsp;" + username
+                + "</a></li>\n");
+        page = page.replace("${productName}",
+                ((SkysailApplication) resource.getApplication()).getConfigForKey("productName"));
 
         Object skysailResponseAsObject = skysailResponse.getData();
         if (skysailResponseAsObject != null) {
@@ -210,7 +216,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
             } else if (style.equals(PresentationStyle.LIST2)) {
                 StrategyContext context = new StrategyContext(new ListForContentStrategy2(
-                        ((SkysailApplication)resource.getApplication()).getBundleContext(), resource));
+                        ((SkysailApplication) resource.getApplication()).getBundleContext(), resource));
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
             } else if (style.equals(PresentationStyle.TABLE)) {
                 StrategyContext context = new StrategyContext(new TableForContentStrategy());
@@ -369,12 +375,10 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
     private String calcResult(SkysailResponse<List<?>> skysailResponse) {
         if (skysailResponse instanceof ConstraintViolationsResponse) {
-            return skysailResponse.getSuccess()
-                    ? "<span class=\"label label-success\">Success</span>"
+            return skysailResponse.getSuccess() ? "<span class=\"label label-success\">Success</span>"
                     : "<span class=\"label label-warning\">business rule violation</span>";
         }
-        return skysailResponse.getSuccess()
-                ? "<span class=\"label label-success\">Success</span>"
+        return skysailResponse.getSuccess() ? "<span class=\"label label-success\">Success</span>"
                 : "<span class=\"label label-important\">failure</span>";
     }
 

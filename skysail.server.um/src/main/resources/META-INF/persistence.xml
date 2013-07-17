@@ -9,7 +9,7 @@
 		<properties>
             <property name="eclipselink.ddl-generation" value="create-tables" />
             <property name="eclipselink.ddl-generation.output-mode" value="database" />
-            <property name="eclipselink.session.customizer" value="de.twenty11.skysail.server.um.init.db" />
+            <property name="eclipselink.session.customizer" value="de.twenty11.skysail.server.um.init.db.Importer" />
             <property name="import.sql.file" value="/initialImport.sql" />
         </properties>
 	</persistence-unit>

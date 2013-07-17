@@ -15,23 +15,26 @@
  */
 package de.twenty11.skysail.server.um.init.db;
 
-import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.persistence.config.SessionCustomizer;
+import org.eclipse.persistence.exceptions.DatabaseException;
 import org.eclipse.persistence.sessions.Session;
 import org.eclipse.persistence.sessions.SessionEvent;
 import org.eclipse.persistence.sessions.SessionEventAdapter;
 import org.eclipse.persistence.sessions.UnitOfWork;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- *
+ * 
  * @author graefca
  */
 public class Importer implements SessionCustomizer {
+
+    private static Logger logger = LoggerFactory.getLogger(Importer.class);
 
     @Override
     public void customize(Session session) throws Exception {
@@ -50,12 +53,25 @@ public class Importer implements SessionCustomizer {
         URL importSqlUrl = this.getClass().getResource(filename);
         try {
             Scanner scanner = new Scanner(importSqlUrl.openStream());
-            scanner.useDelimiter("\\n");
+            scanner.useDelimiter(";");
+            logger.info("Initializing the database");
             while (scanner.hasNext()) {
-                unitOfWork.executeNonSelectingSQL(scanner.next());
+                String sql = scanner.next();
+                if (sql.trim().length() == 0) {
+                    continue;
+                }
+                logger.info(" >>> running statement '{}'", sql);
+                unitOfWork.executeNonSelectingSQL(sql);
             }
-        } catch (IOException ex) {
-            Logger.getLogger(Importer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DatabaseException dbe) {
+            if (dbe.getCause() instanceof SQLIntegrityConstraintViolationException) {
+                logger.debug("Ignoring initialization statement as it has been executed before: {} ", dbe.getCause()
+                        .getMessage());
+            } else {
+                logger.error("Problem initializing the database", dbe);
+            }
+        } catch (Exception ex) {
+            logger.error("Problem initializing the database", ex);
         }
     }
 }
