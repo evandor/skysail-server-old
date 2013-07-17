@@ -45,7 +45,7 @@ public class ShiroServices implements AuthenticationService {
     private DataSource dataSource;
     private final List<DataSourceFactory> dataSourceFactories = new ArrayList<DataSourceFactory>();
 
-    public void initOld() {
+    public void init() {
         Ini ini = new Ini();
         Section users = ini.addSection("users");
         users.put("admin", "secret");
@@ -55,9 +55,17 @@ public class ShiroServices implements AuthenticationService {
 
         Factory<SecurityManager> factory = new IniSecurityManagerFactory(ini);
         SecurityManager securityManager = factory.getInstance();
+
+        verifier = new Verifier() {
+
+            @Override
+            public int verify(Request request, Response response) {
+                return Verifier.RESULT_VALID;
+            }
+        };
     }
 
-    public void init() {
+    public void initNew() {
         SkysailAuthorizingRealm skysailRealm = new SkysailAuthorizingRealm();
         if (dataSource != null) {
             return;

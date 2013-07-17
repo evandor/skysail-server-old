@@ -13,21 +13,6 @@
  */
 package de.twenty11.skysail.server.internal;
 
-import de.twenty11.skysail.server.Constants;
-import de.twenty11.skysail.server.config.ServerConfiguration;
-import de.twenty11.skysail.server.core.MenuService;
-import de.twenty11.skysail.server.core.osgi.internal.ApplicationState;
-import de.twenty11.skysail.server.core.osgi.internal.MenuState;
-import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
-import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
-import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
-import de.twenty11.skysail.server.presentation.ToCsvConverter;
-import de.twenty11.skysail.server.security.AuthenticationService;
-import de.twenty11.skysail.server.services.ApplicationProvider;
-import de.twenty11.skysail.server.services.ComponentProvider;
-import de.twenty11.skysail.server.services.MenuEntry;
-import de.twenty11.skysail.server.services.MenuProvider;
-
 import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -48,6 +33,21 @@ import org.restlet.engine.converter.ConverterHelper;
 import org.restlet.security.Verifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.twenty11.skysail.server.Constants;
+import de.twenty11.skysail.server.config.ServerConfiguration;
+import de.twenty11.skysail.server.core.MenuService;
+import de.twenty11.skysail.server.core.osgi.internal.ApplicationState;
+import de.twenty11.skysail.server.core.osgi.internal.MenuState;
+import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
+import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
+import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
+import de.twenty11.skysail.server.presentation.ToCsvConverter;
+import de.twenty11.skysail.server.security.AuthenticationService;
+import de.twenty11.skysail.server.services.ApplicationProvider;
+import de.twenty11.skysail.server.services.ComponentProvider;
+import de.twenty11.skysail.server.services.MenuEntry;
+import de.twenty11.skysail.server.services.MenuProvider;
 
 public class Configuration implements ComponentProvider {
 
@@ -316,35 +316,12 @@ public class Configuration implements ComponentProvider {
         props.put("javax.persistence.jdbc.user", serverConfig.getConfigForKey(Constants.SKYSAIL_JDBC_USER));
         props.put("javax.persistence.jdbc.password", serverConfig.getConfigForKey(Constants.SKYSAIL_JDBC_PASSWORD));
 
+        props.put("eclipselink.ddl-generation", "create-tables");
+        props.put("eclipselink.ddl-generation.output-mode", "database");
+        props.put("eclipselink.session.customizer", "de.twenty11.skysail.server.um.init.db.Importer");
+        props.put("import.sql.file", "/initialImport.sql");
+
         // Causes config to be updated, or created if it did not already exist
         config.update(props);
     }
-    // private void createConfigForDb(String puName) throws Exception {
-    // // http://wiki.eclipse.org/Gemini/JPA/Documentation/OtherTopics#Configuration_Admin
-    // org.osgi.service.cm.Configuration config = configadmin.createFactoryConfiguration("gemini.jpa.punit", null);
-    //
-    // // Config properties
-    // Dictionary props = new Hashtable();
-    //
-    // // Must include the punit name
-    // props.put("gemini.jpa.punit.name", puName);
-    //
-    // // Must include the bsn
-    // props.put("gemini.jpa.punit.bsn", "skysail.server.ext.notes");
-    //
-    // // Specify the classes in the persistent unit
-    // // props.put("gemini.jpa.punit.classes",
-    // // "de.twenty11.skysail.server.ext.notes.domain.Folder,de.twenty11.skysail.server.ext.notes.domain.Note");
-    //
-    // props.put("gemini.jpa.punit.excludeUnlistedClasses", false);
-    //
-    // // Specify JDBC properties
-    // props.put("javax.persistence.jdbc.driver", "com.mysql.jdbc.Driver");
-    // props.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/skysail");
-    // props.put("javax.persistence.jdbc.user", "root");
-    // props.put("javax.persistence.jdbc.password", "websphere");
-    //
-    // // Causes config to be created
-    // config.update(props);
-    // }
 }
