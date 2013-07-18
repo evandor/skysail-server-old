@@ -36,7 +36,7 @@ public class SkysailServerServiceListener implements ServiceListener {
     
     @Override
     public final void serviceChanged(final ServiceEvent event) {
-        ServiceReference<?> serviceReference = event.getServiceReference();
+        ServiceReference serviceReference = event.getServiceReference();
         if (serviceReference == null) {
             return;
         }
