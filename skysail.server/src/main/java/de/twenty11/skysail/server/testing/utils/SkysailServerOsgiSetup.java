@@ -103,15 +103,14 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         // apache beanutils
         // TODO still used?
         options.add(mavenBundle("de.twentyeleven.skysail", "commons-beanutils-osgi", "1.8.3"));
-        //options.add(mavenBundle("org.apache.commons", "com.springsource.org.apache.commons.collections", "3.2.1"));
+        // options.add(mavenBundle("org.apache.commons", "com.springsource.org.apache.commons.collections", "3.2.1"));
 
         options.add(mavenBundle("de.twentyeleven.skysail", "skysail.server.security.shiro", "0.0.1-SNAPSHOT"));
-        options.add(mavenBundle("org.apache.shiro","shiro-core", "1.1.0"));
-        options.add(mavenBundle("org.apache.aries.blueprint","org.apache.aries.blueprint","1.1.0"));
-        options.add(mavenBundle("org.apache.aries.proxy","org.apache.aries.proxy","1.0.1"));
-        options.add(mavenBundle("org.apache.aries","org.apache.aries.util","1.1.0"));
+        options.add(mavenBundle("org.apache.shiro", "shiro-core", "1.2.2"));
+        options.add(mavenBundle("org.apache.aries.blueprint", "org.apache.aries.blueprint", "1.1.0"));
+        options.add(mavenBundle("org.apache.aries.proxy", "org.apache.aries.proxy", "1.0.1"));
+        options.add(mavenBundle("org.apache.aries", "org.apache.aries.util", "1.1.0"));
 
-        
         logger.info("using options from {} for tests", this.getClass());
 
         return options;
