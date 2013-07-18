@@ -132,6 +132,9 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
 
     @SuppressWarnings("unchecked")
     public Map<String, Command> getCommands() {
+        if (getContext() == null) {
+            return Collections.emptyMap();
+        }
         ConcurrentMap<String, Object> attributes = getContext().getAttributes();
         if (attributes.get(CONTEXT_COMMANDS) == null) {
             return Collections.emptyMap();
@@ -189,6 +192,9 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
 
     @SuppressWarnings("unchecked")
     public List<LinkedPage> getLinkedPages() {
+        if (getContext() == null) {
+            return Collections.emptyList();
+        }
         ConcurrentMap<String, Object> attributes = getContext().getAttributes();
         if (attributes.get(CONTEXT_LINKED_PAGES) == null) {
             return Collections.emptyList();

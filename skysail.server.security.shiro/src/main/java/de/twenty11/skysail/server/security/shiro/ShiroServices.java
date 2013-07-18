@@ -45,7 +45,7 @@ public class ShiroServices implements AuthenticationService {
     private DataSource dataSource;
     private final List<DataSourceFactory> dataSourceFactories = new ArrayList<DataSourceFactory>();
 
-    public void init() {
+    public void initOld() {
         Ini ini = new Ini();
         Section users = ini.addSection("users");
         users.put("admin", "secret");
@@ -65,7 +65,7 @@ public class ShiroServices implements AuthenticationService {
         };
     }
 
-    public void initNew() {
+    public void init() {
         SkysailAuthorizingRealm skysailRealm = new SkysailAuthorizingRealm();
         if (dataSource != null) {
             return;
@@ -148,14 +148,17 @@ public class ShiroServices implements AuthenticationService {
 
     @Override
     public Authenticator getAuthenticator(Context context) {
-        ChallengeAuthenticator guard = new ChallengeAuthenticator(context, ChallengeScheme.HTTP_BASIC, "realm");
+        ChallengeAuthenticator guard = new ChallengeAuthenticator(context, ChallengeScheme.CUSTOM, "realm");
         guard.setVerifier(this.verifier);
         guard.setEnroler(new Enroler() {
             @Override
             public void enrole(ClientInfo clientInfo) {
                 List<Role> defaultRoles = new ArrayList<Role>();
-                Role userRole = new Role("user", "standard role");
-                defaultRoles.add(userRole);
+                Subject currentUser = SecurityUtils.getSubject();
+                if (currentUser.hasRole("administrator")) {
+                    Role userRole = new Role("admin", "standard role");
+                    defaultRoles.add(userRole);
+                }
                 clientInfo.setRoles(defaultRoles);
             }
         });

@@ -3,16 +3,14 @@ package de.twenty11.skysail.server.internal;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.restlet.Application;
-import org.restlet.security.Verifier;
+import org.restlet.security.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,15 +25,18 @@ public class ApplicationsHolder {
 
     private static Logger logger = LoggerFactory.getLogger(ApplicationsHolder.class);
 
-    private Map<Application, ApplicationLifecycle> lifecycles = new HashMap<Application, ApplicationLifecycle>();
+    private final Map<Application, ApplicationLifecycle> lifecycles = new HashMap<Application, ApplicationLifecycle>();
 
-    private OperatingSystemMXBean operatingSystemMxBean = ManagementFactory.getOperatingSystemMXBean();
+    private final OperatingSystemMXBean operatingSystemMxBean = ManagementFactory.getOperatingSystemMXBean();
+
+    private final Map<String, Role> allRoles = new HashMap<String, Role>();
 
     public void add(Application application) throws Exception {
         lifecycles.put(application, new ApplicationLifecycle());
     }
 
-    public void attach(Application application, SkysailComponent restletComponent, ServerConfiguration serverConfig, ConfigurationAdmin configAdmin, AuthenticationService authService) throws Exception {
+    public void attach(Application application, SkysailComponent restletComponent, ServerConfiguration serverConfig,
+            ConfigurationAdmin configAdmin, AuthenticationService authService) throws Exception {
 
         logger.info("");
         logger.info("==================================================");
@@ -55,7 +56,16 @@ public class ApplicationsHolder {
             logger.info(" >>> setting ServerConfiguration");
 
             skysailApplication.setAuthenticationService(authService);
+
+            // Context appContext = getContext().createChildContext();
+            // skysailApplication.setContext(context);
         }
+
+        List<Role> roles = application.getRoles();
+        for (Role role : roles) {
+            allRoles.put(application.getName() + "." + role.getName(), role);
+        }
+
         logger.info(" >>> attaching '{}' to defaultHost", "/" + application.getName());
         restletComponent.getDefaultHost().attach("/" + application.getName(), application);
         logger.info("==================================================");
@@ -72,6 +82,10 @@ public class ApplicationsHolder {
             }
         }
         return result;
+    }
+
+    public Map<String, Role> getRoles() {
+        return allRoles;
     }
 
 }

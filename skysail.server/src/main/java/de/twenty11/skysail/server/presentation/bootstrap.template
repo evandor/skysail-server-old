@@ -81,7 +81,7 @@
 					<ul class="nav">
 						${mainNav}
 						${username}
-						&nbsp;<a href='/login'>[Login]</a>
+						&nbsp;<a href='/login'>[Login]</a><a href='/logout'>[Logout]</a>
 					</ul>
 				</div>
 			</div>

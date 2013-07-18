@@ -1,11 +1,5 @@
 package de.twenty11.skysail.server.restlet;
 
-import de.twenty11.skysail.server.config.ServerConfiguration;
-import de.twenty11.skysail.server.core.restlet.RouteBuilder;
-import de.twenty11.skysail.server.core.restlet.SkysailRouter;
-import de.twenty11.skysail.server.internal.Blocker;
-import de.twenty11.skysail.server.security.AuthenticationService;
-
 import java.util.Map;
 
 import org.osgi.framework.Bundle;
@@ -24,14 +18,20 @@ import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.server.config.ServerConfiguration;
+import de.twenty11.skysail.server.core.restlet.RouteBuilder;
+import de.twenty11.skysail.server.core.restlet.SkysailRouter;
+import de.twenty11.skysail.server.internal.Blocker;
+import de.twenty11.skysail.server.security.AuthenticationService;
+
 /**
- *
+ * 
  * Concurrency note from parent class: instances of this class or its subclasses can be invoked by several threads at
  * the same time and therefore must be thread-safe. You should be especially careful when storing state in member
  * variables.
- *
+ * 
  * @author carsten
- *
+ * 
  */
 public abstract class SkysailApplication extends Application {
 
@@ -90,18 +90,6 @@ public abstract class SkysailApplication extends Application {
         OriginalRequestFilter originalRequestFilter = new OriginalRequestFilter(getContext());
         blocker.setNext(originalRequestFilter);
         originalRequestFilter.setNext(router);
-
-        /*ChallengeAuthenticator guard = new ChallengeAuthenticator(getContext(), ChallengeScheme.HTTP_BASIC, "realm");
-         guard.setVerifier(this.verifier);
-         guard.setEnroler(new Enroler() {
-         @Override
-         public void enrole(ClientInfo clientInfo) {
-         List<Role> defaultRoles = new ArrayList<Role>();
-         Role userRole = new Role("user", "standard role");
-         defaultRoles.add(userRole);
-         clientInfo.setRoles(defaultRoles);
-         }
-         });*/
 
         Authenticator guard = getAuthenticationService().getAuthenticator(getContext());
 
@@ -166,7 +154,7 @@ public abstract class SkysailApplication extends Application {
 
     /**
      * Some bundles set the componentContext, others (via blueprint) only the bundleContext... need to revisit
-     *
+     * 
      * @return
      */
     public Bundle getBundle() {

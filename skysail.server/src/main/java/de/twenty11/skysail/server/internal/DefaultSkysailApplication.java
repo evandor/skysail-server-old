@@ -1,10 +1,11 @@
 package de.twenty11.skysail.server.internal;
 
+import org.osgi.service.component.ComponentContext;
+
 import de.twenty11.skysail.server.resources.LoginResource;
+import de.twenty11.skysail.server.resources.LogoutResource;
 import de.twenty11.skysail.server.restlet.DefaultResource;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
-
-import org.osgi.service.component.ComponentContext;
 
 public class DefaultSkysailApplication extends SkysailApplication {
 
@@ -21,5 +22,6 @@ public class DefaultSkysailApplication extends SkysailApplication {
     protected void attach() {
         router.attach("/", DefaultResource.class);
         router.attach("/login", LoginResource.class);
+        router.attach("/logout", LogoutResource.class);
     }
 }

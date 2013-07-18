@@ -3,10 +3,12 @@ package de.twenty11.skysail.server.core.restlet;
 import org.apache.commons.lang.Validate;
 import org.restlet.Restlet;
 import org.restlet.resource.ServerResource;
+import org.restlet.security.Role;
+import org.restlet.security.RoleAuthorizer;
 
 public class RouteBuilder {
 
-    private String pathTemplate;
+    private final String pathTemplate;
     private Class<? extends ServerResource> targetClass;
     private String text = null;
     private boolean visible = true;
@@ -63,5 +65,14 @@ public class RouteBuilder {
 
     public String getText() {
         return text;
+    }
+
+    public RouteBuilder setSecuredByRole(Role role) {
+        RoleAuthorizer authorizer = new RoleAuthorizer();
+        authorizer.getAuthorizedRoles().add(role);
+        authorizer.setNext(targetClass);
+        targetClass = null;
+        restlet = authorizer;
+        return this;
     }
 }

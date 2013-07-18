@@ -156,8 +156,8 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
         if (builder.isVisible()) {
             String from = getHostRef() + "/" + getApplication().getName() + entry.getKey();
             String text = builder.getText() != null ? builder.getText() : from;
-            ResourceDetails resourceDetails = new ResourceDetails(from, text, builder.getTargetClass().toString(),
-                    "desc");
+            String targetClass = builder.getTargetClass() == null ? "null" : builder.getTargetClass().toString();
+            ResourceDetails resourceDetails = new ResourceDetails(from, text, targetClass, "desc");
             result.add(resourceDetails);
         }
     }

@@ -27,6 +27,7 @@ import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.component.ComponentContext;
 import org.restlet.Application;
 import org.restlet.Component;
+import org.restlet.Context;
 import org.restlet.Server;
 import org.restlet.engine.Engine;
 import org.restlet.engine.converter.ConverterHelper;
@@ -175,6 +176,8 @@ public class Configuration implements ComponentProvider {
         List<Application> newApplications = applications.getApplicationsInState(ApplicationState.NEW);
         for (Application application : newApplications) {
             try {
+                Context appContext = restletComponent.getContext().createChildContext();
+                application.setContext(appContext);
                 applications.attach(application, restletComponent, serverConfig, configadmin, authService);
             } catch (Exception e) {
                 logger.error("Problem with Application Lifecycle Management Defintion", e);
@@ -316,10 +319,10 @@ public class Configuration implements ComponentProvider {
         props.put("javax.persistence.jdbc.user", serverConfig.getConfigForKey(Constants.SKYSAIL_JDBC_USER));
         props.put("javax.persistence.jdbc.password", serverConfig.getConfigForKey(Constants.SKYSAIL_JDBC_PASSWORD));
 
-        props.put("eclipselink.ddl-generation", "create-tables");
-        props.put("eclipselink.ddl-generation.output-mode", "database");
-        props.put("eclipselink.session.customizer", "de.twenty11.skysail.server.um.init.db.Importer");
-        props.put("import.sql.file", "/initialImport.sql");
+        // props.put("eclipselink.ddl-generation", "create-tables");
+        // props.put("eclipselink.ddl-generation.output-mode", "database");
+        // props.put("eclipselink.session.customizer", "de.twenty11.skysail.server.um.init.db.Importer");
+        // props.put("import.sql.file", "/initialImport.sql");
 
         // Causes config to be updated, or created if it did not already exist
         config.update(props);
