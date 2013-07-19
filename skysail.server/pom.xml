@@ -1,212 +1,246 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>de.twentyeleven.skysail</groupId>
-		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.8.40</version>
-	</parent>
+    <parent>
+        <groupId>de.twentyeleven.skysail</groupId>
+        <artifactId>skysail.build.maven.parentPom</artifactId>
+        <version>0.8.40</version>
+    </parent>
 
-	<artifactId>skysail.server</artifactId>
-	<version>0.3.1-SNAPSHOT</version>
-	<name>SKYSAIL :: server</name>
-	<packaging>bundle</packaging>
+    <artifactId>skysail.server</artifactId>
+    <version>0.3.1-SNAPSHOT</version>
+    <name>SKYSAIL :: server</name>
+    <packaging>bundle</packaging>
 
-	<scm>
-		<!-- read access -->
-		<connection>scm:git:git@github.com:evandor/skysail-server.git</connection>
-		<!-- write access -->
-		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
-		<!-- A publicly browsable repository. For example, via ViewCVS. -->
-		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
-		<tag>HEAD</tag>
-	</scm>
+    <scm>
+        <!-- read access -->
+        <connection>scm:git:git@github.com:evandor/skysail-server.git</connection>
+        <!-- write access -->
+        <url>scm:git:git@github.com:evandor/skysail-server.git</url>
+        <!-- A publicly browsable repository. For example, via ViewCVS. -->
+        <developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
-	<properties>
-		<skysail.common.version>[0.4.3, 1.0)</skysail.common.version>
-	</properties>
+    <properties>
+        <skysail.common.version>[0.4.3, 1.0)</skysail.common.version>
+    </properties>
 
-	<build>
+    <build>
 
-		<resources>
-			<resource>
-				<directory>src/main/java</directory>
-				<includes>
-					<include>**/*.stg</include>
-					<include>**/*.template</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/resources/</directory>
-				<filtering>true</filtering>
-			</resource>
-			<resource>
-				<directory>src/main/resources/</directory>
-				<filtering>false</filtering>
-				<includes>
-					<include>**/*.stg</include>
-				</includes>
-			</resource>
-		</resources>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.stg</include>
+                    <include>**/*.template</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources/</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.stg</include>
+                </includes>
+            </resource>
+        </resources>
 
-		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<!-- make eclipse aware about this bundle (+ ManifestBuilder in .project!) -->
-					<manifestLocation>META-INF</manifestLocation>
-					<instructions>
-						<_include>-osgi.bnd</_include>
-						<Include-Resource>
-							{maven-resources}, etc/=etc/
-						</Include-Resource>
-					</instructions>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>filter</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>resources</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-artifacts</id>
-						<phase>package</phase>
-						<goals>
-							<goal>attach-artifact</goal>
-						</goals>
-						<configuration>
-							<artifacts>
-								<artifact>
-									<file>target/classes/features.xml</file>
-									<type>xml</type>
-								</artifact>
-							</artifacts>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <!-- make eclipse aware about this bundle (+ ManifestBuilder in .project!) -->
+                    <manifestLocation>META-INF</manifestLocation>
+                    <instructions>
+                        <_include>-osgi.bnd</_include>
+                        <Include-Resource>
+                            {maven-resources}, etc/=etc/
+                        </Include-Resource>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>filter</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/gen-src</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>target/classes/features.xml</file>
+                                    <type>xml</type>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>4.1</version>
+                <configuration>
+                    <sourceDirectory>src/main/java</sourceDirectory>
+                    <outputDirectory>src/main/gen-src</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings 
+                only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.jacoco</groupId>
+                                        <artifactId>
+                                            jacoco-maven-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [0.6.2.201302030002,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>prepare-agent</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
-		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.jacoco</groupId>
-										<artifactId>
-											jacoco-maven-plugin
-										</artifactId>
-										<versionRange>
-											[0.6.2.201302030002,)
-										</versionRange>
-										<goals>
-											<goal>prepare-agent</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+    <dependencies>
 
-	<dependencies>
+        <dependency>
+            <groupId>de.twentyeleven.skysail</groupId>
+            <artifactId>skysail.common</artifactId>
+            <version>${skysail.common.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>de.twentyeleven.skysail</groupId>
-			<artifactId>skysail.common</artifactId>
-			<version>${skysail.common.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>4.1</version>
+            <scope>compile</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>commons-dbcp</groupId>
-			<artifactId>commons-dbcp</artifactId>
-			<version>1.4</version>
-		</dependency>
+        <!-- <dependency> <groupId>org.apache.commons</groupId> <artifactId>com.springsource.org.apache.commons.io</artifactId> 
+        <version>1.4.0</version> </dependency> -->
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>2.7.0</version>
+        </dependency>
 
-		<!-- <dependency> <groupId>org.apache.commons</groupId> <artifactId>com.springsource.org.apache.commons.io</artifactId> 
-			<version>1.4.0</version> </dependency> -->
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache</artifactId>
-			<version>2.7.0</version>
-		</dependency>
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+            <version>3.1.0</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.mysema.querydsl</groupId>
-			<artifactId>querydsl-apt</artifactId>
-			<version>3.1.0</version>
-		</dependency>
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <version>3.1.0</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.mysema.querydsl</groupId>
-			<artifactId>querydsl-jpa</artifactId>
-			<version>3.1.0</version>
-		</dependency>
+        <dependency>
+            <groupId>de.twentyeleven.skysail</groupId>
+            <artifactId>org.antlr.stringtemplate-osgi</artifactId>
+            <version>4.0.2</version>
+        </dependency>
 
-		<dependency>
-			<groupId>de.twentyeleven.skysail</groupId>
-			<artifactId>org.antlr.stringtemplate-osgi</artifactId>
-			<version>4.0.2</version>
-		</dependency>
+        <dependency>
+            <groupId>de.twentyeleven.skysail</groupId>
+            <artifactId>com.googlecode.stateless4j-osgi</artifactId>
+            <version>1.0</version>
+        </dependency>
 
-		<dependency>
-			<groupId>de.twentyeleven.skysail</groupId>
-			<artifactId>com.googlecode.stateless4j-osgi</artifactId>
-			<version>1.0</version>
-		</dependency>
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+            <version>3.1.2.GA</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.jboss.logging</groupId>
-			<artifactId>jboss-logging</artifactId>
-			<version>3.1.2.GA</version>
-		</dependency>
+        <!-- (pure) osgi -->
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+        </dependency>
 
-		<!-- (pure) osgi -->
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.core</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.enterprise</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.enterprise</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-core</artifactId>
-			<version>1.2.2</version>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>1.2.2</version>
+        </dependency>
 
         <!-- <dependency>
             <groupId>org.apache.shiro</groupId>
@@ -214,74 +248,74 @@
             <version>1.2.2</version>
         </dependency> -->
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.9</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.9</version>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- testing with pax exam -->
-		<dependency>
-			<groupId>org.ops4j.pax.exam</groupId>
-			<artifactId>pax-exam-container-native</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.ops4j.pax.exam</groupId>
-			<artifactId>pax-exam-junit4</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.ops4j.pax.exam</groupId>
-			<artifactId>pax-exam-link-mvn</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.ops4j.pax.url</groupId>
-			<artifactId>pax-url-aether</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.felix</groupId>
-			<artifactId>org.apache.felix.framework</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<!-- testing with pax exam - done -->
+        <!-- testing with pax exam -->
+        <dependency>
+            <groupId>org.ops4j.pax.exam</groupId>
+            <artifactId>pax-exam-container-native</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.exam</groupId>
+            <artifactId>pax-exam-junit4</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.exam</groupId>
+            <artifactId>pax-exam-link-mvn</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.url</groupId>
+            <artifactId>pax-url-aether</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.framework</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- testing with pax exam - done -->
 
-		<dependency>
-			<groupId>de.twentyeleven.skysail</groupId>
-			<artifactId>org.hamcrest.hamcrest-all-osgi</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>de.twentyeleven.skysail</groupId>
+            <artifactId>org.hamcrest.hamcrest-all-osgi</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- logging for tests -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <!-- logging for tests -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>javax.persistence</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.pdfbox</groupId>
-			<artifactId>pdfbox</artifactId>
-			<version>1.8.0</version>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+    </dependencies>
 
 </project>
