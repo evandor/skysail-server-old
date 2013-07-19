@@ -15,9 +15,9 @@ public class AntPathParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__1=1, T__0=2, US=3, STAR=4, SLASH=5, QUEST=6, WS=7;
+		CHAR=1, NUM=2, US=3, STAR=4, SLASH=5, QUEST=6, WS=7;
 	public static final String[] tokenNames = {
-		"<INVALID>", "'a-z'", "'A-Z'", "'_'", "'*'", "'/'", "'?'", "WS"
+		"<INVALID>", "CHAR", "NUM", "'_'", "'*'", "'/'", "'?'", "WS"
 	};
 	public static final int
 		RULE_antPathMatcher = 0, RULE_chars = 1;
@@ -101,13 +101,21 @@ public class AntPathParser extends Parser {
 		}
 		public List<TerminalNode> QUEST() { return getTokens(AntPathParser.QUEST); }
 		public List<TerminalNode> STAR() { return getTokens(AntPathParser.STAR); }
+		public TerminalNode NUM(int i) {
+			return getToken(AntPathParser.NUM, i);
+		}
 		public TerminalNode STAR(int i) {
 			return getToken(AntPathParser.STAR, i);
 		}
+		public List<TerminalNode> CHAR() { return getTokens(AntPathParser.CHAR); }
 		public List<TerminalNode> SLASH() { return getTokens(AntPathParser.SLASH); }
 		public TerminalNode US(int i) {
 			return getToken(AntPathParser.US, i);
 		}
+		public TerminalNode CHAR(int i) {
+			return getToken(AntPathParser.CHAR, i);
+		}
+		public List<TerminalNode> NUM() { return getTokens(AntPathParser.NUM); }
 		public CharsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -137,7 +145,7 @@ public class AntPathParser extends Parser {
 				{
 				setState(9);
 				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 1) | (1L << 2) | (1L << US) | (1L << STAR) | (1L << SLASH) | (1L << QUEST))) != 0)) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CHAR) | (1L << NUM) | (1L << US) | (1L << STAR) | (1L << SLASH) | (1L << QUEST))) != 0)) ) {
 				_errHandler.recoverInline(this);
 				}
 				consume();
@@ -146,7 +154,7 @@ public class AntPathParser extends Parser {
 				setState(12); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 1) | (1L << 2) | (1L << US) | (1L << STAR) | (1L << SLASH) | (1L << QUEST))) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CHAR) | (1L << NUM) | (1L << US) | (1L << STAR) | (1L << SLASH) | (1L << QUEST))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {

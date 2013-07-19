@@ -54,6 +54,6 @@ public class AntPathUtilIT {
     //com/t?st.jsp - matches com/test.jsp but also com/tast.jsp or com/txst.jsp
     @Test
     public void matches_questionmark() {
-        assertThat(antPathUtil.match("com/t?st.jsp", "com/test.jsp"), is(true));
+        assertThat(antPathUtil.match("/com/t?st.jsp", "/com/test.jsp"), is(true));
     }
 }
