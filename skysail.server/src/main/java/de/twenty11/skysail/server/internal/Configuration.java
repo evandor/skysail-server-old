@@ -28,6 +28,8 @@ import org.osgi.service.component.ComponentContext;
 import org.restlet.Application;
 import org.restlet.Component;
 import org.restlet.Context;
+import org.restlet.Request;
+import org.restlet.Response;
 import org.restlet.Server;
 import org.restlet.engine.Engine;
 import org.restlet.engine.converter.ConverterHelper;
@@ -99,7 +101,14 @@ public class Configuration implements ComponentProvider {
         restletComponent = new SkysailComponent();
 
         DefaultSkysailApplication defaultApplication = new DefaultSkysailApplication(componentContext);
-        defaultApplication.setVerifier(serverConfig.getVerifier(configadmin));
+        // defaultApplication.setVerifier(serverConfig.getVerifier(configadmin));
+        defaultApplication.setVerifier(new Verifier() {
+            @Override
+            public int verify(Request request, Response response) {
+                return Verifier.RESULT_VALID;
+            }
+
+        });
         defaultApplication.setServerConfiguration(serverConfig);
         defaultApplication.setAuthenticationService(authService);
 

@@ -9,12 +9,9 @@ import javax.sql.DataSource;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.config.Ini;
-import org.apache.shiro.config.Ini.Section;
-import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.util.Factory;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.jdbc.DataSourceFactory;
@@ -45,24 +42,51 @@ public class ShiroServices implements AuthenticationService {
     private DataSource dataSource;
     private final List<DataSourceFactory> dataSourceFactories = new ArrayList<DataSourceFactory>();
 
-    public void initOld() {
-        Ini ini = new Ini();
-        Section users = ini.addSection("users");
-        users.put("admin", "secret");
+    public void initUrls() {
+        // Ini ini = new Ini();
+        // Section users = ini.addSection("users");
+        // users.put("admin", "secret");
+        //
+        // Section roles = ini.addSection("roles");
+        // roles.put("admin", "*");
+        //
+        // Factory<SecurityManager> factory = new IniSecurityManagerFactory(ini);
+        // SecurityManager securityManager = factory.getInstance();
+        //
+        // verifier = new Verifier() {
+        //
+        // @Override
+        // public int verify(Request request, Response response) {
+        // return Verifier.RESULT_VALID;
+        // }
+        // };
 
-        Section roles = ini.addSection("roles");
-        roles.put("admin", "*");
+        final Ini ini = new Ini();
+        ini.addSection("main");
 
-        Factory<SecurityManager> factory = new IniSecurityManagerFactory(ini);
-        SecurityManager securityManager = factory.getInstance();
+        // ini.getSection("main").put("authcRealm", "mySecurity.WebRealm");
+        // ini.getSection("main").put("authc2", "org.apache.shiro.web.filter.authc.FormAuthenticationFilter");
+        // ini.getSection("main").put("lookedUpRealm", "mySecurity.WebRealm");
+        // ini.getSection("main").put("authc.loginUrl", "/login.jsp");
+        // ini.getSection("main").put("authc2.loginUrl", "/login.jsp");
+        // ini.getSection("main").put("securityManager.realms", "$lookedUpRealm");
 
-        verifier = new Verifier() {
+        ini.addSection("urls");
 
-            @Override
-            public int verify(Request request, Response response) {
-                return Verifier.RESULT_VALID;
-            }
-        };
+        ini.getSection("urls").put("/secure/**", "authc");
+        ini.getSection("urls").put("/login.jsp", "authc");
+        ini.getSection("urls").put("/", "authc2");
+
+        // try {
+        // filter.init(filterConfig);
+        // return filter;
+        // } catch (ServletException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // return null;
+        // }
+        // Factory<org.apache.shiro.mgt.SecurityManager> factory = new IniSecurityManagerFactory(ini);
+        // org.apache.shiro.mgt.SecurityManager sm = new DefaultWebSecurityManager();
     }
 
     public void init() {
@@ -78,11 +102,29 @@ public class ShiroServices implements AuthenticationService {
         SecurityManager securityManager = new DefaultSecurityManager(skysailRealm);
         SecurityUtils.setSecurityManager(securityManager);
 
+        // //
+        // http://mail-archives.apache.org/mod_mbox/shiro-user/201201.mbox/%3CCAETPiXYQLUrjjG2K4qDuesSeq7+LBR1W1u4DUyU5WsmqNGSivA@mail.gmail.com%3E
+        // FilterChainManager fcm = new DefaultFilterChainManager();
+        // fcm.addFilter("urlFilter", initUrls());
+        //
+        // PathMatchingFilterChainResolver filterChainResolver = new PathMatchingFilterChainResolver();
+        // filterChainResolver.setFilterChainManager(fcm);
+        //
+        // ShiroFilter filter = new ShiroFilter();
+        // filter.setFilterChainResolver(filterChainResolver);
+
+        // ((WebSecurityManager)securityManager).
+
         verifier = new Verifier() {
 
             @Override
             public int verify(Request request, Response response) {
                 Subject currentUser = SecurityUtils.getSubject();
+                String path = request.getOriginalRef().getPath();
+                if ("/".equals(path) || "/login".equals(path)) {
+                    return Verifier.RESULT_VALID;
+                }
+
                 if (currentUser.isAuthenticated()) {
                     return Verifier.RESULT_VALID;
                 }
