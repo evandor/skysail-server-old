@@ -28,6 +28,8 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.restlet.Restlet;
 import org.restlet.resource.Get;
 import org.restlet.resource.ResourceException;
@@ -42,6 +44,7 @@ import de.twenty11.skysail.common.selfdescription.ResourceDetails;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.restlet.Timer;
+import de.twenty11.skysail.server.security.SkysailRoleAuthorizer;
 
 /**
  * trying to improve ListServerResource
@@ -154,6 +157,13 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
     private void handleSkysailRoute(List<ResourceDetails> result, Entry<String, RouteBuilder> entry) {
         RouteBuilder builder = entry.getValue();
         if (builder.isVisible()) {
+            List<SkysailRoleAuthorizer> rolesAuthorizers = builder.getRolesAuthorizers();
+            Subject currentUser = SecurityUtils.getSubject();
+            for (SkysailRoleAuthorizer authorizer : rolesAuthorizers) {
+                if (!currentUser.hasRole(authorizer.getIdentifier())) {
+                    return;
+                }
+            }
             String from = getHostRef() + "/" + getApplication().getName() + entry.getKey();
             String text = builder.getText() != null ? builder.getText() : from;
             String targetClass = builder.getTargetClass() == null ? "null" : builder.getTargetClass().toString();

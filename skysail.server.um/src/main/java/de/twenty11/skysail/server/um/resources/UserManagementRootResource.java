@@ -11,6 +11,7 @@ import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.common.selfdescription.ResourceDetails;
 import de.twenty11.skysail.server.core.restlet.ListServerResource2;
+import de.twenty11.skysail.server.um.UserManagementApplication;
 
 /**
  * Restlet Root Resource for dbViewer application.
@@ -22,47 +23,9 @@ public class UserManagementRootResource extends ListServerResource2<ResourceDeta
     public UserManagementRootResource() {
         setName("usermanagement root resource");
         setDescription("The root resource of the usermanagement application");
+        // enforce initial creation of tables by calling a repository
+        ((UserManagementApplication) getApplication()).getUserRepository();
     }
-
-    // @Override
-    // @Get("html|json|csv")
-    // public SkysailResponse<List<Component>> getEntities() {
-    // registerLinkedPage(new LinkedPage() {
-    //
-    // @Override
-    // public String getLinkText() {
-    // return "new Folder";
-    // }
-    //
-    // @Override
-    // public String getHref() {
-    // return "notes/folder";
-    // }
-    //
-    // @Override
-    // public boolean applicable() {
-    // return true;
-    // }
-    // });
-    // registerLinkedPage(new LinkedPage() {
-    //
-    // @Override
-    // public String getLinkText() {
-    // return "new Note";
-    // }
-    //
-    // @Override
-    // public String getHref() {
-    // return "notes/note";
-    // }
-    //
-    // @Override
-    // public boolean applicable() {
-    // return true;
-    // }
-    // });
-    // return getEntities("Folders and Notes");
-    // }
 
     @Override
     @Get("html|json|csv")

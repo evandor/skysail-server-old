@@ -102,43 +102,30 @@ public class ShiroServices implements AuthenticationService {
         SecurityManager securityManager = new DefaultSecurityManager(skysailRealm);
         SecurityUtils.setSecurityManager(securityManager);
 
-        // //
-        // http://mail-archives.apache.org/mod_mbox/shiro-user/201201.mbox/%3CCAETPiXYQLUrjjG2K4qDuesSeq7+LBR1W1u4DUyU5WsmqNGSivA@mail.gmail.com%3E
-        // FilterChainManager fcm = new DefaultFilterChainManager();
-        // fcm.addFilter("urlFilter", initUrls());
-        //
-        // PathMatchingFilterChainResolver filterChainResolver = new PathMatchingFilterChainResolver();
-        // filterChainResolver.setFilterChainManager(fcm);
-        //
-        // ShiroFilter filter = new ShiroFilter();
-        // filter.setFilterChainResolver(filterChainResolver);
-
-        // ((WebSecurityManager)securityManager).
-
         verifier = new Verifier() {
 
             @Override
             public int verify(Request request, Response response) {
                 Subject currentUser = SecurityUtils.getSubject();
                 String path = request.getOriginalRef().getPath();
-                if ("/".equals(path) || "/login".equals(path)) {
-                    return Verifier.RESULT_VALID;
-                }
-
-                if (currentUser.isAuthenticated()) {
-                    return Verifier.RESULT_VALID;
-                }
-                String username = request.getChallengeResponse() == null ? null : request.getChallengeResponse()
-                        .getIdentifier();
-                char[] secret = request.getChallengeResponse() == null ? null : request.getChallengeResponse()
-                        .getSecret();
-                UsernamePasswordToken token = new UsernamePasswordToken(username, secret);
-                try {
-                    currentUser.login(token);
-                } catch (Exception e) {
-                    return Verifier.RESULT_INVALID;
-                }
+                // if ("/".equals(path) || "/login".equals(path)) {
                 return Verifier.RESULT_VALID;
+                // }
+                //
+                // if (currentUser.isAuthenticated()) {
+                // return Verifier.RESULT_VALID;
+                // }
+                // String username = request.getChallengeResponse() == null ? null : request.getChallengeResponse()
+                // .getIdentifier();
+                // char[] secret = request.getChallengeResponse() == null ? null : request.getChallengeResponse()
+                // .getSecret();
+                // UsernamePasswordToken token = new UsernamePasswordToken(username, secret);
+                // try {
+                // currentUser.login(token);
+                // } catch (Exception e) {
+                // return Verifier.RESULT_INVALID;
+                // }
+                // return Verifier.RESULT_VALID;
             }
         };
 

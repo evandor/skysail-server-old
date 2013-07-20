@@ -1,25 +1,25 @@
 package de.twenty11.skysail.server.testing.utils;
 
-import de.twenty11.skysail.common.testing.utils.PaxExamOptionSet;
-import de.twenty11.skysail.common.testing.utils.SkysailCommonOsgiSetup;
-
 import java.util.EnumSet;
 import java.util.List;
 
-import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
-import static org.ops4j.pax.exam.CoreOptions.systemProperty;
 import org.ops4j.pax.exam.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.common.testing.utils.PaxExamOptionSet;
+import de.twenty11.skysail.common.testing.utils.SkysailCommonOsgiSetup;
+import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
+import static org.ops4j.pax.exam.CoreOptions.systemProperty;
+
 /**
  * This class defines the bundles skysail.server depends on (used by pax-exam), i.e. the bundles to be used containing
  * the non-optional packages imported by this bundle.
- *
+ * 
  * The provided List with options does not contain the current bundle itself!
- *
+ * 
  * @author carsten
- *
+ * 
  */
 public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
 
@@ -110,7 +110,7 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("org.apache.aries.proxy", "org.apache.aries.proxy", "1.0.1"));
         options.add(mavenBundle("org.apache.aries", "org.apache.aries.util", "1.1.0"));
 
-        options.add(mavenBundle("de.twentyeleven.skysail", "org.antlr.runtime-osgi", "4.1"));
+        // options.add(mavenBundle("de.twentyeleven.skysail", "org.antlr.runtime-osgi", "4.1"));
 
         logger.info("using options from {} for tests", this.getClass());
 

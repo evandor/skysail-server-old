@@ -15,11 +15,9 @@
  */
 package de.twenty11.skysail.server.utils;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 
 /**
- *
+ * 
  * @author graefca
  */
 public class AntPathUtil {
@@ -28,11 +26,11 @@ public class AntPathUtil {
     }
 
     public static boolean match(String pattern, String expr) {
-        AntPathLexer lexer = new AntPathLexer(new ANTLRInputStream(expr));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        AntPathParser parser = new AntPathParser(tokens);
-        AntPathParser.AntPathMatcherContext antPathMatcher = parser.antPathMatcher();
-        System.out.println(antPathMatcher.toStringTree());
+        // AntPathLexer lexer = new AntPathLexer(new ANTLRInputStream(expr));
+        // CommonTokenStream tokens = new CommonTokenStream(lexer);
+        // AntPathParser parser = new AntPathParser(tokens);
+        // AntPathParser.AntPathMatcherContext antPathMatcher = parser.antPathMatcher();
+        // System.out.println(antPathMatcher.toStringTree());
         return false;
     }
 }

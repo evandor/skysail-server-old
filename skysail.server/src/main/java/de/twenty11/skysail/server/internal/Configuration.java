@@ -13,10 +13,14 @@
  */
 package de.twenty11.skysail.server.internal;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -51,6 +55,7 @@ import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ComponentProvider;
 import de.twenty11.skysail.server.services.MenuEntry;
 import de.twenty11.skysail.server.services.MenuProvider;
+import de.twenty11.skysail.server.utils.IOUtils;
 
 public class Configuration implements ComponentProvider {
 
@@ -188,6 +193,8 @@ public class Configuration implements ComponentProvider {
                 Context appContext = restletComponent.getContext().createChildContext();
                 application.setContext(appContext);
                 applications.attach(application, restletComponent, serverConfig, configadmin, authService);
+                // Bundle appsBundle = FrameworkUtil.getBundle(application.getApplication().getClass());
+                // updateSecuredUrls(appsBundle);
             } catch (Exception e) {
                 logger.error("Problem with Application Lifecycle Management Defintion", e);
             }
@@ -284,6 +291,20 @@ public class Configuration implements ComponentProvider {
 
     public void setAuthenticationService(AuthenticationService service) {
         this.authService = service;
+    }
+
+    private void updateSecuredUrls(Bundle bundle) {
+        URL securityDef = bundle.getResource("META-INF/security.ini");
+        if (securityDef != null) {
+            try {
+                // TODO do parsing with antlr
+                BufferedInputStream inputStream = new BufferedInputStream(securityDef.openStream());
+                String securityDefinitions = IOUtils.convertStreamToString(inputStream);
+                Map<String, String> securityMapping = IOUtils.readSecurityDefinitions(securityDefinitions);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void updateDbConfig() {
