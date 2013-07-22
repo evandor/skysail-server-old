@@ -64,23 +64,14 @@ public class Configuration implements ComponentProvider {
     public static final String CONTEXT_OPERATING_SYSTEM_BEAN = "de.twenty11.skysail.server.internal.Configuration.operatingSystemMxBean";
 
     private SkysailComponent restletComponent;
-
     private Server server;
-
     private ComponentContext componentContext;
-
     private ConfigurationAdmin configadmin;
-
     private ServerConfiguration serverConfig;
-
     private final ApplicationsHolder applications = new ApplicationsHolder();
-
     private final MenusHolder menus;
-
     private boolean serverActive = false;
-
     private MenuService menuService;
-
     private AuthenticationService authService;
 
     public Configuration() throws Exception {

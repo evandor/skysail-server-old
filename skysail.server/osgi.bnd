@@ -22,7 +22,8 @@ Export-Package: de.twenty11.skysail.server.config;version="0.1.1",\
  de.twenty11.skysail.server.structures.composite;version="0.1.0",\
  de.twenty11.skysail.server.security;version="0.1.0",\
  de.twenty11.skysail.server.services;version="0.2.2",\
- de.twenty11.skysail.server.testing.utils
+ de.twenty11.skysail.server.testing.utils,\
+ de.twenty11.skysail.server.utils;version="0.1.0"
 Bundle-Activator: de.twenty11.skysail.server.internal.Activator
 Bundle-SymbolicName: skysail.server
 Service-Component: OSGI-INF/*.xml,src/main/resources/OSGI-INF/*.xml

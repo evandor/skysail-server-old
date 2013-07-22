@@ -20,8 +20,6 @@ import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
 
-import org.restlet.security.Role;
-
 import de.twenty11.skysail.server.core.restlet.RouteBuilder;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
@@ -31,6 +29,7 @@ import de.twenty11.skysail.server.um.repos.RoleRepository;
 import de.twenty11.skysail.server.um.repos.UserRepository;
 import de.twenty11.skysail.server.um.resources.AddRoleResource;
 import de.twenty11.skysail.server.um.resources.AddUserResource;
+import de.twenty11.skysail.server.um.resources.CurrentUserResource;
 import de.twenty11.skysail.server.um.resources.RolesResource;
 import de.twenty11.skysail.server.um.resources.UserManagementRootResource;
 import de.twenty11.skysail.server.um.resources.UserResource;
@@ -41,13 +40,10 @@ public class UserManagementApplication extends SkysailApplication implements App
     private EntityManagerFactory enitityManagerFactory;
     private UserRepository userRepository;
     private RoleRepository roleRepository;
-    private final Role adminRole;
 
     public UserManagementApplication() {
         setName("usermanagement");
         setDescription("Central User Configuration Application");
-        adminRole = new Role("admin");
-        getRoles().add(adminRole);
     }
 
     @Override
@@ -56,19 +52,12 @@ public class UserManagementApplication extends SkysailApplication implements App
         router.attach(new RouteBuilder("/", UserManagementRootResource.class).setVisible(false));
         router.attach(new RouteBuilder("/roles", RolesResource.class).setVisible(true).setText("Roles"));
         router.attach(new RouteBuilder("/roles/", AddRoleResource.class).setVisible(false));
+        router.attach(new RouteBuilder("/currentUser", CurrentUserResource.class).setVisible(false));
         router.attach(new RouteBuilder("/users", UsersResource.class).setSecuredByRole("admin").setVisible(true)
                 .setText("Users"));
         router.attach(new RouteBuilder("/users/", AddUserResource.class).setSecuredByRole("admin").setVisible(false));
         router.attach(new RouteBuilder("/users/{username}", UserResource.class).setVisible(false));
     }
-
-    // private Restlet roleSecured(Class<UsersResource> resourceClass, String roleName) {
-    // // RoleAuthorizer authorizer = new RoleAuthorizer();
-    // SkysailRoleAuthorizer authorizer = new SkysailRoleAuthorizer(roleName);
-    // authorizer.getAuthorizedRoles().add(getRole(roleName));
-    // authorizer.setNext(resourceClass);
-    // return authorizer;
-    // }
 
     public synchronized UserRepository getUserRepository() {
         if (this.userRepository == null) {
