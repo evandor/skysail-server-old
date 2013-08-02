@@ -21,6 +21,7 @@ import org.stringtemplate.v4.STGroupString;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.core.restlet.ListServerResource2;
+import de.twenty11.skysail.server.presentation.stringtemplate.FormRenderer;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.utils.IOUtils;
 
@@ -111,6 +112,9 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
         if (renderAs != null) {
             templateIdentifier = renderAs.getValue();
         }
+
+        template.registerRenderer(String.class, new FormRenderer());
+
         ST accordionHtml = template.getInstanceOf(templateIdentifier);
         accordionHtml.add("list", result);
         page = page.replace("${content}", accordionHtml.render());
