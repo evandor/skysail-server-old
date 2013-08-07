@@ -178,6 +178,16 @@
 			$('<ul/>', { 'class': 'nav nav-list', html: items.join('')}).appendTo('#navMenu');
 		});
 
+    	$(document).on("click", "#delete", function(event){
+    		$.ajax({
+				type: "DELETE",
+				url: ".",
+			}).done(function( msg ) {
+				alert( "Data Saved: " + msg );
+			});
+        	return false;
+    	})
+
         $( document ).ready(function() {
             // trigger first execution
             poll();
