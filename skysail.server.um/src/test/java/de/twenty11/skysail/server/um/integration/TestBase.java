@@ -15,6 +15,12 @@
  */
 package de.twenty11.skysail.server.um.integration;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.mgt.DefaultSecurityManager;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.subject.Subject;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -52,8 +58,14 @@ public class TestBase extends ResourceTestWithUnguardedAppication<UserManagement
     @Before
     public void setUp() {
         application = (UserManagementApplication) setUpApplication(new UserManagementApplication());
-        application.setEntityManager(getEmfForTests());
+        application.setEntityManager(getEmfForTests("UserManagementPU"));
         component.getDefaultHost().attach(application);
+        SecurityManager securityManager = new DefaultSecurityManager();
+        SecurityUtils.setSecurityManager(securityManager);
+        Subject currentUser = SecurityUtils.getSubject();
+        AuthenticationToken token = new UsernamePasswordToken("admin", "secret");
+        // currentUser.login(token);
+
     }
 
     @Test

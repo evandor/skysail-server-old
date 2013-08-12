@@ -22,7 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -31,12 +33,16 @@ import javax.validation.bootstrap.GenericBootstrap;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.restlet.Restlet;
+import org.restlet.data.Form;
+import org.restlet.data.Reference;
 import org.restlet.resource.Get;
+import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
@@ -59,12 +65,21 @@ import de.twenty11.skysail.server.security.SkysailRoleAuthorizer;
  */
 public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
 
+    public static final String CONSTRAINT_VIOLATIONS = "constraintViolations";
+
     /** slf4j based logger implementation. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private Validator validator;
 
     private String filterExpression;
+
+    /**
+     * return new JobDescriptor(form.getFirstValue("name"));
+     */
+    public abstract T getData(Form form);
+
+    public abstract SkysailResponse<?> addEntity(T entity);
 
     public ListServerResource2() {
         GenericBootstrap validationProvider = Validation.byDefaultProvider();
@@ -84,6 +99,20 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
     public SkysailResponse<List<T>> getEntities() {
         return getEntities("default implementation... you might want to override ListServerResource2#getEntities in "
                 + this.getClass().getName());
+    }
+
+    @Post("x-www-form-urlencoded:html")
+    public SkysailResponse<?> addFromForm(Form form) {
+        T entity = getData(form);
+        Set<ConstraintViolation<T>> violations = validate(entity);
+        if (violations.size() > 0) {
+            Reference referrerRef = getRequest().getReferrerRef();
+            redirectSeeOther(referrerRef);
+            getRequestAttributes().put(CONSTRAINT_VIOLATIONS, violations);
+            getContext().getAttributes().put(CONSTRAINT_VIOLATIONS, violations);
+            return new ConstraintViolationsResponse(entity, violations);
+        }
+        return addEntity(entity);
     }
 
     protected abstract List<T> getData();
@@ -140,6 +169,14 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
             params = getQuery().getValuesMap();
         }
         return params;
+    }
+
+    protected Set<ConstraintViolation<T>> validate(T entity) {
+        Set<ConstraintViolation<T>> violations = getValidator().validate(entity);
+        if (violations.size() > 0) {
+            logger.warn("contraint violations found on {}: {}", entity, violations);
+        }
+        return violations;
     }
 
     protected String augmentWithFilterMsg(String msg) {

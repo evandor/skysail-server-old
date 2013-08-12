@@ -17,6 +17,8 @@ package de.twenty11.skysail.server.um.resources;
 
 import java.util.List;
 
+import org.restlet.data.Form;
+
 import de.twenty11.skysail.common.Presentation;
 import de.twenty11.skysail.common.PresentationStyle;
 import de.twenty11.skysail.common.navigation.LinkedPage;
@@ -54,5 +56,17 @@ public class RolesResource extends ListServerResource2<SkysailRole> {
             }
         });
         return app.getRoleRepository().getEntities();
+    }
+
+    @Override
+    public SkysailRole getData(Form form) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public SkysailResponse<?> addEntity(SkysailRole entity) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

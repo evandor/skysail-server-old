@@ -76,16 +76,16 @@ public class ResourceTestWithUnguardedAppication<T extends SkysailApplication> {
         return spy;
     }
 
-    protected EntityManagerFactory getEmfForTests() {
-        Map<String, String> props = new HashMap<String, String>();
+    protected EntityManagerFactory getEmfForTests(String puName) {
+        Map<String, Object> props = new HashMap<String, Object>();
 
         props.put("javax.persistence.jdbc.driver", "org.apache.derby.jdbc.EmbeddedDriver");
-        props.put("javax.persistence.jdbc.url", "jdbc:derby:skysailDerbyDb;create=true");
+        props.put("javax.persistence.jdbc.url", "jdbc:derby:etc/skysailDerbyTestDb;create=true");
         props.put("javax.persistence.jdbc.user", "skysail");
         props.put("javax.persistence.jdbc.password", "skysail");
-        props.put("eclipselink.ddl-generation", "create-tables");
+        props.put("eclipselink.ddl-generation", "drop-and-create-tables");
 
-        return Persistence.createEntityManagerFactory("UserManagementPU", props);
+        return Persistence.createEntityManagerFactory(puName, props);
     }
 
     protected String requestUrlFor(String resource) {
