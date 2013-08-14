@@ -112,7 +112,7 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
 
         // options.add(mavenBundle("de.twentyeleven.skysail", "org.antlr.runtime-osgi", "4.1"));
 
-        options.add(mavenBundle("com.google.guava", "guava", "13.0.1"));
+        options.add(mavenBundle("com.google.guava", "guava", "14.0.1"));
 
         logger.info("using options from {} for tests", this.getClass());
 
