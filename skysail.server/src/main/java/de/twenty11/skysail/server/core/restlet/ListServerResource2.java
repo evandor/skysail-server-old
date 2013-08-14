@@ -18,6 +18,7 @@
 package de.twenty11.skysail.server.core.restlet;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.restlet.Restlet;
 import org.restlet.data.Form;
-import org.restlet.data.Reference;
+import org.restlet.data.MediaType;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
@@ -101,16 +102,22 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
                 + this.getClass().getName());
     }
 
-    @Post("x-www-form-urlencoded:html")
+    @Post("x-www-form-urlencoded:html|json")
     public SkysailResponse<?> addFromForm(Form form) {
         T entity = getData(form);
         Set<ConstraintViolation<T>> violations = validate(entity);
         if (violations.size() > 0) {
-            Reference referrerRef = getRequest().getReferrerRef();
-            redirectSeeOther(referrerRef);
-            getRequestAttributes().put(CONSTRAINT_VIOLATIONS, violations);
-            getContext().getAttributes().put(CONSTRAINT_VIOLATIONS, violations);
-            return new ConstraintViolationsResponse(entity, violations);
+            MediaType preferredMediaType = getClientInfo().getPreferredMediaType(
+                    Arrays.asList(MediaType.APPLICATION_JSON, MediaType.TEXT_HTML));
+            // Reference referrerRef = getRequest().getReferrerRef();
+            // redirectSeeOther(referrerRef);
+            // getRequestAttributes().put(CONSTRAINT_VIOLATIONS, violations);
+            // getContext().getAttributes().put(CONSTRAINT_VIOLATIONS, violations);
+            ConstraintViolationsResponse response = new ConstraintViolationsResponse(entity, violations);
+            if (preferredMediaType.equals(MediaType.APPLICATION_JSON)) {
+                // response.setPresentationStyleHint(presentationStyleHint)
+            }
+            return response;
         }
         return addEntity(entity);
     }

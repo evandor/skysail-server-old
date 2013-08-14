@@ -183,7 +183,8 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
     private String jsonToHtml(SkysailResponse<List<?>> skysailResponse, Resource resource) {
 
-        PresentationStyle style = ConverterUtils.evalPresentationStyle(resource);
+        PresentationStyle styleOldp = ConverterUtils.evalPresentationStyle(resource);
+        PresentationStyle style = skysailResponse.getPresentationStyleHint();
 
         String page = rootTemplate;
         long executionTimeInNanos = skysailResponse.getExecutionTime();
