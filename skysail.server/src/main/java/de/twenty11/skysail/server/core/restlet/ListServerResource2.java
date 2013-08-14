@@ -18,7 +18,6 @@
 package de.twenty11.skysail.server.core.restlet;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,9 +32,13 @@ import javax.validation.bootstrap.GenericBootstrap;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.owasp.html.Handler;
+import org.owasp.html.HtmlPolicyBuilder;
+import org.owasp.html.HtmlSanitizer;
+import org.owasp.html.HtmlStreamRenderer;
 import org.restlet.Restlet;
 import org.restlet.data.Form;
-import org.restlet.data.MediaType;
+import org.restlet.data.Parameter;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
@@ -102,24 +105,35 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
                 + this.getClass().getName());
     }
 
-    @Post("x-www-form-urlencoded:html|json")
+    @Post("x-www-form-urlencoded:html|json|xml")
     public SkysailResponse<?> addFromForm(Form form) {
+        sanitizeUserInput(form);
         T entity = getData(form);
         Set<ConstraintViolation<T>> violations = validate(entity);
         if (violations.size() > 0) {
-            MediaType preferredMediaType = getClientInfo().getPreferredMediaType(
-                    Arrays.asList(MediaType.APPLICATION_JSON, MediaType.TEXT_HTML));
-            // Reference referrerRef = getRequest().getReferrerRef();
-            // redirectSeeOther(referrerRef);
-            // getRequestAttributes().put(CONSTRAINT_VIOLATIONS, violations);
-            // getContext().getAttributes().put(CONSTRAINT_VIOLATIONS, violations);
-            ConstraintViolationsResponse response = new ConstraintViolationsResponse(entity, violations);
-            if (preferredMediaType.equals(MediaType.APPLICATION_JSON)) {
-                // response.setPresentationStyleHint(presentationStyleHint)
-            }
-            return response;
+            return new ConstraintViolationsResponse(entity, violations);
         }
         return addEntity(entity);
+    }
+
+    private void sanitizeUserInput(Form form) {
+        SkysailApplication app = (SkysailApplication) getApplication();
+        HtmlPolicyBuilder noHtmlPolicyBuilder = app.getNoHtmlPolicyBuilder();
+        for (int i = 0; i < form.size(); i++) {
+            Parameter parameter = form.get(i);
+            String originalValue = parameter.getValue();
+            StringBuilder sb = new StringBuilder();
+            HtmlSanitizer.Policy policy = noHtmlPolicyBuilder.build(HtmlStreamRenderer.create(sb,
+                    new Handler<String>() {
+                        @Override
+                        public void handle(String x) {
+                            System.out.println(x);
+                        }
+                    }));
+            HtmlSanitizer.sanitize(originalValue, policy);
+
+            parameter.setValue(originalValue.trim());
+        }
     }
 
     protected abstract List<T> getData();
