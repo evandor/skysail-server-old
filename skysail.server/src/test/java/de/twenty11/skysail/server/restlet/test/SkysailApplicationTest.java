@@ -42,7 +42,7 @@ public class SkysailApplicationTest {
     }
     
     @Test
-    public static final void testTextFilter() throws Exception {
+    public void testTextFilter() throws Exception {
         assertEquals(
                 Joiner.on('\n').join(
                         "Header", 

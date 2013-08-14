@@ -131,8 +131,9 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
                         }
                     }));
             HtmlSanitizer.sanitize(originalValue, policy);
+            String sanitizedHtml = sb.toString();
 
-            parameter.setValue(originalValue.trim());
+            parameter.setValue(sanitizedHtml.trim());
         }
     }
 
