@@ -32,9 +32,13 @@ import javax.validation.bootstrap.GenericBootstrap;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.owasp.html.Handler;
+import org.owasp.html.HtmlPolicyBuilder;
+import org.owasp.html.HtmlSanitizer;
+import org.owasp.html.HtmlStreamRenderer;
 import org.restlet.Restlet;
 import org.restlet.data.Form;
-import org.restlet.data.Reference;
+import org.restlet.data.Parameter;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
@@ -101,18 +105,36 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
                 + this.getClass().getName());
     }
 
-    @Post("x-www-form-urlencoded:html")
+    @Post("x-www-form-urlencoded:html|json|xml")
     public SkysailResponse<?> addFromForm(Form form) {
+        sanitizeUserInput(form);
         T entity = getData(form);
         Set<ConstraintViolation<T>> violations = validate(entity);
         if (violations.size() > 0) {
-            Reference referrerRef = getRequest().getReferrerRef();
-            redirectSeeOther(referrerRef);
-            getRequestAttributes().put(CONSTRAINT_VIOLATIONS, violations);
-            getContext().getAttributes().put(CONSTRAINT_VIOLATIONS, violations);
             return new ConstraintViolationsResponse(entity, violations);
         }
         return addEntity(entity);
+    }
+
+    private void sanitizeUserInput(Form form) {
+        SkysailApplication app = (SkysailApplication) getApplication();
+        HtmlPolicyBuilder noHtmlPolicyBuilder = app.getNoHtmlPolicyBuilder();
+        for (int i = 0; i < form.size(); i++) {
+            Parameter parameter = form.get(i);
+            String originalValue = parameter.getValue();
+            StringBuilder sb = new StringBuilder();
+            HtmlSanitizer.Policy policy = noHtmlPolicyBuilder.build(HtmlStreamRenderer.create(sb,
+                    new Handler<String>() {
+                        @Override
+                        public void handle(String x) {
+                            System.out.println(x);
+                        }
+                    }));
+            HtmlSanitizer.sanitize(originalValue, policy);
+            String sanitizedHtml = sb.toString();
+
+            parameter.setValue(sanitizedHtml.trim());
+        }
     }
 
     protected abstract List<T> getData();

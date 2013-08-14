@@ -6,6 +6,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.component.ComponentContext;
+import org.owasp.html.HtmlPolicyBuilder;
 import org.restlet.Application;
 import org.restlet.Restlet;
 import org.restlet.data.Protocol;
@@ -55,6 +56,8 @@ public abstract class SkysailApplication extends Application {
 
     private AuthenticationService authenticationService;
 
+    private HtmlPolicyBuilder noHtmlPolicyBuilder = new HtmlPolicyBuilder();
+
     abstract protected void attach();
 
     public SkysailApplication() {
@@ -93,6 +96,9 @@ public abstract class SkysailApplication extends Application {
 
         Authenticator guard = getAuthenticationService().getAuthenticator(getContext());
 
+        // DefaultHtmlSanitizerFilter defaultHtmlSanitizerFilter = new DefaultHtmlSanitizerFilter(getContext());
+
+        // defaultHtmlSanitizerFilter.setNext(blocker);
         timer.setNext(blocker);
         guard.setNext(timer);
 
@@ -177,5 +183,9 @@ public abstract class SkysailApplication extends Application {
 
     public void setAuthenticationService(AuthenticationService authService) {
         this.authenticationService = authService;
+    }
+
+    public HtmlPolicyBuilder getNoHtmlPolicyBuilder() {
+        return noHtmlPolicyBuilder;
     }
 }
