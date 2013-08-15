@@ -88,7 +88,7 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("org.codehaus.jackson", "jackson-core-lgpl", "1.9.5"));
         options.add(mavenBundle("org.codehaus.jackson", "jackson-mapper-lgpl", "1.9.5"));
         // "org.apache.commons", "com.springsource.org.apache.commons.beanutils", "1.8.3"));
-        // "org.apache.commons", "com.springsource.org.apache.commons.collections", "3.2.1"));
+        options.add(mavenBundle("org.apache.commons", "com.springsource.org.apache.commons.collections", "3.2.1"));
         options.add(mavenBundle("org.apache.pdfbox", "pdfbox", "1.8.0"));
         options.add(mavenBundle("org.apache.pdfbox", "fontbox", "1.8.0"));
         options.add(mavenBundle("org.apache.pdfbox", "jempbox", "1.8.0"));
@@ -97,11 +97,11 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("de.twentyeleven.skysail", "org.antlr.stringtemplate-osgi", "4.0.2"));
 
         // stateless4j
-        options.add(mavenBundle("de.twentyeleven.skysail", "com.googlecode.stateless4j-osgi", "1.0"));
+        options.add(mavenBundle("de.twentyeleven.skysail", "com.googlecode.stateless4j-osgi", "1.0.1"));
 
         // apache beanutils
         // TODO still used?
-        options.add(mavenBundle("de.twentyeleven.skysail", "commons-beanutils-osgi", "1.8.3"));
+        // options.add(mavenBundle("de.twentyeleven.skysail", "commons-beanutils-osgi", "1.8.3"));
         // options.add(mavenBundle("org.apache.commons", "com.springsource.org.apache.commons.collections", "3.2.1"));
 
         options.add(mavenBundle("de.twentyeleven.skysail", "skysail.server.security.shiro", "0.0.1-SNAPSHOT"));
