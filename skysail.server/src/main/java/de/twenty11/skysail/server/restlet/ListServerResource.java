@@ -180,7 +180,7 @@ public class ListServerResource<T> extends SkysailServerResource2<T> {
             // if (constraintViolations.getMsg() != null) {
             logger.warn("contraint violations found on {}: {}", entity, violations);
             // return new FailureResponse<ConstraintViolations<T>>(constraintViolations);
-            return new ConstraintViolationsResponse<T>(entity, violations);
+            return new ConstraintViolationsResponse<T>(entity, null, violations);
         }
         try {
             em.getTransaction().begin();

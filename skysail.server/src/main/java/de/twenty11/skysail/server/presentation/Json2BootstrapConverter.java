@@ -74,6 +74,8 @@ public class Json2BootstrapConverter extends ConverterHelper {
         }
         if (target.getMediaType().equals(MediaType.TEXT_HTML)) {
             result = 1.0F;
+        } else if (target.getMediaType().equals(SkysailApplication.SKYSAIL_HTMLFORM_MEDIATYPE)) {
+            result = 1.0F;
         } else {
             result = 0.5F;
         }

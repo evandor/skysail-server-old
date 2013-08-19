@@ -1,19 +1,31 @@
 package de.twenty11.skysail.server.core.restlet;
 
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
+import org.owasp.html.Handler;
+import org.owasp.html.HtmlPolicyBuilder;
+import org.owasp.html.HtmlSanitizer;
+import org.owasp.html.HtmlStreamRenderer;
+import org.restlet.data.Form;
+import org.restlet.data.Parameter;
 import org.restlet.resource.Get;
+import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
+import de.twenty11.skysail.server.restlet.SkysailApplication;
 
 public abstract class UniqueResultServerResource2<T> extends SkysailServerResource2<T> {
 
@@ -44,6 +56,10 @@ public abstract class UniqueResultServerResource2<T> extends SkysailServerResour
     protected abstract void doInit() throws ResourceException;
 
     protected abstract T getData();
+
+    public abstract T getData(Form form);
+
+    public abstract SkysailResponse<?> addEntity(T entity);
 
     @Get("html|json")
     public SkysailResponse<T> getEntity() {
@@ -78,21 +94,48 @@ public abstract class UniqueResultServerResource2<T> extends SkysailServerResour
         }
     }
 
-    // protected SkysailResponse<T> getEntity(T data) {
-    // try {
-    //
-    // SkysailApplication app = (SkysailApplication) getApplication();
-    // Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener()
-    // .getMappings() : null;
-    // return new SuccessResponse<T>(data);
-    // } catch (Exception e) {
-    // // logger.error(e.getMessage(), e);
-    // return new FailureResponse<T>(e);
-    // }
-    // }
+    @Post("x-www-form-urlencoded:html|json|xml")
+    public SkysailResponse<?> addFromForm(Form form) {
+        sanitizeUserInput(form);
+        T entity = getData(form);
+        Set<ConstraintViolation<T>> violations = validate(entity);
+        if (violations.size() > 0) {
+            return new ConstraintViolationsResponse(entity, getOriginalRef(), violations);
+        }
+        return addEntity(entity);
+    }
 
     public Validator getValidator() {
         return validator;
+    }
+
+    protected Set<ConstraintViolation<T>> validate(T entity) {
+        Set<ConstraintViolation<T>> violations = getValidator().validate(entity);
+        if (violations.size() > 0) {
+            logger.warn("contraint violations found on {}: {}", entity, violations);
+        }
+        return violations;
+    }
+
+    private void sanitizeUserInput(Form form) {
+        SkysailApplication app = (SkysailApplication) getApplication();
+        HtmlPolicyBuilder noHtmlPolicyBuilder = app.getNoHtmlPolicyBuilder();
+        for (int i = 0; i < form.size(); i++) {
+            Parameter parameter = form.get(i);
+            String originalValue = parameter.getValue();
+            StringBuilder sb = new StringBuilder();
+            HtmlSanitizer.Policy policy = noHtmlPolicyBuilder.build(HtmlStreamRenderer.create(sb,
+                    new Handler<String>() {
+                        @Override
+                        public void handle(String x) {
+                            System.out.println(x);
+                        }
+                    }));
+            HtmlSanitizer.sanitize(originalValue, policy);
+            String sanitizedHtml = sb.toString();
+
+            parameter.setValue(sanitizedHtml.trim());
+        }
     }
 
 }

@@ -71,7 +71,7 @@ public abstract class AddServerResource2<T> extends SkysailServerResource2<T> {
         T entity = getData(form);
         Set<ConstraintViolation<T>> violations = validate(entity);
         if (violations.size() > 0) {
-            return new ConstraintViolationsResponse(entity, violations);
+            return new ConstraintViolationsResponse(entity, null, violations);
         }
         return addEntity(entity);
     }

@@ -81,8 +81,10 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
     /**
      * return new JobDescriptor(form.getFirstValue("name"));
      */
+    @Deprecated
     public abstract T getData(Form form);
 
+    @Deprecated
     public abstract SkysailResponse<?> addEntity(T entity);
 
     public ListServerResource2() {
@@ -111,7 +113,7 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
         T entity = getData(form);
         Set<ConstraintViolation<T>> violations = validate(entity);
         if (violations.size() > 0) {
-            return new ConstraintViolationsResponse(entity, violations);
+            return new ConstraintViolationsResponse(entity, getOriginalRef(), violations);
         }
         return addEntity(entity);
     }

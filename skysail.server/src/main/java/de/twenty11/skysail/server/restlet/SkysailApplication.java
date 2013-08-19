@@ -9,6 +9,7 @@ import org.osgi.service.component.ComponentContext;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.restlet.Application;
 import org.restlet.Restlet;
+import org.restlet.data.MediaType;
 import org.restlet.data.Protocol;
 import org.restlet.data.Reference;
 import org.restlet.resource.ServerResource;
@@ -40,6 +41,8 @@ public abstract class SkysailApplication extends Application {
      * slf4j based logger implementation.
      */
     final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public static final MediaType SKYSAIL_HTMLFORM_MEDIATYPE = MediaType.register("htmlform", "HTML Form document");
 
     /**
      * the restlet router.
@@ -77,6 +80,8 @@ public abstract class SkysailApplication extends Application {
         logger.info("creating new Router in {}", this.getClass().getName());
         router = new SkysailRouter(getContext());
         // router.setDefaultMatchingQuery(true);
+
+        getMetadataService().addExtension("htmlform", SKYSAIL_HTMLFORM_MEDIATYPE);
 
         // see
         // http://nexnet.wordpress.com/2010/09/29/clap-protocol-in-restlet-and-osgi/
