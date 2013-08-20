@@ -14,11 +14,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: de.twentyeleven.skysail:skysail.common:0.4.4-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="skysail.common" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.1.2" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.1" level="project" />
-    <orderEntry type="library" name="Maven: com.thoughtworks.xstream:xstream:1.3.1" level="project" />
+    <orderEntry type="library" name="Maven: com.thoughtworks.xstream:xstream:1.4.1" level="project" />
+    <orderEntry type="library" name="Maven: xmlpull:xmlpull:1.1.3.1" level="project" />
     <orderEntry type="library" name="Maven: xpp3:xpp3_min:1.1.4c" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.findbugs:annotations:1.3.9" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:com.springsource.javax.validation:1.0.0.GA" level="project" />
@@ -77,12 +78,13 @@
     <orderEntry type="library" name="Maven: org.mockito:mockito-all:1.9.0" level="project" />
     <orderEntry type="library" name="Maven: commons-dbcp:commons-dbcp:1.4" level="project" />
     <orderEntry type="library" name="Maven: commons-pool:commons-pool:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:r198" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:13.0.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:1.3.9" level="project" />
     <orderEntry type="library" name="Maven: net.sf.ehcache:ehcache:2.7.0" level="project" />
     <orderEntry type="library" name="Maven: com.mysema.querydsl:querydsl-apt:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: com.mysema.querydsl:querydsl-codegen:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: com.mysema.querydsl:querydsl-core:3.1.0" level="project" />
-    <orderEntry type="library" name="Maven: com.google.guava:guava:13.0.1" level="project" />
-    <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:1.3.9" level="project" />
     <orderEntry type="library" name="Maven: com.mysema.commons:mysema-commons-lang:0.2.4" level="project" />
     <orderEntry type="library" name="Maven: com.mysema.codegen:codegen:0.5.8" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jdt.core.compiler:ecj:3.7.2" level="project" />
@@ -94,7 +96,7 @@
     <orderEntry type="library" name="Maven: de.twentyeleven.skysail:org.antlr.stringtemplate-osgi:4.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:stringtemplate:4.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:antlr-runtime:3.3" level="project" />
-    <orderEntry type="library" name="Maven: de.twentyeleven.skysail:com.googlecode.stateless4j-osgi:1.0" level="project" />
+    <orderEntry type="library" name="Maven: de.twentyeleven.skysail:com.googlecode.stateless4j-osgi:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode:stateless4j:1.0" level="project" />
     <orderEntry type="library" name="Maven: commons-collections:commons-collections:20040616" level="project" />
     <orderEntry type="library" name="Maven: org.osgi:org.osgi.enterprise:4.2.0" level="project" />
