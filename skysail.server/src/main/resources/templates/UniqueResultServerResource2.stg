@@ -9,7 +9,7 @@ accordionGroup(element,i) ::= <<
     <div class="accordion-group">
         <div class="accordion-heading">
             $i$. $head(element)$ <a class="accordion-toggle" data-toggle="collapse" style="display:inline;"
-                data-parent="#accordion2" href="#collapse$i$"><i class="icon-zoom-in"></i></a>&nbsp;<a id="delete" href="#"><i class="icon-trash"></i></a>
+                data-parent="#accordion2" href="#collapse$i$"><i class="icon-zoom-in"></i></a>&nbsp;<form action="?method=DELETE" method="post"><button class="icon-trash"></button></form>
         </div>
         <div id="collapse$i$" class="accordion-body collapse">
             <div class="accordion-inner">
