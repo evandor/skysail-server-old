@@ -30,6 +30,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
+import de.twenty11.skysail.common.responses.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.owasp.html.Handler;
@@ -46,10 +47,6 @@ import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
-import de.twenty11.skysail.common.responses.FailureResponse;
-import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.common.selfdescription.ResourceDetails;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
@@ -107,20 +104,24 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
                 + this.getClass().getName());
     }
 
-//    @Post("x-www-form-urlencoded:html|json|xml")
-//    public SkysailResponse<?> addFromForm(Form form) {
-//        sanitizeUserInput(form);
-//        T entity = getData(form);
-//        Set<ConstraintViolation<T>> violations = validate(entity);
-//        if (violations.size() > 0) {
-//            return new ConstraintViolationsResponse(entity, getOriginalRef(), violations);
-//        }
-//        return addEntity(entity);
-//    }
+    @Post("x-www-form-urlencoded:html|json|xml")
+    public SkysailResponse<?> addFromForm(Form form) {
+        if (containsInvalidInput(form)) {
+            T entity = getData(form);
+            return new FoundIllegalInputResponse<T>(entity, getOriginalRef());
+        }
+        T entity = getData(form);
+        Set<ConstraintViolation<T>> violations = validate(entity);
+        if (violations.size() > 0) {
+            return new ConstraintViolationsResponse(entity, getOriginalRef(), violations);
+        }
+        return addEntity(entity);
+    }
 
-    private void sanitizeUserInput(Form form) {
+    private boolean containsInvalidInput(Form form) {
         SkysailApplication app = (SkysailApplication) getApplication();
         HtmlPolicyBuilder noHtmlPolicyBuilder = app.getNoHtmlPolicyBuilder();
+        boolean foundInvalidInput = false;
         for (int i = 0; i < form.size(); i++) {
             Parameter parameter = form.get(i);
             String originalValue = parameter.getValue();
@@ -134,9 +135,12 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
                     }));
             HtmlSanitizer.sanitize(originalValue, policy);
             String sanitizedHtml = sb.toString();
-
+            if (!sanitizedHtml.equals(originalValue)) {
+                foundInvalidInput = true;
+            }
             parameter.setValue(sanitizedHtml.trim());
         }
+        return foundInvalidInput;
     }
 
     protected abstract List<T> getData();

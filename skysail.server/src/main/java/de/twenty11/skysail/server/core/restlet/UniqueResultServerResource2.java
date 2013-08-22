@@ -68,20 +68,6 @@ public abstract class UniqueResultServerResource2<T> extends SkysailServerResour
                 + this.getClass().getName());
     }
 
-    @Post("x-www-form-urlencoded:html|json|xml")
-    public SkysailResponse<?> addFromForm(Form form) {
-        if (containsInvalidInput(form)) {
-            T entity = getData(form);
-        	return new FoundIllegalInputResponse<T>(entity, getOriginalRef());
-        }
-        T entity = getData(form);
-        Set<ConstraintViolation<T>> violations = validate(entity);
-        if (violations.size() > 0) {
-            return new ConstraintViolationsResponse(entity, getOriginalRef(), violations);
-        }
-        return addEntity(entity);
-    }
-
     protected SkysailResponse<T> getEntity(String defaultMsg) {
         try {
             T data = getData();
@@ -109,29 +95,5 @@ public abstract class UniqueResultServerResource2<T> extends SkysailServerResour
         return violations;
     }
 
-    private boolean containsInvalidInput(Form form) {
-        SkysailApplication app = (SkysailApplication) getApplication();
-        HtmlPolicyBuilder noHtmlPolicyBuilder = app.getNoHtmlPolicyBuilder();
-        boolean foundInvalidInput = false;
-        for (int i = 0; i < form.size(); i++) {
-            Parameter parameter = form.get(i);
-            String originalValue = parameter.getValue();
-            StringBuilder sb = new StringBuilder();
-            HtmlSanitizer.Policy policy = noHtmlPolicyBuilder.build(HtmlStreamRenderer.create(sb,
-                    new Handler<String>() {
-                        @Override
-                        public void handle(String x) {
-                            System.out.println(x);
-                        }
-                    }));
-            HtmlSanitizer.sanitize(originalValue, policy);
-            String sanitizedHtml = sb.toString();
-            if (!sanitizedHtml.equals(originalValue)) {
-            	foundInvalidInput = true;
-            }
-            parameter.setValue(sanitizedHtml.trim());
-        }
-        return foundInvalidInput;
-    }
 
 }
