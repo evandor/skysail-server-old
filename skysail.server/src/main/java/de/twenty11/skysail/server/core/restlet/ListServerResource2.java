@@ -107,16 +107,16 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
                 + this.getClass().getName());
     }
 
-    @Post("x-www-form-urlencoded:html|json|xml")
-    public SkysailResponse<?> addFromForm(Form form) {
-        sanitizeUserInput(form);
-        T entity = getData(form);
-        Set<ConstraintViolation<T>> violations = validate(entity);
-        if (violations.size() > 0) {
-            return new ConstraintViolationsResponse(entity, getOriginalRef(), violations);
-        }
-        return addEntity(entity);
-    }
+//    @Post("x-www-form-urlencoded:html|json|xml")
+//    public SkysailResponse<?> addFromForm(Form form) {
+//        sanitizeUserInput(form);
+//        T entity = getData(form);
+//        Set<ConstraintViolation<T>> violations = validate(entity);
+//        if (violations.size() > 0) {
+//            return new ConstraintViolationsResponse(entity, getOriginalRef(), violations);
+//        }
+//        return addEntity(entity);
+//    }
 
     private void sanitizeUserInput(Form form) {
         SkysailApplication app = (SkysailApplication) getApplication();

@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FailureResponse;
+import de.twenty11.skysail.common.responses.FoundIllegalInputResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
@@ -67,6 +68,20 @@ public abstract class UniqueResultServerResource2<T> extends SkysailServerResour
                 + this.getClass().getName());
     }
 
+    @Post("x-www-form-urlencoded:html|json|xml")
+    public SkysailResponse<?> addFromForm(Form form) {
+        if (containsInvalidInput(form)) {
+            T entity = getData(form);
+        	return new FoundIllegalInputResponse<T>(entity, getOriginalRef());
+        }
+        T entity = getData(form);
+        Set<ConstraintViolation<T>> violations = validate(entity);
+        if (violations.size() > 0) {
+            return new ConstraintViolationsResponse(entity, getOriginalRef(), violations);
+        }
+        return addEntity(entity);
+    }
+
     protected SkysailResponse<T> getEntity(String defaultMsg) {
         try {
             T data = getData();
@@ -75,34 +90,11 @@ public abstract class UniqueResultServerResource2<T> extends SkysailServerResour
             if (this.getMessage() != null && !"".equals(this.getMessage().trim())) {
                 successResponse.setMessage(getMessage());
             }
-            // if (getContext() != null) {
-            // Object beanAsObject = getContext().getAttributes().get(Configuration.CONTEXT_OPERATING_SYSTEM_BEAN);
-            // if (beanAsObject != null && beanAsObject instanceof OperatingSystemMXBean) {
-            // OperatingSystemMXBean bean = (OperatingSystemMXBean) beanAsObject;
-            // successResponse.setServerLoad(bean.getSystemLoadAverage());
-            // }
-            // Long executionStarted = (Long) getContext().getAttributes().get(Timer.CONTEXT_EXECUTION_STARTED);
-            // if (executionStarted != null) {
-            // successResponse.setExecutionTime(System.nanoTime() - executionStarted);
-            // }
-            // }
-
             return successResponse;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return new FailureResponse<T>(e);
         }
-    }
-
-    @Post("x-www-form-urlencoded:html|json|xml")
-    public SkysailResponse<?> addFromForm(Form form) {
-        sanitizeUserInput(form);
-        T entity = getData(form);
-        Set<ConstraintViolation<T>> violations = validate(entity);
-        if (violations.size() > 0) {
-            return new ConstraintViolationsResponse(entity, getOriginalRef(), violations);
-        }
-        return addEntity(entity);
     }
 
     public Validator getValidator() {
@@ -117,9 +109,10 @@ public abstract class UniqueResultServerResource2<T> extends SkysailServerResour
         return violations;
     }
 
-    private void sanitizeUserInput(Form form) {
+    private boolean containsInvalidInput(Form form) {
         SkysailApplication app = (SkysailApplication) getApplication();
         HtmlPolicyBuilder noHtmlPolicyBuilder = app.getNoHtmlPolicyBuilder();
+        boolean foundInvalidInput = false;
         for (int i = 0; i < form.size(); i++) {
             Parameter parameter = form.get(i);
             String originalValue = parameter.getValue();
@@ -133,9 +126,12 @@ public abstract class UniqueResultServerResource2<T> extends SkysailServerResour
                     }));
             HtmlSanitizer.sanitize(originalValue, policy);
             String sanitizedHtml = sb.toString();
-
+            if (!sanitizedHtml.equals(originalValue)) {
+            	foundInvalidInput = true;
+            }
             parameter.setValue(sanitizedHtml.trim());
         }
+        return foundInvalidInput;
     }
 
 }
