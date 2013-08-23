@@ -43,36 +43,9 @@ public class ShiroServices implements AuthenticationService {
     private final List<DataSourceFactory> dataSourceFactories = new ArrayList<DataSourceFactory>();
 
     public void initUrls() {
-        // Ini ini = new Ini();
-        // Section users = ini.addSection("users");
-        // users.put("admin", "secret");
-        //
-        // Section roles = ini.addSection("roles");
-        // roles.put("admin", "*");
-        //
-        // Factory<SecurityManager> factory = new IniSecurityManagerFactory(ini);
-        // SecurityManager securityManager = factory.getInstance();
-        //
-        // verifier = new Verifier() {
-        //
-        // @Override
-        // public int verify(Request request, Response response) {
-        // return Verifier.RESULT_VALID;
-        // }
-        // };
-
         final Ini ini = new Ini();
         ini.addSection("main");
-
-        // ini.getSection("main").put("authcRealm", "mySecurity.WebRealm");
-        // ini.getSection("main").put("authc2", "org.apache.shiro.web.filter.authc.FormAuthenticationFilter");
-        // ini.getSection("main").put("lookedUpRealm", "mySecurity.WebRealm");
-        // ini.getSection("main").put("authc.loginUrl", "/login.jsp");
-        // ini.getSection("main").put("authc2.loginUrl", "/login.jsp");
-        // ini.getSection("main").put("securityManager.realms", "$lookedUpRealm");
-
         ini.addSection("urls");
-
         ini.getSection("urls").put("/secure/**", "authc");
         ini.getSection("urls").put("/login.jsp", "authc");
         ini.getSection("urls").put("/", "authc2");
@@ -110,22 +83,7 @@ public class ShiroServices implements AuthenticationService {
                 String path = request.getOriginalRef().getPath();
                 // if ("/".equals(path) || "/login".equals(path)) {
                 return Verifier.RESULT_VALID;
-                // }
-                //
-                // if (currentUser.isAuthenticated()) {
-                // return Verifier.RESULT_VALID;
-                // }
-                // String username = request.getChallengeResponse() == null ? null : request.getChallengeResponse()
-                // .getIdentifier();
-                // char[] secret = request.getChallengeResponse() == null ? null : request.getChallengeResponse()
-                // .getSecret();
-                // UsernamePasswordToken token = new UsernamePasswordToken(username, secret);
-                // try {
-                // currentUser.login(token);
-                // } catch (Exception e) {
-                // return Verifier.RESULT_INVALID;
-                // }
-                // return Verifier.RESULT_VALID;
+
             }
         };
 

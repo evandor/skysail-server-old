@@ -58,8 +58,8 @@
                 <extensions>true</extensions>
                 <configuration>
                     <!-- make eclipse aware about this bundle (+ ManifestBuilder 
-                        in .project!) -->
-                    <manifestLocation>META-INF</manifestLocation>
+                        in .project!)
+                    <manifestLocation>META-INF</manifestLocation> -->
                     <instructions>
                         <_include>-osgi.bnd</_include>
                         <Include-Resource>
