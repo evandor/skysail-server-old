@@ -104,10 +104,11 @@ public abstract class SkysailApplication extends Application {
         // DefaultHtmlSanitizerFilter defaultHtmlSanitizerFilter = new DefaultHtmlSanitizerFilter(getContext());
 
         // defaultHtmlSanitizerFilter.setNext(blocker);
+        // tracer -> guard -> timer -> blocker -> originalRequest -> router
         timer.setNext(blocker);
         guard.setNext(timer);
-
-        return guard;
+        tracer.setNext(guard);
+        return tracer;
     }
 
     public void attachToRouter(String key, Class<? extends ServerResource> executor) {
