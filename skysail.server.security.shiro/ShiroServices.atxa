@@ -1,0 +1,198 @@
+<,evandor@gmail.com> <http://www.architexa.com/rdf/core#creator> "true" .
+
+@prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix atxa-jdt-wkspc: <http://www.architexa.com/rdf/jdt-wkspc#> .
+@prefix atxa-core: <http://www.architexa.com/rdf/core#> .
+@prefix atxa: <http://www.architexa.com/rdf/> .
+@prefix atxa-jdt: <http://www.architexa.com/rdf/jdt#> .
+
+<http://www.architexa.com/rdf/rse-eclipse#ShiroServices.atxa> a atxa-core:chronoFile .
+
+atxa:DetailNode atxa-core:detailLevel "0" .
+
+<http://www.architexa.com/rdf/rse-eclipse#ShiroServices.atxa> atxa-core:contains _:node182q7nis7x1 .
+
+_:node182q7nis7x1 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$ShiroServices> ;
+	atxa-jdt:index "0" ;
+	atxa-core:instanceName "" ;
+	atxa-core:contains _:node182q6re4dx9 .
+
+_:node182q6re4dx9 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$ShiroServices.init()> ;
+	atxa-jdt:index "0" ;
+	atxa-core:contains _:node182q6re4dx10 .
+
+_:node182q6re4dx10 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$SkysailWebSecurityManager.SkysailWebSecurityManager(Realm,)> ;
+	atxa-jdt:index "0" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$SkysailWebSecurityManager.SkysailWebSecurityManager(Realm,)> atxa-core:link _:node182q6re4dx11 .
+
+_:node182q6re4dx12 a atxa-core:link ;
+	atxa-core:model atxa-jdt:calls ;
+	rdf:subject _:node182q6re4dx10 ;
+	rdf:object _:node182q6re4dx11 ;
+	atxa-core:name "SkysailWebSecurityManager(skysailRealm)" .
+
+<http://www.architexa.com/rdf/rse-eclipse#ShiroServices.atxa> atxa-core:contains _:node182q6re4dx8 .
+
+_:node182q6re4dx8 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$SkysailWebSecurityManager> ;
+	atxa-jdt:index "1" ;
+	atxa-core:instanceName "securityManager" ;
+	atxa-core:contains _:node182q6re4dx11 .
+
+_:node182q6re4dx11 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$SkysailWebSecurityManager.SkysailWebSecurityManager(Realm,)> ;
+	atxa-jdt:index "0" .
+
+_:node182q6re4dx13 a atxa-core:link ;
+	atxa-core:model atxa-jdt:returns ;
+	rdf:subject _:node182q6re4dx11 ;
+	rdf:object _:node182q6re4dx10 ;
+	atxa-core:name "SkysailWebSecurityManager" .
+
+_:node182q6re4dx11 atxa-core:contains _:node182q6re4dx14 .
+
+_:node182q6re4dx14 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$SkysailWebSecurityManager.SkysailWebSecurityManager()> ;
+	atxa-jdt:index "0" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$SkysailWebSecurityManager.SkysailWebSecurityManager()> atxa-core:link _:node182q6re4dx15 .
+
+_:node182q6re4dx16 a atxa-core:link ;
+	atxa-core:model atxa-jdt:calls ;
+	rdf:subject _:node182q6re4dx14 ;
+	rdf:object _:node182q6re4dx15 ;
+	atxa-core:name "SkysailWebSecurityManager()" .
+
+_:node182q6re4dx14 atxa-core:contains _:node182q6re4dx15 .
+
+_:node182q6re4dx15 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$SkysailWebSecurityManager.SkysailWebSecurityManager()> ;
+	atxa-jdt:index "0" .
+
+_:node182q6re4dx17 a atxa-core:link ;
+	atxa-core:model atxa-jdt:returns ;
+	rdf:subject _:node182q6re4dx15 ;
+	rdf:object _:node182q6re4dx14 ;
+	atxa-core:name "SkysailWebSecurityManager" .
+
+_:node182q6re4dx15 atxa-core:contains _:node182q6re4dx30 .
+
+_:node182q6re4dx30 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$SkysailWebSubjectFactory.SkysailWebSubjectFactory()> ;
+	atxa-jdt:index "0" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$SkysailWebSubjectFactory.SkysailWebSubjectFactory()> atxa-core:link _:node182q6re4dx31 .
+
+_:node182q6re4dx32 a atxa-core:link ;
+	atxa-core:model atxa-jdt:calls ;
+	rdf:subject _:node182q6re4dx30 ;
+	rdf:object _:node182q6re4dx31 ;
+	atxa-core:name "SkysailWebSubjectFactory()" .
+
+_:node182q6re4dx15 atxa-core:contains _:node182q6re4dx18 .
+
+_:node182q6re4dx18 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.setSubjectFactory(SubjectFactory,)> ;
+	atxa-jdt:index "1" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.setSubjectFactory(SubjectFactory,)> atxa-core:link _:node182q6re4dx19 .
+
+_:node182q6re4dx20 a atxa-core:link ;
+	atxa-core:model atxa-jdt:calls ;
+	rdf:subject _:node182q6re4dx18 ;
+	rdf:object _:node182q6re4dx19 ;
+	atxa-core:name "setSubjectFactory(new SkysailWebSubjectFactory())" .
+
+_:node182q6re4dx15 atxa-core:contains _:node182q6re4dx21 .
+
+_:node182q6re4dx21 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.mgt$DefaultWebSecurityManager.setSessionManager(SessionManager,)> ;
+	atxa-jdt:index "2" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.mgt$DefaultWebSecurityManager.setSessionManager(SessionManager,)> atxa-core:link _:node182q6re4dx22 .
+
+_:node182q6re4dx23 a atxa-core:link ;
+	atxa-core:model atxa-jdt:calls ;
+	rdf:subject _:node182q6re4dx21 ;
+	rdf:object _:node182q6re4dx22 ;
+	atxa-core:name "setSessionManager(new SkysailWebSessionManager())" .
+
+<http://www.architexa.com/rdf/rse-eclipse#ShiroServices.atxa> atxa-core:contains _:node182q6re4dx24 .
+
+_:node182q6re4dx24 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager> ;
+	atxa-jdt:index "2" ;
+	atxa-core:instanceName "" ;
+	atxa-core:contains _:node182q6re4dx19 .
+
+_:node182q6re4dx19 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.setSubjectFactory(SubjectFactory,)> ;
+	atxa-jdt:index "0" .
+
+_:node182q6re4dx25 a atxa-core:link ;
+	atxa-core:model atxa-jdt:returns ;
+	rdf:subject _:node182q6re4dx19 ;
+	rdf:object _:node182q6re4dx18 ;
+	atxa-core:name "void" .
+
+<http://www.architexa.com/rdf/rse-eclipse#ShiroServices.atxa> atxa-core:contains _:node182q6re4dx26 .
+
+_:node182q6re4dx26 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.mgt$DefaultWebSecurityManager> ;
+	atxa-jdt:index "3" ;
+	atxa-core:instanceName "" ;
+	atxa-core:contains _:node182q6re4dx22 .
+
+_:node182q6re4dx22 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.mgt$DefaultWebSecurityManager.setSessionManager(SessionManager,)> ;
+	atxa-jdt:index "0" .
+
+_:node182q6re4dx27 a atxa-core:link ;
+	atxa-core:model atxa-jdt:returns ;
+	rdf:subject _:node182q6re4dx22 ;
+	rdf:object _:node182q6re4dx21 ;
+	atxa-core:name "void" .
+
+<http://www.architexa.com/rdf/rse-eclipse#ShiroServices.atxa> atxa-core:contains _:node182q6re4dx33 .
+
+_:node182q6re4dx33 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$SkysailWebSubjectFactory> ;
+	atxa-jdt:index "4" ;
+	atxa-core:instanceName "" ;
+	atxa-core:contains _:node182q6re4dx31 .
+
+_:node182q6re4dx31 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$SkysailWebSubjectFactory.SkysailWebSubjectFactory()> ;
+	atxa-jdt:index "0" .
+
+_:node182q6re4dx34 a atxa-core:link ;
+	atxa-core:model atxa-jdt:returns ;
+	rdf:subject _:node182q6re4dx31 ;
+	rdf:object _:node182q6re4dx30 ;
+	atxa-core:name "SkysailWebSubjectFactory" .
+
+<http://www.architexa.com/rdf/rse-eclipse#ShiroServices.atxa> atxa-core:contains _:node182q6re4dx35 .
+
+_:node182q6re4dx35 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager> ;
+	atxa-jdt:index "5" ;
+	atxa-core:instanceName "" .
+
+<http://www.architexa.com/rdf/rse-eclipse#ShiroServices.atxa> atxa-core:contains _:node182q6re4dx6 .
+
+_:node182q6re4dx6 a atxa-core:controlflow ;
+	atxa-core:model _:node182q6re4dx6 ;
+	atxa-core:controlflowname atxa-core:ifBlock ;
+	atxa-core:name "subjectDAO instanceof DefaultSubjectDAO" ;
+	atxa-core:contains _:node182q6re4dx7 .
+
+_:node182q6re4dx7 a atxa-core:controlflow ;
+	atxa-core:model _:node182q6re4dx7 ;
+	atxa-core:controlflowname atxa-core:ifBlock ;
+	atxa-core:name "sessionStorageEvaluator instanceof DefaultSessionStorageEvaluator" .
+

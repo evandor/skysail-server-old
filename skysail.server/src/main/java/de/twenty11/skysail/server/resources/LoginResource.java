@@ -1,6 +1,7 @@
 package de.twenty11.skysail.server.resources;
 
 import org.restlet.data.Form;
+import org.restlet.ext.servlet.ServletUtils;
 
 import de.twenty11.skysail.common.responses.FormResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
@@ -26,7 +27,9 @@ public class LoginResource extends AddServerResource2<Credentials>{
     public SkysailResponse<?> addEntity(Credentials entity) {
         AuthenticationService authService = ((DefaultSkysailApplication)getApplication()).getAuthenticationService();
         try {
-            authService.login(entity.getUsername(), entity.getPassword());
+//            authService.setRequest(ServletUtils.getRequest(getRequest()));
+//            authService.setResponse(ServletUtils.getResponse(getResponse()));
+            authService.login(entity.getUsername(), entity.getPassword(),getRequest(), getResponse());
         } catch (Exception e) {
             return new DefaultResource().getApplications();
         }

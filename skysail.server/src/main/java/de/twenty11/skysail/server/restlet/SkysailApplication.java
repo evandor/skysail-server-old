@@ -2,6 +2,7 @@ package de.twenty11.skysail.server.restlet;
 
 import java.util.Map;
 
+import org.apache.shiro.web.env.WebEnvironment;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.cm.ConfigurationException;
@@ -24,6 +25,8 @@ import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.core.restlet.RouteBuilder;
 import de.twenty11.skysail.server.core.restlet.SkysailRouter;
 import de.twenty11.skysail.server.internal.Blocker;
+import de.twenty11.skysail.server.restlet.filter.ShiroDelegationFilter;
+import de.twenty11.skysail.server.restlet.filter.Tracer;
 import de.twenty11.skysail.server.security.AuthenticationService;
 
 /**
@@ -99,15 +102,19 @@ public abstract class SkysailApplication extends Application {
         blocker.setNext(originalRequestFilter);
         originalRequestFilter.setNext(router);
 
+        //de.twenty11.skysail.server.restlet.EnvironmentLoader environmentLoader = getAuthenticationService().getEnvironmentLoader();
+        //WebEnvironment initEnvironment = environmentLoader.initEnvironment(getContext());
+        
         Authenticator guard = getAuthenticationService().getAuthenticator(getContext());
 
         // DefaultHtmlSanitizerFilter defaultHtmlSanitizerFilter = new DefaultHtmlSanitizerFilter(getContext());
-
+        ShiroDelegationFilter shiro = new ShiroDelegationFilter(getContext());
         // defaultHtmlSanitizerFilter.setNext(blocker);
-        // tracer -> guard -> timer -> blocker -> originalRequest -> router
+        // tracer -> shiro -> guard -> timer -> blocker -> originalRequest -> router
         timer.setNext(blocker);
         guard.setNext(timer);
-        tracer.setNext(guard);
+        shiro.setNext(guard);
+        tracer.setNext(shiro);
         return tracer;
     }
 

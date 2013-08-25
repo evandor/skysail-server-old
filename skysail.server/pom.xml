@@ -280,8 +280,8 @@
             <version>1.2.2</version>
         </dependency>
 
-        <!-- <dependency> <groupId>org.apache.shiro</groupId> <artifactId>shiro-web</artifactId> 
-            <version>1.2.2</version> </dependency> -->
+        <dependency> <groupId>org.apache.shiro</groupId> <artifactId>shiro-web</artifactId> 
+            <version>1.2.2</version> </dependency>
 
         <dependency>
             <groupId>junit</groupId>

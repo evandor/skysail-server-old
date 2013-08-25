@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.mockito.Mockito;
 import org.restlet.Application;
@@ -16,6 +18,7 @@ import org.restlet.security.Authenticator;
 import org.restlet.security.ChallengeAuthenticator;
 import org.restlet.security.Verifier;
 
+import de.twenty11.skysail.server.restlet.EnvironmentLoader;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.security.AuthenticationService;
 
@@ -50,13 +53,20 @@ public class ResourceTestWithUnguardedAppication<T extends SkysailApplication> {
         }
 
         @Override
-        public void login(String username, String password) {
+        public void login(String username, String password, Request request, Response response) {
         }
 
         @Override
         public Authenticator getAuthenticator(Context context) {
             return new DummyChallengeAuthenticator(context, ChallengeScheme.HTTP_BASIC, "realm");
         }
+
+        @Override
+        public EnvironmentLoader getEnvironmentLoader() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     }
 
     protected SkysailApplication setUpApplication(T application) {
