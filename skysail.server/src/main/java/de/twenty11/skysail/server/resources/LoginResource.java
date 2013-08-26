@@ -3,6 +3,7 @@ package de.twenty11.skysail.server.resources;
 import org.restlet.data.Form;
 import org.restlet.ext.servlet.ServletUtils;
 
+import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.FormResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.core.restlet.AddServerResource2;
@@ -31,7 +32,8 @@ public class LoginResource extends AddServerResource2<Credentials>{
 //            authService.setResponse(ServletUtils.getResponse(getResponse()));
             authService.login(entity.getUsername(), entity.getPassword(),getRequest(), getResponse());
         } catch (Exception e) {
-            return new DefaultResource().getApplications();
+            return new FailureResponse(e);
+//            return new DefaultResource().getApplications();
         }
         return new DefaultResource().getApplications();
     }

@@ -1,15 +1,24 @@
 package de.twenty11.skysail.server.security.shiro.mgt;
 
+import java.io.Serializable;
+
 import org.apache.shiro.realm.Realm;
+import org.apache.shiro.session.mgt.SessionKey;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.SubjectContext;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.WebSessionKey;
 import org.apache.shiro.web.subject.WebSubjectContext;
 import org.apache.shiro.web.subject.support.DefaultWebSubjectContext;
+import org.apache.shiro.web.util.WebUtils;
+import org.restlet.Request;
+import org.restlet.Response;
 
+import de.twenty11.skysail.server.security.shiro.session.mgt.RestletSessionKey;
 import de.twenty11.skysail.server.security.shiro.session.mgt.SkysailWebSessionManager;
 import de.twenty11.skysail.server.security.shiro.subject.RestSubjectContext;
 import de.twenty11.skysail.server.security.shiro.subject.support.SkysailWebSubjectContext;
+import de.twenty11.skysail.server.security.shiro.util.RestletUtils;
 
 public class SkysailWebSecurityManager extends DefaultWebSecurityManager {
 
@@ -63,5 +72,18 @@ public class SkysailWebSecurityManager extends DefaultWebSecurityManager {
         save(subject);
 
         return subject;
+    }
+    
+    @Override
+    protected SessionKey getSessionKey(SubjectContext context) {
+        if (WebUtils.isWeb(context)) {
+            Serializable sessionId = context.getSessionId();
+            Request request = RestletUtils.getRequest(context);
+            Response response = RestletUtils.getResponse(context);
+            return new RestletSessionKey(sessionId, request, response);
+        } else {
+            return super.getSessionKey(context);
+
+        }
     }
 }

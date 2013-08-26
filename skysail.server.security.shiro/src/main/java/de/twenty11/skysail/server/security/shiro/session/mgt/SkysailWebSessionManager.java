@@ -11,7 +11,6 @@ import org.apache.shiro.session.mgt.SessionKey;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.apache.shiro.web.servlet.ShiroHttpSession;
 import org.apache.shiro.web.session.mgt.WebSessionManager;
-import org.apache.shiro.web.util.WebUtils;
 import org.restlet.Request;
 import org.restlet.Response;
 import org.restlet.data.CookieSetting;
@@ -61,11 +60,11 @@ public class SkysailWebSessionManager extends DefaultSessionManager implements W
     @Override
     public Serializable getSessionId(SessionKey key) {
         Serializable id = super.getSessionId(key);
-        if (id == null && WebUtils.isWeb(key)) {
+        //if (id == null && WebUtils.isWeb(key)) {
             Request request = RestletUtils.getRequest(key);
             Response response = RestletUtils.getResponse(key);
             id = getSessionId(request, response);
-        }
+        //}
         return id;
     }
 
@@ -133,16 +132,14 @@ public class SkysailWebSessionManager extends DefaultSessionManager implements W
     }
 
     private String getSessionIdCookieValue(Request request, Response response) {
-//        if (!isSessionIdCookieEnabled()) {
-//            logger.debug("Session ID cookie is disabled - session id will not be acquired from a request cookie.");
-//            return null;
-//        }
         if (!(request instanceof Request)) {
             logger.debug("Current request is not an RestletRequest - cannot get session ID cookie.  Returning null.");
             return null;
         }
-        //HttpServletRequest httpRequest = (HttpServletRequest) request;
         //return getSessionIdCookie().readValue(httpRequest, WebUtils.toHttp(response));
+        if (request.getCookies().size() == 0) {
+            return null;
+        }
         org.restlet.data.Cookie sessionCookie = request.getCookies().getFirst(ShiroHttpSession.DEFAULT_SESSION_ID_NAME);
         return sessionCookie != null ? null : sessionCookie.getValue();
     }

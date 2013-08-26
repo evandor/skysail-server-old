@@ -88,5 +88,14 @@ public class SkysailWebSubjectContext extends DefaultSubjectContext implements R
             put(RESTLET_RESPONSE, response);
         }
     }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Object key : keySet()) {
+            sb.append(key.toString()).append(": ").append(get(key).toString());
+        }
+        return sb.toString();
+    }
 
 }
