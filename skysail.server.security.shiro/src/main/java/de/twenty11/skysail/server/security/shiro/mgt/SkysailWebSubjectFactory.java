@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.security.shiro;
+package de.twenty11.skysail.server.security.shiro.mgt;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -13,6 +13,9 @@ import org.apache.shiro.web.subject.WebSubjectContext;
 import org.apache.shiro.web.subject.support.WebDelegatingSubject;
 import org.restlet.Request;
 import org.restlet.Response;
+
+import de.twenty11.skysail.server.security.shiro.subject.RestSubjectContext;
+import de.twenty11.skysail.server.security.shiro.subject.support.RestletDelegatingSubject;
 
 public class SkysailWebSubjectFactory extends DefaultWebSubjectFactory {
     

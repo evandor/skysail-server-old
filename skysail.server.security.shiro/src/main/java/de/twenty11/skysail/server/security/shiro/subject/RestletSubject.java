@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.security.shiro;
+package de.twenty11.skysail.server.security.shiro.subject;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -11,6 +11,9 @@ import org.apache.shiro.web.subject.WebSubject;
 import org.apache.shiro.web.subject.support.DefaultWebSubjectContext;
 import org.restlet.Request;
 import org.restlet.Response;
+
+import de.twenty11.skysail.server.security.shiro.subject.support.SkysailWebSubjectContext;
+import de.twenty11.skysail.server.security.shiro.util.RestletRequestPairSource;
 
 public interface RestletSubject extends Subject, RestletRequestPairSource {
 

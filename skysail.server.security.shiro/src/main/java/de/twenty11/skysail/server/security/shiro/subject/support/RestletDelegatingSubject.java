@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.security.shiro;
+package de.twenty11.skysail.server.security.shiro.subject.support;
 
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.Session;
@@ -10,6 +10,10 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionContext;
 import org.apache.shiro.web.session.mgt.WebSessionContext;
 import org.restlet.Request;
 import org.restlet.Response;
+
+import de.twenty11.skysail.server.security.shiro.session.mgt.RestletSessionContext;
+import de.twenty11.skysail.server.security.shiro.session.mgt.SkysailWebSessionContext;
+import de.twenty11.skysail.server.security.shiro.subject.RestletSubject;
 
 public class RestletDelegatingSubject extends DelegatingSubject implements RestletSubject {
 
@@ -48,7 +52,7 @@ public class RestletDelegatingSubject extends DelegatingSubject implements Restl
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer("Principal: ");
-        sb.append(getPrincipal().toString());
+        sb.append(getPrincipal() != null ? getPrincipal().toString() : "<none>");
         sb.append(", authenticated: ").append(isAuthenticated());
         sb.append(", Request: ").append(request);
         sb.append(", Response: ").append(response);

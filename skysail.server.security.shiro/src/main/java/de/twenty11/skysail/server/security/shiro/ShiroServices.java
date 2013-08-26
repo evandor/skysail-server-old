@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.server.Constants;
 import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.security.AuthenticationService;
+import de.twenty11.skysail.server.security.shiro.mgt.SkysailWebSecurityManager;
 
 public class ShiroServices implements AuthenticationService {
 
@@ -113,6 +114,7 @@ public class ShiroServices implements AuthenticationService {
 //                null, s.getSession(), true, request, null, SecurityUtils.getSecurityManager());
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         currentUser.login(token);
+        SecurityUtils.getSubject();
     }
 
     @Override

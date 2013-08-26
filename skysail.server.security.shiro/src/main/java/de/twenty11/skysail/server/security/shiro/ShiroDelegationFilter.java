@@ -10,6 +10,8 @@ import org.restlet.Response;
 import org.restlet.data.Status;
 import org.restlet.routing.Filter;
 
+import de.twenty11.skysail.server.security.shiro.subject.RestletSubject;
+
 public class ShiroDelegationFilter extends Filter {
 
     public ShiroDelegationFilter(Context context) {

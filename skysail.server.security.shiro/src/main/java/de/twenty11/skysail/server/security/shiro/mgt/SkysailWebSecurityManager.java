@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.security.shiro;
+package de.twenty11.skysail.server.security.shiro.mgt;
 
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.subject.Subject;
@@ -6,6 +6,10 @@ import org.apache.shiro.subject.SubjectContext;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.subject.WebSubjectContext;
 import org.apache.shiro.web.subject.support.DefaultWebSubjectContext;
+
+import de.twenty11.skysail.server.security.shiro.session.mgt.SkysailWebSessionManager;
+import de.twenty11.skysail.server.security.shiro.subject.RestSubjectContext;
+import de.twenty11.skysail.server.security.shiro.subject.support.SkysailWebSubjectContext;
 
 public class SkysailWebSecurityManager extends DefaultWebSecurityManager {
 

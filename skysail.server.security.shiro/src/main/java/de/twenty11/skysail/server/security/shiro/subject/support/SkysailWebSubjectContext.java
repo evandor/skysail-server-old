@@ -1,10 +1,13 @@
-package de.twenty11.skysail.server.security.shiro;
+package de.twenty11.skysail.server.security.shiro.subject.support;
 
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.apache.shiro.web.subject.WebSubject;
 import org.restlet.Request;
 import org.restlet.Response;
+
+import de.twenty11.skysail.server.security.shiro.subject.RestSubjectContext;
+import de.twenty11.skysail.server.security.shiro.subject.RestletSubject;
 
 public class SkysailWebSubjectContext extends DefaultSubjectContext implements RestSubjectContext {
 

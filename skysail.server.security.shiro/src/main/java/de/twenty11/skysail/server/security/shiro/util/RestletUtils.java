@@ -1,6 +1,5 @@
-package de.twenty11.skysail.server.security.shiro;
+package de.twenty11.skysail.server.security.shiro.util;
 
-import org.apache.shiro.session.mgt.SessionContext;
 import org.restlet.Request;
 import org.restlet.Response;
 
@@ -13,7 +12,7 @@ public class RestletUtils {
         return null;
     }
 
-    public static Response getResponse(SessionContext requestPairSource) {
+    public static Response getResponse(Object requestPairSource) {
         if (requestPairSource instanceof RestletRequestPairSource) {
             return ((RestletRequestPairSource) requestPairSource).getResponse();
         }
