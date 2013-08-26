@@ -72,7 +72,7 @@ public interface RestletSubject extends Subject, RestletRequestPairSource {
          */
         @Override
         protected SubjectContext newSubjectContextInstance() {
-            return new DefaultWebSubjectContext();
+            return new SkysailWebSubjectContext();
         }
 
         /**
@@ -112,15 +112,15 @@ public interface RestletSubject extends Subject, RestletRequestPairSource {
          *
          * @return a new {@link WebSubject WebSubject} instance built by this {@code Builder}.
          */
-        public WebSubject buildWebSubject() {
+        public RestletSubject buildWebSubject() {
             Subject subject = super.buildSubject();
-            if (!(subject instanceof WebSubject)) {
+            if (!(subject instanceof RestletSubject)) {
                 String msg = "Subject implementation returned from the SecurityManager was not a " +
-                        WebSubject.class.getName() + " implementation.  Please ensure a Web-enabled SecurityManager " +
+                        RestletSubject.class.getName() + " implementation.  Please ensure a Restlet-enabled SecurityManager " +
                         "has been configured and made available to this builder.";
                 throw new IllegalStateException(msg);
             }
-            return (WebSubject) subject;
+            return (RestletSubject) subject;
         }
     }
 

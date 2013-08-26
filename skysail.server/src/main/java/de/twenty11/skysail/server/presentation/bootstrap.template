@@ -126,7 +126,7 @@
 	<script src="/../static/js/bootstrap.js"></script>
 
 	<script type="text/javascript">
-		var history = document.getElementById("history");
+		/*var history = document.getElementById("history");
 		var cookieIdentifier = "skysail.history.";
 		var cookies = getCookies();
 		var tmpCookies = new Array();
@@ -151,7 +151,7 @@
 		}
 
 		history.innerHTML = historyHtml;
-				
+		*/		
     	function poll(){
            setTimeout(function(){
               $.ajax({ 
@@ -169,14 +169,14 @@
            10000);
         }	
 
-        $.getJSON('/menu/main/', function(data) {
+        /*$.getJSON('/menu/main/', function(data) {
 			var items = [];
 			items.push('<li class="nav-header">Applications</li>');
 			$.each(data.data, function(key, val) {
 				items.push('<li><a href="'+val.link+'">' + val.name + '</a></li>');
 			});
 			$('<ul/>', { 'class': 'nav nav-list', html: items.join('')}).appendTo('#navMenu');
-		});
+		});*/
 
     	$(document).on("click", "#delete", function(event){
     		$.ajax({
@@ -190,7 +190,7 @@
 
         $( document ).ready(function() {
             // trigger first execution
-            poll();
+            //poll();
         });
 				
 	</script>

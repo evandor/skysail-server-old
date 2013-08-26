@@ -14,6 +14,7 @@ import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
 import org.restlet.data.ChallengeScheme;
+import org.restlet.routing.Filter;
 import org.restlet.security.Authenticator;
 import org.restlet.security.ChallengeAuthenticator;
 import org.restlet.security.Verifier;
@@ -62,7 +63,7 @@ public class ResourceTestWithUnguardedAppication<T extends SkysailApplication> {
         }
 
         @Override
-        public EnvironmentLoader getEnvironmentLoader() {
+        public Filter getRestletShiroFilter(Context context) {
             // TODO Auto-generated method stub
             return null;
         }

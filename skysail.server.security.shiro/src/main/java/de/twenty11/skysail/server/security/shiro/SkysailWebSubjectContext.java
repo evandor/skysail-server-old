@@ -1,7 +1,5 @@
 package de.twenty11.skysail.server.security.shiro;
 
-import java.util.Map;
-
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.apache.shiro.web.subject.WebSubject;
@@ -23,9 +21,15 @@ public class SkysailWebSubjectContext extends DefaultSubjectContext implements R
     }
 
     @Override
-    public void putAll(Map<? extends String, ? extends Object> m) {
-        // TODO Auto-generated method stub
-        
+    public String resolveHost() {
+        String host = super.resolveHost();
+        if (host == null) {
+            Request request = resolveRequest();
+            if (request != null) {
+                host = request.getHostRef().toString();
+            }
+        }
+        return host;
     }
 
     @Override
@@ -45,9 +49,8 @@ public class SkysailWebSubjectContext extends DefaultSubjectContext implements R
         //fall back on existing subject instance if it exists:
         if (request == null) {
             Subject existing = getSubject();
-            if (existing instanceof WebSubject) {
-                return null;
-                //request = ((WebSubject) existing).getServletRequest();
+            if (existing instanceof RestletSubject) {
+                request = ((RestletSubject) existing).getRequest();
             }
         }
 
@@ -61,9 +64,8 @@ public class SkysailWebSubjectContext extends DefaultSubjectContext implements R
         //fall back on existing subject instance if it exists:
         if (response == null) {
             Subject existing = getSubject();
-            if (existing instanceof WebSubject) {
-                return null;
-                //response = ((WebSubject) existing).getServletResponse();
+            if (existing instanceof RestletSubject) {
+                response = ((RestletSubject) existing).getResponse();
             }
         }
 

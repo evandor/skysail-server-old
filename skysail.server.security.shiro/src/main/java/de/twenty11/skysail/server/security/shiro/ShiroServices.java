@@ -4,22 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.config.Ini;
-import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
-import org.apache.shiro.mgt.DefaultSubjectDAO;
-import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.mgt.SessionStorageEvaluator;
-import org.apache.shiro.mgt.SubjectDAO;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.apache.shiro.web.subject.support.WebDelegatingSubject;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.jdbc.DataSourceFactory;
@@ -28,7 +17,7 @@ import org.restlet.Request;
 import org.restlet.Response;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.data.ClientInfo;
-import org.restlet.ext.servlet.ServletUtils;
+import org.restlet.routing.Filter;
 import org.restlet.security.Authenticator;
 import org.restlet.security.ChallengeAuthenticator;
 import org.restlet.security.Enroler;
@@ -39,7 +28,6 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.server.Constants;
 import de.twenty11.skysail.server.config.ServerConfiguration;
-import de.twenty11.skysail.server.restlet.EnvironmentLoader;
 import de.twenty11.skysail.server.security.AuthenticationService;
 
 public class ShiroServices implements AuthenticationService {
@@ -52,26 +40,10 @@ public class ShiroServices implements AuthenticationService {
     private DataSource dataSource;
     private final List<DataSourceFactory> dataSourceFactories = new ArrayList<DataSourceFactory>();
 
-    private ShiroEnvironmentLoader environmentLoader;
     
     public ShiroServices() {
-        environmentLoader = new ShiroEnvironmentLoader();
     }
     
-    @Override
-    public EnvironmentLoader getEnvironmentLoader() {
-        return environmentLoader;
-    }
-
-    public void initUrls() {
-        final Ini ini = new Ini();
-        ini.addSection("main");
-        ini.addSection("urls");
-        ini.getSection("urls").put("/secure/**", "authc");
-        ini.getSection("urls").put("/login.jsp", "authc");
-        ini.getSection("urls").put("/", "authc2");
-    }
-
     public void init() {
         SkysailAuthorizingRealm skysailRealm = new SkysailAuthorizingRealm();
         if (dataSource != null) {
@@ -84,24 +56,20 @@ public class ShiroServices implements AuthenticationService {
         skysailRealm.setDataSource(dataSource);
         SkysailWebSecurityManager securityManager = new SkysailWebSecurityManager(skysailRealm);
         //securityManager.setSessionManager(new DefaultWebSessionManager());
-        SubjectDAO subjectDAO = securityManager.getSubjectDAO();
-        if (subjectDAO instanceof DefaultSubjectDAO) {
-            SessionStorageEvaluator sessionStorageEvaluator = ((DefaultSubjectDAO)subjectDAO).getSessionStorageEvaluator();
-            if (sessionStorageEvaluator instanceof DefaultSessionStorageEvaluator) {
-                //((DefaultSessionStorageEvaluator)sessionStorageEvaluator).setSessionStorageEnabled(false);
-            }
-        }
+//        SubjectDAO subjectDAO = securityManager.getSubjectDAO();
+//        if (subjectDAO instanceof DefaultSubjectDAO) {
+//            SessionStorageEvaluator sessionStorageEvaluator = ((DefaultSubjectDAO)subjectDAO).getSessionStorageEvaluator();
+//            if (sessionStorageEvaluator instanceof DefaultSessionStorageEvaluator) {
+//                //((DefaultSessionStorageEvaluator)sessionStorageEvaluator).setSessionStorageEnabled(false);
+//            }
+//        }
         SecurityUtils.setSecurityManager(securityManager);
 
         verifier = new Verifier() {
 
             @Override
             public int verify(Request request, Response response) {
-                Subject currentUser = SecurityUtils.getSubject();
-                String path = request.getOriginalRef().getPath();
-                // if ("/".equals(path) || "/login".equals(path)) {
                 return Verifier.RESULT_VALID;
-
             }
         };
 
@@ -190,6 +158,11 @@ public class ShiroServices implements AuthenticationService {
 
     public void unregisterDSF(DataSourceFactory dsf) {
 
+    }
+
+    @Override
+    public Filter getRestletShiroFilter(Context context) {
+        return new ShiroDelegationFilter(context);
     }
 
 }
