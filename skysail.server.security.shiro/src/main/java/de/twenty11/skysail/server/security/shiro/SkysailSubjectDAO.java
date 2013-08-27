@@ -4,4 +4,7 @@ import org.apache.shiro.mgt.DefaultSubjectDAO;
 
 public class SkysailSubjectDAO extends DefaultSubjectDAO {
 
+    public SkysailSubjectDAO() {
+        System.out.println("hier");
+    }
 }

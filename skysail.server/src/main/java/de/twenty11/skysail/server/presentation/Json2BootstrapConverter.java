@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.osgi.framework.BundleContext;
 import org.restlet.Application;
 import org.restlet.Request;
@@ -204,8 +206,12 @@ public class Json2BootstrapConverter extends ConverterHelper {
                 getMainNav(((SkysailApplication) resource.getApplication()).getBundleContext()));
 
         String username = "unknown";
-        if (resource.getRequest().getChallengeResponse() != null) {
-            username = resource.getRequest().getChallengeResponse().getIdentifier();
+//        if (resource.getRequest().getChallengeResponse() != null) {
+//            username = resource.getRequest().getChallengeResponse().getIdentifier();
+//        }
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.getPrincipal() != null) {
+            username = subject.getPrincipal().toString();
         }
         page = page.replace("${username}", "<li><a href='#'><i class=\"icon-user icon-white\"></i>&nbsp;" + username
                 + "</a></li>\n");

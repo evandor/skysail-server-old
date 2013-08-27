@@ -60,11 +60,11 @@ public class SkysailWebSessionManager extends DefaultSessionManager implements W
     @Override
     public Serializable getSessionId(SessionKey key) {
         Serializable id = super.getSessionId(key);
-        //if (id == null && WebUtils.isWeb(key)) {
+        if (id == null && RestletUtils.isRestlet(key)) {
             Request request = RestletUtils.getRequest(key);
             Response response = RestletUtils.getResponse(key);
             id = getSessionId(request, response);
-        //}
+        }
         return id;
     }
 
@@ -141,7 +141,7 @@ public class SkysailWebSessionManager extends DefaultSessionManager implements W
             return null;
         }
         org.restlet.data.Cookie sessionCookie = request.getCookies().getFirst(ShiroHttpSession.DEFAULT_SESSION_ID_NAME);
-        return sessionCookie != null ? null : sessionCookie.getValue();
+        return sessionCookie != null ? sessionCookie.getValue() : null;
     }
 
 //    private Serializable getReferencedSessionId(Request request, Response response) {
@@ -232,7 +232,7 @@ public class SkysailWebSessionManager extends DefaultSessionManager implements W
         cookieSetting.setAccessRestricted(true);
         cookieSetting.setPath("/");
         cookieSetting.setComment("Skysail cookie-based authentication");
-        cookieSetting.setMaxAge(30);
+        cookieSetting.setMaxAge(300);
         return cookieSetting;
     }
 

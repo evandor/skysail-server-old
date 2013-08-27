@@ -14,17 +14,17 @@ import org.apache.shiro.web.subject.support.WebDelegatingSubject;
 import org.restlet.Request;
 import org.restlet.Response;
 
-import de.twenty11.skysail.server.security.shiro.subject.RestSubjectContext;
+import de.twenty11.skysail.server.security.shiro.subject.RestletSubjectContext;
 import de.twenty11.skysail.server.security.shiro.subject.support.RestletDelegatingSubject;
 
 public class SkysailWebSubjectFactory extends DefaultWebSubjectFactory {
     
     @Override
     public Subject createSubject(SubjectContext context) {
-        if (!(context instanceof RestSubjectContext)) {
+        if (!(context instanceof RestletSubjectContext)) {
             return super.createSubject(context);
         }
-        RestSubjectContext rsc = (RestSubjectContext) context;
+        RestletSubjectContext rsc = (RestletSubjectContext) context;
         SecurityManager securityManager = rsc.resolveSecurityManager();
         Session session = rsc.resolveSession();
         boolean sessionEnabled = rsc.isSessionCreationEnabled();

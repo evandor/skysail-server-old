@@ -28,12 +28,12 @@ public class RestletDelegatingSubject extends DelegatingSubject implements Restl
     }
 
     @Override
-    public Request getRequest() {
+    public Request getRestletRequest() {
         return request;
     }
 
     @Override
-    public Response getResponse() {
+    public Response getRestletResponse() {
         return response;
     }
     
@@ -54,8 +54,6 @@ public class RestletDelegatingSubject extends DelegatingSubject implements Restl
         StringBuffer sb = new StringBuffer("Principal: ");
         sb.append(getPrincipal() != null ? getPrincipal().toString() : "<none>");
         sb.append(", authenticated: ").append(isAuthenticated());
-        sb.append(", Request: ").append(request);
-        sb.append(", Response: ").append(response);
         return sb.toString();
     }
 }

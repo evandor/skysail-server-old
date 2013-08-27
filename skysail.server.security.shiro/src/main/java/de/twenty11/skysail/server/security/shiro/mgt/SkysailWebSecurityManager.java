@@ -16,7 +16,7 @@ import org.restlet.Response;
 
 import de.twenty11.skysail.server.security.shiro.session.mgt.RestletSessionKey;
 import de.twenty11.skysail.server.security.shiro.session.mgt.SkysailWebSessionManager;
-import de.twenty11.skysail.server.security.shiro.subject.RestSubjectContext;
+import de.twenty11.skysail.server.security.shiro.subject.RestletSubjectContext;
 import de.twenty11.skysail.server.security.shiro.subject.support.SkysailWebSubjectContext;
 import de.twenty11.skysail.server.security.shiro.util.RestletUtils;
 
@@ -40,8 +40,8 @@ public class SkysailWebSecurityManager extends DefaultWebSecurityManager {
     
     @Override
     protected SubjectContext copy(SubjectContext subjectContext) {
-        if (subjectContext instanceof RestSubjectContext) {
-            return new SkysailWebSubjectContext((RestSubjectContext) subjectContext);
+        if (subjectContext instanceof RestletSubjectContext) {
+            return new SkysailWebSubjectContext((RestletSubjectContext) subjectContext);
         }
         return super.copy(subjectContext);
     }
@@ -76,7 +76,7 @@ public class SkysailWebSecurityManager extends DefaultWebSecurityManager {
     
     @Override
     protected SessionKey getSessionKey(SubjectContext context) {
-        if (WebUtils.isWeb(context)) {
+        if (RestletUtils.isRestlet(context)) {
             Serializable sessionId = context.getSessionId();
             Request request = RestletUtils.getRequest(context);
             Response response = RestletUtils.getResponse(context);

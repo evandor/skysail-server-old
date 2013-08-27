@@ -6,7 +6,11 @@ import org.restlet.Response;
 
 import de.twenty11.skysail.server.security.shiro.util.RestletRequestPairSource;
 
-public interface RestSubjectContext extends SubjectContext, RestletRequestPairSource {
+/**
+ * A {@code RestSubjectContext} is a {@link SubjectContext} that additionally provides for type-safe
+ * methods to set and retrieve a (restlet) {@link Request} and {@link Response}.
+ */
+public interface RestletSubjectContext extends SubjectContext, RestletRequestPairSource {
 
     Request resolveRequest();
 

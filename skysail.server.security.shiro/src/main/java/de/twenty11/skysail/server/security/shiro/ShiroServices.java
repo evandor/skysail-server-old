@@ -30,7 +30,12 @@ import de.twenty11.skysail.server.Constants;
 import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.security.AuthenticationService;
 import de.twenty11.skysail.server.security.shiro.mgt.SkysailWebSecurityManager;
+import de.twenty11.skysail.server.security.shiro.restlet.ShiroDelegationFilter;
 
+/**
+ * Default AuthenticationService Implementation shipped with skysail
+ *
+ */
 public class ShiroServices implements AuthenticationService {
 
     private static final Logger logger = LoggerFactory.getLogger(ShiroServices.class);
@@ -41,11 +46,8 @@ public class ShiroServices implements AuthenticationService {
     private DataSource dataSource;
     private final List<DataSourceFactory> dataSourceFactories = new ArrayList<DataSourceFactory>();
 
-    
-    public ShiroServices() {
-    }
-    
     public void init() {
+        logger.info("initializing {}", this.getClass().getSimpleName());
         SkysailAuthorizingRealm skysailRealm = new SkysailAuthorizingRealm();
         if (dataSource != null) {
             return;
@@ -54,16 +56,14 @@ public class ShiroServices implements AuthenticationService {
         if (dataSource == null) {
             return;
         }
+        
+        logger.info("Setting datasource for SkysailAuthorizingRealm: {}", dataSource.toString());
         skysailRealm.setDataSource(dataSource);
+        
+        logger.info("Creating new SkysailWebSecurityManager...");
         SkysailWebSecurityManager securityManager = new SkysailWebSecurityManager(skysailRealm);
-        //securityManager.setSessionManager(new DefaultWebSessionManager());
-//        SubjectDAO subjectDAO = securityManager.getSubjectDAO();
-//        if (subjectDAO instanceof DefaultSubjectDAO) {
-//            SessionStorageEvaluator sessionStorageEvaluator = ((DefaultSubjectDAO)subjectDAO).getSessionStorageEvaluator();
-//            if (sessionStorageEvaluator instanceof DefaultSessionStorageEvaluator) {
-//                //((DefaultSessionStorageEvaluator)sessionStorageEvaluator).setSessionStorageEnabled(false);
-//            }
-//        }
+
+        logger.info("Setting new SkysailWebSecurityManager as Shiros SecurityManager");
         SecurityUtils.setSecurityManager(securityManager);
 
         verifier = new Verifier() {
@@ -73,8 +73,26 @@ public class ShiroServices implements AuthenticationService {
                 return Verifier.RESULT_VALID;
             }
         };
-
     }
+    
+    @Override
+    public void login(String username, String password,Request request, Response response) {
+        Subject currentUser = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        logger.info("login event for user '{}'", username);
+        currentUser.login(token);
+        logger.info("login for {} yield to {}", username, SecurityUtils.getSubject());
+    }
+
+    @Override
+    public void logout() {
+        Subject currentUser = SecurityUtils.getSubject();
+        logger.info("logout event for user '{}'", currentUser.getPrincipal());
+        currentUser.logout();
+        logger.info("logout yield to {}", currentUser);
+    }
+
+
 
     private DataSource getDataSource() {
         if (serverConfig == null) {
@@ -105,22 +123,6 @@ public class ShiroServices implements AuthenticationService {
             e.printStackTrace();
         }
         return null;
-    }
-
-    @Override
-    public void login(String username, String password,Request request, Response response) {
-        Subject currentUser = SecurityUtils.getSubject();
-//        Subject currentUser = new WebDelegatingSubject(s.getPrincipals(), s.isAuthenticated(),
-//                null, s.getSession(), true, request, null, SecurityUtils.getSecurityManager());
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        currentUser.login(token);
-        SecurityUtils.getSubject();
-    }
-
-    @Override
-    public void logout() {
-        Subject currentUser = SecurityUtils.getSubject();
-        currentUser.logout();
     }
 
     @Override

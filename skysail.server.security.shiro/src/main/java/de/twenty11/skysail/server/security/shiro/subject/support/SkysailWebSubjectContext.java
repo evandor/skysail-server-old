@@ -6,10 +6,10 @@ import org.apache.shiro.web.subject.WebSubject;
 import org.restlet.Request;
 import org.restlet.Response;
 
-import de.twenty11.skysail.server.security.shiro.subject.RestSubjectContext;
+import de.twenty11.skysail.server.security.shiro.subject.RestletSubjectContext;
 import de.twenty11.skysail.server.security.shiro.subject.RestletSubject;
 
-public class SkysailWebSubjectContext extends DefaultSubjectContext implements RestSubjectContext {
+public class SkysailWebSubjectContext extends DefaultSubjectContext implements RestletSubjectContext {
 
     private static final long serialVersionUID = 4568742724548217247L;
 
@@ -19,7 +19,7 @@ public class SkysailWebSubjectContext extends DefaultSubjectContext implements R
     public SkysailWebSubjectContext() {
     }
     
-    public SkysailWebSubjectContext(RestSubjectContext context) {
+    public SkysailWebSubjectContext(RestletSubjectContext context) {
         super(context);
     }
 
@@ -36,24 +36,24 @@ public class SkysailWebSubjectContext extends DefaultSubjectContext implements R
     }
 
     @Override
-    public Request getRequest() {
+    public Request getRestletRequest() {
         return getTypedValue(RESTLET_REQUEST, Request.class);
     }
 
     @Override
-    public Response getResponse() {
+    public Response getRestletResponse() {
         return getTypedValue(RESTLET_RESPONSE, Response.class);
     }
 
     @Override
     public Request resolveRequest() {
-        Request request = getRequest();
+        Request request = getRestletRequest();
 
         //fall back on existing subject instance if it exists:
         if (request == null) {
             Subject existing = getSubject();
             if (existing instanceof RestletSubject) {
-                request = ((RestletSubject) existing).getRequest();
+                request = ((RestletSubject) existing).getRestletRequest();
             }
         }
 
@@ -62,13 +62,13 @@ public class SkysailWebSubjectContext extends DefaultSubjectContext implements R
 
     @Override
     public Response resolveResponse() {
-        Response response = getResponse();
+        Response response = getRestletResponse();
 
         //fall back on existing subject instance if it exists:
         if (response == null) {
             Subject existing = getSubject();
             if (existing instanceof RestletSubject) {
-                response = ((RestletSubject) existing).getResponse();
+                response = ((RestletSubject) existing).getRestletResponse();
             }
         }
 
@@ -93,7 +93,7 @@ public class SkysailWebSubjectContext extends DefaultSubjectContext implements R
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (Object key : keySet()) {
-            sb.append(key.toString()).append(": ").append(get(key).toString());
+            sb.append(key.toString()).append(": ").append(get(key).toString()).append("\n");
         }
         return sb.toString();
     }

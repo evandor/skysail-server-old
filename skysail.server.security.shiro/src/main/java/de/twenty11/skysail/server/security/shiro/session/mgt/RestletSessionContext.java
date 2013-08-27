@@ -8,11 +8,11 @@ import de.twenty11.skysail.server.security.shiro.util.RestletRequestPairSource;
 
 public interface RestletSessionContext extends SessionContext, RestletRequestPairSource {
 
-    Request getRequest();
+    Request getRestletRequest();
 
     void setRequest(Request request);
 
-    Response getResponse();
+    Response getRestletResponse();
 
     void setResponse(Response response);
 }

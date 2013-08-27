@@ -1,5 +1,6 @@
 Include-Resource: {maven-resources},lib/=lib/
-Import-Package:	de.twenty11.skysail.common;version="[0.2.1, 1.0.0)",\
+Import-Package: com.google.common.*;resolution:=optional,\
+ de.twenty11.skysail.common;version="[0.2.1, 1.0.0)",\
  de.twenty11.skysail.common.navigation;version="[0.0.1, 0.1.0)",\
  de.twenty11.skysail.common.responses;version="[0.3.1, 1.0.0)",\
  org.restlet.ext.jackson;resolution:=optional,\

@@ -1,8 +1,5 @@
 package de.twenty11.skysail.server.security.shiro.subject;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
@@ -15,11 +12,16 @@ import org.restlet.Response;
 import de.twenty11.skysail.server.security.shiro.subject.support.SkysailWebSubjectContext;
 import de.twenty11.skysail.server.security.shiro.util.RestletRequestPairSource;
 
+/**
+ * A {@code RestletSubject} represents a Subject instance that was acquired as a result of an incoming
+ * {@link Request}.
+ *
+ */
 public interface RestletSubject extends Subject, RestletRequestPairSource {
 
-    Request getRequest();
+    Request getRestletRequest();
 
-    Response getResponse();
+    Response getRestletResponse();
 
     /**
      * A {@code RestletSubject.Builder} performs the same function as a {@link Subject.Builder Subject.Builder}, but
@@ -87,7 +89,7 @@ public interface RestletSubject extends Subject, RestletRequestPairSource {
          */
         protected Builder setRequest(Request request) {
             if (request != null) {
-                ((RestSubjectContext) getSubjectContext()).setRequest(request);
+                ((RestletSubjectContext) getSubjectContext()).setRequest(request);
             }
             return this;
         }
@@ -102,7 +104,7 @@ public interface RestletSubject extends Subject, RestletRequestPairSource {
          */
         protected Builder setResponse(Response response) {
             if (response != null) {
-                ((RestSubjectContext) getSubjectContext()).setResponse(response);
+                ((RestletSubjectContext) getSubjectContext()).setResponse(response);
             }
             return this;
         }

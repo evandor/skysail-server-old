@@ -26,7 +26,7 @@ public class SkysailWebSessionContext extends DefaultSessionContext implements R
         }
     }
 
-    public Request getRequest() {
+    public Request getRestletRequest() {
         return getTypedValue(RESTLET_REQUEST, Request.class);
     }
 
@@ -36,7 +36,7 @@ public class SkysailWebSessionContext extends DefaultSessionContext implements R
         }
     }
 
-    public Response getResponse() {
+    public Response getRestletResponse() {
         return getTypedValue(RESTLET_RESPONSE, Response.class);
     }
 

@@ -29,11 +29,11 @@ public class RestletSessionKey extends DefaultSessionKey implements RestletReque
         setSessionId(sessionId);
     }
 
-    public Request getRequest() {
+    public Request getRestletRequest() {
         return request;
     }
 
-    public Response getResponse() {
+    public Response getRestletResponse() {
         return response;
     }
 }
