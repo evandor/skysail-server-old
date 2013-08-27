@@ -64,8 +64,8 @@ public class ResourceTestWithUnguardedAppication<T extends SkysailApplication> {
 
         @Override
         public Filter getRestletShiroFilter(Context context) {
-            // TODO Auto-generated method stub
-            return null;
+            return new Filter() {
+            };
         }
 
     }
