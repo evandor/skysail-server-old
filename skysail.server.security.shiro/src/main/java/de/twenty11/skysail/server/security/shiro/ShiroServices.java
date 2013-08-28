@@ -30,6 +30,7 @@ import de.twenty11.skysail.server.Constants;
 import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.security.AuthenticationService;
 import de.twenty11.skysail.server.security.shiro.mgt.SkysailWebSecurityManager;
+import de.twenty11.skysail.server.security.shiro.restlet.ShiroDelegationAuthenticator;
 import de.twenty11.skysail.server.security.shiro.restlet.ShiroDelegationFilter;
 
 /**
@@ -46,9 +47,11 @@ public class ShiroServices implements AuthenticationService {
     private DataSource dataSource;
     private final List<DataSourceFactory> dataSourceFactories = new ArrayList<DataSourceFactory>();
 
+    private SkysailAuthorizingRealm skysailRealm;
+
     public void init() {
         logger.info("initializing {}", this.getClass().getSimpleName());
-        SkysailAuthorizingRealm skysailRealm = new SkysailAuthorizingRealm();
+        skysailRealm = new SkysailAuthorizingRealm();
         if (dataSource != null) {
             return;
         }
@@ -127,21 +130,22 @@ public class ShiroServices implements AuthenticationService {
 
     @Override
     public Authenticator getAuthenticator(Context context) {
-        ChallengeAuthenticator guard = new ChallengeAuthenticator(context, ChallengeScheme.CUSTOM, "realm");
-        guard.setVerifier(this.verifier);
-        guard.setEnroler(new Enroler() {
-            @Override
-            public void enrole(ClientInfo clientInfo) {
-                List<Role> defaultRoles = new ArrayList<Role>();
-                Subject currentUser = SecurityUtils.getSubject();
-                if (currentUser.hasRole("administrator")) {
-                    Role userRole = new Role("admin", "standard role");
-                    defaultRoles.add(userRole);
-                }
-                clientInfo.setRoles(defaultRoles);
-            }
-        });
-        return guard;
+        return new ShiroDelegationAuthenticator(context, "MyRealm", "secret".getBytes());
+//        ChallengeAuthenticator guard = new ChallengeAuthenticator(context, ChallengeScheme.CUSTOM, "realm");
+//        guard.setVerifier(this.verifier);
+//        guard.setEnroler(new Enroler() {
+//            @Override
+//            public void enrole(ClientInfo clientInfo) {
+//                List<Role> defaultRoles = new ArrayList<Role>();
+//                Subject currentUser = SecurityUtils.getSubject();
+//                if (currentUser.hasRole("administrator")) {
+//                    Role userRole = new Role("admin", "standard role");
+//                    defaultRoles.add(userRole);
+//                }
+//                clientInfo.setRoles(defaultRoles);
+//            }
+//        });
+//        return guard;
     }
 
     public void setServerConfig(ServerConfiguration serverConfig) {

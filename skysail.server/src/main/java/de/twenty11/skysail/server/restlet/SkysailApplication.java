@@ -107,13 +107,13 @@ public abstract class SkysailApplication extends Application {
         Authenticator guard = getAuthenticationService().getAuthenticator(getContext());
 
         // DefaultHtmlSanitizerFilter defaultHtmlSanitizerFilter = new DefaultHtmlSanitizerFilter(getContext());
-        Filter shiro = getAuthenticationService().getRestletShiroFilter(getContext());
+        //Filter shiro = getAuthenticationService().getRestletShiroFilter(getContext());
         
-        // tracer -> shiro -> guard -> timer -> blocker -> originalRequest -> router
+        // tracer -> guard -> timer -> blocker -> originalRequest -> router
         timer.setNext(blocker);
         guard.setNext(timer);
-        shiro.setNext(guard);
-        tracer.setNext(shiro);
+        //shiro.setNext(guard);
+        tracer.setNext(guard);
         return tracer;
     }
 
