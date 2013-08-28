@@ -20,13 +20,9 @@ import org.restlet.security.Verifier;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.security.AuthenticationService;
 
-public class ResourceTestWithUnguardedAppication<T extends SkysailApplication> {
+public class ResourceTestWithUnguardedAppication<T extends SkysailApplication> extends ResourceTestWithApplication {
 
-    public static final int TEST_PORT = 8182;
-
-    private T application;
-
-    public class DummyChallengeAuthenticator extends ChallengeAuthenticator {
+    private class DummyChallengeAuthenticator extends ChallengeAuthenticator {
 
         public DummyChallengeAuthenticator(Context context, ChallengeScheme challengeScheme, String realm) {
             super(context, challengeScheme, realm);
@@ -68,36 +64,11 @@ public class ResourceTestWithUnguardedAppication<T extends SkysailApplication> {
 
     }
 
-    protected SkysailApplication setUpApplication(T application) {
-        application.setContext(new Context());
-        application.setAuthenticationService(new DummyAuthenticationService());
-        application.getInboundRoot();
-        return application;
+    @Override
+    protected AuthenticationService getAuthenticationService() {
+        return new DummyAuthenticationService();
     }
 
-    protected T setUpMockedApplication(T freshApplicationInstance) throws ClassNotFoundException {
-        application = freshApplicationInstance;
-        application.setContext(new Context());
-        application.setAuthenticationService(new DummyAuthenticationService());
-        T spy = Mockito.spy(application);
-        Application.setCurrent(spy);
-        application.getInboundRoot();
-        return spy;
-    }
 
-    protected EntityManagerFactory getEmfForTests(String puName) {
-        Map<String, Object> props = new HashMap<String, Object>();
 
-        props.put("javax.persistence.jdbc.driver", "org.apache.derby.jdbc.EmbeddedDriver");
-        props.put("javax.persistence.jdbc.url", "jdbc:derby:etc/skysailDerbyTestDb;create=true");
-        props.put("javax.persistence.jdbc.user", "skysail");
-        props.put("javax.persistence.jdbc.password", "skysail");
-        props.put("eclipselink.ddl-generation", "drop-and-create-tables");
-
-        return Persistence.createEntityManagerFactory(puName, props);
-    }
-
-    protected String requestUrlFor(String resource) {
-        return "http://localhost:" + TEST_PORT + resource;
-    }
 }

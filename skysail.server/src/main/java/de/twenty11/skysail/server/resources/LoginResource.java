@@ -1,5 +1,6 @@
 package de.twenty11.skysail.server.resources;
 
+import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import org.restlet.data.Form;
 
 import de.twenty11.skysail.common.responses.FailureResponse;
@@ -10,8 +11,18 @@ import de.twenty11.skysail.server.domain.Credentials;
 import de.twenty11.skysail.server.internal.DefaultSkysailApplication;
 import de.twenty11.skysail.server.restlet.DefaultResource;
 import de.twenty11.skysail.server.security.AuthenticationService;
+import org.restlet.resource.Post;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.util.Set;
+
+// TODO should extends ServerResource
 public class LoginResource extends AddServerResource2<Credentials> {
+
+    private static Logger logger = LoggerFactory.getLogger(LoginResource.class);
 
     @Override
     public FormResponse<Credentials> createForm() {
@@ -21,6 +32,16 @@ public class LoginResource extends AddServerResource2<Credentials> {
     @Override
     public Credentials getData(Form form) {
         return new Credentials(form.getFirstValue("username"), form.getFirstValue("password"));
+    }
+
+    @Post("x-www-form-urlencoded:html")
+    public SkysailResponse<?> addFromForm(Form form) {
+        Credentials entity = getData(form);
+        //Set<ConstraintViolation<Credentials>> violations = validate(entity);
+        //if (violations.size() > 0) {
+        //    return new ConstraintViolationsResponse(entity, null, violations);
+        //}
+        return addEntity(entity);
     }
 
     @Override
@@ -34,5 +55,6 @@ public class LoginResource extends AddServerResource2<Credentials> {
         }
         return new DefaultResource().getApplications();
     }
+
 
 }
