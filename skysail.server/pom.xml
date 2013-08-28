@@ -307,6 +307,27 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- thucydides -->
+        <dependency>
+            <groupId>net.thucydides</groupId>
+            <artifactId>thucydides-core</artifactId>
+            <version>${thucydides.version}</version>
+           <!--  <scope>test</scope> -->
+        </dependency>
+        <dependency>
+            <groupId>net.thucydides</groupId>
+            <artifactId>thucydides-junit</artifactId>
+            <version>${thucydides.version}</version>
+           <!--  <scope>test</scope> -->
+        </dependency>
+        <dependency>
+            <groupId>net.thucydides</groupId>
+            <artifactId>thucydides-jbehave-plugin</artifactId>
+            <version>${thucydides.jbehave.version}</version>
+           <!--  <scope>test</scope> -->
+        </dependency>
+
+
         <!-- testing with pax exam -->
         <dependency>
             <groupId>org.ops4j.pax.exam</groupId>
@@ -347,26 +368,6 @@
         </dependency>
 
         <!-- -->
-        <!-- thucydides -->
-        <dependency>
-            <groupId>net.thucydides</groupId>
-            <artifactId>thucydides-core</artifactId>
-            <version>${thucydides.version}</version>
-           <!--  <scope>test</scope> -->
-        </dependency>
-        <dependency>
-            <groupId>net.thucydides</groupId>
-            <artifactId>thucydides-junit</artifactId>
-            <version>${thucydides.version}</version>
-           <!--  <scope>test</scope> -->
-        </dependency>
-        <dependency>
-            <groupId>net.thucydides</groupId>
-            <artifactId>thucydides-jbehave-plugin</artifactId>
-            <version>${thucydides.jbehave.version}</version>
-           <!--  <scope>test</scope> -->
-        </dependency>
-
 
         <!-- logging for tests -->
         <dependency>

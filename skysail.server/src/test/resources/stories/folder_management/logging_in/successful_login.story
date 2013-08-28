@@ -6,7 +6,7 @@ In order to be authorized and use protected parts of a skysail application
 As a user 
 I want to able to login.
 
-Scenario: Posting valid new Folder with browser
+Scenario: Login with post
 Meta:
 @tags domain:a domain, iteration: iteration 1
 

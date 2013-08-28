@@ -33,8 +33,7 @@ public class MainSteps extends AcceptanceTests {
     // === GIVEN ===
 
     @Given("an existing user wants to login")
-    public void setResourcePathForPost(String name) {
-
+    public void setResourcePathForPost() {
     }
 
     // === WHEN ===

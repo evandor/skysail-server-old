@@ -15,13 +15,8 @@ import org.osgi.service.jdbc.DataSourceFactory;
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
-import org.restlet.data.ChallengeScheme;
-import org.restlet.data.ClientInfo;
 import org.restlet.routing.Filter;
 import org.restlet.security.Authenticator;
-import org.restlet.security.ChallengeAuthenticator;
-import org.restlet.security.Enroler;
-import org.restlet.security.Role;
 import org.restlet.security.Verifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +30,7 @@ import de.twenty11.skysail.server.security.shiro.restlet.ShiroDelegationFilter;
 
 /**
  * Default AuthenticationService Implementation shipped with skysail
- *
+ * 
  */
 public class ShiroServices implements AuthenticationService {
 
@@ -59,10 +54,10 @@ public class ShiroServices implements AuthenticationService {
         if (dataSource == null) {
             return;
         }
-        
+
         logger.info("Setting datasource for SkysailAuthorizingRealm: {}", dataSource.toString());
         skysailRealm.setDataSource(dataSource);
-        
+
         logger.info("Creating new SkysailWebSecurityManager...");
         SkysailWebSecurityManager securityManager = new SkysailWebSecurityManager(skysailRealm);
 
@@ -77,9 +72,9 @@ public class ShiroServices implements AuthenticationService {
             }
         };
     }
-    
+
     @Override
-    public void login(String username, String password,Request request, Response response) {
+    public void login(String username, String password) {
         Subject currentUser = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         logger.info("login event for user '{}'", username);
@@ -94,8 +89,6 @@ public class ShiroServices implements AuthenticationService {
         currentUser.logout();
         logger.info("logout yield to {}", currentUser);
     }
-
-
 
     private DataSource getDataSource() {
         if (serverConfig == null) {
@@ -131,21 +124,21 @@ public class ShiroServices implements AuthenticationService {
     @Override
     public Authenticator getAuthenticator(Context context) {
         return new ShiroDelegationAuthenticator(context, "MyRealm", "secret".getBytes());
-//        ChallengeAuthenticator guard = new ChallengeAuthenticator(context, ChallengeScheme.CUSTOM, "realm");
-//        guard.setVerifier(this.verifier);
-//        guard.setEnroler(new Enroler() {
-//            @Override
-//            public void enrole(ClientInfo clientInfo) {
-//                List<Role> defaultRoles = new ArrayList<Role>();
-//                Subject currentUser = SecurityUtils.getSubject();
-//                if (currentUser.hasRole("administrator")) {
-//                    Role userRole = new Role("admin", "standard role");
-//                    defaultRoles.add(userRole);
-//                }
-//                clientInfo.setRoles(defaultRoles);
-//            }
-//        });
-//        return guard;
+        // ChallengeAuthenticator guard = new ChallengeAuthenticator(context, ChallengeScheme.CUSTOM, "realm");
+        // guard.setVerifier(this.verifier);
+        // guard.setEnroler(new Enroler() {
+        // @Override
+        // public void enrole(ClientInfo clientInfo) {
+        // List<Role> defaultRoles = new ArrayList<Role>();
+        // Subject currentUser = SecurityUtils.getSubject();
+        // if (currentUser.hasRole("administrator")) {
+        // Role userRole = new Role("admin", "standard role");
+        // defaultRoles.add(userRole);
+        // }
+        // clientInfo.setRoles(defaultRoles);
+        // }
+        // });
+        // return guard;
     }
 
     public void setServerConfig(ServerConfiguration serverConfig) {

@@ -1,7 +1,6 @@
 package de.twenty11.skysail.server.resources;
 
 import org.restlet.data.Form;
-import org.restlet.ext.servlet.ServletUtils;
 
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.FormResponse;
@@ -12,11 +11,11 @@ import de.twenty11.skysail.server.internal.DefaultSkysailApplication;
 import de.twenty11.skysail.server.restlet.DefaultResource;
 import de.twenty11.skysail.server.security.AuthenticationService;
 
-public class LoginResource extends AddServerResource2<Credentials>{
+public class LoginResource extends AddServerResource2<Credentials> {
 
     @Override
     public FormResponse<Credentials> createForm() {
-        return new FormResponse<Credentials>(new Credentials(),"login");
+        return new FormResponse<Credentials>(new Credentials(), "login");
     }
 
     @Override
@@ -26,14 +25,12 @@ public class LoginResource extends AddServerResource2<Credentials>{
 
     @Override
     public SkysailResponse<?> addEntity(Credentials entity) {
-        AuthenticationService authService = ((DefaultSkysailApplication)getApplication()).getAuthenticationService();
+        AuthenticationService authService = ((DefaultSkysailApplication) getApplication()).getAuthenticationService();
         try {
-//            authService.setRequest(ServletUtils.getRequest(getRequest()));
-//            authService.setResponse(ServletUtils.getResponse(getResponse()));
-            authService.login(entity.getUsername(), entity.getPassword(),getRequest(), getResponse());
+            authService.login(entity.getUsername(), entity.getPassword());
         } catch (Exception e) {
             return new FailureResponse(e);
-//            return new DefaultResource().getApplications();
+            // return new DefaultResource().getApplications();
         }
         return new DefaultResource().getApplications();
     }

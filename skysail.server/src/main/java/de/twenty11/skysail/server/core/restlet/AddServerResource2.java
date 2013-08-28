@@ -9,6 +9,7 @@ import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
 import org.restlet.data.Form;
+import org.restlet.representation.InputRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Get;
@@ -76,10 +77,13 @@ public abstract class AddServerResource2<T> extends SkysailServerResource2<T> {
         return addEntity(entity);
     }
 
-    @Post
-    public Representation acceptRepresentation(Representation entity) {
-        return new StringRepresentation("test");
-    }
+//    @Post
+//    public Representation acceptRepresentation(Representation entity) {
+//        if (entity instanceof InputRepresentation) {
+//            ((InputRepresentation)entity).
+//        }
+//        return new StringRepresentation("testing post");
+//    }
 
     private Set<ConstraintViolation<T>> validate(T entity) {
         Set<ConstraintViolation<T>> violations = getValidator().validate(entity);
