@@ -22,13 +22,14 @@ public class ShiroDelegationAuthenticator extends CookieAuthenticator {
         setIdentifierFormName("username");
         setSecretFormName("password");
         setLoginFormPath("/login");
+        setOptional(true); // we want anonymous users too
         setVerifier(new SecretVerifier() {
 
             @Override
             public int verify(String identifier, char[] secret) {
 
                 Subject currentUser = SecurityUtils.getSubject();
-                UsernamePasswordToken token = new UsernamePasswordToken(identifier, secret.toString());
+                UsernamePasswordToken token = new UsernamePasswordToken(identifier, new String(secret));
                 logger.info("login event for user '{}'", identifier);
                 try {
                     currentUser.login(token);

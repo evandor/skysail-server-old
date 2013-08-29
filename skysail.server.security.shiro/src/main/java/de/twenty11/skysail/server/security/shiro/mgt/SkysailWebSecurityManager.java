@@ -69,7 +69,7 @@ public class SkysailWebSecurityManager extends DefaultWebSecurityManager {
         //(this is needed here in case rememberMe principals were resolved and they need to be stored in the
         //session, so we don't constantly rehydrate the rememberMe PrincipalCollection on every operation).
         //Added in 1.2:
-        save(subject);
+        //save(subject);
 
         return subject;
     }

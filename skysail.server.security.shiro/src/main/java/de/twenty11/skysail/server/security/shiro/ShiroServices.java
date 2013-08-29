@@ -30,6 +30,8 @@ import de.twenty11.skysail.server.security.shiro.restlet.ShiroDelegationAuthenti
  */
 public class ShiroServices implements AuthenticationService {
 
+    public static final String SKYSAIL_SHIRO_DB_REALM = "skysail.shiro.db.realm";
+
     private static final Logger logger = LoggerFactory.getLogger(ShiroServices.class);
 
     private ServerConfiguration serverConfig;
@@ -37,9 +39,11 @@ public class ShiroServices implements AuthenticationService {
     private DataSource dataSource;
     private final List<DataSourceFactory> dataSourceFactories = new ArrayList<DataSourceFactory>();
 
-    // private SkysailAuthorizingRealm skysailRealm;
-
     private AuthorizingRealm authorizingRealm;
+
+    // used by OSGi
+    public ShiroServices() {
+    }
 
     public ShiroServices(AuthorizingRealm authorizingRealm) {
         this.authorizingRealm = authorizingRealm;
@@ -48,6 +52,10 @@ public class ShiroServices implements AuthenticationService {
 
     public void init() {
         logger.info("initializing {}", this.getClass().getSimpleName());
+        if (authorizingRealm == null) {
+            authorizingRealm = new SkysailAuthorizingRealm();
+            ((SkysailAuthorizingRealm) authorizingRealm).setDataSource(getDataSourceFromConfig());
+        }
 
         logger.info("Creating new SkysailWebSecurityManager...");
         SkysailWebSecurityManager securityManager = new SkysailWebSecurityManager(authorizingRealm);
@@ -111,7 +119,8 @@ public class ShiroServices implements AuthenticationService {
 
     @Override
     public Authenticator getAuthenticator(Context context) {
-        return new ShiroDelegationAuthenticator(context, "MyRealm", "secret".getBytes());
+        // https://github.com/qwerky/DataVault/blob/master/src/qwerky/tools/datavault/DataVault.java
+        return new ShiroDelegationAuthenticator(context, SKYSAIL_SHIRO_DB_REALM, "thisHasToBecomeM".getBytes());
     }
 
     public void setServerConfig(ServerConfiguration serverConfig) {

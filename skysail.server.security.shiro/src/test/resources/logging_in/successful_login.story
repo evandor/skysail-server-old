@@ -17,4 +17,3 @@ Then the request is successful
 Examples:
 |username|password|
 |linus|linus|
-|izzy|izzy|
