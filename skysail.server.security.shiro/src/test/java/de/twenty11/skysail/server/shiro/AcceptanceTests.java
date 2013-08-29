@@ -1,13 +1,13 @@
 package de.twenty11.skysail.server.shiro;
 
-import de.twenty11.skysail.server.ResourceTestWithUnguardedAppication;
-import de.twenty11.skysail.server.internal.DefaultSkysailApplication;
-import de.twenty11.skysail.server.internal.SkysailComponent;
 import org.jbehave.core.annotations.BeforeStory;
 import org.restlet.Component;
 import org.restlet.data.Protocol;
 
-public class AcceptanceTests extends ResourceTestWithUnguardedAppication<DefaultSkysailApplication> {
+import de.twenty11.skysail.server.internal.DefaultSkysailApplication;
+import de.twenty11.skysail.server.internal.SkysailComponent;
+
+public class AcceptanceTests extends ResourceTestWithGuardedApplication<DefaultSkysailApplication> {
 
     private static Component component = new SkysailComponent();
 
@@ -22,8 +22,9 @@ public class AcceptanceTests extends ResourceTestWithUnguardedAppication<Default
 
     @BeforeStory
     public void setUp() {
-        DefaultSkysailApplication application = (DefaultSkysailApplication) setUpApplication(new DefaultSkysailApplication(null));
-        //application.setEntityManager(getEmfForTests("NotesPU"));
+        DefaultSkysailApplication application = (DefaultSkysailApplication) setUpApplication(new DefaultSkysailApplication(
+                null));
+        // application.setEntityManager(getEmfForTests("NotesPU"));
         component.getDefaultHost().attach(application);
     }
 

@@ -1,13 +1,12 @@
 package de.twenty11.skysail.server.security;
 
 import org.restlet.Context;
-import org.restlet.routing.Filter;
 import org.restlet.security.Authenticator;
 
 public interface AuthenticationService {
 
-    Filter getRestletShiroFilter(Context context);
-    
+    // Filter getRestletShiroFilter(Context context);
+
     Authenticator getAuthenticator(Context context);
 
     void login(String username, String password);

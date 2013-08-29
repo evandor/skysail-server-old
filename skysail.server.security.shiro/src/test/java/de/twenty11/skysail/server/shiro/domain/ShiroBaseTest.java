@@ -1,4 +1,7 @@
-package test.de.twenty11.skysail.server.menu.domain;
+package de.twenty11.skysail.server.shiro.domain;
+
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -9,10 +12,6 @@ import org.apache.shiro.subject.Subject;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.is;
-
-import static org.junit.Assert.assertThat;
-
 public class ShiroBaseTest {
 
     @Before
@@ -21,12 +20,12 @@ public class ShiroBaseTest {
         SecurityManager securityManager = factory.getInstance();
         SecurityUtils.setSecurityManager(securityManager);
     }
-    
+
     @Test
     public void setup_works() {
         // no assertions
     }
-    
+
     @Test
     public void test_current_user_is_not_authenticated() throws Exception {
         Subject currentUser = SecurityUtils.getSubject();
@@ -47,6 +46,5 @@ public class ShiroBaseTest {
         currentUser.login(token);
         currentUser.logout();
     }
-
 
 }

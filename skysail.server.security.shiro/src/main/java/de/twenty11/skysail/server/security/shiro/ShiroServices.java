@@ -8,16 +8,13 @@ import javax.sql.DataSource;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.Subject;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.jdbc.DataSourceFactory;
 import org.restlet.Context;
-import org.restlet.Request;
-import org.restlet.Response;
-import org.restlet.routing.Filter;
 import org.restlet.security.Authenticator;
-import org.restlet.security.Verifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +23,6 @@ import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.security.AuthenticationService;
 import de.twenty11.skysail.server.security.shiro.mgt.SkysailWebSecurityManager;
 import de.twenty11.skysail.server.security.shiro.restlet.ShiroDelegationAuthenticator;
-import de.twenty11.skysail.server.security.shiro.restlet.ShiroDelegationFilter;
 
 /**
  * Default AuthenticationService Implementation shipped with skysail
@@ -36,41 +32,29 @@ public class ShiroServices implements AuthenticationService {
 
     private static final Logger logger = LoggerFactory.getLogger(ShiroServices.class);
 
-    private Verifier verifier;
     private ServerConfiguration serverConfig;
     private BundleContext bundleContext;
     private DataSource dataSource;
     private final List<DataSourceFactory> dataSourceFactories = new ArrayList<DataSourceFactory>();
 
-    private SkysailAuthorizingRealm skysailRealm;
+    // private SkysailAuthorizingRealm skysailRealm;
+
+    private AuthorizingRealm authorizingRealm;
+
+    public ShiroServices(AuthorizingRealm authorizingRealm) {
+        this.authorizingRealm = authorizingRealm;
+        init();
+    }
 
     public void init() {
         logger.info("initializing {}", this.getClass().getSimpleName());
-        skysailRealm = new SkysailAuthorizingRealm();
-        if (dataSource != null) {
-            return;
-        }
-        dataSource = getDataSource();
-        if (dataSource == null) {
-            return;
-        }
-
-        logger.info("Setting datasource for SkysailAuthorizingRealm: {}", dataSource.toString());
-        skysailRealm.setDataSource(dataSource);
 
         logger.info("Creating new SkysailWebSecurityManager...");
-        SkysailWebSecurityManager securityManager = new SkysailWebSecurityManager(skysailRealm);
+        SkysailWebSecurityManager securityManager = new SkysailWebSecurityManager(authorizingRealm);
 
         logger.info("Setting new SkysailWebSecurityManager as Shiros SecurityManager");
         SecurityUtils.setSecurityManager(securityManager);
 
-        verifier = new Verifier() {
-
-            @Override
-            public int verify(Request request, Response response) {
-                return Verifier.RESULT_VALID;
-            }
-        };
     }
 
     @Override
@@ -90,7 +74,11 @@ public class ShiroServices implements AuthenticationService {
         logger.info("logout yield to {}", currentUser);
     }
 
-    private DataSource getDataSource() {
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    private DataSource getDataSourceFromConfig() {
         if (serverConfig == null) {
             return null;
         }
@@ -124,21 +112,6 @@ public class ShiroServices implements AuthenticationService {
     @Override
     public Authenticator getAuthenticator(Context context) {
         return new ShiroDelegationAuthenticator(context, "MyRealm", "secret".getBytes());
-        // ChallengeAuthenticator guard = new ChallengeAuthenticator(context, ChallengeScheme.CUSTOM, "realm");
-        // guard.setVerifier(this.verifier);
-        // guard.setEnroler(new Enroler() {
-        // @Override
-        // public void enrole(ClientInfo clientInfo) {
-        // List<Role> defaultRoles = new ArrayList<Role>();
-        // Subject currentUser = SecurityUtils.getSubject();
-        // if (currentUser.hasRole("administrator")) {
-        // Role userRole = new Role("admin", "standard role");
-        // defaultRoles.add(userRole);
-        // }
-        // clientInfo.setRoles(defaultRoles);
-        // }
-        // });
-        // return guard;
     }
 
     public void setServerConfig(ServerConfiguration serverConfig) {
@@ -159,11 +132,6 @@ public class ShiroServices implements AuthenticationService {
 
     public void unregisterDSF(DataSourceFactory dsf) {
 
-    }
-
-    @Override
-    public Filter getRestletShiroFilter(Context context) {
-        return new ShiroDelegationFilter(context);
     }
 
 }

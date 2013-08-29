@@ -1,14 +1,19 @@
-import de.twenty11.skysail.server.RestSteps;
-import de.twenty11.skysail.server.shiro.AcceptanceTests;
-import de.twenty11.skysail.server.shiro.JacksonSteps;
-import net.thucydides.core.annotations.Steps;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.jbehave.core.annotations.*;
-import org.restlet.data.Form;
-import org.restlet.resource.ClientResource;
+package de.twenty11.skysail.server.shiro;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
+import net.thucydides.core.annotations.Steps;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Named;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.restlet.data.Form;
+import org.restlet.resource.ClientResource;
+
+import de.twenty11.skysail.server.RestSteps;
 
 public class MainSteps extends AcceptanceTests {
 
@@ -17,7 +22,7 @@ public class MainSteps extends AcceptanceTests {
     private String result;
     private ObjectMapper mapper = new ObjectMapper();
     private Integer id;
-    
+
     @Steps
     private RestSteps rest;
 
@@ -40,7 +45,7 @@ public class MainSteps extends AcceptanceTests {
 
     @When("the user submits the login form with the username $username and the password $password")
     public void post(@Named("username") String username, @Named("password") String password) throws Exception {
-    	result = rest.login(username, password);
+        result = rest.login(username, password);
     }
 
     // === THEN ===

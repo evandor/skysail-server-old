@@ -1,5 +1,8 @@
 package de.twenty11.skysail.server.um.resources.test;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
 import java.util.List;
 
 import org.junit.Before;
@@ -15,10 +18,6 @@ import de.twenty11.skysail.server.um.domain.SkysailUser;
 import de.twenty11.skysail.server.um.repos.UserRepository;
 import de.twenty11.skysail.server.um.resources.UsersResource;
 
-import static org.hamcrest.Matchers.is;
-
-import static org.junit.Assert.assertThat;
-
 public class UsersResourceTest extends ResourceTestWithUnguardedAppication<UserManagementApplication> {
 
     private UsersResource resource;
@@ -27,7 +26,7 @@ public class UsersResourceTest extends ResourceTestWithUnguardedAppication<UserM
 
     @Before
     public void setUp() throws Exception {
-        spy = setUpMockedApplication(new UserManagementApplication());
+        spy = (UserManagementApplication) setUpMockedApplication(new UserManagementApplication());
         userRepository = Mockito.mock(UserRepository.class);
         resource = new UsersResource();
         setupUserRepository();
