@@ -1,23 +1,19 @@
 package de.twenty11.skysail.server.resources;
 
-import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import org.restlet.data.Form;
+import org.restlet.resource.Post;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.FormResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
+import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.server.core.restlet.AddServerResource2;
 import de.twenty11.skysail.server.domain.Credentials;
 import de.twenty11.skysail.server.internal.DefaultSkysailApplication;
 import de.twenty11.skysail.server.restlet.DefaultResource;
 import de.twenty11.skysail.server.security.AuthenticationService;
-import org.restlet.resource.Post;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import java.util.Set;
 
 // TODO should extends ServerResource
 public class LoginResource extends AddServerResource2<Credentials> {
@@ -34,14 +30,14 @@ public class LoginResource extends AddServerResource2<Credentials> {
         return new Credentials(form.getFirstValue("username"), form.getFirstValue("password"));
     }
 
-    @Post("x-www-form-urlencoded:html")
+    @Post("x-www-form-urlencoded:html|json")
     public SkysailResponse<?> addFromForm(Form form) {
-        Credentials entity = getData(form);
-        //Set<ConstraintViolation<Credentials>> violations = validate(entity);
-        //if (violations.size() > 0) {
-        //    return new ConstraintViolationsResponse(entity, null, violations);
-        //}
-        return addEntity(entity);
+        // Credentials entity = getData(form);
+        // Set<ConstraintViolation<Credentials>> violations = validate(entity);
+        // if (violations.size() > 0) {
+        // return new ConstraintViolationsResponse(entity, null, violations);
+        // }
+        return new SuccessResponse(); // Entity(entity);
     }
 
     @Override
@@ -55,6 +51,5 @@ public class LoginResource extends AddServerResource2<Credentials> {
         }
         return new DefaultResource().getApplications();
     }
-
 
 }

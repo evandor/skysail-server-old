@@ -1,4 +1,5 @@
 Meta:
+@tags domain:security
 
 Narrative:
 
@@ -7,8 +8,6 @@ As a user
 I want to able to login.
 
 Scenario: Login with post
-Meta:
-@tags domain:a domain, iteration: iteration 1
 
 Given an existing user wants to login
 When the user submits the login form with the username <username> and the password <password>

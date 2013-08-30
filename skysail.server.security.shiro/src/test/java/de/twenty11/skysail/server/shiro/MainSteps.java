@@ -13,8 +13,6 @@ import org.jbehave.core.annotations.When;
 import org.restlet.data.Form;
 import org.restlet.resource.ClientResource;
 
-import de.twenty11.skysail.server.RestSteps;
-
 public class MainSteps extends AcceptanceTests {
 
     private Form form;
