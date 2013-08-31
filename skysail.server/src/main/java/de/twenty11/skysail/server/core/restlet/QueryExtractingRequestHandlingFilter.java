@@ -19,7 +19,7 @@ public class QueryExtractingRequestHandlingFilter<T> extends SkysailRequestHandl
     }
 
     @Override
-    protected int doHandle(ListServerResource2<T> resource, Request request, ResponseWrapper<T> response) {
+    protected int doHandle(SkysailServerResource<T> resource, Request request, ResponseWrapper<T> response) {
         if (request != null && request.getOriginalRef() != null) {
             form = request.getOriginalRef().getQueryAsForm();
         }

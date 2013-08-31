@@ -1,10 +1,10 @@
 package de.twenty11.skysail.server.core.restlet.testentities;
 
-public class Entity {
+public class SimpleEntity {
 
     private String name;
 
-    public Entity(String string) {
+    public SimpleEntity(String string) {
         this.name = string;
     }
 

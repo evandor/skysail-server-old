@@ -14,21 +14,22 @@ public class SkysailRequestHandlingFilterTest {
     @Before
     public void setUp() throws Exception {
     }
-    
+
     @Test
     public void delegates_to_next_filter_if_before_returns_continue() {
         SkysailRequestHandlingFilter<Entity> next = new SkysailRequestHandlingFilter<Entity>() {
             @Override
-            protected int doHandle(ListServerResource2<Entity> resource, Request request, ResponseWrapper<Entity> response) {
+            protected int doHandle(SkysailServerResource<Entity> resource, Request request,
+                    ResponseWrapper<Entity> response) {
                 return super.doHandle(resource, request, response);
             }
         };
         SkysailRequestHandlingFilter<Entity> first = new SkysailRequestHandlingFilter<Entity>(next) {
         };
-        
+
         Request request = Mockito.mock(Request.class);
         first.doHandle(null, request, null);
-        
+
     }
 
 }

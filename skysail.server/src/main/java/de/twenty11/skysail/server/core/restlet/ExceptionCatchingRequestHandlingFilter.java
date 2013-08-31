@@ -9,13 +9,13 @@ import de.twenty11.skysail.common.responses.FailureResponse;
 public class ExceptionCatchingRequestHandlingFilter<T> extends SkysailRequestHandlingFilter<T> {
 
     private static Logger logger = LoggerFactory.getLogger(ExceptionCatchingRequestHandlingFilter.class);
-   
-//    public ExceptionCatchingRequestHandlingFilter(SkysailRequestHandlingFilter<T> next) {
-//        super(next);
-//    }
-    
+
+    // public ExceptionCatchingRequestHandlingFilter(SkysailRequestHandlingFilter<T> next) {
+    // super(next);
+    // }
+
     @Override
-    protected int doHandle(ListServerResource2<T> resource, Request request, ResponseWrapper<T> response) {
+    protected int doHandle(SkysailServerResource<T> resource, Request request, ResponseWrapper<T> response) {
         try {
             super.doHandle(resource, request, response);
         } catch (Exception e) {

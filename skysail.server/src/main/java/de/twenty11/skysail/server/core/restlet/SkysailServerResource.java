@@ -21,8 +21,7 @@ import de.twenty11.skysail.server.restlet.SkysailApplication;
 /**
  *
  */
-@Deprecated
-public abstract class SkysailServerResource2<T> extends ServerResource {
+public abstract class SkysailServerResource<T> extends ServerResource {
 
     public static final String CONTEXT_COMMANDS = "de.twenty11.skysail.server.restlet.SkysailServerResource2.commands";
     public static final String CONTEXT_LINKED_PAGES = "de.twenty11.skysail.server.restlet.SkysailServerResource2.linkedPages";
@@ -37,6 +36,8 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
     private volatile String description;
 
     private volatile String name;
+
+    protected abstract T getData();
 
     @Override
     protected void doInit() throws ResourceException {

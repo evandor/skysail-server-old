@@ -9,24 +9,22 @@ import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
 import org.restlet.data.Form;
+import org.restlet.data.Method;
 import org.restlet.resource.Get;
 import org.restlet.resource.ResourceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
 
-@Deprecated
-public abstract class UniqueResultServerResource2<T> extends SkysailServerResource2<T> {
+public abstract class UniqueResultServerResource<T> extends SkysailServerResource<T> {
 
     /** slf4j based logger implementation. */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private Validator validator;
 
-    public UniqueResultServerResource2() {
+    public UniqueResultServerResource() {
         GenericBootstrap validationProvider = Validation.byDefaultProvider();
 
         javax.validation.Configuration<?> config = validationProvider.providerResolver(new OSGiServiceDiscoverer())
@@ -61,18 +59,25 @@ public abstract class UniqueResultServerResource2<T> extends SkysailServerResour
     }
 
     protected SkysailResponse<T> getEntity(String defaultMsg) {
-        try {
-            T data = getData();
-            SuccessResponse<T> successResponse = new SuccessResponse<T>(data);
-            successResponse.setMessage(defaultMsg);
-            if (this.getMessage() != null && !"".equals(this.getMessage().trim())) {
-                successResponse.setMessage(getMessage());
-            }
-            return successResponse;
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            return new FailureResponse<T>(e);
-        }
+
+        RequestHandler<T> requestHandler = new RequestHandler<T>();
+        SkysailRequestHandlingFilter<T> chain = requestHandler.getChain(Method.GET);
+
+        ResponseWrapper<T> wrapper = chain.handle(this, getRequest());
+        return wrapper.getSkysailResponse();
+
+        // try {
+        // T data = getData();
+        // SuccessResponse<T> successResponse = new SuccessResponse<T>(data);
+        // successResponse.setMessage(defaultMsg);
+        // if (this.getMessage() != null && !"".equals(this.getMessage().trim())) {
+        // successResponse.setMessage(getMessage());
+        // }
+        // return successResponse;
+        // } catch (Exception e) {
+        // logger.error(e.getMessage(), e);
+        // return new FailureResponse<T>(e);
+        // }
     }
 
     public Validator getValidator() {

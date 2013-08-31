@@ -1,3 +1,5 @@
+package de.twenty11.skysail.server.core.restlet;
+
 /**
  *  Copyright 2011 Carsten Gräf
  *
@@ -14,8 +16,6 @@
  *  limitations under the License.
  * 
  */
-
-package de.twenty11.skysail.server.core.restlet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +38,7 @@ import org.owasp.html.HtmlSanitizer;
 import org.owasp.html.HtmlStreamRenderer;
 import org.restlet.Restlet;
 import org.restlet.data.Form;
+import org.restlet.data.Method;
 import org.restlet.data.Parameter;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
@@ -47,14 +48,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
-import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.FoundIllegalInputResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.common.selfdescription.ResourceDetails;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
-import de.twenty11.skysail.server.restlet.Timer;
 import de.twenty11.skysail.server.security.SkysailRoleAuthorizer;
 
 /**
@@ -68,8 +66,7 @@ import de.twenty11.skysail.server.security.SkysailRoleAuthorizer;
  * @author carsten
  * 
  */
-@Deprecated
-public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
+public abstract class ListServerResource<T> extends SkysailServerResource<List<T>> {
 
     public static final String CONSTRAINT_VIOLATIONS = "constraintViolations";
 
@@ -89,7 +86,7 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
     @Deprecated
     public abstract SkysailResponse<?> addEntity(T entity);
 
-    public ListServerResource2() {
+    public ListServerResource() {
         GenericBootstrap validationProvider = Validation.byDefaultProvider();
 
         javax.validation.Configuration<?> config = validationProvider.providerResolver(new OSGiServiceDiscoverer())
@@ -98,7 +95,7 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
         validator = factory.getValidator();
     }
 
-    public ListServerResource2(ServerResource sr) {
+    public ListServerResource(ServerResource sr) {
         super();
         init(sr.getContext(), sr.getRequest(), sr.getResponse());
     }
@@ -148,8 +145,6 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
         return foundInvalidInput;
     }
 
-    protected abstract List<T> getData();
-
     protected boolean match(T t, String pattern) {
         return true;
     }
@@ -161,25 +156,11 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
     }
 
     protected SkysailResponse<List<T>> getEntities(String defaultMsg) {
-        try {
-            List<T> data = getData();
-            SuccessResponse<List<T>> successResponse = new SuccessResponse<List<T>>(data);
-            successResponse.setMessage(defaultMsg);
-            if (this.getMessage() != null && !"".equals(this.getMessage().trim())) {
-                successResponse.setMessage(getMessage());
-            }
-            if (getContext() != null) {
-                Long executionStarted = (Long) getContext().getAttributes().get(Timer.CONTEXT_EXECUTION_STARTED);
-                if (executionStarted != null) {
-                    successResponse.setExecutionTime(System.nanoTime() - executionStarted);
-                }
-            }
+        RequestHandler<List<T>> requestHandler = new RequestHandler<List<T>>();
+        SkysailRequestHandlingFilter<List<T>> chain = requestHandler.getChain(Method.GET);
 
-            return successResponse;
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            return new FailureResponse<List<T>>(e);
-        }
+        ResponseWrapper<List<T>> wrapper = chain.handle(this, getRequest());
+        return wrapper.getSkysailResponse();
     }
 
     protected List<ResourceDetails> allMethods() {
