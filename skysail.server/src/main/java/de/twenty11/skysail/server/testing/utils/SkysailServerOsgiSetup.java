@@ -1,5 +1,8 @@
 package de.twenty11.skysail.server.testing.utils;
 
+import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
+import static org.ops4j.pax.exam.CoreOptions.systemProperty;
+
 import java.util.EnumSet;
 import java.util.List;
 
@@ -9,8 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.testing.utils.PaxExamOptionSet;
 import de.twenty11.skysail.common.testing.utils.SkysailCommonOsgiSetup;
-import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
-import static org.ops4j.pax.exam.CoreOptions.systemProperty;
 
 /**
  * This class defines the bundles skysail.server depends on (used by pax-exam), i.e. the bundles to be used containing
@@ -71,11 +72,11 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
 
         // eclipselink
         options.add(mavenBundle("org.eclipse.persistence", "javax.persistence", "2.0.3"));
-        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.osgi", "2.2.0"));
-        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.core", "2.2.0"));
-        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.jpa", "2.2.0"));
-        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.asm", "2.2.0"));
-        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.osgi", "2.2.0"));
+        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.osgi", "2.4.2"));
+        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.core", "2.4.2"));
+        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.jpa", "2.4.2"));
+        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.asm", "2.4.2"));
+        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.osgi", "2.4.2"));
         // "de.twentyeleven.skysail", "skysail.server.eclipselink", "0.0.3-SNAPSHOT"));
 
         // other
@@ -117,7 +118,7 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
 
         options.add(mavenBundle("com.google.guava", "guava", "14.0.1"));
 
-        options.add(mavenBundle("javax.servlet","com.springsource.javax.servlet","2.5.0"));
+        options.add(mavenBundle("javax.servlet", "com.springsource.javax.servlet", "2.5.0"));
 
         logger.info("using options from {} for tests", this.getClass());
 

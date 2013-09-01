@@ -39,13 +39,23 @@ public class Importer implements SessionCustomizer {
     @Override
     public void customize(Session session) throws Exception {
         session.getEventManager().addListener(new SessionEventAdapter() {
+
             @Override
-            // public void postLogin(SessionEvent event) {
-            public void postAcquireClientSession(SessionEvent event) {
+            public void postLogin(SessionEvent event) {
                 String fileName = (String) event.getSession().getProperty("import.sql.file");
                 UnitOfWork unitOfWork = event.getSession().acquireUnitOfWork();
                 importSql(unitOfWork, fileName);
                 unitOfWork.commit();
+            }
+
+            @Override
+            public void postAcquireConnection(SessionEvent event) {
+                super.postAcquireConnection(event);
+            }
+
+            @Override
+            // public void postLogin(SessionEvent event) {
+            public void postAcquireClientSession(SessionEvent event) {
             }
         });
     }

@@ -4,7 +4,8 @@ Import-Package: javax.persistence;jpa="2.0";version="1.1.0",\
  de.twenty11.skysail.server.domain.repository;version="[0.1.0,0.2)",\
  *
 DynamicImport-Package: *
-Export-Package: de.twenty11.skysail.server.um;version="0.1.0"
+Export-Package: de.twenty11.skysail.server.um;version="0.1.0",\
+ de.twenty11.skysail.server.um.domain;version="0.1.0"
 Service-Component: OSGI-INF/*.xml
 Bundle-SymbolicName: skysail.server.um
 Skysail-PersistenceUnit: UserManagementPU
