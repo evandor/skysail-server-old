@@ -7,9 +7,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.subject.Subject;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.jdbc.DataSourceFactory;
@@ -63,23 +61,6 @@ public class ShiroServices implements AuthenticationService {
         logger.info("Setting new SkysailWebSecurityManager as Shiros SecurityManager");
         SecurityUtils.setSecurityManager(securityManager);
 
-    }
-
-    @Override
-    public void login(String username, String password) {
-        Subject currentUser = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        logger.info("login event for user '{}'", username);
-        currentUser.login(token);
-        logger.info("login for {} yield to {}", username, SecurityUtils.getSubject());
-    }
-
-    @Override
-    public void logout() {
-        Subject currentUser = SecurityUtils.getSubject();
-        logger.info("logout event for user '{}'", currentUser.getPrincipal());
-        currentUser.logout();
-        logger.info("logout yield to {}", currentUser);
     }
 
     public void setDataSource(DataSource dataSource) {

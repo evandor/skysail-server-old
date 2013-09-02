@@ -39,23 +39,12 @@ public class Importer implements SessionCustomizer {
     @Override
     public void customize(Session session) throws Exception {
         session.getEventManager().addListener(new SessionEventAdapter() {
-
             @Override
             public void postLogin(SessionEvent event) {
                 String fileName = (String) event.getSession().getProperty("import.sql.file");
                 UnitOfWork unitOfWork = event.getSession().acquireUnitOfWork();
                 importSql(unitOfWork, fileName);
                 unitOfWork.commit();
-            }
-
-            @Override
-            public void postAcquireConnection(SessionEvent event) {
-                super.postAcquireConnection(event);
-            }
-
-            @Override
-            // public void postLogin(SessionEvent event) {
-            public void postAcquireClientSession(SessionEvent event) {
             }
         });
     }
@@ -68,21 +57,27 @@ public class Importer implements SessionCustomizer {
             logger.info("Initializing the database");
             while (scanner.hasNext()) {
                 String sql = scanner.next();
-                if (sql.trim().length() == 0) {
-                    continue;
-                }
-                logger.info(" >>> running statement '{}'", sql);
-                unitOfWork.executeNonSelectingSQL(sql);
-            }
-        } catch (DatabaseException dbe) {
-            if (dbe.getCause() instanceof SQLIntegrityConstraintViolationException) {
-                logger.debug("Ignoring initialization statement as it has been executed before: {} ", dbe.getCause()
-                        .getMessage());
-            } else {
-                logger.error("Problem initializing the database", dbe);
+                runStatement(unitOfWork, sql);
             }
         } catch (Exception ex) {
             logger.error("Problem initializing the database", ex);
+        }
+    }
+
+    private void runStatement(UnitOfWork unitOfWork, String sql) {
+        if (sql.trim().length() == 0) {
+            return;
+        }
+        logger.info(" >>> running statement '{}'", sql);
+        try {
+            unitOfWork.executeNonSelectingSQL(sql);
+        } catch (DatabaseException dbe) {
+            if (dbe.getCause() instanceof SQLIntegrityConstraintViolationException) {
+                logger.debug("Ignoring initialization statement as it has been executed before: {} ", dbe
+                        .getCause().getMessage());
+            } else {
+                logger.error("Problem initializing the database", dbe);
+            }
         }
     }
 }

@@ -23,7 +23,7 @@ public class MyEntityResource extends UniqueResultServerResource<SimpleEntity> {
     }
 
     @Override
-    protected SimpleEntity getData() {
+    public SimpleEntity getData() {
         return new SimpleEntity("simple");
     }
 
@@ -37,6 +37,11 @@ public class MyEntityResource extends UniqueResultServerResource<SimpleEntity> {
     public SkysailResponse<?> addEntity(SimpleEntity entity) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public String getMessage(String key) {
+        return "defaultMessge";
     }
 
 }

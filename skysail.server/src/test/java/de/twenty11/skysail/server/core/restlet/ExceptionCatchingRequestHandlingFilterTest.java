@@ -32,7 +32,7 @@ public class ExceptionCatchingRequestHandlingFilterTest {
                 .calling(exceptionThrowingFilter);
 
         Request request = Mockito.mock(Request.class);
-        ListServerResource resource = new MyListResource();// .mock(ListServerResource.class);
+        ListServerResource resource = new MyListResource(null);// .mock(ListServerResource.class);
 
         SkysailResponse<?> response = outer.handle(resource, request).getSkysailResponse();
         assertThat(response instanceof FailureResponse, is(true));

@@ -11,6 +11,7 @@ public class DataExtractingRequestFilter<T> extends SkysailRequestHandlingFilter
     @Override
     protected int doHandle(SkysailServerResource<T> resource, Request request, ResponseWrapper<T> response) {
         T data = resource.getData();
+        response.getSkysailResponse().setMessage(resource.getMessage("tobedone"));
         response.getSkysailResponse().setData(data);
         return CONTINUE;
     }

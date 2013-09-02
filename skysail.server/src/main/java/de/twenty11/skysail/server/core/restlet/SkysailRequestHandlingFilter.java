@@ -8,7 +8,26 @@ import de.twenty11.skysail.common.responses.SkysailResponse;
 
 public abstract class SkysailRequestHandlingFilter<T> {
 
+    /**
+     * // TODO Indicates that the request processing should continue normally. If returned from the
+     * {@link #beforeHandle(Request, Response)} method, the filter then invokes the {@link #doHandle(Request, Response)}
+     * method. If returned from the {@link #doHandle(Request, Response)} method, the filter then invokes the
+     * {@link #afterHandle(Request, Response)} method.
+     */
     public static final int CONTINUE = 0;
+
+    /**
+     * // TODO Indicates that after the {@link #beforeHandle(Request, Response)} method, the request processing should
+     * skip the {@link #doHandle(Request, Response)} method to continue with the {@link #afterHandle(Request, Response)}
+     * method.
+     */
+    public static final int SKIP = 1;
+
+    /**
+     * // TODO Indicates that the request processing should stop and return the current response from the filter.
+     */
+    public static final int STOP = 2;
+
     private volatile SkysailRequestHandlingFilter<T> next;
 
     public SkysailRequestHandlingFilter() {
@@ -77,7 +96,7 @@ public abstract class SkysailRequestHandlingFilter<T> {
         final int result = CONTINUE;
 
         if (getNext() != null) {
-            getNext().doHandle(resource, request, response);
+            getNext().handle(resource, request, response);
 
             // // Re-associate the response to the current thread
             // Response.setCurrent(response);

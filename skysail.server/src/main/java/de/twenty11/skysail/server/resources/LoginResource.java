@@ -44,7 +44,7 @@ public class LoginResource extends AddServerResource2<Credentials> {
     public SkysailResponse<?> addEntity(Credentials entity) {
         AuthenticationService authService = ((DefaultSkysailApplication) getApplication()).getAuthenticationService();
         try {
-            authService.login(entity.getUsername(), entity.getPassword());
+            // authService.login(entity.getUsername(), entity.getPassword());
         } catch (Exception e) {
             return new FailureResponse(e);
             // return new DefaultResource().getApplications();

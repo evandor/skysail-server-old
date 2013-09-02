@@ -34,15 +34,6 @@ public class ResourceTestWithUnguardedAppication<T extends SkysailApplication> e
     private class DummyAuthenticationService implements AuthenticationService {
 
         @Override
-        public void logout() {
-        }
-
-        @Override
-        public void login(String username, String password) {
-            // handle izzy and linus
-        }
-
-        @Override
         public Authenticator getAuthenticator(Context context) {
             return new DummyChallengeAuthenticator(context, ChallengeScheme.HTTP_BASIC, "realm");
         }

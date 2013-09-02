@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.restlet.data.Form;
 import org.restlet.data.Reference;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
@@ -37,7 +38,11 @@ public abstract class SkysailServerResource<T> extends ServerResource {
 
     private volatile String name;
 
-    protected abstract T getData();
+    public abstract T getData();
+
+    public abstract T getData(Form form);
+
+    public abstract String getMessage(String key);
 
     @Override
     protected void doInit() throws ResourceException {

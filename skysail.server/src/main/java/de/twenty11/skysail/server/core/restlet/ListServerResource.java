@@ -32,14 +32,10 @@ import javax.validation.bootstrap.GenericBootstrap;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.owasp.html.Handler;
-import org.owasp.html.HtmlPolicyBuilder;
-import org.owasp.html.HtmlSanitizer;
-import org.owasp.html.HtmlStreamRenderer;
+import org.restlet.Request;
 import org.restlet.Restlet;
 import org.restlet.data.Form;
 import org.restlet.data.Method;
-import org.restlet.data.Parameter;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
@@ -47,8 +43,6 @@ import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
-import de.twenty11.skysail.common.responses.FoundIllegalInputResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.selfdescription.ResourceDetails;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
@@ -80,8 +74,8 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
     /**
      * return new JobDescriptor(form.getFirstValue("name"));
      */
-    @Deprecated
-    public abstract T getData(Form form);
+    // @Deprecated
+    // public abstract T getData(Form form);
 
     @Deprecated
     public abstract SkysailResponse<?> addEntity(T entity);
@@ -108,41 +102,26 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
 
     @Post("x-www-form-urlencoded:html|json|xml")
     public SkysailResponse<?> addFromForm(Form form) {
-        if (containsInvalidInput(form)) {
-            T entity = getData(form);
-            return new FoundIllegalInputResponse<T>(entity, getOriginalRef());
-        }
-        T entity = getData(form);
-        Set<ConstraintViolation<T>> violations = validate(entity);
-        if (violations.size() > 0) {
-            return new ConstraintViolationsResponse(entity, getOriginalRef(), violations);
-        }
-        return addEntity(entity);
-    }
 
-    private boolean containsInvalidInput(Form form) {
-        SkysailApplication app = (SkysailApplication) getApplication();
-        HtmlPolicyBuilder noHtmlPolicyBuilder = app.getNoHtmlPolicyBuilder();
-        boolean foundInvalidInput = false;
-        for (int i = 0; i < form.size(); i++) {
-            Parameter parameter = form.get(i);
-            String originalValue = parameter.getValue();
-            StringBuilder sb = new StringBuilder();
-            HtmlSanitizer.Policy policy = noHtmlPolicyBuilder.build(HtmlStreamRenderer.create(sb,
-                    new Handler<String>() {
-                        @Override
-                        public void handle(String x) {
-                            System.out.println(x);
-                        }
-                    }));
-            HtmlSanitizer.sanitize(originalValue, policy);
-            String sanitizedHtml = sb.toString();
-            if (!sanitizedHtml.equals(originalValue)) {
-                foundInvalidInput = true;
-            }
-            parameter.setValue(sanitizedHtml.trim());
-        }
-        return foundInvalidInput;
+        RequestHandler<List<T>> requestHandler = new RequestHandler<List<T>>();
+        SkysailRequestHandlingFilter<List<T>> chain = requestHandler.getChain(Method.POST);
+
+        Request request = getRequest();
+        request.getAttributes().put("form", form);
+
+        ResponseWrapper<List<T>> wrapper = chain.handle(this, request);
+        return wrapper.getSkysailResponse();
+
+        // if (containsInvalidInput(form)) {
+        // T entity = getData(form);
+        // return new FoundIllegalInputResponse<T>(entity, getOriginalRef());
+        // }
+        // T entity = getData(form);
+        // Set<ConstraintViolation<T>> violations = validate(entity);
+        // if (violations.size() > 0) {
+        // return new ConstraintViolationsResponse(entity, getOriginalRef(), violations);
+        // }
+        // return addEntity(entity);
     }
 
     protected boolean match(T t, String pattern) {

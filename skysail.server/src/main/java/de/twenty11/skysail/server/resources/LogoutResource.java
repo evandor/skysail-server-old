@@ -16,7 +16,7 @@ public class LogoutResource extends ListServerResource2<AvailableApplication> {
     @Override
     protected List<AvailableApplication> getData() {
         AuthenticationService authService = ((DefaultSkysailApplication) getApplication()).getAuthenticationService();
-        authService.logout();
+        // authService.logout();
         return Collections.emptyList();
     }
 

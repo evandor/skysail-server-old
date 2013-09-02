@@ -46,7 +46,7 @@ public abstract class UniqueResultServerResource<T> extends SkysailServerResourc
     @Override
     protected abstract void doInit() throws ResourceException;
 
-    protected abstract T getData();
+    public abstract T getData();
 
     public abstract T getData(Form form);
 
