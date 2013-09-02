@@ -22,6 +22,10 @@ public class FormDataExtractingRequestFilter<T> extends SkysailRequestHandlingFi
             return STOP;
         }
         Form form = request.getResourceRef().getQueryAsForm();
+        // needed only for tests? Better way there should be
+        if (form == null) {
+            form = (Form)request.getAttributes().get("form");
+        }
         T data = resource.getData(form);
         response.getSkysailResponse().setMessage(resource.getMessage("tobedone"));
         response.getSkysailResponse().setData(data);

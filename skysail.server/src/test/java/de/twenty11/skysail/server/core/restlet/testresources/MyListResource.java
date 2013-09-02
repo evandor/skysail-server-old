@@ -14,18 +14,9 @@ import de.twenty11.skysail.server.core.restlet.testentities.SimpleEntity;
 
 public class MyListResource extends ListServerResource<SimpleEntity> {
 
-    private Request request;
-
-    public MyListResource(Form form) {
-        request = Mockito.mock(Request.class);
-        Reference resourceRef = Mockito.mock(Reference.class);
-        Mockito.when(request.getResourceRef()).thenReturn(resourceRef);
-        Mockito.when(resourceRef.getQueryAsForm()).thenReturn(form);
-    }
-
     @Override
     public List<SimpleEntity> getData(Form form) {
-        return null;
+        return Arrays.asList(new SimpleEntity(form.getFirstValue("name")));
     }
 
     @Override
@@ -41,11 +32,6 @@ public class MyListResource extends ListServerResource<SimpleEntity> {
     @Override
     public String getMessage(String key) {
         return "defaultMessge";
-    }
-
-    @Override
-    public Request getRequest() {
-        return request;
     }
 
 }

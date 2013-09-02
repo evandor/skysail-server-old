@@ -67,7 +67,7 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
     /** slf4j based logger implementation. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private Validator validator;
+    //private Validator validator;
 
     private String filterExpression;
 
@@ -81,12 +81,7 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
     public abstract SkysailResponse<?> addEntity(T entity);
 
     public ListServerResource() {
-        GenericBootstrap validationProvider = Validation.byDefaultProvider();
 
-        javax.validation.Configuration<?> config = validationProvider.providerResolver(new OSGiServiceDiscoverer())
-                .configure();
-        ValidatorFactory factory = config.buildValidatorFactory();
-        validator = factory.getValidator();
     }
 
     public ListServerResource(ServerResource sr) {
@@ -102,26 +97,9 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
 
     @Post("x-www-form-urlencoded:html|json|xml")
     public SkysailResponse<?> addFromForm(Form form) {
-
-        RequestHandler<List<T>> requestHandler = new RequestHandler<List<T>>();
-        SkysailRequestHandlingFilter<List<T>> chain = requestHandler.getChain(Method.POST);
-
-        Request request = getRequest();
-        request.getAttributes().put("form", form);
-
-        ResponseWrapper<List<T>> wrapper = chain.handle(this, request);
-        return wrapper.getSkysailResponse();
-
-        // if (containsInvalidInput(form)) {
-        // T entity = getData(form);
-        // return new FoundIllegalInputResponse<T>(entity, getOriginalRef());
-        // }
-        // T entity = getData(form);
-        // Set<ConstraintViolation<T>> violations = validate(entity);
-        // if (violations.size() > 0) {
-        // return new ConstraintViolationsResponse(entity, getOriginalRef(), violations);
-        // }
-        // return addEntity(entity);
+        SkysailRequestHandlingFilter<List<T>> chain = new RequestHandler<List<T>>().getChain(Method.POST);
+        getRequest().getAttributes().put("form", form);
+        return chain.handle(this, getRequest()).getSkysailResponse();
     }
 
     protected boolean match(T t, String pattern) {
@@ -152,9 +130,7 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
         return result;
     }
 
-    protected Validator getValidator() {
-        return validator;
-    }
+
 
     protected Map<String, String> getParamsFromRequest() {
         Map<String, String> params = new HashMap<String, String>();
@@ -164,13 +140,7 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
         return params;
     }
 
-    protected Set<ConstraintViolation<T>> validate(T entity) {
-        Set<ConstraintViolation<T>> violations = getValidator().validate(entity);
-        if (violations.size() > 0) {
-            logger.warn("contraint violations found on {}: {}", entity, violations);
-        }
-        return violations;
-    }
+
 
     protected String augmentWithFilterMsg(String msg) {
         return filterExpression == null ? msg : msg + " filtered by '" + filterExpression + "'";

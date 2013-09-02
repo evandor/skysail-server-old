@@ -1,5 +1,6 @@
 package de.twenty11.skysail.server.core.restlet;
 
+import de.twenty11.skysail.server.core.restlet.filter.CheckBusinessViolationsFilter;
 import org.restlet.data.Method;
 
 import de.twenty11.skysail.server.core.restlet.filter.CheckInvalidInputRequestHandlingFilter;
@@ -20,10 +21,7 @@ public class RequestHandler<T> {
         } else if (method.equals(Method.POST)) {
 
             // T entity = getData(form);
-            // Set<ConstraintViolation<T>> violations = validate(entity);
-            // if (violations.size() > 0) {
-            // return new ConstraintViolationsResponse(entity, getOriginalRef(), violations);
-            // }
+
             // return addEntity(entity);
             
             
@@ -31,6 +29,7 @@ public class RequestHandler<T> {
             return new ExceptionCatchingRequestHandlingFilter<T>()
                         .calling(new CheckInvalidInputRequestHandlingFilter<T>())
                         .calling(new FormDataExtractingRequestFilter<T>())
+                        .calling(new CheckBusinessViolationsFilter<T>())
                         ;
         }
         throw new RuntimeException("Method " + method + " is not yet supported");

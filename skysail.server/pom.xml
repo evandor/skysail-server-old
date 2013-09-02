@@ -368,6 +368,12 @@
         </dependency>
 
         <!-- -->
+        <dependency>
+            <groupId>com.google.caliper</groupId>
+            <artifactId>caliper</artifactId>
+            <version>1.0-beta-SNAPSHOT</version>
+
+        </dependency>
 
         <!-- logging for tests -->
         <dependency>
