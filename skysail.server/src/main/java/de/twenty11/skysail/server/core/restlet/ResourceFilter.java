@@ -6,7 +6,7 @@ import org.restlet.resource.Resource;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
 
-public abstract class SkysailRequestHandlingFilter<T> {
+public abstract class ResourceFilter<T> {
 
     /**
      * // TODO Indicates that the request processing should continue normally. If returned from the
@@ -28,12 +28,12 @@ public abstract class SkysailRequestHandlingFilter<T> {
      */
     public static final int STOP = 2;
 
-    private volatile SkysailRequestHandlingFilter<T> next;
+    private volatile ResourceFilter<T> next;
 
-    public SkysailRequestHandlingFilter() {
+    public ResourceFilter() {
     }
 
-    public SkysailRequestHandlingFilter(SkysailRequestHandlingFilter<T> next) {
+    public ResourceFilter(ResourceFilter<T> next) {
         this.next = next;
     }
 
@@ -55,12 +55,6 @@ public abstract class SkysailRequestHandlingFilter<T> {
         handle(resource, request, response);
         return response;
     }
-
-    // public final ResponseWrapper<List<T>> handleList(SkysailServerResource2<List<T>> resource, Request request) {
-    // ResponseWrapper<List<T>> response = new ResponseWrapper<List<T>>(new SkysailResponse<List<T>>());
-    // handleList(resource, request, response);
-    // return response;
-    // }
 
     /**
      * Handles a call by first invoking the beforeHandle() method for pre-filtering, then distributing the call to the
@@ -93,47 +87,49 @@ public abstract class SkysailRequestHandlingFilter<T> {
     }
 
     protected int doHandle(SkysailServerResource<T> resource, Request request, ResponseWrapper<T> response) {
-        final int result = CONTINUE;
-
-        if (getNext() != null) {
-            getNext().handle(resource, request, response);
-
-            // // Re-associate the response to the current thread
-            // Response.setCurrent(response);
-            //
-            // // Associate the context to the current thread
-            // if (getContext() != null) {
-            // Context.setCurrent(getContext());
-            // }
-        } else {
-            // response.setStatus(Status.SERVER_ERROR_INTERNAL);
-            // getLogger()
-            // .warning(
-            // "The filter "
-            // + getName()
-            // + " was executed without a next Restlet attached to it.");
+        ResourceFilter<T> next = getNext();
+        if (next != null) {
+            next.handle(resource, request, response);
         }
-
-        return result;
+        return CONTINUE;
     }
 
     protected void afterHandle(Resource resource, Request request, ResponseWrapper response) {
     }
 
-    protected SkysailRequestHandlingFilter<T> calling(SkysailRequestHandlingFilter<T> next) {
-        setNext(next);
+    protected ResourceFilter<T> calling(ResourceFilter<T> next) {
+        ResourceFilter<T> lastInChain = getLast();
+        lastInChain.setNext(next);
         return this;
     }
 
-    public SkysailRequestHandlingFilter getNext() {
+    private ResourceFilter<T> getLast() {
+        ResourceFilter<T> result = this;
+        while (result.getNext() != null) {
+            result = result.getNext();
+        }
+        return result;
+    }
+
+    public ResourceFilter<T> getNext() {
         return this.next;
     }
 
-    public void setNext(SkysailRequestHandlingFilter next) {
+    public void setNext(ResourceFilter next) {
         // if ((next != null) && (next.getContext() == null)) {
         // next.setContext(getContext());
         // }
 
         this.next = next;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getClass().getSimpleName());
+        if (getNext() != null) {
+            sb.append(" -> ").append(getNext().toString());
+        }
+        return sb.toString();
     }
 }

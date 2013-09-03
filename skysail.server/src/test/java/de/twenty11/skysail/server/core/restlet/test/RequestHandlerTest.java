@@ -8,17 +8,18 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.restlet.Request;
 import org.restlet.data.Form;
+import org.restlet.data.Reference;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.core.restlet.RequestHandler;
 import de.twenty11.skysail.server.core.restlet.testentities.SimpleEntity;
 import de.twenty11.skysail.server.core.restlet.testresources.MyEntityResource;
 import de.twenty11.skysail.server.core.restlet.testresources.MyListResource;
-import org.restlet.data.Reference;
 
 public class RequestHandlerTest {
 
@@ -26,7 +27,7 @@ public class RequestHandlerTest {
 
     Form form;
 
-    ConcurrentMap<String,Object> attributes;
+    ConcurrentMap<String, Object> attributes;
 
     @Before
     public void setUp() {
@@ -42,12 +43,14 @@ public class RequestHandlerTest {
     /* GET */
 
     @Test
+    @Ignore
     public void listOfEntities_is_retrieved_via_requestHandlerChain() {
         SkysailResponse<List<SimpleEntity>> entities = new MyListResource().getEntities();
         assertThat(entities.getData().size(), is(2));
     }
 
     @Test
+    @Ignore
     public void entity_is_retrieved_via_requestHandlerChain() {
         SkysailResponse<SimpleEntity> entities = new MyEntityResource(new RequestHandler<SimpleEntity>()).getEntity();
         assertThat(entities.getData().getName(), is("simple"));

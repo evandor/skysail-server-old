@@ -61,7 +61,7 @@ public abstract class UniqueResultServerResource<T> extends SkysailServerResourc
     protected SkysailResponse<T> getEntity(String defaultMsg) {
 
         RequestHandler<T> requestHandler = new RequestHandler<T>();
-        SkysailRequestHandlingFilter<T> chain = requestHandler.getChain(Method.GET);
+        ResourceFilter<T> chain = requestHandler.getChain(Method.GET);
 
         ResponseWrapper<T> wrapper = chain.handle(this, getRequest());
         return wrapper.getSkysailResponse();

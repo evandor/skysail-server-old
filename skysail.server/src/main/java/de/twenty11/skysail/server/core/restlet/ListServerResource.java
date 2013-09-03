@@ -97,7 +97,7 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
 
     @Post("x-www-form-urlencoded:html|json|xml")
     public SkysailResponse<?> addFromForm(Form form) {
-        SkysailRequestHandlingFilter<List<T>> chain = new RequestHandler<List<T>>().getChain(Method.POST);
+        ResourceFilter<List<T>> chain = new RequestHandler<List<T>>().getChain(Method.POST);
         getRequest().getAttributes().put("form", form);
         return chain.handle(this, getRequest()).getSkysailResponse();
     }
@@ -114,7 +114,7 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
 
     protected SkysailResponse<List<T>> getEntities(String defaultMsg) {
         RequestHandler<List<T>> requestHandler = new RequestHandler<List<T>>();
-        SkysailRequestHandlingFilter<List<T>> chain = requestHandler.getChain(Method.GET);
+        ResourceFilter<List<T>> chain = requestHandler.getChain(Method.GET);
 
         ResponseWrapper<List<T>> wrapper = chain.handle(this, getRequest());
         return wrapper.getSkysailResponse();

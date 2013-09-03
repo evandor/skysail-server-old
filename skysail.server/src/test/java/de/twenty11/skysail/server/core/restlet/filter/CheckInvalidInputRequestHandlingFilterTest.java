@@ -17,7 +17,7 @@ import de.twenty11.skysail.server.core.restlet.testresources.MyListResource;
 
 public class CheckInvalidInputRequestHandlingFilterTest {
 
-    private CheckInvalidInputRequestHandlingFilter<Entity> filterUnderTest;
+    private CheckInvalidInputFilter<Entity> filterUnderTest;
     private Request request;
     private Reference ref;
     private Form myForm;
@@ -25,12 +25,12 @@ public class CheckInvalidInputRequestHandlingFilterTest {
 
     @Before
     public void setUp() throws Exception {
-        filterUnderTest = new CheckInvalidInputRequestHandlingFilter<Entity>();
+        filterUnderTest = new CheckInvalidInputFilter<Entity>();
         request = Mockito.mock(Request.class);
         ref = Mockito.mock(Reference.class);
         myForm = new Form();
 
-        resource = new MyListResource(myForm);
+        resource = new MyListResource();
 
         Mockito.when(ref.getQueryAsForm()).thenReturn(myForm);
         Mockito.when(request.getResourceRef()).thenReturn(ref);

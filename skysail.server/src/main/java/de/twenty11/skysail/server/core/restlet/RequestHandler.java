@@ -1,22 +1,26 @@
 package de.twenty11.skysail.server.core.restlet;
 
 import de.twenty11.skysail.server.core.restlet.filter.CheckBusinessViolationsFilter;
+
 import org.restlet.data.Method;
 
-import de.twenty11.skysail.server.core.restlet.filter.CheckInvalidInputRequestHandlingFilter;
-import de.twenty11.skysail.server.core.restlet.filter.FormDataExtractingRequestFilter;
+import de.twenty11.skysail.server.core.restlet.filter.CheckInvalidInputFilter;
+import de.twenty11.skysail.server.core.restlet.filter.DataExtractingFilter;
+import de.twenty11.skysail.server.core.restlet.filter.ExceptionCatchingFilter;
+import de.twenty11.skysail.server.core.restlet.filter.FormDataExtractingFilter;
+import de.twenty11.skysail.server.core.restlet.filter.QueryExtractingFilter;
 
 public class RequestHandler<T> {
 
     // @formatter:off
 
-    public SkysailRequestHandlingFilter<T> getChain(Method method) {
+    public ResourceFilter<T> getChain(Method method) {
         if (method.equals(Method.GET)) {
         
             // exceptionCatching -> QueryExtracting -> DataExtracting
-            return new ExceptionCatchingRequestHandlingFilter<T>()
-                        .calling(new QueryExtractingRequestHandlingFilter<T>())
-                        .calling(new DataExtractingRequestFilter<T>());
+            return new ExceptionCatchingFilter<T>()
+                        .calling(new QueryExtractingFilter<T>())
+                        .calling(new DataExtractingFilter<T>());
         
         } else if (method.equals(Method.POST)) {
 
@@ -26,9 +30,9 @@ public class RequestHandler<T> {
             
             
             // exceptionCatching -> QueryExtracting -> DataExtracting
-            return new ExceptionCatchingRequestHandlingFilter<T>()
-                        .calling(new CheckInvalidInputRequestHandlingFilter<T>())
-                        .calling(new FormDataExtractingRequestFilter<T>())
+            return new ExceptionCatchingFilter<T>()
+                        .calling(new CheckInvalidInputFilter<T>())
+                        .calling(new FormDataExtractingFilter<T>())
                         .calling(new CheckBusinessViolationsFilter<T>())
                         ;
         }
