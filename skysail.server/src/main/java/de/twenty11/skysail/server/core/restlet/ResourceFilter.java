@@ -83,7 +83,6 @@ public abstract class ResourceFilter<T> {
         default:
             break;
         }
-
     }
 
     protected int doHandle(SkysailServerResource<T> resource, Request request, ResponseWrapper<T> response) {
@@ -103,24 +102,20 @@ public abstract class ResourceFilter<T> {
         return this;
     }
 
+    public ResourceFilter<T> getNext() {
+        return this.next;
+    }
+
+    public void setNext(ResourceFilter next) {
+        this.next = next;
+    }
+
     private ResourceFilter<T> getLast() {
         ResourceFilter<T> result = this;
         while (result.getNext() != null) {
             result = result.getNext();
         }
         return result;
-    }
-
-    public ResourceFilter<T> getNext() {
-        return this.next;
-    }
-
-    public void setNext(ResourceFilter next) {
-        // if ((next != null) && (next.getContext() == null)) {
-        // next.setContext(getContext());
-        // }
-
-        this.next = next;
     }
 
     @Override
