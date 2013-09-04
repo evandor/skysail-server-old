@@ -3,6 +3,9 @@ package de.twenty11.skysail.server.core.restlet.filter.test;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import de.twenty11.skysail.server.core.restlet.UniqueResultServerResource;
+import de.twenty11.skysail.server.core.restlet.filter.AbstractResourceFilter;
+import de.twenty11.skysail.server.core.restlet.testresources.MyEntityResource;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -20,11 +23,11 @@ import de.twenty11.skysail.server.core.restlet.testresources.MyListResource;
 
 public class ExceptionCatchingRequestHandlingFilterTest {
 
-    private ExceptionCatchingFilter<SimpleEntity> exceptionCatchingFilter;
+    private ExceptionCatchingFilter<UniqueResultServerResource<SimpleEntity>, SimpleEntity> exceptionCatchingFilter;
 
-    private class ExceptionThrowingFilter extends AbstractListResourceFilter<SimpleEntity> {
+    private class ExceptionThrowingFilter extends AbstractResourceFilter<UniqueResultServerResource<SimpleEntity>, SimpleEntity> {
         @Override
-        public FilterResult doHandle(ListServerResource<SimpleEntity> resource, Request request,
+        public FilterResult doHandle(UniqueResultServerResource<SimpleEntity> resource, Request request,
                 ResponseWrapper<SimpleEntity> response) {
             throw new IllegalStateException("I want to be catched by outer filter");
         }
@@ -32,14 +35,14 @@ public class ExceptionCatchingRequestHandlingFilterTest {
 
     @Before
     public void setUp() throws Exception {
-        exceptionCatchingFilter = new ExceptionCatchingFilter<SimpleEntity>();
+        exceptionCatchingFilter = new ExceptionCatchingFilter<UniqueResultServerResource<SimpleEntity>, SimpleEntity>();
     }
 
     @Test
     public void delegates_to_next_filter_if_before_returns_continue() {
 
         Request request = Mockito.mock(Request.class);
-        ListServerResource<SimpleEntity> resource = new MyListResource();
+        MyEntityResource resource = new MyEntityResource();
 
         exceptionCatchingFilter.calling(new ExceptionThrowingFilter());
         SkysailResponse<?> response = exceptionCatchingFilter.handle(resource, request).getSkysailResponse();

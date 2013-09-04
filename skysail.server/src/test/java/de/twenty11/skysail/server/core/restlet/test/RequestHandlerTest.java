@@ -52,8 +52,8 @@ public class RequestHandlerTest {
     @Test
     @Ignore
     public void entity_is_retrieved_via_requestHandlerChain() {
-        SkysailResponse<SimpleEntity> entities = new MyEntityResource(new RequestHandler<SimpleEntity>()).getEntity();
-        assertThat(entities.getData().getName(), is("simple"));
+        //SkysailResponse<SimpleEntity> entities = new MyEntityResource(new RequestHandler<SimpleEntity>()).getEntity();
+        //assertThat(entities.getData().getName(), is("simple"));
     }
 
     /* POST */
@@ -74,4 +74,9 @@ public class RequestHandlerTest {
         assertThat(result.getSuccess(), is(true));
     }
 
+    public static void main(String[] args) {
+        RequestHandlerTest test = new RequestHandlerTest();
+        test.setUp();
+        test.posting_entity_via_requestHandlerChain_is_successful();
+    }
 }

@@ -3,6 +3,7 @@ package de.twenty11.skysail.server.core.restlet.filter.test;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -21,7 +22,7 @@ import de.twenty11.skysail.server.core.restlet.testresources.MyListResource;
 
 public class CheckInvalidInputRequestHandlingFilterTest {
 
-    private CheckInvalidInputFilter<SimpleEntity> filterUnderTest;
+    private CheckInvalidInputFilter<ListServerResource<SimpleEntity>, List<SimpleEntity>> filterUnderTest;
     private Request request;
     private Reference ref;
     private Form myForm;
@@ -29,7 +30,7 @@ public class CheckInvalidInputRequestHandlingFilterTest {
 
     @Before
     public void setUp() throws Exception {
-        filterUnderTest = new CheckInvalidInputFilter<SimpleEntity>();
+        filterUnderTest = new CheckInvalidInputFilter<ListServerResource<SimpleEntity>, List<SimpleEntity>>();
         request = Mockito.mock(Request.class);
         ref = Mockito.mock(Reference.class);
         myForm = new Form();

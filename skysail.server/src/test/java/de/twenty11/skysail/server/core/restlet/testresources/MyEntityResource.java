@@ -10,12 +10,6 @@ import de.twenty11.skysail.server.core.restlet.testentities.SimpleEntity;
 
 public class MyEntityResource extends UniqueResultServerResource<SimpleEntity> {
 
-    private RequestHandler<SimpleEntity> requestHandler;
-
-    public MyEntityResource(RequestHandler<SimpleEntity> requestHandler) {
-        this.requestHandler = requestHandler;
-    }
-
     @Override
     protected void doInit() throws ResourceException {
         // TODO Auto-generated method stub
