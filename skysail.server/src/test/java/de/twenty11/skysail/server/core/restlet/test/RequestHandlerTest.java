@@ -59,6 +59,11 @@ public class RequestHandlerTest {
     /* POST */
 
     @Test
+    public void test() {
+
+    }
+
+    @Test
     public void posting_entity_via_requestHandlerChain_is_successful() {
         form.add("name", "name");
 
