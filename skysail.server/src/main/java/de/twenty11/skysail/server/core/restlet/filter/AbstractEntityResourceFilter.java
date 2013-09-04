@@ -7,6 +7,7 @@ import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.core.restlet.ResponseWrapper;
 import de.twenty11.skysail.server.core.restlet.UniqueResultServerResource;
 
+@Deprecated
 public abstract class AbstractEntityResourceFilter<T> implements EntityResourceFilter<T> {
 
     private volatile AbstractEntityResourceFilter<T> next;

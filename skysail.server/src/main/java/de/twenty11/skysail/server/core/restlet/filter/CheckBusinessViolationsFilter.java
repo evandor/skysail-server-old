@@ -8,6 +8,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
+import de.twenty11.skysail.server.core.restlet.SkysailServerResource;
 import org.restlet.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,7 @@ import de.twenty11.skysail.server.core.restlet.ListServerResource;
 import de.twenty11.skysail.server.core.restlet.ResponseWrapper;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
 
-public class CheckBusinessViolationsFilter<T> extends AbstractListResourceFilter<T> {
+public class CheckBusinessViolationsFilter<R extends SkysailServerResource<T>, T> extends AbstractResourceFilter<R, T> {
 
     private static Logger logger = LoggerFactory.getLogger(CheckBusinessViolationsFilter.class);
 
@@ -32,7 +33,7 @@ public class CheckBusinessViolationsFilter<T> extends AbstractListResourceFilter
     }
 
     @Override
-    public FilterResult doHandle(ListServerResource<T> resource, Request request, ResponseWrapper<T> response) {
+    public FilterResult doHandle(R resource, Request request, ResponseWrapper<T> response) {
         logger.debug("entering {}#doHandle", this.getClass().getSimpleName());
         T entity = response.getSkysailResponse().getData();
         Set<ConstraintViolation<T>> violations = validate(entity);

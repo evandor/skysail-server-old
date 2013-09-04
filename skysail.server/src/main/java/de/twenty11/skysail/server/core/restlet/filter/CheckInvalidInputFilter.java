@@ -1,5 +1,6 @@
 package de.twenty11.skysail.server.core.restlet.filter;
 
+import de.twenty11.skysail.server.core.restlet.SkysailServerResource;
 import org.owasp.html.Handler;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.HtmlSanitizer;
@@ -14,14 +15,14 @@ import de.twenty11.skysail.common.responses.FoundIllegalInputResponse;
 import de.twenty11.skysail.server.core.restlet.ListServerResource;
 import de.twenty11.skysail.server.core.restlet.ResponseWrapper;
 
-public class CheckInvalidInputFilter<T> extends AbstractListResourceFilter<T> {
+public class CheckInvalidInputFilter<R extends SkysailServerResource<T>, T> extends AbstractResourceFilter<R,T> {
 
     private static Logger logger = LoggerFactory.getLogger(CheckInvalidInputFilter.class);
 
     private static HtmlPolicyBuilder noHtmlPolicyBuilder = new HtmlPolicyBuilder();
 
     @Override
-    public FilterResult doHandle(ListServerResource<T> resource, Request request, ResponseWrapper<T> response) {
+    public FilterResult doHandle(R resource, Request request, ResponseWrapper<T> response) {
         logger.debug("entering {}#doHandle", this.getClass().getSimpleName());
 
         // do in "before"?

@@ -7,6 +7,7 @@ import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.core.restlet.ListServerResource;
 import de.twenty11.skysail.server.core.restlet.ResponseWrapper;
 
+@Deprecated
 public abstract class AbstractListResourceFilter<T> implements ListResourceFilter<T> {
 
     private volatile AbstractListResourceFilter<T> next;

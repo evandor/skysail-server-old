@@ -11,6 +11,11 @@ public abstract class AbstractResourceFilter<R extends SkysailServerResource<T>,
     private volatile AbstractResourceFilter<R, T> next;
 
     @Override
+    public FilterResult beforeHandle(R resource, Request request, ResponseWrapper<T> response) {
+        return FilterResult.CONTINUE;
+    }
+
+    @Override
     public FilterResult doHandle(R resource, Request request, ResponseWrapper<T> response) {
         AbstractResourceFilter<R, T> next = getNext();
         if (next != null) {
@@ -20,22 +25,25 @@ public abstract class AbstractResourceFilter<R extends SkysailServerResource<T>,
 
     }
 
+    @Override
+    public void afterHandle(R resource, Request request, ResponseWrapper<T> response) {
+
+    }
+
     public final void handle(R resource, Request request, ResponseWrapper<T> response) {
-        // switch (beforeHandle(resource, request, response)) {
-        // case CONTINUE:
-        switch (doHandle(resource, request, response)) {
-        case CONTINUE:
-            // afterHandle(resource, request, response);
-            break;
-        default:
-            break;
+        switch (beforeHandle(resource, request, response)) {
+            case CONTINUE:
+                switch (doHandle(resource, request, response)) {
+                    case CONTINUE:
+                        afterHandle(resource, request, response);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
         }
-        // break;
-
-        // default:
-        // break;
-        // }
-
     }
 
     public final ResponseWrapper<T> handle(R resource, Request request) {

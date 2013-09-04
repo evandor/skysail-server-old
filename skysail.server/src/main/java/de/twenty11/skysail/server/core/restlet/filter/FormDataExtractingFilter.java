@@ -1,5 +1,6 @@
 package de.twenty11.skysail.server.core.restlet.filter;
 
+import de.twenty11.skysail.server.core.restlet.SkysailServerResource;
 import org.restlet.Request;
 import org.restlet.data.Form;
 import org.slf4j.Logger;
@@ -9,12 +10,12 @@ import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.server.core.restlet.ListServerResource;
 import de.twenty11.skysail.server.core.restlet.ResponseWrapper;
 
-public class FormDataExtractingFilter<T> extends AbstractListResourceFilter<T> {
+public class FormDataExtractingFilter<R extends SkysailServerResource<T>, T> extends AbstractResourceFilter<R, T> {
 
     private static Logger logger = LoggerFactory.getLogger(ExceptionCatchingFilter.class);
 
     @Override
-    public FilterResult doHandle(ListServerResource<T> resource, Request request, ResponseWrapper<T> response) {
+    public FilterResult doHandle(R resource, Request request, ResponseWrapper<T> response) {
         logger.debug("entering {}#doHandle", this.getClass().getSimpleName());
         if (request == null || request.getResourceRef() == null) {
             response.setSkysailResponse(new FailureResponse<T>("request or resource reference was null"));
