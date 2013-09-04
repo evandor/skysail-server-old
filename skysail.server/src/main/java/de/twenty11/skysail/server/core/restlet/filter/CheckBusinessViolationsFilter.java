@@ -9,17 +9,15 @@ import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
 import org.restlet.Request;
-import org.restlet.resource.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
-import de.twenty11.skysail.server.core.restlet.ResourceFilter;
+import de.twenty11.skysail.server.core.restlet.ListServerResource;
 import de.twenty11.skysail.server.core.restlet.ResponseWrapper;
-import de.twenty11.skysail.server.core.restlet.SkysailServerResource;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
 
-public class CheckBusinessViolationsFilter<T> extends ResourceFilter<T> {
+public class CheckBusinessViolationsFilter<T> extends AbstractListResourceFilter<T> {
 
     private static Logger logger = LoggerFactory.getLogger(CheckBusinessViolationsFilter.class);
 
@@ -34,27 +32,16 @@ public class CheckBusinessViolationsFilter<T> extends ResourceFilter<T> {
     }
 
     @Override
-    protected int beforeHandle(Resource resource, Request request, ResponseWrapper<T> response) {
-        logger.debug("entering {}#beforeHandle", this.getClass().getSimpleName());
-        return CONTINUE;
-    }
-
-    @Override
-    protected int doHandle(SkysailServerResource<T> resource, Request request, ResponseWrapper<T> response) {
+    public FilterResult doHandle(ListServerResource<T> resource, Request request, ResponseWrapper<T> response) {
         logger.debug("entering {}#doHandle", this.getClass().getSimpleName());
         T entity = response.getSkysailResponse().getData();
         Set<ConstraintViolation<T>> violations = validate(entity);
         if (violations.size() > 0) {
             response.setSkysailResponse(new ConstraintViolationsResponse(entity, request.getOriginalRef(), violations));
-            return STOP;
+            return FilterResult.STOP;
         }
         super.doHandle(resource, request, response);
-        return CONTINUE;
-    }
-
-    @Override
-    protected void afterHandle(Resource resource, Request request, ResponseWrapper response) {
-        logger.debug("entering {}#afterHandle", this.getClass().getSimpleName());
+        return FilterResult.CONTINUE;
     }
 
     protected Set<ConstraintViolation<T>> validate(T entity) {

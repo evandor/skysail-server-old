@@ -3,10 +3,7 @@ package de.twenty11.skysail.server.core.restlet.testresources;
 import java.util.Arrays;
 import java.util.List;
 
-import org.mockito.Mockito;
-import org.restlet.Request;
 import org.restlet.data.Form;
-import org.restlet.data.Reference;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.core.restlet.ListServerResource;

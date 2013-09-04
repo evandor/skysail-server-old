@@ -1,7 +1,10 @@
-package de.twenty11.skysail.server.core.restlet.filter;
+package de.twenty11.skysail.server.core.restlet.filter.test;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,12 +15,13 @@ import org.restlet.data.Reference;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.core.restlet.ListServerResource;
-import de.twenty11.skysail.server.core.restlet.SkysailRequestHandlingFilterTest.Entity;
+import de.twenty11.skysail.server.core.restlet.filter.CheckInvalidInputFilter;
+import de.twenty11.skysail.server.core.restlet.testentities.SimpleEntity;
 import de.twenty11.skysail.server.core.restlet.testresources.MyListResource;
 
 public class CheckInvalidInputRequestHandlingFilterTest {
 
-    private CheckInvalidInputFilter<Entity> filterUnderTest;
+    private CheckInvalidInputFilter<SimpleEntity> filterUnderTest;
     private Request request;
     private Reference ref;
     private Form myForm;
@@ -25,25 +29,25 @@ public class CheckInvalidInputRequestHandlingFilterTest {
 
     @Before
     public void setUp() throws Exception {
-        filterUnderTest = new CheckInvalidInputFilter<Entity>();
+        filterUnderTest = new CheckInvalidInputFilter<SimpleEntity>();
         request = Mockito.mock(Request.class);
         ref = Mockito.mock(Reference.class);
         myForm = new Form();
 
         resource = new MyListResource();
 
-        Mockito.when(ref.getQueryAsForm()).thenReturn(myForm);
-        Mockito.when(request.getResourceRef()).thenReturn(ref);
+        ConcurrentMap<String, Object> attributes = new ConcurrentHashMap<String, Object>();
+        attributes.put(ListServerResource.SKYSAIL_SERVER_RESTLET_FORM, myForm);
+        Mockito.when(request.getAttributes()).thenReturn(attributes);
     }
 
     @Test
     public void should_let_string_without_tags_pass() {
         myForm.add("name", "myname");
 
-        SkysailResponse<?> response = filterUnderTest.handle(resource, request).getSkysailResponse();
-        assertThat(response.getSuccess(), is(true));
-        // assertThat(response.getData(), is(true));
+        SkysailResponse response = filterUnderTest.handle(resource, request).getSkysailResponse();
 
+        assertThat(response.getSuccess(), is(true));
     }
 
     @Test
@@ -51,8 +55,7 @@ public class CheckInvalidInputRequestHandlingFilterTest {
         myForm.add("name", "myname<script></script>");
 
         SkysailResponse<?> response = filterUnderTest.handle(resource, request).getSkysailResponse();
-        assertThat(response.getSuccess(), is(false));
-        // assertThat(response.getData(), is(true));
 
+        assertThat(response.getSuccess(), is(false));
     }
 }

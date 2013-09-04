@@ -22,17 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import javax.validation.bootstrap.GenericBootstrap;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.restlet.Request;
 import org.restlet.Restlet;
 import org.restlet.data.Form;
 import org.restlet.data.Method;
@@ -45,7 +37,7 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.selfdescription.ResourceDetails;
-import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
+import de.twenty11.skysail.server.core.restlet.filter.AbstractResourceFilter;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.security.SkysailRoleAuthorizer;
 
@@ -62,12 +54,14 @@ import de.twenty11.skysail.server.security.SkysailRoleAuthorizer;
  */
 public abstract class ListServerResource<T> extends SkysailServerResource<List<T>> {
 
+    public static final String SKYSAIL_SERVER_RESTLET_FORM = "de.twenty11.skysail.server.core.restlet.form";
+
     public static final String CONSTRAINT_VIOLATIONS = "constraintViolations";
 
     /** slf4j based logger implementation. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    //private Validator validator;
+    // private Validator validator;
 
     private String filterExpression;
 
@@ -97,8 +91,8 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
 
     @Post("x-www-form-urlencoded:html|json|xml")
     public SkysailResponse<?> addFromForm(Form form) {
-        ResourceFilter<List<T>> chain = new RequestHandler<List<T>>().getChain(Method.POST);
-        getRequest().getAttributes().put("form", form);
+        AbstractResourceFilter<ListServerResource<T>, List<T>> chain = new RequestHandler<T>().getChain(Method.POST);
+        getRequest().getAttributes().put(SKYSAIL_SERVER_RESTLET_FORM, form);
         return chain.handle(this, getRequest()).getSkysailResponse();
     }
 
@@ -113,9 +107,8 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
     }
 
     protected SkysailResponse<List<T>> getEntities(String defaultMsg) {
-        RequestHandler<List<T>> requestHandler = new RequestHandler<List<T>>();
-        ResourceFilter<List<T>> chain = requestHandler.getChain(Method.GET);
-
+        RequestHandler<T> requestHandler = new RequestHandler<T>();
+        AbstractResourceFilter<ListServerResource<T>, List<T>> chain = requestHandler.getChain(Method.GET);
         ResponseWrapper<List<T>> wrapper = chain.handle(this, getRequest());
         return wrapper.getSkysailResponse();
     }
@@ -130,8 +123,6 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
         return result;
     }
 
-
-
     protected Map<String, String> getParamsFromRequest() {
         Map<String, String> params = new HashMap<String, String>();
         if (getQuery() != null) {
@@ -139,8 +130,6 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
         }
         return params;
     }
-
-
 
     protected String augmentWithFilterMsg(String msg) {
         return filterExpression == null ? msg : msg + " filtered by '" + filterExpression + "'";

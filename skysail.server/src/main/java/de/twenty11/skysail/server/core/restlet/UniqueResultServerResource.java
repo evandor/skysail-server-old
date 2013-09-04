@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
+import de.twenty11.skysail.server.core.restlet.filter.AbstractResourceFilter;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
 
 public abstract class UniqueResultServerResource<T> extends SkysailServerResource<T> {
@@ -61,7 +62,7 @@ public abstract class UniqueResultServerResource<T> extends SkysailServerResourc
     protected SkysailResponse<T> getEntity(String defaultMsg) {
 
         RequestHandler<T> requestHandler = new RequestHandler<T>();
-        ResourceFilter<T> chain = requestHandler.getChain(Method.GET);
+        AbstractResourceFilter<UniqueResultServerResource<T>, T> chain = requestHandler.getChainForEntity(Method.GET);
 
         ResponseWrapper<T> wrapper = chain.handle(this, getRequest());
         return wrapper.getSkysailResponse();
