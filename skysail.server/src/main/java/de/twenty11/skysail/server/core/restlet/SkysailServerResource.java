@@ -17,6 +17,7 @@ import org.restlet.resource.ServerResource;
 
 import de.twenty11.skysail.common.commands.Command;
 import de.twenty11.skysail.common.navigation.LinkedPage;
+import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 
 /**
@@ -43,6 +44,8 @@ public abstract class SkysailServerResource<T> extends ServerResource {
     public abstract T getData(Form form);
 
     public abstract String getMessage(String key);
+
+    public abstract SkysailResponse<?> addEntity(T entity);
 
     @Override
     protected void doInit() throws ResourceException {

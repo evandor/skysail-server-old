@@ -17,7 +17,8 @@ public class MyListResource extends ListServerResource<SimpleEntity> {
     }
 
     @Override
-    public SkysailResponse<?> addEntity(SimpleEntity entity) {
+    public SkysailResponse<?> addEntity(List<SimpleEntity> entity) {
+        // TODO Auto-generated method stub
         return null;
     }
 

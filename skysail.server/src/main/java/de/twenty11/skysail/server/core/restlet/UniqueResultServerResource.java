@@ -51,8 +51,6 @@ public abstract class UniqueResultServerResource<T> extends SkysailServerResourc
 
     public abstract T getData(Form form);
 
-    public abstract SkysailResponse<?> addEntity(T entity);
-
     @Get("html|json")
     public SkysailResponse<T> getEntity() {
         return getEntity("default implementation... you might want to override UniqueResultServerResource2#getEntity in "

@@ -2,8 +2,15 @@ package de.twenty11.skysail.server.core.restlet;
 
 import java.util.List;
 
-import de.twenty11.skysail.server.core.restlet.filter.*;
 import org.restlet.data.Method;
+
+import de.twenty11.skysail.server.core.restlet.filter.AbstractResourceFilter;
+import de.twenty11.skysail.server.core.restlet.filter.CheckBusinessViolationsFilter;
+import de.twenty11.skysail.server.core.restlet.filter.CheckInvalidInputFilter;
+import de.twenty11.skysail.server.core.restlet.filter.ExceptionCatchingFilter2;
+import de.twenty11.skysail.server.core.restlet.filter.FormDataExtractingFilter;
+import de.twenty11.skysail.server.core.restlet.filter.PersistEntityFilter;
+import de.twenty11.skysail.server.core.restlet.filter.QueryExtractingFilter;
 
 public class RequestHandler<T> {
 
@@ -25,6 +32,7 @@ public class RequestHandler<T> {
                         .calling(new CheckInvalidInputFilter<ListServerResource<T>, List<T>>())
                         .calling(new FormDataExtractingFilter<ListServerResource<T>, List<T>>())
                         .calling(new CheckBusinessViolationsFilter<ListServerResource<T>, List<T>>())
+                        .calling(new PersistEntityFilter<ListServerResource<T>, List<T>>())
                         ;
         }
         throw new RuntimeException("Method " + method + " is not yet supported");
@@ -46,6 +54,7 @@ public class RequestHandler<T> {
                         .calling(new CheckInvalidInputFilter<UniqueResultServerResource<T>, T>())
                         .calling(new FormDataExtractingFilter<UniqueResultServerResource<T>, T>())
                         .calling(new CheckBusinessViolationsFilter<UniqueResultServerResource<T>, T>())
+                        .calling(new PersistEntityFilter<UniqueResultServerResource<T>, T>())
                         ;
         }
         throw new RuntimeException("Method " + method + " is not yet supported");

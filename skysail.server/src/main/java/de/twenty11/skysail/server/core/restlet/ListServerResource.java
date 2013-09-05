@@ -61,18 +61,7 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
     /** slf4j based logger implementation. */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    // private Validator validator;
-
     private String filterExpression;
-
-    /**
-     * return new JobDescriptor(form.getFirstValue("name"));
-     */
-    // @Deprecated
-    // public abstract T getData(Form form);
-
-    @Deprecated
-    public abstract SkysailResponse<?> addEntity(T entity);
 
     public ListServerResource() {
 
