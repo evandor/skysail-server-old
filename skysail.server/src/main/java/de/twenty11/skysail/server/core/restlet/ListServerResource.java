@@ -80,9 +80,9 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
 
     @Post("x-www-form-urlencoded:html|json|xml")
     public SkysailResponse<?> addFromForm(Form form) {
-        AbstractResourceFilter<ListServerResource<T>, List<T>> chain = new RequestHandler<T>().getChain(Method.POST);
         getRequest().getAttributes().put(SKYSAIL_SERVER_RESTLET_FORM, form);
-        return chain.handle(this, getRequest()).getSkysailResponse();
+        AbstractResourceFilter<ListServerResource<T>, List<T>> handler = RequestHandler.<T>createForList(Method.POST);
+        return handler.handle(this, getRequest()).getSkysailResponse();
     }
 
     protected boolean match(T t, String pattern) {

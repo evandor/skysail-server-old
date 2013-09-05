@@ -7,12 +7,41 @@ import org.restlet.data.Method;
 import de.twenty11.skysail.server.core.restlet.filter.AbstractResourceFilter;
 import de.twenty11.skysail.server.core.restlet.filter.CheckBusinessViolationsFilter;
 import de.twenty11.skysail.server.core.restlet.filter.CheckInvalidInputFilter;
-import de.twenty11.skysail.server.core.restlet.filter.ExceptionCatchingFilter2;
+import de.twenty11.skysail.server.core.restlet.filter.ExceptionCatchingFilter;
 import de.twenty11.skysail.server.core.restlet.filter.FormDataExtractingFilter;
 import de.twenty11.skysail.server.core.restlet.filter.PersistEntityFilter;
 import de.twenty11.skysail.server.core.restlet.filter.QueryExtractingFilter;
 
 public class RequestHandler<T> {
+    
+    /**
+     * for now, always return new objects
+     */
+    public static synchronized <T> AbstractResourceFilter<ListServerResource<T>, List<T>> createForList(Method method) {
+        if (method.equals(Method.GET)) {
+            return chainForListGet();
+        } else if (method.equals(Method.POST)) {
+            return chainForListPost();
+        }
+        throw new RuntimeException("Method " + method + " is not yet supported");
+    }
+
+    private static <T> AbstractResourceFilter<ListServerResource<T>, List<T>> chainForListPost() {
+        return  new ExceptionCatchingFilter<ListServerResource<T>, List<T>>()
+                .calling(new CheckInvalidInputFilter<ListServerResource<T>, List<T>>())
+                .calling(new FormDataExtractingFilter<ListServerResource<T>, List<T>>())
+                .calling(new CheckBusinessViolationsFilter<ListServerResource<T>, List<T>>())
+                .calling(new PersistEntityFilter<ListServerResource<T>, List<T>>())
+                ;
+    }
+
+    private static <T> AbstractResourceFilter<ListServerResource<T>, List<T>> chainForListGet() {
+        return null;
+    }
+
+    public static <T> AbstractResourceFilter<UniqueResultServerResource<T>, T> createForEntity(Method method) {
+        return null;
+    }
 
     // @formatter:off
 
@@ -20,7 +49,7 @@ public class RequestHandler<T> {
         if (method.equals(Method.GET)) {
         
             // exceptionCatching -> QueryExtracting -> DataExtracting
-            new ExceptionCatchingFilter2<ListServerResource<T>, List<T>>()
+            new ExceptionCatchingFilter<ListServerResource<T>, List<T>>()
                         //.calling(new QueryExtractingFilter<ListServerResource<T>, T>())
                         //.calling(new DataExtractingFilter<T>())
                         ;
@@ -28,12 +57,7 @@ public class RequestHandler<T> {
         } else if (method.equals(Method.POST)) {
 
             // exceptionCatching -> QueryExtracting -> DataExtracting
-            return  new ExceptionCatchingFilter2<ListServerResource<T>, List<T>>()
-                        .calling(new CheckInvalidInputFilter<ListServerResource<T>, List<T>>())
-                        .calling(new FormDataExtractingFilter<ListServerResource<T>, List<T>>())
-                        .calling(new CheckBusinessViolationsFilter<ListServerResource<T>, List<T>>())
-                        .calling(new PersistEntityFilter<ListServerResource<T>, List<T>>())
-                        ;
+            return  chainForListPost();
         }
         throw new RuntimeException("Method " + method + " is not yet supported");
     }
@@ -42,7 +66,7 @@ public class RequestHandler<T> {
         if (method.equals(Method.GET)) {
         
             // exceptionCatching -> QueryExtracting -> DataExtracting
-            return new ExceptionCatchingFilter2<UniqueResultServerResource<T>, T>()
+            return new ExceptionCatchingFilter<UniqueResultServerResource<T>, T>()
                         .calling(new QueryExtractingFilter<UniqueResultServerResource<T>, T>())
                         //.calling(new DataExtractingFilter<T>())
                     ;
@@ -50,7 +74,7 @@ public class RequestHandler<T> {
         } else if (method.equals(Method.POST)) {
 
             // exceptionCatching -> QueryExtracting -> DataExtracting
-            return new ExceptionCatchingFilter2<UniqueResultServerResource<T>, T>()
+            return new ExceptionCatchingFilter<UniqueResultServerResource<T>, T>()
                         .calling(new CheckInvalidInputFilter<UniqueResultServerResource<T>, T>())
                         .calling(new FormDataExtractingFilter<UniqueResultServerResource<T>, T>())
                         .calling(new CheckBusinessViolationsFilter<UniqueResultServerResource<T>, T>())
