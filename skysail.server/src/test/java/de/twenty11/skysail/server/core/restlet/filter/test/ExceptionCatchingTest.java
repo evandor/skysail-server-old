@@ -3,9 +3,6 @@ package de.twenty11.skysail.server.core.restlet.filter.test;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import de.twenty11.skysail.server.core.restlet.UniqueResultServerResource;
-import de.twenty11.skysail.server.core.restlet.filter.AbstractResourceFilter;
-import de.twenty11.skysail.server.core.restlet.testresources.MyEntityResource;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -13,15 +10,15 @@ import org.restlet.Request;
 
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.server.core.restlet.ListServerResource;
 import de.twenty11.skysail.server.core.restlet.ResponseWrapper;
-import de.twenty11.skysail.server.core.restlet.filter.AbstractListResourceFilter;
+import de.twenty11.skysail.server.core.restlet.UniqueResultServerResource;
+import de.twenty11.skysail.server.core.restlet.filter.AbstractResourceFilter;
 import de.twenty11.skysail.server.core.restlet.filter.ExceptionCatchingFilter;
 import de.twenty11.skysail.server.core.restlet.filter.FilterResult;
 import de.twenty11.skysail.server.core.restlet.testentities.SimpleEntity;
-import de.twenty11.skysail.server.core.restlet.testresources.MyListResource;
+import de.twenty11.skysail.server.core.restlet.testresources.MyEntityResource;
 
-public class ExceptionCatchingRequestHandlingFilterTest {
+public class ExceptionCatchingTest {
 
     private ExceptionCatchingFilter<UniqueResultServerResource<SimpleEntity>, SimpleEntity> exceptionCatchingFilter;
 
