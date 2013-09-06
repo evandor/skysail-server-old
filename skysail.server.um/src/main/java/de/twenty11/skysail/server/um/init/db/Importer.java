@@ -45,6 +45,7 @@ public class Importer implements SessionCustomizer {
                 UnitOfWork unitOfWork = event.getSession().acquireUnitOfWork();
                 importSql(unitOfWork, fileName);
                 unitOfWork.commit();
+
             }
         });
     }
@@ -73,8 +74,8 @@ public class Importer implements SessionCustomizer {
             unitOfWork.executeNonSelectingSQL(sql);
         } catch (DatabaseException dbe) {
             if (dbe.getCause() instanceof SQLIntegrityConstraintViolationException) {
-                logger.debug("Ignoring initialization statement as it has been executed before: {} ", dbe
-                        .getCause().getMessage());
+                logger.debug("Ignoring initialization statement as it has been executed before: {} ", dbe.getCause()
+                        .getMessage());
             } else {
                 logger.error("Problem initializing the database", dbe);
             }

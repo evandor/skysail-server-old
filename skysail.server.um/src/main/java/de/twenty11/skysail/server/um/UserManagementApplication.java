@@ -17,14 +17,20 @@ package de.twenty11.skysail.server.um;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
+
+import org.apache.commons.dbcp.BasicDataSource;
+
+import com.googlecode.flyway.core.Flyway;
 
 import de.twenty11.skysail.server.core.restlet.RouteBuilder;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.MenuEntry;
 import de.twenty11.skysail.server.services.MenuProvider;
+import de.twenty11.skysail.server.um.domain.SkysailUser;
 import de.twenty11.skysail.server.um.repos.RoleRepository;
 import de.twenty11.skysail.server.um.repos.UserRepository;
 import de.twenty11.skysail.server.um.resources.AddRoleResource;
@@ -34,8 +40,10 @@ import de.twenty11.skysail.server.um.resources.RolesResource;
 import de.twenty11.skysail.server.um.resources.UserManagementRootResource;
 import de.twenty11.skysail.server.um.resources.UserResource;
 import de.twenty11.skysail.server.um.resources.UsersResource;
+import de.twenty11.skysail.server.um.services.UserManager;
 
-public class UserManagementApplication extends SkysailApplication implements ApplicationProvider, MenuProvider {
+public class UserManagementApplication extends SkysailApplication implements ApplicationProvider, MenuProvider,
+        UserManager {
 
     private EntityManagerFactory enitityManagerFactory;
     private UserRepository userRepository;
@@ -44,6 +52,26 @@ public class UserManagementApplication extends SkysailApplication implements App
     public UserManagementApplication() {
         setName("usermanagement");
         setDescription("Central User Configuration Application");
+    }
+
+    public void flyway() {
+        Flyway flyway = new Flyway();
+        // EntityManagerImpl entityManager = (EntityManagerImpl) enitityManagerFactory.createEntityManager();
+        // Object object =
+        // entityManager.getEntityManagerFactory().getProperties().get("javax.persistence.jtaDataSource");
+
+        Map properties = (Map) enitityManagerFactory.getProperties().get("PUnitInfo");
+
+        BasicDataSource bds = new BasicDataSource();
+
+        bds.setUrl((String) properties.get("driverUrl"));
+        bds.setPassword((String) properties.get("driverPassword"));
+        bds.setUsername((String) properties.get("driverUser"));
+        bds.setDriverClassName((String) properties.get("driverClassName"));
+
+        flyway.setDataSource(bds);
+        flyway.setTable("skysail_server_um_schema_version");
+        flyway.migrate();
     }
 
     @Override
@@ -80,6 +108,11 @@ public class UserManagementApplication extends SkysailApplication implements App
     @Override
     public List<MenuEntry> getMenuEntries() {
         return Arrays.asList(new MenuEntry("main", "um", getName() + "/users"));
+    }
+
+    @Override
+    public SkysailUser findByUsername(String username) {
+        return getUserRepository().getByName(username);
     }
 
 }

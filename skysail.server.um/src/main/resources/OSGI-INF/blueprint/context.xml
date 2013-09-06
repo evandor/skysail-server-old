@@ -8,7 +8,7 @@
 	<!-- <ext:property-placeholder /> -->
 
 	<bean id="skysailApp"
-		class="de.twenty11.skysail.server.um.UserManagementApplication">
+		class="de.twenty11.skysail.server.um.UserManagementApplication" init-method="flyway">
 		<property name="entityManager" ref="emfRef" />
         <property name="bundleContext" ref="blueprintBundleContext"/>
 	</bean>
@@ -18,6 +18,9 @@
 
 	<service ref="skysailApp"
 		interface="de.twenty11.skysail.server.services.MenuProvider" />
+
+	<service ref="skysailApp"
+		interface="de.twenty11.skysail.server.um.services.UserManager" />
 
 	<reference id="emfRef" interface="javax.persistence.EntityManagerFactory"
 		filter="(osgi.unit.name=UserManagementPU)" />

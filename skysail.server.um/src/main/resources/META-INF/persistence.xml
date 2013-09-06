@@ -7,11 +7,11 @@
         <class>de.twenty11.skysail.server.um.domain.SkysailUser</class>
         <class>de.twenty11.skysail.server.um.domain.SkysailRole</class>
 		<properties>
-            <property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
-            <property name="eclipselink.ddl-generation.output-mode" value="database" />
-            <property name="eclipselink.session.customizer" value="de.twenty11.skysail.server.um.init.db.Importer" />
-            <property name="import.sql.file" value="/initialImport.sql" />
-            <property name="eclipselink.logging.level" value="FINE"/>
+            <!--<property name="eclipselink.ddl-generation" value="drop-and-create-tables" />-->
+            <!--<property name="eclipselink.ddl-generation.output-mode" value="database" />-->
+            <!--<property name="eclipselink.session.customizer" value="de.twenty11.skysail.server.um.init.db.Importer" />-->
+            <!--<property name="import.sql.file" value="/initialImport.sql" />-->
+            <!--<property name="eclipselink.logging.level" value="FINE"/>-->
         </properties>
 	</persistence-unit>
 </persistence>
