@@ -15,14 +15,14 @@
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
 <listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
 </listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog -console"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dosgi.requiredJavaVersion=1.5 -Dhelp.lucene.tokenizer=standard -Xms40m -Xmx512m -XX:MaxPermSize=256m -Declipse.ignoreApp=true -Dosgi.noShutdown=true -Dequinox.ds.print=true"/>
 <stringAttribute key="pde.version" value="3.3"/>
 <booleanAttribute key="show_selected_only" value="false"/>
-<stringAttribute key="target_bundles" value="com.springsource.javax.validation@default:default,javax.persistence*2.0.3.v201010191057@default:default,org.apache.commons.dbcp@default:default,org.apache.commons.lang@default:default,org.apache.commons.pool@default:default,org.apache.felix.configadmin@default:default,org.apache.felix.gogo.command@default:default,org.apache.felix.gogo.runtime@default:default,org.apache.felix.gogo.shell@default:default,org.apache.log4j@default:default,org.eclipse.equinox.console@default:default,org.eclipse.equinox.ds@1:true,org.eclipse.equinox.util@default:default,org.eclipse.osgi.services@default:default,org.eclipse.osgi@-1:true,org.hibernate.validator@default:default,org.jboss.logging.jboss-logging*3.1.2.GA@default:default,org.json@default:default,org.restlet*2.1.0.v20120920-1346@default:default,org.restlet.ext.json*2.1.0.v20120920-1346@default:default,org.slf4j.api@default:default,osgi.enterprise@default:default"/>
+<stringAttribute key="target_bundles" value="javax.persistence@default:default,org.apache.commons.lang@default:default,org.apache.felix.gogo.command@default:default,org.apache.felix.gogo.runtime@default:default,org.apache.felix.gogo.shell@default:default,org.apache.log4j@default:default,org.eclipse.equinox.console@default:default,org.eclipse.equinox.ds@1:true,org.eclipse.equinox.util@default:default,org.eclipse.osgi.services@default:default,org.eclipse.osgi@-1:true,org.slf4j.api@default:default"/>
 <booleanAttribute key="tracing" value="true"/>
 <booleanAttribute key="useCustomFeatures" value="false"/>
 <booleanAttribute key="useDefaultConfigArea" value="true"/>
-<stringAttribute key="workspace_bundles" value="skysail.common.config.configadmin@default:default,skysail.common@default:default,skysail.server@default:default"/>
 </launchConfiguration>
