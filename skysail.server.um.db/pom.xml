@@ -1,0 +1,102 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.twentyeleven.skysail</groupId>
+		<artifactId>skysail.build.maven.parentPom</artifactId>
+		<version>0.8.42-SNAPSHOT</version>
+		<relativePath />
+	</parent>
+
+	<artifactId>skysail.server.um.db</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>SKYSAIL :: server :: usermanagement :: db</name>
+	<packaging>bundle</packaging>
+
+	<scm>
+		<!-- read access -->
+		<connection>scm:git:git@github.com:evandor/skysail-server.git</connection>
+		<!-- write access -->
+		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
+		<!-- A publicly browsable repository. For example, via ViewCVS. -->
+		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<properties>
+		<skysail.server.version>[0.3.1-SNAPSHOT, 1.0)</skysail.server.version>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<_include>-osgi.bnd</_include>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+        <dependency>
+			<groupId>de.twentyeleven.skysail</groupId>
+			<artifactId>skysail.server</artifactId>
+			<version>${skysail.server.version}</version>
+			<type>test-jar</type>
+		</dependency>
+		<dependency>
+			<groupId>de.twentyeleven.skysail</groupId>
+			<artifactId>skysail.server</artifactId>
+			<version>${skysail.server.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>javax.persistence</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit-dep</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>10.8.2.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.enterprise</artifactId>
+		</dependency>
+		
+		<dependency>
+            <groupId>com.googlecode.flyway</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+	</dependencies>
+
+
+</project>

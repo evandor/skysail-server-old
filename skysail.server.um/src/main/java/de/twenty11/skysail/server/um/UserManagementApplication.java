@@ -56,9 +56,6 @@ public class UserManagementApplication extends SkysailApplication implements App
 
     public void flyway() {
         Flyway flyway = new Flyway();
-        // EntityManagerImpl entityManager = (EntityManagerImpl) enitityManagerFactory.createEntityManager();
-        // Object object =
-        // entityManager.getEntityManagerFactory().getProperties().get("javax.persistence.jtaDataSource");
 
         Map properties = (Map) enitityManagerFactory.getProperties().get("PUnitInfo");
 
