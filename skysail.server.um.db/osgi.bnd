@@ -1,10 +1,7 @@
 Include-Resource: {maven-resources}
-Meta-Persistence: META-INF/persistence.xml
-Import-Package: javax.persistence;jpa="2.0";version="1.1.0",\
- com.googlecode.flyway.core.api.migration.*;version="2.2.1",\
+Import-Package: com.googlecode.flyway.core.api.migration.*;version="2.2.1",\
  *
 Export-Package: db.migration;version="0.0.1",
  *
 Bundle-SymbolicName: skysail.server.um.db
-Skysail-PersistenceUnit: UserManagementPU
 Fragment-Host: com.googlecode.flyway.core

@@ -17,13 +17,8 @@ package de.twenty11.skysail.server.um;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
-
-import org.apache.commons.dbcp.BasicDataSource;
-
-import com.googlecode.flyway.core.Flyway;
 
 import de.twenty11.skysail.server.core.restlet.RouteBuilder;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
@@ -54,29 +49,29 @@ public class UserManagementApplication extends SkysailApplication implements App
         setDescription("Central User Configuration Application");
     }
 
-    public void flyway() {
-        Flyway flyway = new Flyway();
-
-        Map properties = (Map) enitityManagerFactory.getProperties().get("PUnitInfo");
-
-        BasicDataSource bds = new BasicDataSource();
-
-        bds.setUrl((String) properties.get("driverUrl"));
-        bds.setPassword((String) properties.get("driverPassword"));
-        bds.setUsername((String) properties.get("driverUser"));
-        bds.setDriverClassName((String) properties.get("driverClassName"));
-
-        flyway.setDataSource(bds);
-        flyway.setTable("skysail_server_um_schema_version");
-        flyway.setLocations("db/migration/");
-
-        ClassLoader ccl = Thread.currentThread().getContextClassLoader();
-        ClassLoader thisClassLoader = this.getClass().getClassLoader();
-        Thread.currentThread().setContextClassLoader(thisClassLoader);
-        flyway.migrate();
-        Thread.currentThread().setContextClassLoader(ccl);
-
-    }
+    // public void flyway() {
+    // Flyway flyway = new Flyway();
+    //
+    // Map properties = (Map) enitityManagerFactory.getProperties().get("PUnitInfo");
+    //
+    // BasicDataSource bds = new BasicDataSource();
+    //
+    // bds.setUrl((String) properties.get("driverUrl"));
+    // bds.setPassword((String) properties.get("driverPassword"));
+    // bds.setUsername((String) properties.get("driverUser"));
+    // bds.setDriverClassName((String) properties.get("driverClassName"));
+    //
+    // flyway.setDataSource(bds);
+    // flyway.setTable("skysail_server_um_schema_version");
+    // flyway.setLocations("db/migration/");
+    //
+    // ClassLoader ccl = Thread.currentThread().getContextClassLoader();
+    // ClassLoader thisClassLoader = this.getClass().getClassLoader();
+    // Thread.currentThread().setContextClassLoader(thisClassLoader);
+    // flyway.migrate();
+    // Thread.currentThread().setContextClassLoader(ccl);
+    //
+    // }
 
     @Override
     protected void attach() {

@@ -7,8 +7,8 @@
 
 	<!-- <ext:property-placeholder /> -->
 
-	<bean id="skysailApp"
-		class="de.twenty11.skysail.server.um.db.FlywaySetup">
+	<bean id="flywaySetup"
+		class="de.twenty11.skysail.server.um.db.FlywaySetup" init-method="init">
 		<property name="entityManager" ref="emfRef" />
 	</bean>
 
