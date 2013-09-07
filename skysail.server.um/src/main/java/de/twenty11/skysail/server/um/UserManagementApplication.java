@@ -71,7 +71,14 @@ public class UserManagementApplication extends SkysailApplication implements App
 
         flyway.setDataSource(bds);
         flyway.setTable("skysail_server_um_schema_version");
+        flyway.setLocations("db/migration/");
+
+        ClassLoader ccl = Thread.currentThread().getContextClassLoader();
+        ClassLoader thisClassLoader = this.getClass().getClassLoader();
+        Thread.currentThread().setContextClassLoader(thisClassLoader);
         flyway.migrate();
+        Thread.currentThread().setContextClassLoader(ccl);
+
     }
 
     @Override
