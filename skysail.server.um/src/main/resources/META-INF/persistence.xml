@@ -9,14 +9,15 @@
         <class>de.twenty11.skysail.server.um.domain.SkysailUser</class>
         <class>de.twenty11.skysail.server.um.domain.SkysailRole</class>
 		<properties>
-            <property name="eclipselink.ddl-generation" value="drop-and-create-tables" /><!-- create-or-extend-tables -->
-            <property name="eclipselink.ddl-generation.output-mode" value="both" />
-            <property name="eclipselink.session.customizer" value="de.twenty11.skysail.server.um.init.db.Importer" />
-            <property name="import.sql.file" value="/initialImport.sql" />
-            <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="eclipselink.ddl-generation" value="create-tables" /><!-- create-or-extend-tables -->
+            <property name="eclipselink.ddl-generation.output-mode" value="sql-script" />
+            <!-- <property name="eclipselink.session.customizer" value="de.twenty11.skysail.server.um.init.db.Importer" /> -->
+            <!-- <property name="import.sql.file" value="/initialImport.sql" /> -->
+            <!-- <property name="eclipselink.logging.level" value="FINE"/> -->
             
-            <property name="eclipselink.create-ddl-jdbc-file-name" value="createDDL_ddlGeneration.jdbc"/> 
-            <property name="eclipselink.drop-ddl-jdbc-file-name" value="dropDDL_ddlGeneration.jdbc"/> 
+            <!-- those files are creates in the pax-runner/runner folder once the bundle is activated -->
+            <property name="eclipselink.create-ddl-jdbc-file-name" value="createDDL_server.um.jdbc"/> 
+            <property name="eclipselink.drop-ddl-jdbc-file-name" value="dropDDL_server.um.jdbc"/>
             
         </properties>
 	</persistence-unit>

@@ -120,6 +120,9 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
 
         options.add(mavenBundle("javax.servlet", "com.springsource.javax.servlet", "2.5.0"));
 
+        // only for (java)Agent for now
+        options.add(mavenBundle("org.javassist", "javassist", "3.17.1-GA"));
+
         logger.info("using options from {} for tests", this.getClass());
 
         return options;
