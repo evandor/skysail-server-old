@@ -41,11 +41,13 @@ public class FlywaySetup {
 
         flyway.setDataSource(bds);
         flyway.setTable("skysail_server_um_schema_version");
-        flyway.setLocations("db/migration/");
+        flyway.setLocations("dbmig/server_um/");
 
         ClassLoader ccl = Thread.currentThread().getContextClassLoader();
         ClassLoader thisClassLoader = this.getClass().getClassLoader();
         Thread.currentThread().setContextClassLoader(thisClassLoader);
+
+        flyway.setInitOnMigrate(true);
         flyway.migrate();
         Thread.currentThread().setContextClassLoader(ccl);
 
