@@ -17,8 +17,10 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.validation.constraints.Size;
 
 import de.twenty11.skysail.common.forms.Field;
@@ -30,7 +32,8 @@ public class SkysailRole implements Serializable {
     private static final long serialVersionUID = -3115339834627271551L;
 
     @Id
-    @GeneratedValue
+    @TableGenerator(name = "TABLE_GEN", table = "SEQUENCE", pkColumnValue = "UM_SKYSAIL_ROLE_SEQ")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
     private int id;
 
     @Field

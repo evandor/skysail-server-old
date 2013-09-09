@@ -36,7 +36,14 @@ INSERT INTO SEQUENCE(
     SEQ_NAME ,
     SEQ_COUNT
 ) values(
-    'SEQ_GEN' ,
+    'UM_SKYSAIL_USER_SEQ' ,
     0
 ); 
 
+INSERT INTO SEQUENCE(
+    SEQ_NAME ,
+    SEQ_COUNT
+) values(
+    'UM_SKYSAIL_ROLE_SEQ' ,
+    0
+); 
