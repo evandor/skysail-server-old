@@ -36,8 +36,8 @@ public class SkysailUser implements Serializable {
     private static final long serialVersionUID = -3030387756527785881L;
 
     @Id
-    @TableGenerator(name = "TABLE_GEN", table = "SEQUENCE", pkColumnValue = "UM_SKYSAIL_USER_SEQ")
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
+    @TableGenerator(name = "UM_SKYSAIL_USER_TABLE_GEN", table = "SEQUENCE", pkColumnValue = "UM_SKYSAIL_USER_SEQ")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "UM_SKYSAIL_USER_TABLE_GEN")
     private int id;
 
     @Field

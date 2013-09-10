@@ -32,8 +32,8 @@ public class SkysailRole implements Serializable {
     private static final long serialVersionUID = -3115339834627271551L;
 
     @Id
-    @TableGenerator(name = "TABLE_GEN", table = "SEQUENCE", pkColumnValue = "UM_SKYSAIL_ROLE_SEQ")
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
+    @TableGenerator(name = "UM_SKYSAIL_ROLE_TABLE_GEN", table = "SEQUENCE", pkColumnValue = "UM_SKYSAIL_ROLE_SEQ")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "UM_SKYSAIL_ROLE_TABLE_GEN")
     private int id;
 
     @Field
