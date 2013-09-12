@@ -1,0 +1,4 @@
+Import-Package:	de.twenty11.skysail.server.security;version="[0.1.0, 1.0.0)",\
+ *
+Export-Package: !*
+Bundle-SymbolicName: skysail.server.security.shiro;singleton:=true

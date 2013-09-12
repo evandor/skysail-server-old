@@ -1,0 +1,7 @@
+Include-Resource: {maven-resources}
+Import-Package: com.googlecode.flyway.core.api.migration.*;version="2.2.1",\
+ *
+Export-Package: db.migration;version="0.0.1",
+ *
+Bundle-SymbolicName: skysail.server.um.db
+Fragment-Host: com.googlecode.flyway.core

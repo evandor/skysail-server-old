@@ -43,6 +43,8 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("org.restlet.osgi", "org.restlet.ext.xml", restletVersion));
         options.add(mavenBundle("org.restlet.osgi", "org.restlet.ext.json", restletVersion));
         options.add(mavenBundle("org.restlet.osgi", "org.restlet", restletVersion));
+        options.add(mavenBundle("org.restlet.osgi", "org.restlet.ext.servlet", restletVersion));
+        options.add(mavenBundle("org.restlet.osgi", "org.restlet.ext.crypto", restletVersion));
 
         // JSON
         options.add(mavenBundle("de.twentyeleven.skysail", "org.json-osgi", "20080701"));
@@ -70,11 +72,11 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
 
         // eclipselink
         options.add(mavenBundle("org.eclipse.persistence", "javax.persistence", "2.0.3"));
-        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.osgi", "2.2.0"));
-        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.core", "2.2.0"));
-        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.jpa", "2.2.0"));
-        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.asm", "2.2.0"));
-        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.osgi", "2.2.0"));
+        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.osgi", "2.4.2"));
+        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.core", "2.4.2"));
+        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.jpa", "2.4.2"));
+        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.asm", "2.4.2"));
+        options.add(mavenBundle("org.eclipse.persistence", "org.eclipse.persistence.osgi", "2.4.2"));
         // "de.twentyeleven.skysail", "skysail.server.eclipselink", "0.0.3-SNAPSHOT"));
 
         // other
@@ -89,7 +91,7 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("org.codehaus.jackson", "jackson-core-lgpl", "1.9.5"));
         options.add(mavenBundle("org.codehaus.jackson", "jackson-mapper-lgpl", "1.9.5"));
         // "org.apache.commons", "com.springsource.org.apache.commons.beanutils", "1.8.3"));
-        // "org.apache.commons", "com.springsource.org.apache.commons.collections", "3.2.1"));
+        options.add(mavenBundle("org.apache.commons", "com.springsource.org.apache.commons.collections", "3.2.1"));
         options.add(mavenBundle("org.apache.pdfbox", "pdfbox", "1.8.0"));
         options.add(mavenBundle("org.apache.pdfbox", "fontbox", "1.8.0"));
         options.add(mavenBundle("org.apache.pdfbox", "jempbox", "1.8.0"));
@@ -98,11 +100,28 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         options.add(mavenBundle("de.twentyeleven.skysail", "org.antlr.stringtemplate-osgi", "4.0.2"));
 
         // stateless4j
-        options.add(mavenBundle("de.twentyeleven.skysail", "com.googlecode.stateless4j-osgi", "1.0"));
+        options.add(mavenBundle("de.twentyeleven.skysail", "com.googlecode.stateless4j-osgi", "1.0.1"));
 
         // apache beanutils
-        options.add(mavenBundle("de.twentyeleven.skysail", "commons-beanutils-osgi", "1.8.3"));
-        //options.add(mavenBundle("org.apache.commons", "com.springsource.org.apache.commons.collections", "3.2.1"));
+        // TODO still used?
+        // options.add(mavenBundle("de.twentyeleven.skysail", "commons-beanutils-osgi", "1.8.3"));
+        // options.add(mavenBundle("org.apache.commons", "com.springsource.org.apache.commons.collections", "3.2.1"));
+
+        options.add(mavenBundle("de.twentyeleven.skysail", "skysail.server.security.shiro", "0.0.1-SNAPSHOT"));
+        options.add(mavenBundle("org.apache.shiro", "shiro-core", "1.2.2"));
+        options.add(mavenBundle("org.apache.shiro", "shiro-web", "1.2.2"));
+        options.add(mavenBundle("org.apache.aries.blueprint", "org.apache.aries.blueprint", "1.1.0"));
+        options.add(mavenBundle("org.apache.aries.proxy", "org.apache.aries.proxy", "1.0.1"));
+        options.add(mavenBundle("org.apache.aries", "org.apache.aries.util", "1.1.0"));
+
+        // options.add(mavenBundle("de.twentyeleven.skysail", "org.antlr.runtime-osgi", "4.1"));
+
+        options.add(mavenBundle("com.google.guava", "guava", "14.0.1"));
+
+        options.add(mavenBundle("javax.servlet", "com.springsource.javax.servlet", "2.5.0"));
+
+        // only for (java)Agent for now
+        options.add(mavenBundle("org.javassist", "javassist", "3.17.1-GA"));
 
         logger.info("using options from {} for tests", this.getClass());
 

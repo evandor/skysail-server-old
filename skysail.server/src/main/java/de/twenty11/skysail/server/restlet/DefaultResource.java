@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.osgi.framework.BundleContext;
 import org.restlet.Application;
+import org.restlet.data.Form;
 import org.restlet.resource.Get;
 import org.restlet.resource.ResourceException;
 import org.slf4j.Logger;
@@ -14,11 +15,13 @@ import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.Presentable;
 import de.twenty11.skysail.common.PresentableHeader;
+import de.twenty11.skysail.common.PresentationStyle;
 import de.twenty11.skysail.common.responses.SkysailResponse;
+import de.twenty11.skysail.server.core.restlet.ListServerResource2;
 import de.twenty11.skysail.server.internal.ApplicationsService;
 import de.twenty11.skysail.server.restlet.DefaultResource.AvailableApplication;
 
-public class DefaultResource extends ListServerResource<AvailableApplication> {
+public class DefaultResource extends ListServerResource2<AvailableApplication> {
 
     private static Logger logger = LoggerFactory.getLogger(DefaultResource.class);
 
@@ -54,7 +57,9 @@ public class DefaultResource extends ListServerResource<AvailableApplication> {
 
     @Get("html|json")
     public SkysailResponse<List<AvailableApplication>> getApplications() {
-        return getEntities(allApplications(), "all Applications");
+        SkysailResponse<List<AvailableApplication>> entities = getEntities("test");
+        entities.setPresentationStyleHint(PresentationStyle.LIST);
+        return entities;
     }
 
     private List<AvailableApplication> allApplications() {
@@ -74,6 +79,24 @@ public class DefaultResource extends ListServerResource<AvailableApplication> {
         SkysailApplication app = (SkysailApplication) getApplication();
         BundleContext bundleContext = app.getBundleContext();
         applications = ApplicationsService.getApplications(bundleContext);
+    }
+
+    @Override
+    public AvailableApplication getData(Form form) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public SkysailResponse<?> addEntity(AvailableApplication entity) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    protected List<AvailableApplication> getData() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

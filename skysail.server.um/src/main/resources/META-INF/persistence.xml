@@ -2,21 +2,23 @@
 <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
-	<persistence-unit name="skysail.server.um"
+	<!-- http://www.eclipse.org/eclipselink/documentation/2.4/jpa/extensions/p_ddl_generation_output_mode.htm#BABCDHBB -->
+	<!-- http://stackoverflow.com/questions/5992031/generate-ddl-for-jpa-2-0-with-eclipselink -->
+	<persistence-unit name="UserManagementPU"
 		transaction-type="RESOURCE_LOCAL">
-		<!-- <class>de.twenty11.skysail.server.um.internal.SkysailClient</class> -->
-        <class>de.twenty11.skysail.common.ext.dbviewer.ConnectionDetails</class>
-        <!-- <class>de.twenty11.skysail.server.um.internal.SkysailRole</class>
-        <class>de.twenty11.skysail.server.um.internal.SkysailPermission</class> -->
-		<!-- <exclude-unlisted-classes>false</exclude-unlisted-classes> -->
+        <class>de.twenty11.skysail.server.um.domain.SkysailUser</class>
+        <class>de.twenty11.skysail.server.um.domain.SkysailRole</class>
 		<properties>
-            <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:derby:skysailDerbyDb;create=true" />
-            <property name="javax.persistence.jdbc.user" value="skysail" />
-            <property name="javax.persistence.jdbc.password" value="skysail" />
-            <!-- EclipseLink should create the database schema automatically -->
-            <property name="eclipselink.ddl-generation" value="create-tables" />
+            <property name="eclipselink.ddl-generation" value="create-tables" /><!-- create-or-extend-tables -->
+            <property name="eclipselink.ddl-generation.output-mode" value="sql-script" />
+            <!-- <property name="eclipselink.session.customizer" value="de.twenty11.skysail.server.um.init.db.Importer" /> -->
+            <!-- <property name="import.sql.file" value="/initialImport.sql" /> -->
+            <!-- <property name="eclipselink.logging.level" value="FINE"/> -->
+            
+            <!-- those files are creates in the pax-runner/runner folder once the bundle is activated -->
+            <property name="eclipselink.create-ddl-jdbc-file-name" value="createDDL_server.um.jdbc"/> 
+            <property name="eclipselink.drop-ddl-jdbc-file-name" value="dropDDL_server.um.jdbc"/>
+            
         </properties>
-		
 	</persistence-unit>
 </persistence>

@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.beanutils.BeanMap;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.restlet.data.Parameter;
@@ -18,9 +20,8 @@ import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupString;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.server.presentation.render.DefaultCleaningStrategy;
-import de.twenty11.skysail.server.presentation.render.HtmlRenderer;
-import de.twenty11.skysail.server.presentation.render.MapTransformer;
+import de.twenty11.skysail.server.core.restlet.ListServerResource2;
+import de.twenty11.skysail.server.presentation.stringtemplate.FormRenderer;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.utils.IOUtils;
 
@@ -32,65 +33,91 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
 
     private Parameter renderAs;
 
+    private final ObjectMapper mapper = new ObjectMapper();
+
     public ListForContentStrategy2(BundleContext bundleContext, Resource resource) {
         SkysailApplication currentApplication = (SkysailApplication) resource.getApplication();
-        Bundle currentBundle = currentApplication.getBundle();
         renderAs = resource.getQuery().getFirst("renderAs");
 
-        String location = resource.getClass().getSimpleName() + ".stg";
-        if (renderAs != null) {
+        // First: classname in apps bundle
+        template = searchIn(currentApplication.getBundle(), resource.getClass());
+        if (template != null) {
+            return;
+        }
+
+        // name of superclass in apps Bundle?
+        template = searchIn(currentApplication.getBundle(), resource.getClass().getSuperclass());
+        if (template != null) {
+            return;
+        }
+
+        Bundle skysailServerBundle = getBundle(bundleContext, "skysail.server");
+
+        template = searchIn(skysailServerBundle, resource.getClass().getSuperclass());
+        if (template != null) {
+            return;
+        }
+
+        template = searchIn(skysailServerBundle, ListServerResource2.class, false);
+    }
+
+    private STGroupString searchIn(Bundle bundle, Class<?> cls) {
+        return searchIn(bundle, cls, true);
+    }
+
+    private STGroupString searchIn(Bundle bundle, Class<?> cls, boolean considerRenderAsParam) {
+        if (bundle == null) {
+            return null;
+        }
+        String location = determineLocation(cls, considerRenderAsParam);
+        logger.info("Trying location {} in Bundle {}", location, bundle.getSymbolicName());
+        return findTemplate(bundle, location);
+    }
+
+    private Bundle getBundle(BundleContext bundleContext, String symbolicName) {
+        Bundle[] allBundles = bundleContext.getBundles();
+        for (Bundle bundle : allBundles) {
+            if (bundle.getSymbolicName().equals("skysail.server")) {
+                return bundle;
+            }
+        }
+        return null;
+    }
+
+    private String determineLocation(Class<?> cls, boolean considerRenderAsParameter) {
+        String location = cls.getSimpleName() + ".stg";
+        if (considerRenderAsParameter && renderAs != null) {
             location = renderAs.getValue() + "/" + location;
         }
-        if (currentBundle != null) {
-            template = findTemplate(currentBundle, location);
-        } else {
-            logger.info("Could not determine the current bundle");
-        }
-        if (template == null) { // default template
-            location = resource.getClass().getSuperclass().getSimpleName() + ".stg";
-            if (renderAs != null) {
-                location = renderAs.getValue() + "/" + location;
-            }
-            
-            Bundle[] allBundles = bundleContext.getBundles();
-            for (Bundle bundle : allBundles) {
-                if (bundle.getSymbolicName().equals("skysail.server")) {
-                    template = findTemplate(bundle, location);
-                    if (template == null) {
-                        location = resource.getClass().getSuperclass().getSimpleName() + ".stg";
-                        template = findTemplate(bundle, location);
-                    }
-                }
-            }
-        }
+        return location;
     }
 
     @Override
     public String createHtml(String page, Object skysailResponseAsObject, SkysailResponse<List<?>> skysailResponse) {
+        List<?> data;
         if (skysailResponseAsObject instanceof List) {
-            List<?> data = (List<?>) skysailResponseAsObject;
-            List<Object> result = new ArrayList<Object>();
-            if (data != null) {
-                for (Object object : data) {
-                    result.add(new BeanMap(object));
-                }
-            }
-            String templateIdentifier = "accordion";
-            if (renderAs != null) {
-                templateIdentifier = renderAs.getValue();
-            }
-            ST accordionHtml = template.getInstanceOf(templateIdentifier);
-            accordionHtml.add("list", result);
-            // html.inspect();
-
-            // BeanMap beanMap = new BeanMap(((List) skysailResponseAsObject).get(0));// new ListWrapper((List<?>)
-            // // skysailResponseAsObject));
-            //
-            // HtmlRenderer renderer = new HtmlRenderer(template);
-            // renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy())
-            // .asRendererInput());
-            page = page.replace("${content}", accordionHtml.render());
+            data = (List<?>) skysailResponseAsObject;
+        } else {
+            data = Arrays.asList(skysailResponseAsObject);
         }
+        List<Object> result = new ArrayList<Object>();
+        if (data != null) {
+            for (Object object : data) {
+                Map<String, Object> objectMap = mapper.convertValue(object, Map.class);
+                objectMap.put("toString", object.toString());
+                result.add(objectMap);
+            }
+        }
+        String templateIdentifier = "accordion";
+        if (renderAs != null) {
+            templateIdentifier = renderAs.getValue();
+        }
+
+        template.registerRenderer(String.class, new FormRenderer());
+
+        ST accordionHtml = template.getInstanceOf(templateIdentifier);
+        accordionHtml.add("list", result);
+        page = page.replace("${content}", accordionHtml.render());
 
         return page;
     }
@@ -110,27 +137,6 @@ public class ListForContentStrategy2 extends AbstractHtmlCreatingStrategy {
             logger.error("Problem reading bundle resource '{}'", templateSourceFile);
             throw new RuntimeException(e);
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    private int handleDataElementsForList2(StringBuilder sb, int i, Object object, STGroupString template) {
-        String accordionGroup = accordionGroupTemplate;
-        i++;
-        BeanMap beanMap = new BeanMap(object);
-
-        HtmlRenderer renderer = new HtmlRenderer(template);
-        renderer.setRendererInput(new MapTransformer(beanMap).clean(new DefaultCleaningStrategy()).asRendererInput());
-
-        // String tmp =
-        // "<table class='table table-hover table-bordered'>\n<tr><th colspan=2 style='background-color:#F5F5F5;'></th></tr>\n"
-        // + renderer.render("mapIteration") + "</table>\n";
-
-        // accordionGroup = accordionGroup.replace("${inner}", renderer.render("table"));
-        // accordionGroup = accordionGroup.replace("${hlink}", renderer.render("header"));
-        // accordionGroup = accordionGroup.replace("${index}", String.valueOf(i));
-        // sb.append(accordionGroup).append("\n");
-        sb.append(renderer.render("accordion"));
-        return i;
     }
 
 }

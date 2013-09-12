@@ -1,0 +1,8 @@
+/src-gen
+/target
+/skysailDerbyTestDb
+/derby.log
+/nb-configuration.xml
+/.classpath
+/.project
+/.settings

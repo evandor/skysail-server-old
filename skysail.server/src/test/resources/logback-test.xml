@@ -4,7 +4,7 @@
 			<level>INFO</level>
 		</filter>
 		<encoder>
-			<pattern>test> %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			<pattern>server#logback-test.xml> %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
 			</pattern>
 		</encoder>
 	</appender>

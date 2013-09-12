@@ -17,8 +17,10 @@
 
 package de.twenty11.skysail.server.internal.listener;
 
+import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;
+import org.osgi.framework.ServiceReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,8 +36,16 @@ public class SkysailServerServiceListener implements ServiceListener {
     
     @Override
     public final void serviceChanged(final ServiceEvent event) {
-    	String symbolicName = event.getServiceReference().getBundle().getSymbolicName();
-    	if (symbolicName.contains("skysail")) {
+        ServiceReference serviceReference = event.getServiceReference();
+        if (serviceReference == null) {
+            return;
+        }
+        Bundle bundle = serviceReference.getBundle();
+        if (bundle == null) {
+            return;
+        }
+    	String symbolicName = bundle.getSymbolicName();
+    	if (symbolicName != null && symbolicName.contains("skysail")) {
             logger.debug(event.toString());
     	}
         //logger.debug(event.toString());

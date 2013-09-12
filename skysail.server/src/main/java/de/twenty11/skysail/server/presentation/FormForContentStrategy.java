@@ -7,11 +7,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-
 import de.twenty11.skysail.common.Presentable;
 import de.twenty11.skysail.common.forms.Field;
 import de.twenty11.skysail.common.grids.RowData;
+import de.twenty11.skysail.common.responses.ConstraintViolationDetails;
 import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FormResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
@@ -20,18 +19,19 @@ public class FormForContentStrategy extends AbstractHtmlCreatingStrategy {
 
     @Override
     public String createHtml(String page, Object response, SkysailResponse<List<?>> skysailResponse) {
-        Set<ConstraintViolation> violations = null;
-        Map<String, ConstraintViolation<?>> violationsMap = new HashMap<String, ConstraintViolation<?>>();
+        Set<ConstraintViolationDetails> violations = null;
+        Map<String, ConstraintViolationDetails<?>> violationsMap = new HashMap<String, ConstraintViolationDetails<?>>();
 
         String action = ".";
         if (skysailResponse instanceof ConstraintViolationsResponse) {
             ConstraintViolationsResponse cvr = (ConstraintViolationsResponse) skysailResponse;
             violations = cvr.getViolations();
-            for (ConstraintViolation<?> violation : violations) {
+            for (ConstraintViolationDetails<?> violation : violations) {
                 if (violation.getPropertyPath() != null) {
                     violationsMap.put(violation.getPropertyPath().toString(), violation);
                 }
             }
+            action = cvr.getActionReference().toString();
         } else if (skysailResponse instanceof FormResponse) {
             FormResponse formResponse = (FormResponse) skysailResponse;
             action = formResponse.getTarget();

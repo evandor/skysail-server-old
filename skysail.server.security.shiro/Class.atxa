@@ -1,0 +1,277 @@
+<,evandor@gmail.com,evandor@gmail.com,evandor@gmail.com,evandor@gmail.com,evandor@gmail.com,evandor@gmail.com> <http://www.architexa.com/rdf/core#creator> "true" .
+
+@prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix atxa-jdt-wkspc: <http://www.architexa.com/rdf/jdt-wkspc#> .
+@prefix atxa-core: <http://www.architexa.com/rdf/core#> .
+@prefix atxa: <http://www.architexa.com/rdf/> .
+@prefix atxa-jdt: <http://www.architexa.com/rdf/jdt#> .
+
+<http://www.architexa.com/rdf/rse-eclipse#Class.atxa> a atxa-core:reloFile .
+
+atxa:DetailNode atxa-core:detailLevel "1" .
+
+atxa-core:docRoot atxa-core:browseModel "com.architexa.diagrams.relo.jdt/com.architexa.diagrams.relo.jdt.browse.ClassStrucBrowseModel" ;
+	atxa-core:contains _:node182qcndm6x1 .
+
+_:node182qcndm6x1 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro> ;
+	atxa-core:posX "625" ;
+	atxa-core:posY "4" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$SkysailWebSubjectContext> , <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$RestletRequestPairSource> , <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$RestSubjectContext> .
+
+_:node182qcndm6x1 atxa-core:contains _:node182qcndm6x3 .
+
+_:node182qcndm6x3 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$SkysailWebSubjectContext> ;
+	atxa-core:posX "631" ;
+	atxa-core:posY "395" .
+
+_:node182qcndm6x4 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node182qcndm6x3 ;
+	rdf:object _:node182qcndm6x5 ;
+	atxa-core:bendpoint _:node182qcn38kx3143 .
+
+_:node182qcn38kx3143 atxa-core:bpLocation "737,232" ;
+	atxa-core:bpIndex "0" .
+
+_:node182qcndm6x8 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node182qcndm6x3 ;
+	rdf:object _:node182qcndm6x9 ;
+	atxa-core:bendpoint _:node182qcn38kx3144 .
+
+_:node182qcn38kx3144 atxa-core:bpLocation "737,324" ;
+	atxa-core:bpIndex "0" .
+
+_:node182qcndm6x8 atxa-core:bendpoint _:node182qcn38kx3145 .
+
+_:node182qcn38kx3145 atxa-core:bpLocation "285,324" ;
+	atxa-core:bpIndex "1" .
+
+_:node182qcndm6x1 atxa-core:contains _:node182qcndm6x2 .
+
+_:node182qcndm6x2 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$RestletRequestPairSource> ;
+	atxa-core:posX "654" ;
+	atxa-core:posY "29" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$RestletRequestPairSource> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$RestletRequestPairSource.getRequest()> , <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$RestletRequestPairSource.getResponse()> .
+
+_:node182qcndm6x2 atxa-core:contains _:node182qcn38kx845 .
+
+_:node182qcn38kx845 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$RestletRequestPairSource.getRequest()> ;
+	atxa-core:posX "655" ;
+	atxa-core:posY "47" .
+
+_:node182qcndm6x2 atxa-core:contains _:node182qcn38kx846 .
+
+_:node182qcn38kx846 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$RestletRequestPairSource.getResponse()> ;
+	atxa-core:posX "655" ;
+	atxa-core:posY "63" .
+
+_:node182qcndm6x1 atxa-core:contains _:node182qcndm6x5 .
+
+_:node182qcndm6x5 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro$RestSubjectContext> ;
+	atxa-core:posX "653" ;
+	atxa-core:posY "177" .
+
+_:node182qcndm6x12 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node182qcndm6x5 ;
+	rdf:object _:node182qcndm6x2 ;
+	atxa-core:bendpoint _:node182qcn38kx3146 .
+
+_:node182qcn38kx3146 atxa-core:bpLocation "737,100" ;
+	atxa-core:bpIndex "0" .
+
+_:node182qcndm6x12 atxa-core:bendpoint _:node182qcn38kx3147 .
+
+_:node182qcn38kx3147 atxa-core:bpLocation "758,100" ;
+	atxa-core:bpIndex "1" .
+
+_:node182qcndm6x15 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node182qcndm6x5 ;
+	rdf:object _:node182qcndm6x16 ;
+	atxa-core:bendpoint _:node182qcn38kx3148 .
+
+_:node182qcn38kx3148 atxa-core:bpLocation "737,139" ;
+	atxa-core:bpIndex "0" .
+
+_:node182qcndm6x15 atxa-core:bendpoint _:node182qcn38kx3149 .
+
+_:node182qcn38kx3149 atxa-core:bpLocation "150,139" ;
+	atxa-core:bpIndex "1" .
+
+atxa-core:docRoot atxa-core:contains _:node182qcndm6x19 .
+
+_:node182qcndm6x19 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.subject.support> ;
+	atxa-core:posX "310" ;
+	atxa-core:posY "372" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.subject.support> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.subject.support$DefaultWebSubjectContext> .
+
+_:node182qcndm6x19 atxa-core:contains _:node182qcndm6x20 .
+
+_:node182qcndm6x20 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.subject.support$DefaultWebSubjectContext> ;
+	atxa-core:posX "316" ;
+	atxa-core:posY "397" .
+
+_:node182qcndm6x21 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node182qcndm6x20 ;
+	rdf:object _:node182qcndm6x9 ;
+	atxa-core:bendpoint _:node182qcn38kx3150 .
+
+_:node182qcn38kx3150 atxa-core:bpLocation "424,324" ;
+	atxa-core:bpIndex "0" .
+
+_:node182qcndm6x21 atxa-core:bendpoint _:node182qcn38kx3151 .
+
+_:node182qcn38kx3151 atxa-core:bpLocation "285,324" ;
+	atxa-core:bpIndex "1" .
+
+_:node182qcndm6x24 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node182qcndm6x20 ;
+	rdf:object _:node182qcndm6x25 ;
+	atxa-core:bendpoint _:node182qcn38kx3152 .
+
+_:node182qcn38kx3152 atxa-core:bpLocation "424,238" ;
+	atxa-core:bpIndex "0" .
+
+atxa-core:docRoot atxa-core:contains _:node182qcndm6x28 .
+
+_:node182qcndm6x28 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.subject.support> ;
+	atxa-core:posX "185" ;
+	atxa-core:posY "244" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.subject.support> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.subject.support$DefaultSubjectContext> .
+
+_:node182qcndm6x28 atxa-core:contains _:node182qcndm6x9 .
+
+_:node182qcndm6x9 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.subject.support$DefaultSubjectContext> ;
+	atxa-core:posX "191" ;
+	atxa-core:posY "269" .
+
+_:node182qcndm6x29 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node182qcndm6x9 ;
+	rdf:object _:node182qcndm6x16 ;
+	atxa-core:bendpoint _:node182qcn38kx3153 .
+
+_:node182qcn38kx3153 atxa-core:bpLocation "285,139" ;
+	atxa-core:bpIndex "0" .
+
+_:node182qcndm6x29 atxa-core:bendpoint _:node182qcn38kx3154 .
+
+_:node182qcn38kx3154 atxa-core:bpLocation "150,139" ;
+	atxa-core:bpIndex "1" .
+
+atxa-core:docRoot atxa-core:contains _:node182qcndm6x32 .
+
+_:node182qcndm6x32 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.subject> ;
+	atxa-core:posX "334" ;
+	atxa-core:posY "158" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.subject> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.subject$WebSubjectContext> .
+
+_:node182qcndm6x32 atxa-core:contains _:node182qcndm6x25 .
+
+_:node182qcndm6x25 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.subject$WebSubjectContext> ;
+	atxa-core:posX "340" ;
+	atxa-core:posY "183" .
+
+_:node182qcndm6x33 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node182qcndm6x25 ;
+	rdf:object _:node182qcndm6x16 ;
+	atxa-core:bendpoint _:node182qcn38kx3155 .
+
+_:node182qcn38kx3155 atxa-core:bpLocation "424,139" ;
+	atxa-core:bpIndex "0" .
+
+_:node182qcndm6x33 atxa-core:bendpoint _:node182qcn38kx3156 .
+
+_:node182qcn38kx3156 atxa-core:bpLocation "150,139" ;
+	atxa-core:bpIndex "1" .
+
+_:node182qcndm6x36 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node182qcndm6x25 ;
+	rdf:object _:node182qcndm6x37 ;
+	atxa-core:bendpoint _:node182qcn38kx3157 .
+
+_:node182qcn38kx3157 atxa-core:bpLocation "424,98" ;
+	atxa-core:bpIndex "0" .
+
+atxa-core:docRoot atxa-core:contains _:node182qcndm6x39 .
+
+_:node182qcndm6x39 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.subject> ;
+	atxa-core:posX "75" ;
+	atxa-core:posY "59" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.subject> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.subject$SubjectContext> .
+
+_:node182qcndm6x39 atxa-core:contains _:node182qcndm6x16 .
+
+_:node182qcndm6x16 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.subject$SubjectContext> ;
+	atxa-core:posX "81" ;
+	atxa-core:posY "84" .
+
+atxa-core:docRoot atxa-core:contains _:node182qcndm6x40 .
+
+_:node182qcndm6x40 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.util> ;
+	atxa-core:posX "277" ;
+	atxa-core:posY "2" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.util> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.util$RequestPairSource> .
+
+_:node182qcndm6x40 atxa-core:contains _:node182qcndm6x37 .
+
+_:node182qcndm6x37 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.util$RequestPairSource> ;
+	atxa-core:posX "283" ;
+	atxa-core:posY "27" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.util$RequestPairSource> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.util$RequestPairSource.getServletRequest()> , <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.util$RequestPairSource.getServletResponse()> .
+
+_:node182qcndm6x37 atxa-core:contains _:node182qcn38kx673 .
+
+_:node182qcn38kx673 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.util$RequestPairSource.getServletRequest()> ;
+	atxa-core:posX "284" ;
+	atxa-core:posY "45" .
+
+_:node182qcndm6x37 atxa-core:contains _:node182qcn38kx674 .
+
+_:node182qcn38kx674 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.web.util$RequestPairSource.getServletResponse()> ;
+	atxa-core:posX "284" ;
+	atxa-core:posY "61" .
+
+@prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix atxa-jdt-wkspc: <http://www.architexa.com/rdf/jdt-wkspc#> .
+@prefix atxa-core: <http://www.architexa.com/rdf/core#> .
+@prefix atxa: <http://www.architexa.com/rdf/> .
+@prefix atxa-jdt: <http://www.architexa.com/rdf/jdt#> .
+
+<http://www.architexa.com/rdf/rse-eclipse#Class.atxa> a atxa-core:reloFile ;
+	atxa-core:contains _:node182qcndm6x3 , _:node182qcn38kx845 , _:node182qcn38kx846 , _:node182qcndm6x2 , _:node182qcndm6x5 , _:node182qcndm6x1 , _:node182qcndm6x20 , _:node182qcndm6x19 , _:node182qcndm6x9 , _:node182qcndm6x28 , _:node182qcndm6x25 , _:node182qcndm6x32 , _:node182qcndm6x16 , _:node182qcndm6x39 , _:node182qcn38kx673 , _:node182qcn38kx674 , _:node182qcndm6x37 , _:node182qcndm6x40 , atxa-core:docRoot , _:node182qcndm6x3 , _:node182qcn38kx845 , _:node182qcn38kx846 , _:node182qcndm6x2 , _:node182qcndm6x5 , _:node182qcndm6x1 , _:node182qcndm6x20 , _:node182qcndm6x19 , _:node182qcndm6x9 , _:node182qcndm6x28 , _:node182qcndm6x25 , _:node182qcndm6x32 , _:node182qcndm6x16 , _:node182qcndm6x39 , _:node182qcn38kx673 , _:node182qcn38kx674 , _:node182qcndm6x37 , _:node182qcndm6x40 , atxa-core:docRoot , _:node182qcndm6x4 , _:node182qcndm6x8 , _:node182qcndm6x12 , _:node182qcndm6x15 , _:node182qcndm6x21 , _:node182qcndm6x24 , _:node182qcndm6x29 , _:node182qcndm6x33 , _:node182qcndm6x36 , _:node182qcndm6x4 , _:node182qcndm6x8 , _:node182qcndm6x12 , _:node182qcndm6x15 , _:node182qcndm6x21 , _:node182qcndm6x24 , _:node182qcndm6x29 , _:node182qcndm6x33 , _:node182qcndm6x36 .
+

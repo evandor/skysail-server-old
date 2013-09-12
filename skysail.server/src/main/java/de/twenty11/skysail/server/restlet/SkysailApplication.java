@@ -1,26 +1,21 @@
 package de.twenty11.skysail.server.restlet;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.component.ComponentContext;
+import org.owasp.html.HtmlPolicyBuilder;
 import org.restlet.Application;
 import org.restlet.Restlet;
-import org.restlet.data.ChallengeScheme;
-import org.restlet.data.ClientInfo;
+import org.restlet.data.MediaType;
 import org.restlet.data.Protocol;
 import org.restlet.data.Reference;
-import org.restlet.engine.Engine;
-import org.restlet.engine.converter.ConverterHelper;
 import org.restlet.resource.ServerResource;
-import org.restlet.security.ChallengeAuthenticator;
-import org.restlet.security.Enroler;
+import org.restlet.routing.Filter;
+import org.restlet.security.Authenticator;
 import org.restlet.security.MapVerifier;
-import org.restlet.security.Role;
 import org.restlet.security.Verifier;
 import org.restlet.util.RouteList;
 import org.slf4j.Logger;
@@ -30,10 +25,8 @@ import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.core.restlet.RouteBuilder;
 import de.twenty11.skysail.server.core.restlet.SkysailRouter;
 import de.twenty11.skysail.server.internal.Blocker;
-import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
-import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
-import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
-import de.twenty11.skysail.server.presentation.ToCsvConverter;
+import de.twenty11.skysail.server.restlet.filter.Tracer;
+import de.twenty11.skysail.server.security.AuthenticationService;
 
 /**
  * 
@@ -46,10 +39,16 @@ import de.twenty11.skysail.server.presentation.ToCsvConverter;
  */
 public abstract class SkysailApplication extends Application {
 
-    /** slf4j based logger implementation. */
+    /**
+     * slf4j based logger implementation.
+     */
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    /** the restlet router. */
+    public static final MediaType SKYSAIL_HTMLFORM_MEDIATYPE = MediaType.register("htmlform", "HTML Form document");
+
+    /**
+     * the restlet router.
+     */
     protected volatile SkysailRouter router;
 
     private Verifier verifier = new MapVerifier();
@@ -60,8 +59,12 @@ public abstract class SkysailApplication extends Application {
 
     private BundleContext bundleContext;
 
+    private AuthenticationService authenticationService;
+
+    private HtmlPolicyBuilder noHtmlPolicyBuilder = new HtmlPolicyBuilder();
+
     abstract protected void attach();
-    
+
     public SkysailApplication() {
         logger.info("Instanciating new Skysail Application '{}'", this.getClass().getSimpleName());
     }
@@ -80,6 +83,8 @@ public abstract class SkysailApplication extends Application {
         router = new SkysailRouter(getContext());
         // router.setDefaultMatchingQuery(true);
 
+        getMetadataService().addExtension("htmlform", SKYSAIL_HTMLFORM_MEDIATYPE);
+
         // see
         // http://nexnet.wordpress.com/2010/09/29/clap-protocol-in-restlet-and-osgi/
         getConnectorService().getClientProtocols().add(Protocol.HTTP);
@@ -96,22 +101,20 @@ public abstract class SkysailApplication extends Application {
         blocker.setNext(originalRequestFilter);
         originalRequestFilter.setNext(router);
 
-        ChallengeAuthenticator guard = new ChallengeAuthenticator(getContext(), ChallengeScheme.HTTP_BASIC, "realm");
-        guard.setVerifier(this.verifier);
-        guard.setEnroler(new Enroler() {
+        //de.twenty11.skysail.server.restlet.EnvironmentLoader environmentLoader = getAuthenticationService().getEnvironmentLoader();
+        //WebEnvironment initEnvironment = environmentLoader.initEnvironment(getContext());
+        
+        Authenticator guard = getAuthenticationService().getAuthenticator(getContext());
 
-            @Override
-            public void enrole(ClientInfo clientInfo) {
-                List<Role> defaultRoles = new ArrayList<Role>();
-                Role userRole = new Role("user", "standard role");
-                defaultRoles.add(userRole);
-                clientInfo.setRoles(defaultRoles);
-            }
-        });
+        // DefaultHtmlSanitizerFilter defaultHtmlSanitizerFilter = new DefaultHtmlSanitizerFilter(getContext());
+        //Filter shiro = getAuthenticationService().getRestletShiroFilter(getContext());
+        
+        // tracer -> guard -> timer -> blocker -> originalRequest -> router
         timer.setNext(blocker);
         guard.setNext(timer);
-
-        return guard;
+        //shiro.setNext(guard);
+        tracer.setNext(guard);
+        return tracer;
     }
 
     public void attachToRouter(String key, Class<? extends ServerResource> executor) {
@@ -168,8 +171,8 @@ public abstract class SkysailApplication extends Application {
     }
 
     /**
-     * Some bundles set the componentContext, others (via blueprint) only the bundleContext...
-     * need to revisit
+     * Some bundles set the componentContext, others (via blueprint) only the bundleContext... need to revisit
+     * 
      * @return
      */
     public Bundle getBundle() {
@@ -186,4 +189,15 @@ public abstract class SkysailApplication extends Application {
         this.bundleContext = bc;
     }
 
+    public AuthenticationService getAuthenticationService() {
+        return authenticationService;
+    }
+
+    public void setAuthenticationService(AuthenticationService authService) {
+        this.authenticationService = authService;
+    }
+
+    public HtmlPolicyBuilder getNoHtmlPolicyBuilder() {
+        return noHtmlPolicyBuilder;
+    }
 }

@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>de.twentyeleven.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.8.38-SNAPSHOT</version>
+		<version>0.8.39</version>
 	</parent>
 
 	<artifactId>skysail.server.restlet</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<name>SKYSAIL :: server :: restlet</name>
 	<packaging>bundle</packaging>
 
@@ -42,7 +42,7 @@
 		<dependency>
 			<groupId>de.twentyeleven.skysail</groupId>
 			<artifactId>skysail.server</artifactId>
-			<version>[0.2.13-SNAPSHOT, 1.0)</version>
+			<version>[0.3.0, 1.0)</version>
 		</dependency>
 
         <!-- testing with pax exam -->

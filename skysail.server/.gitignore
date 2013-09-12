@@ -1,6 +1,8 @@
+/derby.log
 /target
 /release.properties
 /pom.xml.releaseBackup
 /$jarplug.work
 /.settings
 /.idea
+/nb-configuration.xml

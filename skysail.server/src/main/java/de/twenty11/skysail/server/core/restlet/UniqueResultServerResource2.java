@@ -1,10 +1,14 @@
 package de.twenty11.skysail.server.core.restlet;
 
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
+import org.restlet.data.Form;
 import org.restlet.resource.Get;
 import org.restlet.resource.ResourceException;
 import org.slf4j.Logger;
@@ -15,6 +19,7 @@ import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
 
+@Deprecated
 public abstract class UniqueResultServerResource2<T> extends SkysailServerResource2<T> {
 
     /** slf4j based logger implementation. */
@@ -45,6 +50,10 @@ public abstract class UniqueResultServerResource2<T> extends SkysailServerResour
 
     protected abstract T getData();
 
+    public abstract T getData(Form form);
+
+    public abstract SkysailResponse<?> addEntity(T entity);
+
     @Get("html|json")
     public SkysailResponse<T> getEntity() {
         return getEntity("default implementation... you might want to override UniqueResultServerResource2#getEntity in "
@@ -59,18 +68,6 @@ public abstract class UniqueResultServerResource2<T> extends SkysailServerResour
             if (this.getMessage() != null && !"".equals(this.getMessage().trim())) {
                 successResponse.setMessage(getMessage());
             }
-            // if (getContext() != null) {
-            // Object beanAsObject = getContext().getAttributes().get(Configuration.CONTEXT_OPERATING_SYSTEM_BEAN);
-            // if (beanAsObject != null && beanAsObject instanceof OperatingSystemMXBean) {
-            // OperatingSystemMXBean bean = (OperatingSystemMXBean) beanAsObject;
-            // successResponse.setServerLoad(bean.getSystemLoadAverage());
-            // }
-            // Long executionStarted = (Long) getContext().getAttributes().get(Timer.CONTEXT_EXECUTION_STARTED);
-            // if (executionStarted != null) {
-            // successResponse.setExecutionTime(System.nanoTime() - executionStarted);
-            // }
-            // }
-
             return successResponse;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -78,21 +75,16 @@ public abstract class UniqueResultServerResource2<T> extends SkysailServerResour
         }
     }
 
-    // protected SkysailResponse<T> getEntity(T data) {
-    // try {
-    //
-    // SkysailApplication app = (SkysailApplication) getApplication();
-    // Set<String> mappings = app.getUrlMappingServiceListener() != null ? app.getUrlMappingServiceListener()
-    // .getMappings() : null;
-    // return new SuccessResponse<T>(data);
-    // } catch (Exception e) {
-    // // logger.error(e.getMessage(), e);
-    // return new FailureResponse<T>(e);
-    // }
-    // }
-
     public Validator getValidator() {
         return validator;
+    }
+
+    protected Set<ConstraintViolation<T>> validate(T entity) {
+        Set<ConstraintViolation<T>> violations = getValidator().validate(entity);
+        if (violations.size() > 0) {
+            logger.warn("contraint violations found on {}: {}", entity, violations);
+        }
+        return violations;
     }
 
 }

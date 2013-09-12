@@ -22,26 +22,40 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+import org.owasp.html.Handler;
+import org.owasp.html.HtmlPolicyBuilder;
+import org.owasp.html.HtmlSanitizer;
+import org.owasp.html.HtmlStreamRenderer;
 import org.restlet.Restlet;
+import org.restlet.data.Form;
+import org.restlet.data.Parameter;
 import org.restlet.resource.Get;
+import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FailureResponse;
+import de.twenty11.skysail.common.responses.FoundIllegalInputResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.common.selfdescription.ResourceDetails;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.restlet.Timer;
+import de.twenty11.skysail.server.security.SkysailRoleAuthorizer;
 
 /**
  * trying to improve ListServerResource
@@ -54,14 +68,26 @@ import de.twenty11.skysail.server.restlet.Timer;
  * @author carsten
  * 
  */
+@Deprecated
 public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
 
+    public static final String CONSTRAINT_VIOLATIONS = "constraintViolations";
+
     /** slf4j based logger implementation. */
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private Validator validator;
 
     private String filterExpression;
+
+    /**
+     * return new JobDescriptor(form.getFirstValue("name"));
+     */
+    @Deprecated
+    public abstract T getData(Form form);
+
+    @Deprecated
+    public abstract SkysailResponse<?> addEntity(T entity);
 
     public ListServerResource2() {
         GenericBootstrap validationProvider = Validation.byDefaultProvider();
@@ -81,6 +107,45 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
     public SkysailResponse<List<T>> getEntities() {
         return getEntities("default implementation... you might want to override ListServerResource2#getEntities in "
                 + this.getClass().getName());
+    }
+
+    @Post("x-www-form-urlencoded:html|json|xml")
+    public SkysailResponse<?> addFromForm(Form form) {
+        if (containsInvalidInput(form)) {
+            T entity = getData(form);
+            return new FoundIllegalInputResponse<T>(entity, getOriginalRef());
+        }
+        T entity = getData(form);
+        Set<ConstraintViolation<T>> violations = validate(entity);
+        if (violations.size() > 0) {
+            return new ConstraintViolationsResponse(entity, getOriginalRef(), violations);
+        }
+        return addEntity(entity);
+    }
+
+    private boolean containsInvalidInput(Form form) {
+        SkysailApplication app = (SkysailApplication) getApplication();
+        HtmlPolicyBuilder noHtmlPolicyBuilder = app.getNoHtmlPolicyBuilder();
+        boolean foundInvalidInput = false;
+        for (int i = 0; i < form.size(); i++) {
+            Parameter parameter = form.get(i);
+            String originalValue = parameter.getValue();
+            StringBuilder sb = new StringBuilder();
+            HtmlSanitizer.Policy policy = noHtmlPolicyBuilder.build(HtmlStreamRenderer.create(sb,
+                    new Handler<String>() {
+                        @Override
+                        public void handle(String x) {
+                            System.out.println(x);
+                        }
+                    }));
+            HtmlSanitizer.sanitize(originalValue, policy);
+            String sanitizedHtml = sb.toString();
+            if (!sanitizedHtml.equals(originalValue)) {
+                foundInvalidInput = true;
+            }
+            parameter.setValue(sanitizedHtml.trim());
+        }
+        return foundInvalidInput;
     }
 
     protected abstract List<T> getData();
@@ -139,6 +204,14 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
         return params;
     }
 
+    protected Set<ConstraintViolation<T>> validate(T entity) {
+        Set<ConstraintViolation<T>> violations = getValidator().validate(entity);
+        if (violations.size() > 0) {
+            logger.warn("contraint violations found on {}: {}", entity, violations);
+        }
+        return violations;
+    }
+
     protected String augmentWithFilterMsg(String msg) {
         return filterExpression == null ? msg : msg + " filtered by '" + filterExpression + "'";
     }
@@ -154,10 +227,17 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
     private void handleSkysailRoute(List<ResourceDetails> result, Entry<String, RouteBuilder> entry) {
         RouteBuilder builder = entry.getValue();
         if (builder.isVisible()) {
+            List<SkysailRoleAuthorizer> rolesAuthorizers = builder.getRolesAuthorizers();
+            Subject currentUser = SecurityUtils.getSubject();
+            for (SkysailRoleAuthorizer authorizer : rolesAuthorizers) {
+                if (!currentUser.hasRole(authorizer.getIdentifier())) {
+                    return;
+                }
+            }
             String from = getHostRef() + "/" + getApplication().getName() + entry.getKey();
             String text = builder.getText() != null ? builder.getText() : from;
-            ResourceDetails resourceDetails = new ResourceDetails(from, text, builder.getTargetClass().toString(),
-                    "desc");
+            String targetClass = builder.getTargetClass() == null ? "null" : builder.getTargetClass().toString();
+            ResourceDetails resourceDetails = new ResourceDetails(from, text, targetClass, "desc");
             result.add(resourceDetails);
         }
     }

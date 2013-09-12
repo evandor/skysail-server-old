@@ -1,32 +1,39 @@
 /**
- *  Copyright 2011 Carsten Gräf
+ * Copyright 2011 Carsten Gräf
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ *
  */
-
 package de.twenty11.skysail.server.internal;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Dictionary;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.apache.commons.lang.Validate;
-import org.osgi.framework.ServiceRegistration;
+import org.osgi.framework.Bundle;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.component.ComponentContext;
 import org.restlet.Application;
 import org.restlet.Component;
+import org.restlet.Context;
+import org.restlet.Request;
+import org.restlet.Response;
 import org.restlet.Server;
 import org.restlet.engine.Engine;
 import org.restlet.engine.converter.ConverterHelper;
@@ -34,19 +41,26 @@ import org.restlet.security.Verifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.twenty11.skysail.server.Constants;
 import de.twenty11.skysail.server.config.ServerConfiguration;
+import de.twenty11.skysail.server.core.MenuService;
 import de.twenty11.skysail.server.core.osgi.internal.ApplicationState;
+import de.twenty11.skysail.server.core.osgi.internal.MenuState;
 import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
 import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
 import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
 import de.twenty11.skysail.server.presentation.ToCsvConverter;
-import de.twenty11.skysail.server.restlet.SkysailApplication;
+import de.twenty11.skysail.server.security.AuthenticationService;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ComponentProvider;
+import de.twenty11.skysail.server.services.MenuEntry;
+import de.twenty11.skysail.server.services.MenuProvider;
+import de.twenty11.skysail.server.utils.IOUtils;
 
 public class Configuration implements ComponentProvider {
 
     private static Logger logger = LoggerFactory.getLogger(Configuration.class);
+
     public static final String CONTEXT_OPERATING_SYSTEM_BEAN = "de.twenty11.skysail.server.internal.Configuration.operatingSystemMxBean";
 
     private SkysailComponent restletComponent;
@@ -54,9 +68,15 @@ public class Configuration implements ComponentProvider {
     private ComponentContext componentContext;
     private ConfigurationAdmin configadmin;
     private ServerConfiguration serverConfig;
-    private ServiceRegistration registration;
-    private ApplicationsHolder applications = new ApplicationsHolder();
+    private final ApplicationsHolder applications = new ApplicationsHolder();
+    private final MenusHolder menus;
     private boolean serverActive = false;
+    private MenuService menuService;
+    private AuthenticationService authService;
+
+    public Configuration() throws Exception {
+        menus = new MenusHolder(this);
+    }
 
     protected synchronized void activate(ComponentContext componentContext) throws ConfigurationException {
         Engine.setRestletLogLevel(Level.ALL);
@@ -65,7 +85,7 @@ public class Configuration implements ComponentProvider {
         this.componentContext = componentContext;
 
         logger.info("Starting component for Skysail...");
-        String port = (String) serverConfig.getConfigForKey("port");
+        String port = serverConfig.getConfigForKey("port");
         logger.info("port was configured on {}", port);
 
         logger.info("");
@@ -74,11 +94,19 @@ public class Configuration implements ComponentProvider {
         logger.info("====================================");
         logger.info("");
 
-        restletComponent = new SkysailComponent(this.componentContext);
+        restletComponent = new SkysailComponent();
 
-        SkysailApplication defaultApplication = new DefaultSkysailApplication(componentContext);
-        defaultApplication.setVerifier(serverConfig.getVerifier(configadmin));
+        DefaultSkysailApplication defaultApplication = new DefaultSkysailApplication(componentContext);
+        // defaultApplication.setVerifier(serverConfig.getVerifier(configadmin));
+        defaultApplication.setVerifier(new Verifier() {
+            @Override
+            public int verify(Request request, Response response) {
+                return Verifier.RESULT_VALID;
+            }
+
+        });
         defaultApplication.setServerConfiguration(serverConfig);
+        defaultApplication.setAuthenticationService(authService);
 
         restletComponent.getDefaultHost().attachDefault(defaultApplication);
 
@@ -92,11 +120,18 @@ public class Configuration implements ComponentProvider {
         registeredConverters.add(new IFrame2BootstrapConverter());
         registeredConverters.add(new ToCsvConverter());
 
+        updateDbConfig();
+
         triggerAttachmentOfNewApplications();
+        triggerAttachmentOfNewMenus();
     }
 
     protected void deactivate(ComponentContext ctxt) {
         logger.info("Deactivating Skysail Ext Osgimonitor Configuration Component");
+
+        triggerDetachmentOfMenus();
+        // triggerDetachmentOfApplications();
+
         serverActive = false;
         this.componentContext = null;
         try {
@@ -105,9 +140,6 @@ public class Configuration implements ComponentProvider {
             }
         } catch (Exception e) {
             logger.error("Exception when trying to stop standalone server", e);
-        }
-        if (registration != null) {
-            registration.unregister();
         }
     }
 
@@ -149,7 +181,59 @@ public class Configuration implements ComponentProvider {
         List<Application> newApplications = applications.getApplicationsInState(ApplicationState.NEW);
         for (Application application : newApplications) {
             try {
-                applications.attach(application, restletComponent, serverConfig, configadmin);
+                Context appContext = restletComponent.getContext().createChildContext();
+                application.setContext(appContext);
+                applications.attach(application, restletComponent, serverConfig, configadmin, authService);
+                // Bundle appsBundle = FrameworkUtil.getBundle(application.getApplication().getClass());
+                // updateSecuredUrls(appsBundle);
+            } catch (Exception e) {
+                logger.error("Problem with Application Lifecycle Management Defintion", e);
+            }
+        }
+    }
+
+    public void addMenuProvider(MenuProvider provider) {
+        Validate.notNull(provider, "provider may not be null");
+        logger.info(" >>> registering menu entries <<<");
+        try {
+            menus.add(provider.getMenuEntries());
+        } catch (Exception e) {
+            logger.error("Problem with the Menu Lifecycle Management", e);
+        }
+        triggerAttachmentOfNewMenus();
+    }
+
+    public void removeMenuProvider(MenuProvider provider) {
+        List<MenuEntry> menuEntry = provider.getMenuEntries();
+        if (menuEntry != null) {
+            // restletComponent.getDefaultHost().detach(application);
+        } else {
+            logger.warn("provider {}'s menu was null", provider);
+        }
+    }
+
+    private void triggerAttachmentOfNewMenus() {
+        if (!serverActive) {
+            return;
+        }
+        List<MenuEntry> newMenus = menus.getMenusInState(MenuState.NEW);
+        for (MenuEntry menu : newMenus) {
+            try {
+                menus.attach(menu, menuService);
+            } catch (Exception e) {
+                logger.error("Problem with Application Lifecycle Management Defintion", e);
+            }
+        }
+    }
+
+    private void triggerDetachmentOfMenus() {
+        if (!serverActive) {
+            return;
+        }
+        List<MenuEntry> attachedMenus = menus.getMenusInState(MenuState.ATTACHED);
+        for (MenuEntry menu : attachedMenus) {
+            try {
+                menus.detach(menu, menuService);
             } catch (Exception e) {
                 logger.error("Problem with Application Lifecycle Management Defintion", e);
             }
@@ -183,4 +267,85 @@ public class Configuration implements ComponentProvider {
         }
     }
 
+    public synchronized void setMenuService(MenuService menuService) {
+        this.menuService = menuService;
+        triggerAttachmentOfNewMenus();
+    }
+
+    public boolean getServerActive() {
+        return serverActive;
+    }
+
+    public MenuService getMenuService() {
+        return menuService;
+    }
+
+    public void setAuthenticationService(AuthenticationService service) {
+        this.authService = service;
+    }
+
+    private void updateSecuredUrls(Bundle bundle) {
+        URL securityDef = bundle.getResource("META-INF/security.ini");
+        if (securityDef != null) {
+            try {
+                // TODO do parsing with antlr
+                BufferedInputStream inputStream = new BufferedInputStream(securityDef.openStream());
+                String securityDefinitions = IOUtils.convertStreamToString(inputStream);
+                Map<String, String> securityMapping = IOUtils.readSecurityDefinitions(securityDefinitions);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void updateDbConfig() {
+        if (configadmin == null) {
+            return;
+        }
+        try {
+            for (String puName : scanBundlesForSkysailPUHeader()) {
+                createConfigForDb(puName);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private Set<String> scanBundlesForSkysailPUHeader() {
+        Bundle[] bundles = componentContext.getBundleContext().getBundles();
+        Set<String> result = new HashSet<String>();
+        for (Bundle bundle : bundles) {
+            Dictionary<String, String> headers = bundle.getHeaders();
+            String xSkysailPU = headers.get(Constants.SKYSAIL_PERSISTENCE_UNIT);
+            if (xSkysailPU != null) {
+                result.add(xSkysailPU);
+            }
+        }
+        return result;
+    }
+
+    private void createConfigForDb(String puName) throws Exception {
+        // http://wiki.eclipse.org/Gemini/JPA/Documentation/OtherTopics#Configuration_Admin
+        org.osgi.service.cm.Configuration config = configadmin.createFactoryConfiguration("gemini.jpa.punit", null);
+
+        config.getProperties();
+
+        // Create a dictionary and insert config properties (must include the punit name property)
+        Dictionary props = new Hashtable();
+        props.put("gemini.jpa.punit.name", puName);
+
+        props.put("javax.persistence.jdbc.driver", serverConfig.getConfigForKey(Constants.SKYSAIL_JDBC_DRIVER));
+        props.put("javax.persistence.jdbc.url", serverConfig.getConfigForKey(Constants.SKYSAIL_JDBC_URL));
+        props.put("javax.persistence.jdbc.user", serverConfig.getConfigForKey(Constants.SKYSAIL_JDBC_USER));
+        props.put("javax.persistence.jdbc.password", serverConfig.getConfigForKey(Constants.SKYSAIL_JDBC_PASSWORD));
+
+        // props.put("eclipselink.ddl-generation", "create-tables");
+        // props.put("eclipselink.ddl-generation.output-mode", "database");
+        // props.put("eclipselink.session.customizer", "de.twenty11.skysail.server.um.init.db.Importer");
+        // props.put("import.sql.file", "/initialImport.sql");
+
+        // Causes config to be updated, or created if it did not already exist
+        config.update(props);
+    }
 }

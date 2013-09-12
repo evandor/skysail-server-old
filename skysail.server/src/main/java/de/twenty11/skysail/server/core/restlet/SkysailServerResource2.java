@@ -21,6 +21,7 @@ import de.twenty11.skysail.server.restlet.SkysailApplication;
 /**
  *
  */
+@Deprecated
 public abstract class SkysailServerResource2<T> extends ServerResource {
 
     public static final String CONTEXT_COMMANDS = "de.twenty11.skysail.server.restlet.SkysailServerResource2.commands";
@@ -132,6 +133,9 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
 
     @SuppressWarnings("unchecked")
     public Map<String, Command> getCommands() {
+        if (getContext() == null) {
+            return Collections.emptyMap();
+        }
         ConcurrentMap<String, Object> attributes = getContext().getAttributes();
         if (attributes.get(CONTEXT_COMMANDS) == null) {
             return Collections.emptyMap();
@@ -149,6 +153,10 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
     }
 
     protected void registerLinkedPage(LinkedPage page) {
+        // TODO check this: seems to be needed in tests only (ResourceTestWithUnguardedApplication)
+        if (getContext() == null) {
+            return;
+        }
         @SuppressWarnings("unchecked")
         List<LinkedPage> pages = (List<LinkedPage>) getContext().getAttributes().get(CONTEXT_LINKED_PAGES);
         if (pages == null) {
@@ -185,6 +193,9 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
 
     @SuppressWarnings("unchecked")
     public List<LinkedPage> getLinkedPages() {
+        if (getContext() == null) {
+            return Collections.emptyList();
+        }
         ConcurrentMap<String, Object> attributes = getContext().getAttributes();
         if (attributes.get(CONTEXT_LINKED_PAGES) == null) {
             return Collections.emptyList();

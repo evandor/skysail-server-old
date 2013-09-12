@@ -1,16 +1,15 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>de.twentyeleven.skysail</groupId>
 		<artifactId>skysail.build.maven.parentPom</artifactId>
-		<version>0.8.38-SNAPSHOT</version>
+		<version>0.8.42</version>
 	</parent>
 
 	<artifactId>skysail.server</artifactId>
-	<version>0.2.14-SNAPSHOT</version>
+	<version>0.3.2-SNAPSHOT</version>
 	<name>SKYSAIL :: server</name>
 	<packaging>bundle</packaging>
 
@@ -21,11 +20,15 @@
 		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
 		<!-- A publicly browsable repository. For example, via ViewCVS. -->
 		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
+		<tag>HEAD</tag>
 	</scm>
 
 	<properties>
-		<skysail.common.version>[0.4.1-SNAPSHOT, 1.0)</skysail.common.version>
+		<skysail.common.version>[0.4.5, 1.0)</skysail.common.version>
+		<thucydides.version>0.9.200</thucydides.version>
+		<thucydides.jbehave.version>0.9.200</thucydides.jbehave.version>
 	</properties>
+
 
 	<build>
 
@@ -34,7 +37,7 @@
 				<directory>src/main/java</directory>
 				<includes>
 					<include>**/*.stg</include>
-                    <include>**/*.template</include>
+					<include>**/*.template</include>
 				</includes>
 			</resource>
 			<resource>
@@ -56,8 +59,8 @@
 				<artifactId>maven-bundle-plugin</artifactId>
 				<extensions>true</extensions>
 				<configuration>
-					<!-- make eclipse aware about this bundle (+ ManifestBuilder in .project!) -->
-					<manifestLocation>META-INF</manifestLocation>
+					<!-- make eclipse aware about this bundle (+ ManifestBuilder in .project!) 
+						<manifestLocation>META-INF</manifestLocation> -->
 					<instructions>
 						<_include>-osgi.bnd</_include>
 						<Include-Resource>
@@ -84,6 +87,18 @@
 				<artifactId>build-helper-maven-plugin</artifactId>
 				<executions>
 					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/main/gen-src</source>
+							</sources>
+						</configuration>
+					</execution>
+					<execution>
 						<id>attach-artifacts</id>
 						<phase>package</phase>
 						<goals>
@@ -100,11 +115,41 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			<plugin>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr4-maven-plugin</artifactId>
+				<version>4.1</version>
+				<configuration>
+					<sourceDirectory>src/main/java</sourceDirectory>
+					<outputDirectory>src/main/gen-src</outputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>antlr4</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>net.thucydides.maven.plugins</groupId>
+				<artifactId>maven-thucydides-plugin</artifactId>
+				<version>${thucydides.version}</version>
+				<executions>
+					<execution>
+						<id>thucydides-reports</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>aggregate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -126,7 +171,43 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
+										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.antlr</groupId>
+										<artifactId>
+											antlr4-maven-plugin
+										</artifactId>
+										<versionRange>
+											[4.1,)
+										</versionRange>
+										<goals>
+											<goal>antlr4</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											build-helper-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.7,)
+										</versionRange>
+										<goals>
+											<goal>add-source</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
@@ -151,6 +232,14 @@
 			<version>1.4</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+			<artifactId>owasp-java-html-sanitizer</artifactId>
+			<version>r198</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.antlr</groupId> <artifactId>antlr4-runtime</artifactId> 
+			<version>4.1</version> <scope>compile</scope> </dependency> -->
 		<!-- <dependency> <groupId>org.apache.commons</groupId> <artifactId>com.springsource.org.apache.commons.io</artifactId> 
 			<version>1.4.0</version> </dependency> -->
 		<dependency>
@@ -180,13 +269,7 @@
 		<dependency>
 			<groupId>de.twentyeleven.skysail</groupId>
 			<artifactId>com.googlecode.stateless4j-osgi</artifactId>
-			<version>1.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>de.twentyeleven.skysail</groupId>
-			<artifactId>commons-beanutils-osgi</artifactId>
-			<version>1.8.3</version>
+			<version>1.0.1</version>
 		</dependency>
 
 		<dependency>
@@ -194,7 +277,7 @@
 			<artifactId>jboss-logging</artifactId>
 			<version>3.1.2.GA</version>
 		</dependency>
-		
+
 		<!-- (pure) osgi -->
 		<dependency>
 			<groupId>org.osgi</groupId>
@@ -207,11 +290,44 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.9</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- thucydides -->
+		<dependency>
+			<groupId>net.thucydides</groupId>
+			<artifactId>thucydides-core</artifactId>
+			<version>${thucydides.version}</version>
+			<!-- <scope>test</scope> -->
+		</dependency>
+		<dependency>
+			<groupId>net.thucydides</groupId>
+			<artifactId>thucydides-junit</artifactId>
+			<version>${thucydides.version}</version>
+			<!-- <scope>test</scope> -->
+		</dependency>
+		<dependency>
+			<groupId>net.thucydides</groupId>
+			<artifactId>thucydides-jbehave-plugin</artifactId>
+			<version>${thucydides.jbehave.version}</version>
+			<!-- <scope>test</scope> -->
+		</dependency>
+
 
 		<!-- testing with pax exam -->
 		<dependency>
@@ -252,6 +368,8 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- <dependency> <groupId>com.google.caliper</groupId> <artifactId>caliper</artifactId> 
+			<version>1.0-beta-SNAPSHOT</version> </dependency> -->
 		<!-- logging for tests -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -269,16 +387,11 @@
 			<artifactId>javax.persistence</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.apache.pdfbox</groupId>
 			<artifactId>pdfbox</artifactId>
 			<version>1.8.0</version>
 		</dependency>
 	</dependencies>
-
-	<!-- <repositories> <repository> <id>EclipseLink</id> <url>http://download.eclipse.org/rt/eclipselink/maven.repo</url> 
-		</repository> <repository> <id>maven-restlet</id> <name>Public online Restlet 
-		repository</name> <url>http://maven.restlet.org</url> </repository> </repositories> -->
 
 </project>

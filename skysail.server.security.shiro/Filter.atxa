@@ -1,0 +1,255 @@
+<,evandor@gmail.com,evandor@gmail.com> <http://www.architexa.com/rdf/core#creator> "true" .
+
+@prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix atxa-jdt-wkspc: <http://www.architexa.com/rdf/jdt-wkspc#> .
+@prefix atxa-core: <http://www.architexa.com/rdf/core#> .
+@prefix atxa: <http://www.architexa.com/rdf/> .
+@prefix atxa-jdt: <http://www.architexa.com/rdf/jdt#> .
+
+<http://www.architexa.com/rdf/rse-eclipse#Filter.atxa> a atxa-core:chronoFile .
+
+atxa:DetailNode atxa-core:detailLevel "1" .
+
+<http://www.architexa.com/rdf/rse-eclipse#Filter.atxa> atxa-core:contains _:node182v0jlbrx1 .
+
+_:node182v0jlbrx1 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro.restlet$ShiroDelegationFilter> ;
+	atxa-jdt:index "0" ;
+	atxa-core:instanceName "" ;
+	atxa-core:contains _:node182v0jlbrx2 .
+
+_:node182v0jlbrx2 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro.restlet$ShiroDelegationFilter.doHandle(Request,Response,)> ;
+	atxa-jdt:index "0" ;
+	atxa-core:contains _:node182v0jlbrx3 .
+
+_:node182v0jlbrx3 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro.restlet$ShiroDelegationFilter.createSubject(Request,Response,)> ;
+	atxa-jdt:index "0" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro.restlet$ShiroDelegationFilter.createSubject(Request,Response,)> atxa-core:link _:node182v0jlbrx4 .
+
+_:node182v0i68tx5 a atxa-core:link ;
+	atxa-core:model atxa-jdt:calls ;
+	rdf:subject _:node182v0jlbrx3 ;
+	rdf:object _:node182v0jlbrx4 ;
+	atxa-core:name "createSubject(request, response)" .
+
+_:node182v0jlbrx3 atxa-core:contains _:node182v0jlbrx4 .
+
+_:node182v0jlbrx4 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro.restlet$ShiroDelegationFilter.createSubject(Request,Response,)> ;
+	atxa-jdt:index "0" .
+
+_:node182v0i68tx6 a atxa-core:link ;
+	atxa-core:model atxa-jdt:returns ;
+	rdf:subject _:node182v0jlbrx4 ;
+	rdf:object _:node182v0jlbrx3 ;
+	atxa-core:name "Subject" .
+
+_:node182v0jlbrx4 atxa-core:contains _:node182v0jlbrx7 .
+
+_:node182v0jlbrx7 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro.subject$RestletSubject$Builder.buildWebSubject()> ;
+	atxa-jdt:index "0" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro.subject$RestletSubject$Builder.buildWebSubject()> atxa-core:link _:node182v0jlbrx8 .
+
+_:node182v0i68tx7 a atxa-core:link ;
+	atxa-core:model atxa-jdt:calls ;
+	rdf:subject _:node182v0jlbrx7 ;
+	rdf:object _:node182v0jlbrx8 ;
+	atxa-core:name "buildWebSubject()" .
+
+<http://www.architexa.com/rdf/rse-eclipse#Filter.atxa> atxa-core:contains _:node182v0jlbrx10 .
+
+_:node182v0jlbrx10 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro.subject$RestletSubject$Builder> ;
+	atxa-jdt:index "1" ;
+	atxa-core:instanceName "" ;
+	atxa-core:contains _:node182v0jlbrx8 .
+
+_:node182v0jlbrx8 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro.subject$RestletSubject$Builder.buildWebSubject()> ;
+	atxa-jdt:index "0" .
+
+_:node182v0i68tx8 a atxa-core:link ;
+	atxa-core:model atxa-jdt:returns ;
+	rdf:subject _:node182v0jlbrx8 ;
+	rdf:object _:node182v0jlbrx7 ;
+	atxa-core:name "RestletSubject" .
+
+<http://www.architexa.com/rdf/rse-eclipse#Filter.atxa> atxa-core:contains _:node182v0i68tx9 .
+
+_:node182v0i68tx9 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro.mgt$SkysailWebSecurityManager> ;
+	atxa-jdt:index "2" ;
+	atxa-core:instanceName "" ;
+	atxa-core:contains _:node182v0i68tx10 .
+
+_:node182v0i68tx10 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro.mgt$SkysailWebSecurityManager.createSubject(SubjectContext,)> ;
+	atxa-jdt:index "0" ;
+	atxa-core:contains _:node182v0i68tx11 .
+
+_:node182v0i68tx11 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro.mgt$SkysailWebSecurityManager.copy(SubjectContext,)> ;
+	atxa-jdt:index "0" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro.mgt$SkysailWebSecurityManager.copy(SubjectContext,)> atxa-core:link _:node182v0i68tx12 .
+
+_:node182v0i68tx13 a atxa-core:link ;
+	atxa-core:model atxa-jdt:calls ;
+	rdf:subject _:node182v0i68tx11 ;
+	rdf:object _:node182v0i68tx12 ;
+	atxa-core:name "copy(subjectContext)" .
+
+_:node182v0i68tx11 atxa-core:contains _:node182v0i68tx12 .
+
+_:node182v0i68tx12 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#de.twenty11.skysail.server.security.shiro.mgt$SkysailWebSecurityManager.copy(SubjectContext,)> ;
+	atxa-jdt:index "0" .
+
+_:node182v0i68tx14 a atxa-core:link ;
+	atxa-core:model atxa-jdt:returns ;
+	rdf:subject _:node182v0i68tx12 ;
+	rdf:object _:node182v0i68tx11 ;
+	atxa-core:name "SubjectContext" .
+
+_:node182v0i68tx10 atxa-core:contains _:node182v0i68tx15 .
+
+_:node182v0i68tx15 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.ensureSecurityManager(SubjectContext,)> ;
+	atxa-jdt:index "1" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.ensureSecurityManager(SubjectContext,)> atxa-core:link _:node182v0i68tx16 .
+
+_:node182v0i68tx17 a atxa-core:link ;
+	atxa-core:model atxa-jdt:calls ;
+	rdf:subject _:node182v0i68tx15 ;
+	rdf:object _:node182v0i68tx16 ;
+	atxa-core:name "ensureSecurityManager(context)" .
+
+_:node182v0i68tx10 atxa-core:contains _:node182v0i68tx18 .
+
+_:node182v0i68tx18 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.resolveSession(SubjectContext,)> ;
+	atxa-jdt:index "2" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.resolveSession(SubjectContext,)> atxa-core:link _:node182v0i68tx19 .
+
+_:node182v0i68tx20 a atxa-core:link ;
+	atxa-core:model atxa-jdt:calls ;
+	rdf:subject _:node182v0i68tx18 ;
+	rdf:object _:node182v0i68tx19 ;
+	atxa-core:name "resolveSession(context)" .
+
+_:node182v0i68tx10 atxa-core:contains _:node182v0i68tx21 .
+
+_:node182v0i68tx21 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.resolvePrincipals(SubjectContext,)> ;
+	atxa-jdt:index "3" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.resolvePrincipals(SubjectContext,)> atxa-core:link _:node182v0i68tx22 .
+
+_:node182v0i68tx23 a atxa-core:link ;
+	atxa-core:model atxa-jdt:calls ;
+	rdf:subject _:node182v0i68tx21 ;
+	rdf:object _:node182v0i68tx22 ;
+	atxa-core:name "resolvePrincipals(context)" .
+
+_:node182v0i68tx10 atxa-core:contains _:node182v0i68tx24 .
+
+_:node182v0i68tx24 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.doCreateSubject(SubjectContext,)> ;
+	atxa-jdt:index "4" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.doCreateSubject(SubjectContext,)> atxa-core:link _:node182v0i68tx25 .
+
+_:node182v0i68tx26 a atxa-core:link ;
+	atxa-core:model atxa-jdt:calls ;
+	rdf:subject _:node182v0i68tx24 ;
+	rdf:object _:node182v0i68tx25 ;
+	atxa-core:name "doCreateSubject(context)" .
+
+_:node182v0i68tx10 atxa-core:contains _:node182v0i68tx27 .
+
+_:node182v0i68tx27 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.save(Subject,)> ;
+	atxa-jdt:index "5" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.save(Subject,)> atxa-core:link _:node182v0i68tx28 .
+
+_:node182v0i68tx29 a atxa-core:link ;
+	atxa-core:model atxa-jdt:calls ;
+	rdf:subject _:node182v0i68tx27 ;
+	rdf:object _:node182v0i68tx28 ;
+	atxa-core:name "save(subject)" .
+
+<http://www.architexa.com/rdf/rse-eclipse#Filter.atxa> atxa-core:contains _:node182v0i68tx30 .
+
+_:node182v0i68tx30 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager> ;
+	atxa-jdt:index "3" ;
+	atxa-core:instanceName "" ;
+	atxa-core:contains _:node182v0i68tx16 .
+
+_:node182v0i68tx16 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.ensureSecurityManager(SubjectContext,)> ;
+	atxa-jdt:index "0" .
+
+_:node182v0i68tx31 a atxa-core:link ;
+	atxa-core:model atxa-jdt:returns ;
+	rdf:subject _:node182v0i68tx16 ;
+	rdf:object _:node182v0i68tx15 ;
+	atxa-core:name "org/apache/shiro/subject/SubjectContext" .
+
+_:node182v0i68tx30 atxa-core:contains _:node182v0i68tx19 .
+
+_:node182v0i68tx19 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.resolveSession(SubjectContext,)> ;
+	atxa-jdt:index "1" .
+
+_:node182v0i68tx32 a atxa-core:link ;
+	atxa-core:model atxa-jdt:returns ;
+	rdf:subject _:node182v0i68tx19 ;
+	rdf:object _:node182v0i68tx18 ;
+	atxa-core:name "org/apache/shiro/subject/SubjectContext" .
+
+_:node182v0i68tx30 atxa-core:contains _:node182v0i68tx22 .
+
+_:node182v0i68tx22 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.resolvePrincipals(SubjectContext,)> ;
+	atxa-jdt:index "2" .
+
+_:node182v0i68tx33 a atxa-core:link ;
+	atxa-core:model atxa-jdt:returns ;
+	rdf:subject _:node182v0i68tx22 ;
+	rdf:object _:node182v0i68tx21 ;
+	atxa-core:name "org/apache/shiro/subject/SubjectContext" .
+
+_:node182v0i68tx30 atxa-core:contains _:node182v0i68tx25 .
+
+_:node182v0i68tx25 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.doCreateSubject(SubjectContext,)> ;
+	atxa-jdt:index "3" .
+
+_:node182v0i68tx34 a atxa-core:link ;
+	atxa-core:model atxa-jdt:returns ;
+	rdf:subject _:node182v0i68tx25 ;
+	rdf:object _:node182v0i68tx24 ;
+	atxa-core:name "org/apache/shiro/subject/Subject" .
+
+_:node182v0i68tx30 atxa-core:contains _:node182v0i68tx28 .
+
+_:node182v0i68tx28 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#org.apache.shiro.mgt$DefaultSecurityManager.save(Subject,)> ;
+	atxa-jdt:index "4" .
+
+_:node182v0i68tx35 a atxa-core:link ;
+	atxa-core:model atxa-jdt:returns ;
+	rdf:subject _:node182v0i68tx28 ;
+	rdf:object _:node182v0i68tx27 ;
+	atxa-core:name "void" .
+

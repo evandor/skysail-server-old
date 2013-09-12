@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint 
+	xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" 
+	xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+
+	<bean id="menuApp"
+		class="de.twenty11.skysail.server.menu.MenuApplication">
+	</bean>
+	
+	<service ref="menuApp"
+		interface="de.twenty11.skysail.server.services.ApplicationProvider" />
+
+	<service ref="menuApp"
+		interface="de.twenty11.skysail.server.core.MenuService" />
+
+</blueprint>
+
