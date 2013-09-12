@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
-import de.twenty11.skysail.common.Presentable;
 import de.twenty11.skysail.common.forms.Field;
-import de.twenty11.skysail.common.grids.RowData;
 import de.twenty11.skysail.common.responses.ConstraintViolationDetails;
 import de.twenty11.skysail.common.responses.ConstraintViolationsResponse;
 import de.twenty11.skysail.common.responses.FormResponse;
@@ -112,35 +109,11 @@ public class FormForContentStrategy extends AbstractHtmlCreatingStrategy {
     private int handleDataElementsForTable(StringBuilder sb, int i, Object object) {
         StringBuilder row = new StringBuilder("<tr>\n");
         i++;
-        if (object instanceof Presentable) {
-            Presentable presentable = (Presentable) object;
-            for (Entry<String, Object> rowContent : presentable.getContent().entrySet()) {
-                sb.append("<td>");
-                sb.append(rowContent.getValue());
-                sb.append("</td>");
-            }
-            sb.append("<td>").append(headerlink(presentable)).append("</td>");
-        } else {
 
-        }
         sb.append("</tr>");
         sb.append(row).append("\n");
         return i;
     }
 
-    private void handleDataElementsForRow(StringBuilder sb, RowData rowData) {
-        StringBuilder row = new StringBuilder("<tr>\n");
-        // i++;
-
-        for (String key : rowData.getCells().keySet()) {
-            sb.append("<td>");
-            sb.append(rowData.getCells().get(key));
-            sb.append("</td>");
-        }
-        sb.append("<td>").append("there").append("</td>");
-
-        sb.append("</tr>");
-        sb.append(row).append("\n");
-    }
 
 }

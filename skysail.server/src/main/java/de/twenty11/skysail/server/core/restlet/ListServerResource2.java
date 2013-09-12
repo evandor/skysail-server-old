@@ -17,11 +17,9 @@
 
 package de.twenty11.skysail.server.core.restlet;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -30,8 +28,6 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.owasp.html.Handler;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.HtmlSanitizer;
@@ -51,11 +47,9 @@ import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.FoundIllegalInputResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
-import de.twenty11.skysail.common.selfdescription.ResourceDetails;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.restlet.Timer;
-import de.twenty11.skysail.server.security.SkysailRoleAuthorizer;
 
 /**
  * trying to improve ListServerResource
@@ -182,15 +176,15 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
         }
     }
 
-    protected List<ResourceDetails> allMethods() {
-        List<ResourceDetails> result = new ArrayList<ResourceDetails>();
-        SkysailApplication restletOsgiApp = (SkysailApplication) getApplication();
-        Map<String, RouteBuilder> skysailRoutes = restletOsgiApp.getSkysailRoutes();
-        for (Entry<String, RouteBuilder> entry : skysailRoutes.entrySet()) {
-            handleSkysailRoute(result, entry);
-        }
-        return result;
-    }
+    // protected List<ResourceDetails> allMethods() {
+    // List<ResourceDetails> result = new ArrayList<ResourceDetails>();
+    // SkysailApplication restletOsgiApp = (SkysailApplication) getApplication();
+    // Map<String, RouteBuilder> skysailRoutes = restletOsgiApp.getSkysailRoutes();
+    // for (Entry<String, RouteBuilder> entry : skysailRoutes.entrySet()) {
+    // handleSkysailRoute(result, entry);
+    // }
+    // return result;
+    // }
 
     protected Validator getValidator() {
         return validator;
@@ -224,22 +218,22 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
         }
     }
 
-    private void handleSkysailRoute(List<ResourceDetails> result, Entry<String, RouteBuilder> entry) {
-        RouteBuilder builder = entry.getValue();
-        if (builder.isVisible()) {
-            List<SkysailRoleAuthorizer> rolesAuthorizers = builder.getRolesAuthorizers();
-            Subject currentUser = SecurityUtils.getSubject();
-            for (SkysailRoleAuthorizer authorizer : rolesAuthorizers) {
-                if (!currentUser.hasRole(authorizer.getIdentifier())) {
-                    return;
-                }
-            }
-            String from = getHostRef() + "/" + getApplication().getName() + entry.getKey();
-            String text = builder.getText() != null ? builder.getText() : from;
-            String targetClass = builder.getTargetClass() == null ? "null" : builder.getTargetClass().toString();
-            ResourceDetails resourceDetails = new ResourceDetails(from, text, targetClass, "desc");
-            result.add(resourceDetails);
-        }
-    }
+    // private void handleSkysailRoute(List<ResourceDetails> result, Entry<String, RouteBuilder> entry) {
+    // RouteBuilder builder = entry.getValue();
+    // if (builder.isVisible()) {
+    // List<SkysailRoleAuthorizer> rolesAuthorizers = builder.getRolesAuthorizers();
+    // Subject currentUser = SecurityUtils.getSubject();
+    // for (SkysailRoleAuthorizer authorizer : rolesAuthorizers) {
+    // if (!currentUser.hasRole(authorizer.getIdentifier())) {
+    // return;
+    // }
+    // }
+    // String from = getHostRef() + "/" + getApplication().getName() + entry.getKey();
+    // String text = builder.getText() != null ? builder.getText() : from;
+    // String targetClass = builder.getTargetClass() == null ? "null" : builder.getTargetClass().toString();
+    // ResourceDetails resourceDetails = new ResourceDetails(from, text, targetClass, "desc");
+    // result.add(resourceDetails);
+    // }
+    // }
 
 }

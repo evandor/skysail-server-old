@@ -2,7 +2,6 @@ package de.twenty11.skysail.server.presentation;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.restlet.data.MediaType;
 import org.restlet.engine.converter.ConverterHelper;
@@ -13,7 +12,6 @@ import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.Resource;
 
-import de.twenty11.skysail.common.Presentable;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 
@@ -129,33 +127,11 @@ public class ToCsvConverter extends ConverterHelper {
     }
 
     private void handleDataElementsForList(StringBuilder sb, Object object) {
-        if (object instanceof Presentable) {
-            Presentable presentable = (Presentable) object;
-            boolean empty = true;
-            for (Entry<String, Object> row : presentable.getContent().entrySet()) {
-                sb.append(row.getValue() != null ? row.getValue().toString() : "".replace("\"", "\\\"")).append(",");
-                empty = false;
-            }
-            if (!empty) {
-                sb.deleteCharAt(sb.length() - 1);
-            }
-            sb.append("\n");
-        }
+
     }
 
     private void handleHeaderElementsForList(StringBuilder sb, Object object) {
-        if (object instanceof Presentable) {
-            Presentable presentable = (Presentable) object;
-            boolean empty = true;
-            for (Entry<String, Object> row : presentable.getContent().entrySet()) {
-                sb.append(row.getKey().toString().replace("\"", "\\\"")).append(",");
-                empty = false;
-            }
-            if (!empty) {
-                sb.deleteCharAt(sb.length() - 1);
-            }
-            sb.append("\n");
-        }
+
     }
 
 }

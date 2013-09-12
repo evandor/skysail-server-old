@@ -3,13 +3,11 @@ package de.twenty11.skysail.server.presentation;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.restlet.data.MediaType;
 import org.restlet.engine.converter.ConverterHelper;
 import org.restlet.engine.resource.VariantInfo;
@@ -19,7 +17,6 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.Resource;
 
-import de.twenty11.skysail.common.Presentable;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 
@@ -174,7 +171,7 @@ public class ToPdfConverter extends ConverterHelper {
                         contentStream = new PDPageContentStream(document, page);
                         pos += 700;
                     }
-                    handleDataElementsForList(document, contentStream, object, pos, i++);
+                    // handleDataElementsForList(document, contentStream, object, pos, i++);
                 }
             }
         } else {
@@ -183,36 +180,6 @@ public class ToPdfConverter extends ConverterHelper {
         contentStream.close();
     }
 
-    private void handleDataElementsForList(PDDocument document, PDPageContentStream contentStream, Object object,
-            int pos, int cnt)
-            throws IOException {
 
-        if (object instanceof Presentable) {
-            Presentable presentable = (Presentable) object;
-            for (Entry<String, Object> row : presentable.getContent().entrySet()) {
-                contentStream.beginText();
-                contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-                contentStream.moveTextPositionByAmount(20, pos);
-                contentStream.drawString(row.getValue() != null ? row.getValue().toString() : "-");
-                contentStream.endText();
-            }
-        }
-
-    }
-
-    private void handleHeaderElementsForList(StringBuilder sb, Object object) {
-        if (object instanceof Presentable) {
-            Presentable presentable = (Presentable) object;
-            boolean empty = true;
-            for (Entry<String, Object> row : presentable.getContent().entrySet()) {
-                sb.append(row.getKey().toString().replace("\"", "\\\"")).append(",");
-                empty = false;
-            }
-            if (!empty) {
-                sb.deleteCharAt(sb.length() - 1);
-            }
-            sb.append("\n");
-        }
-    }
 
 }

@@ -12,7 +12,6 @@ import de.twenty11.skysail.common.responses.SuccessResponse;
 import de.twenty11.skysail.server.core.restlet.AddServerResource2;
 import de.twenty11.skysail.server.domain.Credentials;
 import de.twenty11.skysail.server.internal.DefaultSkysailApplication;
-import de.twenty11.skysail.server.restlet.DefaultResource;
 import de.twenty11.skysail.server.security.AuthenticationService;
 
 // TODO should extends ServerResource
@@ -49,7 +48,7 @@ public class LoginResource extends AddServerResource2<Credentials> {
             return new FailureResponse(e);
             // return new DefaultResource().getApplications();
         }
-        return new DefaultResource().getApplications();
+        return null;// new DefaultResource().getApplications();
     }
 
 }
