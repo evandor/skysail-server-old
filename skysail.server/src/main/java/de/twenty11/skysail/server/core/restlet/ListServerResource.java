@@ -17,15 +17,12 @@ package de.twenty11.skysail.server.core.restlet;
  * 
  */
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.restlet.Restlet;
+import org.restlet.data.ClientInfo;
 import org.restlet.data.Form;
 import org.restlet.data.Method;
 import org.restlet.resource.Get;
@@ -36,13 +33,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.common.selfdescription.ResourceDetails;
 import de.twenty11.skysail.server.core.restlet.filter.AbstractResourceFilter;
-import de.twenty11.skysail.server.restlet.SkysailApplication;
-import de.twenty11.skysail.server.security.SkysailRoleAuthorizer;
 
 /**
- * trying to improve ListServerResource
+ * A ListServerResource implementation takes care of a List of Entities.
  * 
  * <br>
  * Concurrency note from parent: contrary to the {@link org.restlet.Uniform} class and its main {@link Restlet} subclass
@@ -63,30 +57,21 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
 
     private String filterExpression;
 
-    public ListServerResource() {
-
-    }
-
-    public ListServerResource(ServerResource sr) {
-        super();
-        init(sr.getContext(), sr.getRequest(), sr.getResponse());
-    }
-
     @Get("html|json|csv")
     public SkysailResponse<List<T>> getEntities() {
+        ClientInfo ci = getRequest().getClientInfo();
+        logger.info("calling getEntities, media types '{}'", ci != null ? ci.getAcceptedMediaTypes() : "test");
         return getEntities("default implementation... you might want to override ListServerResource2#getEntities in "
                 + this.getClass().getName());
     }
 
     @Post("x-www-form-urlencoded:html|json|xml")
     public SkysailResponse<?> addFromForm(Form form) {
+        ClientInfo ci = getRequest().getClientInfo();
+        logger.info("calling addFromForm, media types '{}'", ci != null ? ci.getAcceptedMediaTypes() : "test");
         getRequest().getAttributes().put(SKYSAIL_SERVER_RESTLET_FORM, form);
         AbstractResourceFilter<ListServerResource<T>, List<T>> handler = RequestHandler.<T> createForList(Method.POST);
         return handler.handle(this, getRequest()).getSkysailResponse();
-    }
-
-    protected boolean match(T t, String pattern) {
-        return true;
     }
 
     @Override
@@ -96,21 +81,8 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
     }
 
     protected SkysailResponse<List<T>> getEntities(String defaultMsg) {
-        // RequestHandler<T> requestHandler = new RequestHandler<T>();
-        // AbstractResourceFilter<ListServerResource<T>, List<T>> chain = requestHandler.getChain(Method.GET);
-        // ResponseWrapper<List<T>> wrapper = chain.handle(this, getRequest());
         AbstractResourceFilter<ListServerResource<T>, List<T>> handler = RequestHandler.<T> createForList(Method.GET);
         return handler.handle(this, getRequest()).getSkysailResponse();
-    }
-
-    protected List<ResourceDetails> allMethods() {
-        List<ResourceDetails> result = new ArrayList<ResourceDetails>();
-        SkysailApplication restletOsgiApp = (SkysailApplication) getApplication();
-        Map<String, RouteBuilder> skysailRoutes = restletOsgiApp.getSkysailRoutes();
-        for (Entry<String, RouteBuilder> entry : skysailRoutes.entrySet()) {
-            handleSkysailRoute(result, entry);
-        }
-        return result;
     }
 
     protected Map<String, String> getParamsFromRequest() {
@@ -133,22 +105,8 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
         }
     }
 
-    private void handleSkysailRoute(List<ResourceDetails> result, Entry<String, RouteBuilder> entry) {
-        RouteBuilder builder = entry.getValue();
-        if (builder.isVisible()) {
-            List<SkysailRoleAuthorizer> rolesAuthorizers = builder.getRolesAuthorizers();
-            Subject currentUser = SecurityUtils.getSubject();
-            for (SkysailRoleAuthorizer authorizer : rolesAuthorizers) {
-                if (!currentUser.hasRole(authorizer.getIdentifier())) {
-                    return;
-                }
-            }
-            String from = getHostRef() + "/" + getApplication().getName() + entry.getKey();
-            String text = builder.getText() != null ? builder.getText() : from;
-            String targetClass = builder.getTargetClass() == null ? "null" : builder.getTargetClass().toString();
-            ResourceDetails resourceDetails = new ResourceDetails(from, text, targetClass, "desc");
-            result.add(resourceDetails);
-        }
+    protected boolean match(T t, String pattern) {
+        return true;
     }
 
 }

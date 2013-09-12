@@ -23,7 +23,9 @@ import org.apache.commons.dbcp.BasicDataSource;
 
 import com.googlecode.flyway.core.Flyway;
 
-public class FlywaySetup {
+import de.twenty11.skysail.server.services.ServiceIsInitializedIndicator;
+
+public class FlywaySetup implements ServiceIsInitializedIndicator {
 
     private EntityManagerFactory enitityManagerFactory;
 

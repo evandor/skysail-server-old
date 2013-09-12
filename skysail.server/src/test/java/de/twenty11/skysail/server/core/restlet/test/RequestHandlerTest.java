@@ -16,9 +16,7 @@ import org.restlet.data.Form;
 import org.restlet.data.Reference;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.server.core.restlet.RequestHandler;
 import de.twenty11.skysail.server.core.restlet.testentities.SimpleEntity;
-import de.twenty11.skysail.server.core.restlet.testresources.MyEntityResource;
 import de.twenty11.skysail.server.core.restlet.testresources.MyListResource;
 
 public class RequestHandlerTest {
@@ -36,8 +34,13 @@ public class RequestHandlerTest {
 
         mockedRequest = Mockito.mock(Request.class);
         Reference resourceRef = Mockito.mock(Reference.class);
+        // ClientInfo clientInfo = Mockito.mock(ClientInfo.class);
+
+        // Mockito.when(clientInfo.getAcceptedMediaTypes()).thenReturn(null);
+
         Mockito.when(mockedRequest.getResourceRef()).thenReturn(resourceRef);
         Mockito.when(mockedRequest.getAttributes()).thenReturn(attributes);
+        // Mockito.when(mockedRequest.getClientInfo()).thenReturn(clientInfo);
     }
 
     /* GET */
@@ -52,8 +55,9 @@ public class RequestHandlerTest {
     @Test
     @Ignore
     public void entity_is_retrieved_via_requestHandlerChain() {
-        //SkysailResponse<SimpleEntity> entities = new MyEntityResource(new RequestHandler<SimpleEntity>()).getEntity();
-        //assertThat(entities.getData().getName(), is("simple"));
+        // SkysailResponse<SimpleEntity> entities = new MyEntityResource(new
+        // RequestHandler<SimpleEntity>()).getEntity();
+        // assertThat(entities.getData().getName(), is("simple"));
     }
 
     /* POST */
