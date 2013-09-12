@@ -32,7 +32,6 @@ import de.twenty11.skysail.server.um.resources.AddRoleResource;
 import de.twenty11.skysail.server.um.resources.AddUserResource;
 import de.twenty11.skysail.server.um.resources.CurrentUserResource;
 import de.twenty11.skysail.server.um.resources.RolesResource;
-import de.twenty11.skysail.server.um.resources.UserManagementRootResource;
 import de.twenty11.skysail.server.um.resources.UserResource;
 import de.twenty11.skysail.server.um.resources.UsersResource;
 import de.twenty11.skysail.server.um.services.UserManager;
@@ -75,8 +74,8 @@ public class UserManagementApplication extends SkysailApplication implements App
 
     @Override
     protected void attach() {
-        router.attach(new RouteBuilder("", UserManagementRootResource.class).setVisible(false));
-        router.attach(new RouteBuilder("/", UserManagementRootResource.class).setVisible(false));
+        // router.attach(new RouteBuilder("", UserManagementRootResource.class).setVisible(false));
+        // router.attach(new RouteBuilder("/", UserManagementRootResource.class).setVisible(false));
         router.attach(new RouteBuilder("/roles", RolesResource.class).setVisible(true).setText("Roles"));
         router.attach(new RouteBuilder("/roles/", AddRoleResource.class).setVisible(false));
         router.attach(new RouteBuilder("/currentUser", CurrentUserResource.class).setVisible(false));
