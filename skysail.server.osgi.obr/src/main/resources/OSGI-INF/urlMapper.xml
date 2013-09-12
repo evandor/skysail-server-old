@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="SSOO Component Definition">
-   <implementation class="de.twenty11.skysail.server.osgi.obr.internal.BundlesUrlMapper" />
-   <service>
-      <provide interface="de.twenty11.skysail.server.servicedefinitions.UrlMapper"/>
-   </service>
-</scr:component>
