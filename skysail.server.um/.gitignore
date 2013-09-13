@@ -3,3 +3,6 @@
 /skysailDerbyTestDb
 /derby.log
 /nb-configuration.xml
+/.settings
+/.classpath
+/.project
