@@ -17,13 +17,13 @@ public class FormForContentStrategy extends AbstractHtmlCreatingStrategy {
     @Override
     public String createHtml(String page, Object response, SkysailResponse<List<?>> skysailResponse) {
         Set<ConstraintViolationDetails> violations = null;
-        Map<String, ConstraintViolationDetails<?>> violationsMap = new HashMap<String, ConstraintViolationDetails<?>>();
+        Map<String, ConstraintViolationDetails> violationsMap = new HashMap<String, ConstraintViolationDetails>();
 
         String action = ".";
         if (skysailResponse instanceof ConstraintViolationsResponse) {
             ConstraintViolationsResponse cvr = (ConstraintViolationsResponse) skysailResponse;
             violations = cvr.getViolations();
-            for (ConstraintViolationDetails<?> violation : violations) {
+            for (ConstraintViolationDetails violation : violations) {
                 if (violation.getPropertyPath() != null) {
                     violationsMap.put(violation.getPropertyPath().toString(), violation);
                 }
@@ -114,6 +114,5 @@ public class FormForContentStrategy extends AbstractHtmlCreatingStrategy {
         sb.append(row).append("\n");
         return i;
     }
-
 
 }

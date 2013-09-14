@@ -29,7 +29,6 @@ import de.twenty11.skysail.server.security.shiro.restlet.ShiroDelegationAuthenti
 public class ShiroServices implements AuthenticationService {
 
     public static final String SKYSAIL_SHIRO_DB_REALM = "skysail.shiro.db.realm";
-
     private static final Logger logger = LoggerFactory.getLogger(ShiroServices.class);
 
     private ServerConfiguration serverConfig;
