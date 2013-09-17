@@ -3,6 +3,7 @@ package de.twenty11.skysail.server.internal;
 import org.osgi.service.component.ComponentContext;
 
 import de.twenty11.skysail.server.resources.LoginResource;
+import de.twenty11.skysail.server.restlet.DefaultResource;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.security.AuthenticationService;
 
@@ -22,7 +23,7 @@ public class DefaultSkysailApplication extends SkysailApplication {
 
     @Override
     protected void attach() {
-        // router.attach("/", DefaultResource.class);
+        router.attach("/", DefaultResource.class);
         router.attach(LOGIN_PATH, LoginResource.class);
         // router.attach(LOGIN_PATH, LogoutResource.class);
     }
