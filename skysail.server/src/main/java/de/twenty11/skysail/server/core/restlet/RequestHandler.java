@@ -43,6 +43,7 @@ public class RequestHandler<T> {
 
     private static <T> AbstractResourceFilter<ListServerResource<T>, List<T>> chainForListPost() {
         return new ExceptionCatchingFilter<ListServerResource<T>, List<T>>()
+                //.calling(new AuthorizationFilter<ListServerResource<T>, List<T>>())
                 .calling(new CheckInvalidInputFilter<ListServerResource<T>, List<T>>())
                 .calling(new FormDataExtractingFilter<ListServerResource<T>, List<T>>())
                 .calling(new CheckBusinessViolationsFilter<ListServerResource<T>, List<T>>())

@@ -26,7 +26,7 @@ public class CheckInvalidInputRequestHandlingFilterTest {
     private Request request;
     private Reference ref;
     private Form myForm;
-    private ListServerResource resource;
+    private ListServerResource<SimpleEntity> resource;
 
     @Before
     public void setUp() throws Exception {
