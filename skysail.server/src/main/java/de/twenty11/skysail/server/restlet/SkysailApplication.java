@@ -13,7 +13,6 @@ import org.restlet.data.MediaType;
 import org.restlet.data.Protocol;
 import org.restlet.data.Reference;
 import org.restlet.resource.ServerResource;
-import org.restlet.routing.Filter;
 import org.restlet.security.Authenticator;
 import org.restlet.security.MapVerifier;
 import org.restlet.security.Verifier;
@@ -27,6 +26,7 @@ import de.twenty11.skysail.server.core.restlet.SkysailRouter;
 import de.twenty11.skysail.server.internal.Blocker;
 import de.twenty11.skysail.server.restlet.filter.Tracer;
 import de.twenty11.skysail.server.security.AuthenticationService;
+import de.twenty11.skysail.server.security.AuthorizationService;
 
 /**
  * 
@@ -63,6 +63,8 @@ public abstract class SkysailApplication extends Application {
 
     private HtmlPolicyBuilder noHtmlPolicyBuilder = new HtmlPolicyBuilder();
 
+    private AuthorizationService authorizationService;
+
     abstract protected void attach();
 
     public SkysailApplication() {
@@ -80,7 +82,7 @@ public abstract class SkysailApplication extends Application {
     public Restlet createInboundRoot() {
 
         logger.info("creating new Router in {}", this.getClass().getName());
-        router = new SkysailRouter(getContext());
+        router = new SkysailRouter(getContext(), getAuthorizationService());
         // router.setDefaultMatchingQuery(true);
 
         getMetadataService().addExtension("htmlform", SKYSAIL_HTMLFORM_MEDIATYPE);
@@ -101,18 +103,19 @@ public abstract class SkysailApplication extends Application {
         blocker.setNext(originalRequestFilter);
         originalRequestFilter.setNext(router);
 
-        //de.twenty11.skysail.server.restlet.EnvironmentLoader environmentLoader = getAuthenticationService().getEnvironmentLoader();
-        //WebEnvironment initEnvironment = environmentLoader.initEnvironment(getContext());
-        
+        // de.twenty11.skysail.server.restlet.EnvironmentLoader environmentLoader =
+        // getAuthenticationService().getEnvironmentLoader();
+        // WebEnvironment initEnvironment = environmentLoader.initEnvironment(getContext());
+
         Authenticator guard = getAuthenticationService().getAuthenticator(getContext());
 
         // DefaultHtmlSanitizerFilter defaultHtmlSanitizerFilter = new DefaultHtmlSanitizerFilter(getContext());
-        //Filter shiro = getAuthenticationService().getRestletShiroFilter(getContext());
-        
+        // Filter shiro = getAuthenticationService().getRestletShiroFilter(getContext());
+
         // tracer -> guard -> timer -> blocker -> originalRequest -> router
         timer.setNext(blocker);
         guard.setNext(timer);
-        //shiro.setNext(guard);
+        // shiro.setNext(guard);
         tracer.setNext(guard);
         return tracer;
     }
@@ -195,6 +198,14 @@ public abstract class SkysailApplication extends Application {
 
     public void setAuthenticationService(AuthenticationService authService) {
         this.authenticationService = authService;
+    }
+
+    public AuthorizationService getAuthorizationService() {
+        return authorizationService;
+    }
+
+    public void setAuthorizationService(AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
     }
 
     public HtmlPolicyBuilder getNoHtmlPolicyBuilder() {

@@ -8,19 +8,34 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.restlet.Context;
 import org.restlet.resource.ServerResource;
 import org.restlet.routing.Router;
+import org.restlet.security.Authorizer;
+
+import de.twenty11.skysail.server.security.AuthorizationService;
 
 public class SkysailRouter extends Router {
 
     private Map<String, RouteBuilder> routes = new ConcurrentHashMap<String, RouteBuilder>();
+    private AuthorizationService authorizationService;
 
-    public SkysailRouter(Context context) {
+    public SkysailRouter(Context context, AuthorizationService authorizationService) {
         super(context);
+        this.authorizationService = authorizationService;
     }
 
     public void attach(RouteBuilder routeBuilder) {
         routes.put(routeBuilder.getPathTemplate(), routeBuilder);
         if (routeBuilder.getTargetClass() != null) {
-            attach(routeBuilder.getPathTemplate(), routeBuilder.getTargetClass());
+
+            if (routeBuilder.getSecuredByRole() != null) {
+                // SkysailRoleAuthorizer authorizer = new SkysailRoleAuthorizer(routeBuilder.getSecuredByRole());
+                Authorizer authorizer = authorizationService.getRoleAuthorizer(routeBuilder.getSecuredByRole());
+                // Authorizer authorizer = roleAuthorizerFactory.create(roleName);
+                // rolesAuthorizers.add(authorizer);
+                authorizer.setNext(routeBuilder.getTargetClass());
+                attach(routeBuilder.getPathTemplate(), authorizer);
+            } else {
+                attach(routeBuilder.getPathTemplate(), routeBuilder.getTargetClass());
+            }
         } else {
             attach(routeBuilder.getPathTemplate(), routeBuilder.getRestlet());
         }

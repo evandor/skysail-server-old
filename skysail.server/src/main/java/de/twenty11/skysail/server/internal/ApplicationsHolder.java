@@ -36,7 +36,7 @@ public class ApplicationsHolder {
     }
 
     public void attach(Application application, SkysailComponent restletComponent, ServerConfiguration serverConfig,
-            ConfigurationAdmin configAdmin, AuthenticationService authService) throws Exception {
+            ConfigurationAdmin configAdmin, AuthenticationService authenticationService) throws Exception {
 
         logger.info("");
         logger.info("==================================================");
@@ -55,8 +55,9 @@ public class ApplicationsHolder {
             skysailApplication.setServerConfiguration(serverConfig);
             logger.info(" >>> setting ServerConfiguration");
 
-            skysailApplication.setAuthenticationService(authService);
+            skysailApplication.setAuthenticationService(authenticationService);
 
+            skysailApplication.setAuthorizationService(new DefaultAuthorizationService());
             // Context appContext = getContext().createChildContext();
             // skysailApplication.setContext(context);
         }

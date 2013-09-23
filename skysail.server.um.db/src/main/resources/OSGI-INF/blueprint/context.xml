@@ -7,7 +7,7 @@
 	<!-- <ext:property-placeholder /> -->
 
 	<bean id="serverUserManagementFlywaySetup" class="de.twenty11.skysail.server.um.db.FlywaySetup"
-		init-method="init">
+		init-method="init" activation="eager">
 		<property name="entityManager" ref="emfRef" />
 	</bean>
 

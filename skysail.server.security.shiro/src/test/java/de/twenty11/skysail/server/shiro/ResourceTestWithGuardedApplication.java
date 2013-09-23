@@ -11,6 +11,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import de.twenty11.skysail.server.ResourceTestWithApplication;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.security.AuthenticationService;
+import de.twenty11.skysail.server.security.AuthorizationService;
 import de.twenty11.skysail.server.security.shiro.ShiroServices;
 
 public class ResourceTestWithGuardedApplication<T extends SkysailApplication> extends ResourceTestWithApplication {
@@ -50,5 +51,11 @@ public class ResourceTestWithGuardedApplication<T extends SkysailApplication> ex
     @Override
     protected AuthenticationService getAuthenticationService() {
         return authService;
+    }
+
+    @Override
+    protected AuthorizationService getAuthorizationService() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

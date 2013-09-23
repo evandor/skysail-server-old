@@ -14,6 +14,7 @@ import org.restlet.Context;
 
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.security.AuthenticationService;
+import de.twenty11.skysail.server.security.AuthorizationService;
 
 public abstract class ResourceTestWithApplication<T extends SkysailApplication> {
 
@@ -27,13 +28,16 @@ public abstract class ResourceTestWithApplication<T extends SkysailApplication> 
 
     public static final int TEST_PORT = 8182;
 
-    private T application;
+    protected T application;
 
     protected abstract AuthenticationService getAuthenticationService();
+
+    protected abstract AuthorizationService getAuthorizationService();
 
     protected SkysailApplication setUpApplication(T application) {
         application.setContext(new Context());
         application.setAuthenticationService(getAuthenticationService());
+        application.setAuthorizationService(getAuthorizationService());
         application.getInboundRoot();
         return application;
     }
@@ -42,6 +46,7 @@ public abstract class ResourceTestWithApplication<T extends SkysailApplication> 
         application = freshApplicationInstance;
         application.setContext(new Context());
         application.setAuthenticationService(getAuthenticationService());
+        application.setAuthorizationService(getAuthorizationService());
         T spy = Mockito.spy(application);
         Application.setCurrent(spy);
         application.getInboundRoot();
