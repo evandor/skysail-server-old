@@ -108,7 +108,7 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         // options.add(mavenBundle("org.apache.commons", "com.springsource.org.apache.commons.collections", "3.2.1"));
 
         // server depends on shiro and shiro depends on server???
-        options.add(mavenBundle("de.twentyeleven.skysail", "skysail.server.security.shiro"));
+        options.add(mavenBundle("de.twentyeleven.skysail", "skysail.server.security.shiro", "0.0.2-SNAPSHOT"));
         options.add(mavenBundle("org.apache.shiro", "shiro-core", "1.2.2"));
         options.add(mavenBundle("org.apache.shiro", "shiro-web", "1.2.2"));
         options.add(mavenBundle("org.apache.aries.blueprint", "org.apache.aries.blueprint", "1.1.0"));

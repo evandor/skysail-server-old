@@ -24,7 +24,7 @@
 	</scm>
 
 	<properties>
-		<skysail.server.version>[0.3.1-SNAPSHOT, 1.0)</skysail.server.version>
+		<skysail.server.version>[0.3.2-SNAPSHOT, 1.0)</skysail.server.version>
 	</properties>
 
 	<build>
