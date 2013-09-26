@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public class Tracer extends Filter {
 
     private static final Logger logger = LoggerFactory.getLogger(Tracer.class);
-    
+
     private AtomicBoolean doTrace = new AtomicBoolean(false);
 
     public Tracer(Context context) {
@@ -60,6 +60,11 @@ public class Tracer extends Filter {
         logger.info("");
         logger.info("=== debug: request ========================");
         logger.info("{} '{}':", request.getMethod(), request.getResourceRef());
+        // String entityAsText = request.getEntityAsText();
+        // if (entityAsText != null && entityAsText.trim().length() > 0) {
+        // logger.info("entity: '{}'", entityAsText);
+        // }
+
         Series<Cookie> cookies = request.getCookies();
         if (cookies != null && cookies.size() > 0) {
             logger.info(" > Cookies:");
@@ -87,7 +92,5 @@ public class Tracer extends Filter {
         logger.info("Warnings:        {}", response.getWarnings());
         logger.info("");
     }
-
-
 
 }
