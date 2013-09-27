@@ -67,20 +67,20 @@ public class RequestHandlerTest {
 
     }
 
-    @Test
-    public void posting_entity_via_requestHandlerChain_is_successful() {
-        form.add("name", "name");
+    // @Test
+    // public void posting_entity_via_requestHandlerChain_is_successful() {
+    // form.add("name", "name");
+    //
+    // MyListResource myListResource = new MyListResource();
+    // myListResource.setRequest(mockedRequest);
+    //
+    // SkysailResponse<?> result = myListResource.addFromForm(form);
+    // assertThat(result.getSuccess(), is(true));
+    // }
 
-        MyListResource myListResource = new MyListResource();
-        myListResource.setRequest(mockedRequest);
-
-        SkysailResponse<?> result = myListResource.addFromForm(form);
-        assertThat(result.getSuccess(), is(true));
-    }
-
-    public static void main(String[] args) {
-        RequestHandlerTest test = new RequestHandlerTest();
-        test.setUp();
-        test.posting_entity_via_requestHandlerChain_is_successful();
-    }
+    // public static void main(String[] args) {
+    // RequestHandlerTest test = new RequestHandlerTest();
+    // test.setUp();
+    // test.posting_entity_via_requestHandlerChain_is_successful();
+    // }
 }

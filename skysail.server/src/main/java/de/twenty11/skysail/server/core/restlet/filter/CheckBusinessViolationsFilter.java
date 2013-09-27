@@ -45,11 +45,21 @@ public class CheckBusinessViolationsFilter<R extends SkysailServerResource<T>, T
     }
 
     protected Set<ConstraintViolation<T>> validate(T entity) {
+        // if (entity instanceof List) {
+        // return listValidation((List) entity);
+        // }
         Set<ConstraintViolation<T>> violations = validator.validate(entity);
         if (violations.size() > 0) {
             logger.warn("constraint violations found on {}: {}", entity, violations);
         }
         return violations;
     }
+
+    // private Set<ConstraintViolation<Object>> listValidation(List<?> entity) {
+    // for (Object object : entity) {
+    // Set<ConstraintViolation<Object>> violations = validator.validate(object);
+    // }
+    //
+    // }
 
 }

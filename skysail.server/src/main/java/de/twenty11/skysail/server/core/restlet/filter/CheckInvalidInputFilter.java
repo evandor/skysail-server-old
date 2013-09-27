@@ -1,6 +1,5 @@
 package de.twenty11.skysail.server.core.restlet.filter;
 
-import de.twenty11.skysail.server.core.restlet.SkysailServerResource;
 import org.owasp.html.Handler;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.HtmlSanitizer;
@@ -12,10 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.twenty11.skysail.common.responses.FoundIllegalInputResponse;
-import de.twenty11.skysail.server.core.restlet.ListServerResource;
 import de.twenty11.skysail.server.core.restlet.ResponseWrapper;
+import de.twenty11.skysail.server.core.restlet.SkysailServerResource;
+import de.twenty11.skysail.server.core.restlet.UniqueResultServerResource;
 
-public class CheckInvalidInputFilter<R extends SkysailServerResource<T>, T> extends AbstractResourceFilter<R,T> {
+public class CheckInvalidInputFilter<R extends SkysailServerResource<T>, T> extends AbstractResourceFilter<R, T> {
 
     private static Logger logger = LoggerFactory.getLogger(CheckInvalidInputFilter.class);
 
@@ -26,7 +26,7 @@ public class CheckInvalidInputFilter<R extends SkysailServerResource<T>, T> exte
         logger.debug("entering {}#doHandle", this.getClass().getSimpleName());
 
         // do in "before"?
-        Form form = (Form) request.getAttributes().get(ListServerResource.SKYSAIL_SERVER_RESTLET_FORM);
+        Form form = (Form) request.getAttributes().get(UniqueResultServerResource.SKYSAIL_SERVER_RESTLET_FORM);
 
         if (containsInvalidInput(form)) {
             T entity = (T) resource.getData(form);

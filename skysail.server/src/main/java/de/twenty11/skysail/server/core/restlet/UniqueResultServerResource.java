@@ -8,9 +8,11 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
+import org.restlet.data.ClientInfo;
 import org.restlet.data.Form;
 import org.restlet.data.Method;
 import org.restlet.resource.Get;
+import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,8 @@ import de.twenty11.skysail.server.core.restlet.filter.AbstractResourceFilter;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
 
 public abstract class UniqueResultServerResource<T> extends SkysailServerResource<T> {
+
+    public static final String SKYSAIL_SERVER_RESTLET_FORM = "de.twenty11.skysail.server.core.restlet.form";
 
     /** slf4j based logger implementation. */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -55,6 +59,18 @@ public abstract class UniqueResultServerResource<T> extends SkysailServerResourc
     public SkysailResponse<T> getEntity() {
         return getEntity("default implementation... you might want to override UniqueResultServerResource2#getEntity in "
                 + this.getClass().getName());
+    }
+
+    @Post("x-www-form-urlencoded:html|json|xml")
+    public SkysailResponse<?> addFromForm(Form form) {
+        ClientInfo ci = getRequest().getClientInfo();
+        logger.info("calling addFromForm, media types '{}'", ci != null ? ci.getAcceptedMediaTypes() : "test");
+        getRequest().getAttributes().put(SKYSAIL_SERVER_RESTLET_FORM, form);
+        // AbstractResourceFilter<ListServerResource<T>, List<T>> handler = RequestHandler.<T>
+        // createForList(Method.POST);
+        AbstractResourceFilter<UniqueResultServerResource<T>, T> handler = RequestHandler
+                .<T> createForEntity(Method.POST);
+        return handler.handle(this, getRequest()).getSkysailResponse();
     }
 
     protected SkysailResponse<T> getEntity(String defaultMsg) {

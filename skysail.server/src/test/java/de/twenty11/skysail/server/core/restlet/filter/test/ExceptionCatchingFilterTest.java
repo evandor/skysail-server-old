@@ -18,11 +18,12 @@ import de.twenty11.skysail.server.core.restlet.filter.FilterResult;
 import de.twenty11.skysail.server.core.restlet.testentities.SimpleEntity;
 import de.twenty11.skysail.server.core.restlet.testresources.MyEntityResource;
 
-public class ExceptionCatchingTest {
+public class ExceptionCatchingFilterTest {
 
     private ExceptionCatchingFilter<UniqueResultServerResource<SimpleEntity>, SimpleEntity> exceptionCatchingFilter;
 
-    private class ExceptionThrowingFilter extends AbstractResourceFilter<UniqueResultServerResource<SimpleEntity>, SimpleEntity> {
+    private class ExceptionThrowingFilter extends
+            AbstractResourceFilter<UniqueResultServerResource<SimpleEntity>, SimpleEntity> {
         @Override
         public FilterResult doHandle(UniqueResultServerResource<SimpleEntity> resource, Request request,
                 ResponseWrapper<SimpleEntity> response) {
@@ -31,7 +32,7 @@ public class ExceptionCatchingTest {
     };
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         exceptionCatchingFilter = new ExceptionCatchingFilter<UniqueResultServerResource<SimpleEntity>, SimpleEntity>();
     }
 

@@ -48,8 +48,6 @@ import de.twenty11.skysail.server.core.restlet.filter.AbstractResourceFilter;
  */
 public abstract class ListServerResource<T> extends SkysailServerResource<List<T>> {
 
-    public static final String SKYSAIL_SERVER_RESTLET_FORM = "de.twenty11.skysail.server.core.restlet.form";
-
     public static final String CONSTRAINT_VIOLATIONS = "constraintViolations";
 
     /** slf4j based logger implementation. */
@@ -69,8 +67,10 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
     public SkysailResponse<?> addFromForm(Form form) {
         ClientInfo ci = getRequest().getClientInfo();
         logger.info("calling addFromForm, media types '{}'", ci != null ? ci.getAcceptedMediaTypes() : "test");
-        getRequest().getAttributes().put(SKYSAIL_SERVER_RESTLET_FORM, form);
+        getRequest().getAttributes().put(UniqueResultServerResource.SKYSAIL_SERVER_RESTLET_FORM, form);
         AbstractResourceFilter<ListServerResource<T>, List<T>> handler = RequestHandler.<T> createForList(Method.POST);
+        // AbstractResourceFilter<UniqueResultServerResource<T>, T> handler = RequestHandler.<T>
+        // createForEntity(Method.POST);
         return handler.handle(this, getRequest()).getSkysailResponse();
     }
 
