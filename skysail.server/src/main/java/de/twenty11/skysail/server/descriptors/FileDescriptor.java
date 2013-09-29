@@ -1,5 +1,6 @@
 package de.twenty11.skysail.server.descriptors;
 
+@Deprecated
 public class FileDescriptor {
 
     private String content;

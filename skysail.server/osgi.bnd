@@ -11,8 +11,7 @@ Import-Package: com.google.common.*;resolution:=optional,\
  !org.ops4j.pax.exam.*,\
  *
 DynamicImport-Package: *
-Export-Package: de.twenty11.skysail.server.config;version="0.1.1",\
- de.twenty11.skysail.server.descriptors;version="0.0.1",\
+Export-Package: de.twenty11.skysail.server.descriptors;version="0.0.1",\
  de.twenty11.skysail.server.config;version="0.1.0",\
  de.twenty11.skysail.server.directory;version="0.1.0",\
  de.twenty11.skysail.server.domain.repository;version="0.1.0",\
