@@ -28,5 +28,9 @@ Bundle-Activator: de.twenty11.skysail.server.internal.Activator
 Bundle-SymbolicName: skysail.server
 Service-Component: OSGI-INF/*.xml,src/main/resources/OSGI-INF/*.xml
 Bundle-ClassPath: .,lib/jsr305.jar,lib/owasp-java-html-sanitizer.jar
+Premain-Class: de.twenty11.unitprofile.agent.Agent
+Created-By: Apache Maven 3.0.4
+Can-Redefine-Classes: true
+Can-Retransform-Classes: true
 
 
