@@ -17,23 +17,28 @@ package de.twenty11.skysail.server.um.repos;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
-import de.twenty11.skysail.server.domain.repository.AbstractRepository;
 import de.twenty11.skysail.server.um.domain.SkysailRole;
 
 /**
  * 
  * @author graefca
  */
-public class RoleRepository extends AbstractRepository<SkysailRole> {
+public class RoleRepository {
+
+    private final EntityManager entitiyManager;
 
     public RoleRepository(EntityManagerFactory emf) {
-        super(emf);
+        this.entitiyManager = emf.createEntityManager();
     }
 
-    @Override
+    private EntityManager getEntityManager() {
+        return this.entitiyManager;
+    }
+
     public SkysailRole getById(Long id) {
         TypedQuery<SkysailRole> query = getEntityManager().createQuery(
                 "SELECT c FROM SkysailRole c WHERE c.pid = :pid", SkysailRole.class);
@@ -42,14 +47,12 @@ public class RoleRepository extends AbstractRepository<SkysailRole> {
 
     }
 
-    @Override
     public List<SkysailRole> getEntities() {
         TypedQuery<SkysailRole> query = getEntityManager()
                 .createQuery("SELECT c FROM SkysailRole c", SkysailRole.class);
         return query.getResultList();
     }
 
-    @Override
     public void add(SkysailRole entity) {
         getEntityManager().getTransaction().begin();
         getEntityManager().persist(entity);
