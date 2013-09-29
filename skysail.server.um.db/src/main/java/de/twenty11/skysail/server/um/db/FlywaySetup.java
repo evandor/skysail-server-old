@@ -23,9 +23,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 
 import com.googlecode.flyway.core.Flyway;
 
-import de.twenty11.skysail.server.services.ServiceIsInitializedIndicator;
-
-public class FlywaySetup implements ServiceIsInitializedIndicator {
+public class FlywaySetup {
 
     // seems like I cannot use comma-separated locations here...
     private static final String DEFAULT_LOCATIONS = "dbmig/server_um/other";
