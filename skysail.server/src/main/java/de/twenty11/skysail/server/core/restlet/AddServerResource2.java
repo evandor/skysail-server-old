@@ -9,9 +9,6 @@ import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.GenericBootstrap;
 
 import org.restlet.data.Form;
-import org.restlet.representation.InputRepresentation;
-import org.restlet.representation.Representation;
-import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.slf4j.Logger;
@@ -25,6 +22,7 @@ import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
 
 @Presentation(preferred = PresentationStyle.EDIT)
+@Deprecated
 public abstract class AddServerResource2<T> extends SkysailServerResource2<T> {
 
     /**
@@ -77,13 +75,13 @@ public abstract class AddServerResource2<T> extends SkysailServerResource2<T> {
         return addEntity(entity);
     }
 
-//    @Post
-//    public Representation acceptRepresentation(Representation entity) {
-//        if (entity instanceof InputRepresentation) {
-//            ((InputRepresentation)entity).
-//        }
-//        return new StringRepresentation("testing post");
-//    }
+    // @Post
+    // public Representation acceptRepresentation(Representation entity) {
+    // if (entity instanceof InputRepresentation) {
+    // ((InputRepresentation)entity).
+    // }
+    // return new StringRepresentation("testing post");
+    // }
 
     private Set<ConstraintViolation<T>> validate(T entity) {
         Set<ConstraintViolation<T>> violations = getValidator().validate(entity);

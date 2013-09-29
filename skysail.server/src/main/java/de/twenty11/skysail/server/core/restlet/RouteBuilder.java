@@ -11,9 +11,8 @@ public class RouteBuilder {
     private String text = null;
     private boolean visible = true;
     private Restlet restlet;
-    // private final List<SkysailRoleAuthorizer> rolesAuthorizers = new ArrayList<SkysailRoleAuthorizer>();
 
-    private RoleAuthorizerFactory roleAuthorizerFactory = new DefaultRoleAuthorizerFactory();
+    // private RoleAuthorizerFactory roleAuthorizerFactory = new DefaultRoleAuthorizerFactory();
     private String securedByRole;
 
     public RouteBuilder(String pathTemplate, Class<? extends ServerResource> targetClass) {
@@ -81,11 +80,4 @@ public class RouteBuilder {
         return securedByRole;
     }
 
-    public void setRoleAuthorizerFactory(RoleAuthorizerFactory roleAuthorizerFactory) {
-        this.roleAuthorizerFactory = roleAuthorizerFactory;
-    }
-
-    // public List<SkysailRoleAuthorizer> getRolesAuthorizers() {
-    // return Collections.unmodifiableList(rolesAuthorizers);
-    // }
 }
