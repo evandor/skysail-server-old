@@ -1,7 +1,6 @@
 Include-Resource: {maven-resources}
 Meta-Persistence: META-INF/persistence.xml
 Import-Package: javax.persistence;jpa="2.0";version="1.1.0",\
- de.twenty11.skysail.server.domain.repository;version="[0.1.0,0.2)",\
  *
 DynamicImport-Package: *
 Export-Package: de.twenty11.skysail.server.um.domain;version="0.1.0",\

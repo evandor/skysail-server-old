@@ -66,8 +66,6 @@ public abstract class UniqueResultServerResource<T> extends SkysailServerResourc
         ClientInfo ci = getRequest().getClientInfo();
         logger.info("calling addFromForm, media types '{}'", ci != null ? ci.getAcceptedMediaTypes() : "test");
         getRequest().getAttributes().put(SKYSAIL_SERVER_RESTLET_FORM, form);
-        // AbstractResourceFilter<ListServerResource<T>, List<T>> handler = RequestHandler.<T>
-        // createForList(Method.POST);
         AbstractResourceFilter<UniqueResultServerResource<T>, T> handler = RequestHandler
                 .<T> createForEntity(Method.POST);
         return handler.handle(this, getRequest()).getSkysailResponse();

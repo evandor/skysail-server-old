@@ -23,10 +23,8 @@ import java.util.Map;
 
 import org.restlet.Restlet;
 import org.restlet.data.ClientInfo;
-import org.restlet.data.Form;
 import org.restlet.data.Method;
 import org.restlet.resource.Get;
-import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
@@ -63,16 +61,16 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
                 + this.getClass().getName());
     }
 
-    @Post("x-www-form-urlencoded:html|json|xml")
-    public SkysailResponse<?> addFromForm(Form form) {
-        ClientInfo ci = getRequest().getClientInfo();
-        logger.info("calling addFromForm, media types '{}'", ci != null ? ci.getAcceptedMediaTypes() : "test");
-        getRequest().getAttributes().put(UniqueResultServerResource.SKYSAIL_SERVER_RESTLET_FORM, form);
-        AbstractResourceFilter<ListServerResource<T>, List<T>> handler = RequestHandler.<T> createForList(Method.POST);
-        // AbstractResourceFilter<UniqueResultServerResource<T>, T> handler = RequestHandler.<T>
-        // createForEntity(Method.POST);
-        return handler.handle(this, getRequest()).getSkysailResponse();
-    }
+    // @Post("x-www-form-urlencoded:html|json|xml")
+    // public SkysailResponse<?> addFromForm(Form form) {
+    // ClientInfo ci = getRequest().getClientInfo();
+    // logger.info("calling addFromForm, media types '{}'", ci != null ? ci.getAcceptedMediaTypes() : "test");
+    // getRequest().getAttributes().put(UniqueResultServerResource.SKYSAIL_SERVER_RESTLET_FORM, form);
+    // AbstractResourceFilter<ListServerResource<T>, List<T>> handler = RequestHandler.<T> createForList(Method.POST);
+    // // AbstractResourceFilter<UniqueResultServerResource<T>, T> handler = RequestHandler.<T>
+    // // createForEntity(Method.POST);
+    // return handler.handle(this, getRequest()).getSkysailResponse();
+    // }
 
     @Override
     protected void doInit() throws ResourceException {

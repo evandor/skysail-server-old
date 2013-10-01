@@ -33,8 +33,8 @@ public class RequestHandler<T> {
     public static <T> AbstractResourceFilter<UniqueResultServerResource<T>, T> createForEntity(Method method) {
         if (method.equals(Method.GET)) {
             return chainForEntityGet();
-            // } else if (method.equals(Method.POST)) {
-            // return chainForListPost();
+        } else if (method.equals(Method.POST)) {
+            return chainForEntityPost();
         }
         throw new RuntimeException("Method " + method + " is not yet supported");
     }
@@ -61,7 +61,16 @@ public class RequestHandler<T> {
                 .calling(new DataExtractingFilter<UniqueResultServerResource<T>, T>());
     }
 
+    private static <T> AbstractResourceFilter<UniqueResultServerResource<T>, T> chainForEntityPost() {
+        return new ExceptionCatchingFilter<UniqueResultServerResource<T>, T>()
+                //.calling(new AuthorizationFilter<ListServerResource<T>, List<T>>())
+                .calling(new CheckInvalidInputFilter<UniqueResultServerResource<T>, T>())
+                .calling(new FormDataExtractingFilter<UniqueResultServerResource<T>, T>())
+                .calling(new CheckBusinessViolationsFilter<UniqueResultServerResource<T>, T>())
+                .calling(new PersistEntityFilter<UniqueResultServerResource<T>, T>());
+    }
 
+    
     public AbstractResourceFilter<ListServerResource<T>, List<T>> getChain(Method method) {
         if (method.equals(Method.GET)) {
         
