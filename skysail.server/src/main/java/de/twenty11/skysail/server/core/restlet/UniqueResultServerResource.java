@@ -72,25 +72,11 @@ public abstract class UniqueResultServerResource<T> extends SkysailServerResourc
     }
 
     protected SkysailResponse<T> getEntity(String defaultMsg) {
-
         RequestHandler<T> requestHandler = new RequestHandler<T>();
         AbstractResourceFilter<UniqueResultServerResource<T>, T> chain = requestHandler.getChainForEntity(Method.GET);
 
         ResponseWrapper<T> wrapper = chain.handle(this, getRequest());
         return wrapper.getSkysailResponse();
-
-        // try {
-        // T data = getData();
-        // SuccessResponse<T> successResponse = new SuccessResponse<T>(data);
-        // successResponse.setMessage(defaultMsg);
-        // if (this.getMessage() != null && !"".equals(this.getMessage().trim())) {
-        // successResponse.setMessage(getMessage());
-        // }
-        // return successResponse;
-        // } catch (Exception e) {
-        // logger.error(e.getMessage(), e);
-        // return new FailureResponse<T>(e);
-        // }
     }
 
     public Validator getValidator() {

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.restlet.Restlet;
 import org.restlet.data.ClientInfo;
 import org.restlet.data.Method;
@@ -61,17 +62,6 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
                 + this.getClass().getName());
     }
 
-    // @Post("x-www-form-urlencoded:html|json|xml")
-    // public SkysailResponse<?> addFromForm(Form form) {
-    // ClientInfo ci = getRequest().getClientInfo();
-    // logger.info("calling addFromForm, media types '{}'", ci != null ? ci.getAcceptedMediaTypes() : "test");
-    // getRequest().getAttributes().put(UniqueResultServerResource.SKYSAIL_SERVER_RESTLET_FORM, form);
-    // AbstractResourceFilter<ListServerResource<T>, List<T>> handler = RequestHandler.<T> createForList(Method.POST);
-    // // AbstractResourceFilter<UniqueResultServerResource<T>, T> handler = RequestHandler.<T>
-    // // createForEntity(Method.POST);
-    // return handler.handle(this, getRequest()).getSkysailResponse();
-    // }
-
     @Override
     protected void doInit() throws ResourceException {
         super.doInit(); // TODO: call important?
@@ -81,6 +71,11 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
     protected SkysailResponse<List<T>> getEntities(String defaultMsg) {
         AbstractResourceFilter<ListServerResource<T>, List<T>> handler = RequestHandler.<T> createForList(Method.GET);
         return handler.handle(this, getRequest()).getSkysailResponse();
+    }
+
+    @Override
+    public SkysailResponse<?> addEntity(List<T> entity) {
+        throw new NotImplementedException();
     }
 
     protected Map<String, String> getParamsFromRequest() {
