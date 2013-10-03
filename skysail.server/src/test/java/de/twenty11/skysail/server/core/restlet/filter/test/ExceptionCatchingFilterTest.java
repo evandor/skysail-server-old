@@ -17,7 +17,6 @@ import de.twenty11.skysail.server.core.restlet.filter.ExceptionCatchingFilter;
 import de.twenty11.skysail.server.core.restlet.filter.FilterResult;
 import de.twenty11.skysail.server.core.restlet.testentities.SimpleEntity;
 import de.twenty11.skysail.server.core.restlet.testresources.MyEntityResource;
-import de.twenty11.unitprofile.annotations.Profile;
 
 public class ExceptionCatchingFilterTest {
 
@@ -38,7 +37,7 @@ public class ExceptionCatchingFilterTest {
     }
 
     @Test
-    @Profile
+    // @Profile
     public void delegates_to_next_filter_if_before_returns_continue() {
 
         Request request = Mockito.mock(Request.class);
