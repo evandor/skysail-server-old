@@ -206,15 +206,22 @@ public class Json2BootstrapConverter extends ConverterHelper {
                 getMainNav(((SkysailApplication) resource.getApplication()).getBundleContext()));
 
         String username = "unknown";
-//        if (resource.getRequest().getChallengeResponse() != null) {
-//            username = resource.getRequest().getChallengeResponse().getIdentifier();
-//        }
+        // if (resource.getRequest().getChallengeResponse() != null) {
+        // username = resource.getRequest().getChallengeResponse().getIdentifier();
+        // }
         Subject subject = SecurityUtils.getSubject();
         if (subject.getPrincipal() != null) {
             username = subject.getPrincipal().toString();
         }
         page = page.replace("${username}", "<li><a href='#'><i class=\"icon-user icon-white\"></i>&nbsp;" + username
                 + "</a></li>\n");
+
+        if (subject.getPrincipal() != null) {
+            page = page.replace("${loginLogout}", "<a href='/logout'>[Logout]</a>");
+        } else {
+            page = page.replace("${loginLogout}", "<a href='/login'>[Login]</a>");
+        }
+
         page = page.replace("${productName}",
                 ((SkysailApplication) resource.getApplication()).getConfigForKey("productName"));
 
