@@ -1,3 +1,0 @@
-
- see src/site/apt/changelog.apt
- 
