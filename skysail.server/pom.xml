@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -155,30 +156,13 @@
 				</configuration>
 			</plugin>
 
-			<!-- 
-			manifestentries go to osgi.bnd file
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
-				<executions>
-					<execution>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<configuration>
-							<archive>
-								<manifestEntries>
-									<Premain-Class>de.twenty11.unitprofile.agent.Agent</Premain-Class>
-									<Can-Redefine-Classes>true</Can-Redefine-Classes>
-									<Can-Retransform-Classes>true</Can-Retransform-Classes>
-								</manifestEntries>
-							</archive>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin> -->
+			<!-- manifestentries go to osgi.bnd file <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-jar-plugin</artifactId> <version>2.4</version> <executions> 
+				<execution> <phase>process-classes</phase> <goals> <goal>jar</goal> </goals> 
+				<configuration> <archive> <manifestEntries> <Premain-Class>de.twenty11.unitprofile.agent.Agent</Premain-Class> 
+				<Can-Redefine-Classes>true</Can-Redefine-Classes> <Can-Retransform-Classes>true</Can-Retransform-Classes> 
+				</manifestEntries> </archive> </configuration> </execution> </executions> 
+				</plugin> -->
 
 		</plugins>
 
@@ -354,6 +338,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>biz.aQute</groupId>
+			<artifactId>annotation</artifactId>
+			<version>1.50.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.9</version>
@@ -446,11 +436,8 @@
 			<version>1.8.0</version>
 		</dependency>
 
-<!-- 		<dependency>
-			<groupId>de.twentyeleven.unitprofile</groupId>
-			<artifactId>unitprofiler</artifactId>
-			<version>[0.0.4-SNAPSHOT, 1.0.0)</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>de.twentyeleven.unitprofile</groupId> <artifactId>unitprofiler</artifactId> 
+			<version>[0.0.4-SNAPSHOT, 1.0.0)</version> </dependency> -->
 	</dependencies>
 
 </project>

@@ -9,11 +9,11 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.core.MenuService;
 import de.twenty11.skysail.server.core.osgi.internal.MenuLifecycle;
 import de.twenty11.skysail.server.core.osgi.internal.MenuState;
 import de.twenty11.skysail.server.core.osgi.internal.Trigger;
 import de.twenty11.skysail.server.services.MenuEntry;
+import de.twenty11.skysail.server.services.MenuService;
 
 public class MenusHolder {
 

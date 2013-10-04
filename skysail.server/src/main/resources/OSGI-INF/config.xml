@@ -46,7 +46,7 @@
 
 	<reference 
 		cardinality="0..1" 
-		interface="de.twenty11.skysail.server.core.MenuService" 
+		interface="de.twenty11.skysail.server.services.MenuService" 
 		bind="setMenuService" 
 		unbind="unsetMenuService"
 		name="menuService" 

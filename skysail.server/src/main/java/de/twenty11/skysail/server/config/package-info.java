@@ -1,7 +1,7 @@
+@Version("0.1.0.${buildLabel}")
 package de.twenty11.skysail.server.config;
 
-
-
+import aQute.bnd.annotation.Version;
 
 /**
  * 0.1.1:

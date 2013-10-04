@@ -2,8 +2,8 @@ package de.twenty11.skysail.server.internal;
 
 import org.osgi.service.component.ComponentContext;
 
+import de.twenty11.skysail.server.resources.DefaultResource;
 import de.twenty11.skysail.server.resources.LoginResource;
-import de.twenty11.skysail.server.restlet.DefaultResource;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.security.AuthenticationService;
 

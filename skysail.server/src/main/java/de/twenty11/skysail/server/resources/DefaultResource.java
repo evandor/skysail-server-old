@@ -1,4 +1,4 @@
-package de.twenty11.skysail.server.restlet;
+package de.twenty11.skysail.server.resources;
 
 import java.util.ArrayList;
 import java.util.List;

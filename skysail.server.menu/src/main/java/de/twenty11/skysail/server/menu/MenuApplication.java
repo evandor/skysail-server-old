@@ -7,12 +7,12 @@ import org.restlet.routing.Template;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.server.core.MenuService;
 import de.twenty11.skysail.server.core.restlet.RouteBuilder;
 import de.twenty11.skysail.server.menu.domain.Menu;
 import de.twenty11.skysail.server.menu.resources.MenusResource;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.services.ApplicationProvider;
+import de.twenty11.skysail.server.services.MenuService;
 
 public class MenuApplication extends SkysailApplication implements ApplicationProvider, MenuService {
 
