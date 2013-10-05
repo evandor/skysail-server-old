@@ -35,8 +35,7 @@ public class DefaultResource extends de.twenty11.skysail.server.core.restlet.Lis
 
     @Override
     public String getMessage(String key) {
-        // TODO Auto-generated method stub
-        return null;
+        return "Welcome";
     }
 
     @Override

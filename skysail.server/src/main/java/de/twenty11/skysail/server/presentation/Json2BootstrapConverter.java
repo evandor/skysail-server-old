@@ -201,7 +201,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
         page = page.replace("${commands}", commands(resource));
         page = page.replace("${presentations}", presentations());
         page = page.replace("${filterExpression}", getFilter());
-        page = page.replace("${history}", getHistory());
+        page = page.replace("${history}", "");
         page = page.replace("${mainNav}",
                 getMainNav(((SkysailApplication) resource.getApplication()).getBundleContext()));
 
@@ -309,10 +309,6 @@ public class Json2BootstrapConverter extends ConverterHelper {
         }
         template = template.replace("${links}", links.toString());
         return template;
-    }
-
-    private CharSequence getHistory() {
-        return "";
     }
 
     private StringBuilder getBreadcrumbHtml(Resource resource) {
