@@ -1,5 +1,7 @@
  changes included in <<0.3.3>>
 
+ * re-activation of logout page, mapped to "/logout" 
+
  * moved DefaultResource to resources folder
  
  * removed META-INF folder
