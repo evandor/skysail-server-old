@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.Subject;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.jdbc.DataSourceFactory;
@@ -60,6 +61,14 @@ public class ShiroServices implements AuthenticationService {
         logger.info("Setting new SkysailWebSecurityManager as Shiros SecurityManager");
         SecurityUtils.setSecurityManager(securityManager);
 
+    }
+
+    @Override
+    public void logout() {
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            subject.logout();
+        }
     }
 
     public void setDataSource(DataSource dataSource) {

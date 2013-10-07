@@ -217,7 +217,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
                 + "</a></li>\n");
 
         if (subject.getPrincipal() != null) {
-            page = page.replace("${loginLogout}", "<a href='/logout'>[Logout]</a>");
+            page = page.replace("${loginLogout}", "<a href='/logout?targetUri=/'>[Logout]</a>");
         } else {
             page = page.replace("${loginLogout}", "<a href='/login?media=htmlform'>[Login]</a>");
         }

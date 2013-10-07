@@ -70,6 +70,10 @@ public class ResourceTestWithUnguardedAppication<T extends SkysailApplication> e
             return new DummyChallengeAuthenticator(context, ChallengeScheme.HTTP_BASIC, "realm");
         }
 
+        @Override
+        public void logout() {
+        }
+
     }
 
     @Override

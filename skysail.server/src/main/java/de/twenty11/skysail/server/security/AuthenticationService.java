@@ -7,4 +7,6 @@ public interface AuthenticationService {
 
     Authenticator getAuthenticator(Context context);
 
+    void logout();
+
 }
