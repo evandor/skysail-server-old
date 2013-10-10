@@ -4,10 +4,10 @@ import org.restlet.data.Form;
 import org.restlet.resource.ResourceException;
 
 import de.twenty11.skysail.common.responses.SkysailResponse;
-import de.twenty11.skysail.server.core.restlet.UniqueResultServerResource;
+import de.twenty11.skysail.server.core.restlet.EntityServerResource;
 import de.twenty11.skysail.server.core.restlet.testentities.SimpleEntity;
 
-public class MyEntityResource extends UniqueResultServerResource<SimpleEntity> {
+public class MyEntityResource extends EntityServerResource<SimpleEntity> {
 
     @Override
     protected void doInit() throws ResourceException {

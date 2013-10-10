@@ -3,15 +3,15 @@ package de.twenty11.skysail.server.core.restlet.filter;
 import org.restlet.Request;
 
 import de.twenty11.skysail.server.core.restlet.ResponseWrapper;
-import de.twenty11.skysail.server.core.restlet.UniqueResultServerResource;
+import de.twenty11.skysail.server.core.restlet.EntityServerResource;
 
 public interface EntityResourceFilter<T> {
 
-    public FilterResult beforeHandle(UniqueResultServerResource<T> resource, Request request,
+    public FilterResult beforeHandle(EntityServerResource<T> resource, Request request,
             ResponseWrapper<T> response);
 
-    public FilterResult doHandle(UniqueResultServerResource<T> resource, Request request, ResponseWrapper<T> response);
+    public FilterResult doHandle(EntityServerResource<T> resource, Request request, ResponseWrapper<T> response);
 
-    public void afterHandle(UniqueResultServerResource<T> resource, Request request, ResponseWrapper<T> response);
+    public void afterHandle(EntityServerResource<T> resource, Request request, ResponseWrapper<T> response);
 
 }

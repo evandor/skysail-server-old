@@ -21,7 +21,7 @@ import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.core.restlet.filter.AbstractResourceFilter;
 import de.twenty11.skysail.server.restlet.OSGiServiceDiscoverer;
 
-public abstract class UniqueResultServerResource<T> extends SkysailServerResource<T> {
+public abstract class EntityServerResource<T> extends SkysailServerResource<T> {
 
     public static final String SKYSAIL_SERVER_RESTLET_FORM = "de.twenty11.skysail.server.core.restlet.form";
 
@@ -29,7 +29,7 @@ public abstract class UniqueResultServerResource<T> extends SkysailServerResourc
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private Validator validator;
 
-    public UniqueResultServerResource() {
+    public EntityServerResource() {
         GenericBootstrap validationProvider = Validation.byDefaultProvider();
 
         javax.validation.Configuration<?> config = validationProvider.providerResolver(new OSGiServiceDiscoverer())
@@ -66,14 +66,14 @@ public abstract class UniqueResultServerResource<T> extends SkysailServerResourc
         ClientInfo ci = getRequest().getClientInfo();
         logger.info("calling addFromForm, media types '{}'", ci != null ? ci.getAcceptedMediaTypes() : "test");
         getRequest().getAttributes().put(SKYSAIL_SERVER_RESTLET_FORM, form);
-        AbstractResourceFilter<UniqueResultServerResource<T>, T> handler = RequestHandler
+        AbstractResourceFilter<EntityServerResource<T>, T> handler = RequestHandler
                 .<T> createForEntity(Method.POST);
         return handler.handle(this, getRequest()).getSkysailResponse();
     }
 
     protected SkysailResponse<T> getEntity(String defaultMsg) {
         RequestHandler<T> requestHandler = new RequestHandler<T>();
-        AbstractResourceFilter<UniqueResultServerResource<T>, T> chain = requestHandler.getChainForEntity(Method.GET);
+        AbstractResourceFilter<EntityServerResource<T>, T> chain = requestHandler.getChainForEntity(Method.GET);
 
         ResponseWrapper<T> wrapper = chain.handle(this, getRequest());
         return wrapper.getSkysailResponse();

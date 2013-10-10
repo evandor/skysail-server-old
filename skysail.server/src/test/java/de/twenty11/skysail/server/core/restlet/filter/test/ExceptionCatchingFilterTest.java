@@ -11,7 +11,7 @@ import org.restlet.Request;
 import de.twenty11.skysail.common.responses.FailureResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.server.core.restlet.ResponseWrapper;
-import de.twenty11.skysail.server.core.restlet.UniqueResultServerResource;
+import de.twenty11.skysail.server.core.restlet.EntityServerResource;
 import de.twenty11.skysail.server.core.restlet.filter.AbstractResourceFilter;
 import de.twenty11.skysail.server.core.restlet.filter.ExceptionCatchingFilter;
 import de.twenty11.skysail.server.core.restlet.filter.FilterResult;
@@ -20,12 +20,12 @@ import de.twenty11.skysail.server.core.restlet.testresources.MyEntityResource;
 
 public class ExceptionCatchingFilterTest {
 
-    private ExceptionCatchingFilter<UniqueResultServerResource<SimpleEntity>, SimpleEntity> exceptionCatchingFilter;
+    private ExceptionCatchingFilter<EntityServerResource<SimpleEntity>, SimpleEntity> exceptionCatchingFilter;
 
     private class ExceptionThrowingFilter extends
-            AbstractResourceFilter<UniqueResultServerResource<SimpleEntity>, SimpleEntity> {
+            AbstractResourceFilter<EntityServerResource<SimpleEntity>, SimpleEntity> {
         @Override
-        public FilterResult doHandle(UniqueResultServerResource<SimpleEntity> resource, Request request,
+        public FilterResult doHandle(EntityServerResource<SimpleEntity> resource, Request request,
                 ResponseWrapper<SimpleEntity> response) {
             throw new IllegalStateException("I want to be catched by outer filter");
         }
@@ -33,7 +33,7 @@ public class ExceptionCatchingFilterTest {
 
     @Before
     public void setUp() {
-        exceptionCatchingFilter = new ExceptionCatchingFilter<UniqueResultServerResource<SimpleEntity>, SimpleEntity>();
+        exceptionCatchingFilter = new ExceptionCatchingFilter<EntityServerResource<SimpleEntity>, SimpleEntity>();
     }
 
     @Test

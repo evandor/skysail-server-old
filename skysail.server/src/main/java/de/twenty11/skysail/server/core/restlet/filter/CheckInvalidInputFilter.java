@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import de.twenty11.skysail.common.responses.FoundIllegalInputResponse;
 import de.twenty11.skysail.server.core.restlet.ResponseWrapper;
 import de.twenty11.skysail.server.core.restlet.SkysailServerResource;
-import de.twenty11.skysail.server.core.restlet.UniqueResultServerResource;
+import de.twenty11.skysail.server.core.restlet.EntityServerResource;
 
 public class CheckInvalidInputFilter<R extends SkysailServerResource<T>, T> extends AbstractResourceFilter<R, T> {
 
@@ -26,7 +26,7 @@ public class CheckInvalidInputFilter<R extends SkysailServerResource<T>, T> exte
         logger.debug("entering {}#doHandle", this.getClass().getSimpleName());
 
         // do in "before"?
-        Form form = (Form) request.getAttributes().get(UniqueResultServerResource.SKYSAIL_SERVER_RESTLET_FORM);
+        Form form = (Form) request.getAttributes().get(EntityServerResource.SKYSAIL_SERVER_RESTLET_FORM);
 
         if (containsInvalidInput(form)) {
             T entity = (T) resource.getData(form);

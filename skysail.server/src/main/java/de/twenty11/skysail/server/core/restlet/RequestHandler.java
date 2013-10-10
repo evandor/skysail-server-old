@@ -30,7 +30,7 @@ public class RequestHandler<T> {
     /**
      * for now, always return new objects
      */
-    public static <T> AbstractResourceFilter<UniqueResultServerResource<T>, T> createForEntity(Method method) {
+    public static <T> AbstractResourceFilter<EntityServerResource<T>, T> createForEntity(Method method) {
         if (method.equals(Method.GET)) {
             return chainForEntityGet();
         } else if (method.equals(Method.POST)) {
@@ -55,19 +55,19 @@ public class RequestHandler<T> {
                 .calling(new DataExtractingFilter<ListServerResource<T>, List<T>>());
     }
 
-    private static <T> AbstractResourceFilter<UniqueResultServerResource<T>, T> chainForEntityGet() {
-        return new ExceptionCatchingFilter<UniqueResultServerResource<T>, T>()
-                .calling(new QueryExtractingFilter<UniqueResultServerResource<T>, T>())
-                .calling(new DataExtractingFilter<UniqueResultServerResource<T>, T>());
+    private static <T> AbstractResourceFilter<EntityServerResource<T>, T> chainForEntityGet() {
+        return new ExceptionCatchingFilter<EntityServerResource<T>, T>()
+                .calling(new QueryExtractingFilter<EntityServerResource<T>, T>())
+                .calling(new DataExtractingFilter<EntityServerResource<T>, T>());
     }
 
-    private static <T> AbstractResourceFilter<UniqueResultServerResource<T>, T> chainForEntityPost() {
-        return new ExceptionCatchingFilter<UniqueResultServerResource<T>, T>()
+    private static <T> AbstractResourceFilter<EntityServerResource<T>, T> chainForEntityPost() {
+        return new ExceptionCatchingFilter<EntityServerResource<T>, T>()
                 //.calling(new AuthorizationFilter<ListServerResource<T>, List<T>>())
-                .calling(new CheckInvalidInputFilter<UniqueResultServerResource<T>, T>())
-                .calling(new FormDataExtractingFilter<UniqueResultServerResource<T>, T>())
-                .calling(new CheckBusinessViolationsFilter<UniqueResultServerResource<T>, T>())
-                .calling(new PersistEntityFilter<UniqueResultServerResource<T>, T>());
+                .calling(new CheckInvalidInputFilter<EntityServerResource<T>, T>())
+                .calling(new FormDataExtractingFilter<EntityServerResource<T>, T>())
+                .calling(new CheckBusinessViolationsFilter<EntityServerResource<T>, T>())
+                .calling(new PersistEntityFilter<EntityServerResource<T>, T>());
     }
 
     
@@ -83,23 +83,23 @@ public class RequestHandler<T> {
         throw new RuntimeException("Method " + method + " is not yet supported");
     }
 
-    public AbstractResourceFilter<UniqueResultServerResource<T>, T> getChainForEntity(Method method) {
+    public AbstractResourceFilter<EntityServerResource<T>, T> getChainForEntity(Method method) {
         if (method.equals(Method.GET)) {
         
             // exceptionCatching -> QueryExtracting -> DataExtracting
-            return new ExceptionCatchingFilter<UniqueResultServerResource<T>, T>()
-                        .calling(new QueryExtractingFilter<UniqueResultServerResource<T>, T>())
+            return new ExceptionCatchingFilter<EntityServerResource<T>, T>()
+                        .calling(new QueryExtractingFilter<EntityServerResource<T>, T>())
                         //.calling(new DataExtractingFilter<T>())
                     ;
         
         } else if (method.equals(Method.POST)) {
 
             // exceptionCatching -> QueryExtracting -> DataExtracting
-            return new ExceptionCatchingFilter<UniqueResultServerResource<T>, T>()
-                        .calling(new CheckInvalidInputFilter<UniqueResultServerResource<T>, T>())
-                        .calling(new FormDataExtractingFilter<UniqueResultServerResource<T>, T>())
-                        .calling(new CheckBusinessViolationsFilter<UniqueResultServerResource<T>, T>())
-                        .calling(new PersistEntityFilter<UniqueResultServerResource<T>, T>())
+            return new ExceptionCatchingFilter<EntityServerResource<T>, T>()
+                        .calling(new CheckInvalidInputFilter<EntityServerResource<T>, T>())
+                        .calling(new FormDataExtractingFilter<EntityServerResource<T>, T>())
+                        .calling(new CheckBusinessViolationsFilter<EntityServerResource<T>, T>())
+                        .calling(new PersistEntityFilter<EntityServerResource<T>, T>())
                         ;
         }
         throw new RuntimeException("Method " + method + " is not yet supported");

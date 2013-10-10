@@ -8,10 +8,10 @@ import org.restlet.resource.ResourceException;
 import de.twenty11.skysail.common.responses.FormResponse;
 import de.twenty11.skysail.common.responses.SkysailResponse;
 import de.twenty11.skysail.common.responses.SuccessResponse;
-import de.twenty11.skysail.server.core.restlet.UniqueResultServerResource;
+import de.twenty11.skysail.server.core.restlet.EntityServerResource;
 import de.twenty11.skysail.server.domain.Credentials;
 
-public class LoginResource extends UniqueResultServerResource<Credentials> {
+public class LoginResource extends EntityServerResource<Credentials> {
 
     @Get("htmlform")
     public FormResponse<Credentials> createForm() {
