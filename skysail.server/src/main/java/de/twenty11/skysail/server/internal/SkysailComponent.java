@@ -11,6 +11,7 @@ public class SkysailComponent extends Component {
 
     public SkysailComponent() {
         logger.info("Creating Restlet Component: {}", SkysailComponent.class.getName());
+        // System.setProperty("org.restlet.engine.loggerFacadeClass", "org.restlet.ext.slf4j.Slf4jLoggerFacade");
         getClients().add(Protocol.CLAP);
         getClients().add(Protocol.HTTP);
         getClients().add(Protocol.FILE);

@@ -1,3 +1,10 @@
+ -----
+ Routing
+ -----
+ evandor
+ -----
+ October 2013
+
 Content
 
  This section describes the most general concepts behind routing and resources.
@@ -21,6 +28,8 @@ Content
  by the excellent {{{http://www.restlet.org}Restlet}} framework. If you are interested, I recommend to read the 
  {{{http://restlet.org/learn/tutorial/2.1/}tutorial}}; Resources and Routing are described in the chapters <11. Routers and hierarchical URIs> 
  and <12. Reaching target Resources>.
+ 
+ If you are interested in the details of routing in skysail server, you can have a {{{./routingdetails.html}look}} here as well.
  
 * Resources and Routing in skysail server
 
