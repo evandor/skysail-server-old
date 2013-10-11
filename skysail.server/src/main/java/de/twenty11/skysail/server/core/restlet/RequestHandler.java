@@ -11,7 +11,6 @@ import de.twenty11.skysail.server.core.restlet.filter.DataExtractingFilter;
 import de.twenty11.skysail.server.core.restlet.filter.ExceptionCatchingFilter;
 import de.twenty11.skysail.server.core.restlet.filter.FormDataExtractingFilter;
 import de.twenty11.skysail.server.core.restlet.filter.PersistEntityFilter;
-import de.twenty11.skysail.server.core.restlet.filter.QueryExtractingFilter;
 
 public class RequestHandler<T> {
 
@@ -40,10 +39,8 @@ public class RequestHandler<T> {
     }
 
     // @formatter:off
-
     private static <T> AbstractResourceFilter<ListServerResource<T>, List<T>> chainForListPost() {
         return new ExceptionCatchingFilter<ListServerResource<T>, List<T>>()
-                //.calling(new AuthorizationFilter<ListServerResource<T>, List<T>>())
                 .calling(new CheckInvalidInputFilter<ListServerResource<T>, List<T>>())
                 .calling(new FormDataExtractingFilter<ListServerResource<T>, List<T>>())
                 .calling(new CheckBusinessViolationsFilter<ListServerResource<T>, List<T>>())
@@ -57,7 +54,7 @@ public class RequestHandler<T> {
 
     private static <T> AbstractResourceFilter<EntityServerResource<T>, T> chainForEntityGet() {
         return new ExceptionCatchingFilter<EntityServerResource<T>, T>()
-                .calling(new QueryExtractingFilter<EntityServerResource<T>, T>())
+                //.calling(new QueryExtractingFilter<EntityServerResource<T>, T>())
                 .calling(new DataExtractingFilter<EntityServerResource<T>, T>());
     }
 
@@ -71,38 +68,38 @@ public class RequestHandler<T> {
     }
 
     
-    public AbstractResourceFilter<ListServerResource<T>, List<T>> getChain(Method method) {
-        if (method.equals(Method.GET)) {
-        
-            return null;
-        } else if (method.equals(Method.POST)) {
-
-            // exceptionCatching -> QueryExtracting -> DataExtracting
-            return  chainForListPost();
-        }
-        throw new RuntimeException("Method " + method + " is not yet supported");
-    }
-
-    public AbstractResourceFilter<EntityServerResource<T>, T> getChainForEntity(Method method) {
-        if (method.equals(Method.GET)) {
-        
-            // exceptionCatching -> QueryExtracting -> DataExtracting
-            return new ExceptionCatchingFilter<EntityServerResource<T>, T>()
-                        .calling(new QueryExtractingFilter<EntityServerResource<T>, T>())
-                        //.calling(new DataExtractingFilter<T>())
-                    ;
-        
-        } else if (method.equals(Method.POST)) {
-
-            // exceptionCatching -> QueryExtracting -> DataExtracting
-            return new ExceptionCatchingFilter<EntityServerResource<T>, T>()
-                        .calling(new CheckInvalidInputFilter<EntityServerResource<T>, T>())
-                        .calling(new FormDataExtractingFilter<EntityServerResource<T>, T>())
-                        .calling(new CheckBusinessViolationsFilter<EntityServerResource<T>, T>())
-                        .calling(new PersistEntityFilter<EntityServerResource<T>, T>())
-                        ;
-        }
-        throw new RuntimeException("Method " + method + " is not yet supported");
-    }
+//    public AbstractResourceFilter<ListServerResource<T>, List<T>> getChain(Method method) {
+//        if (method.equals(Method.GET)) {
+//        
+//            return null;
+//        } else if (method.equals(Method.POST)) {
+//
+//            // exceptionCatching -> QueryExtracting -> DataExtracting
+//            return  chainForListPost();
+//        }
+//        throw new RuntimeException("Method " + method + " is not yet supported");
+//    }
+//
+//    public AbstractResourceFilter<EntityServerResource<T>, T> getChainForEntity(Method method) {
+//        if (method.equals(Method.GET)) {
+//        
+//            // exceptionCatching -> QueryExtracting -> DataExtracting
+//            return new ExceptionCatchingFilter<EntityServerResource<T>, T>()
+//                        .calling(new QueryExtractingFilter<EntityServerResource<T>, T>())
+//                        .calling(new DataExtractingFilter<EntityServerResource<T>, T>())
+//                    ;
+//        
+//        } else if (method.equals(Method.POST)) {
+//
+//            // exceptionCatching -> QueryExtracting -> DataExtracting
+//            return new ExceptionCatchingFilter<EntityServerResource<T>, T>()
+//                        .calling(new CheckInvalidInputFilter<EntityServerResource<T>, T>())
+//                        .calling(new FormDataExtractingFilter<EntityServerResource<T>, T>())
+//                        .calling(new CheckBusinessViolationsFilter<EntityServerResource<T>, T>())
+//                        .calling(new PersistEntityFilter<EntityServerResource<T>, T>())
+//                        ;
+//        }
+//        throw new RuntimeException("Method " + method + " is not yet supported");
+//    }
 
 }

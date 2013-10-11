@@ -66,15 +66,12 @@ public abstract class EntityServerResource<T> extends SkysailServerResource<T> {
         ClientInfo ci = getRequest().getClientInfo();
         logger.info("calling addFromForm, media types '{}'", ci != null ? ci.getAcceptedMediaTypes() : "test");
         getRequest().getAttributes().put(SKYSAIL_SERVER_RESTLET_FORM, form);
-        AbstractResourceFilter<EntityServerResource<T>, T> handler = RequestHandler
-                .<T> createForEntity(Method.POST);
+        AbstractResourceFilter<EntityServerResource<T>, T> handler = RequestHandler.<T> createForEntity(Method.POST);
         return handler.handle(this, getRequest()).getSkysailResponse();
     }
 
     protected SkysailResponse<T> getEntity(String defaultMsg) {
-        RequestHandler<T> requestHandler = new RequestHandler<T>();
-        AbstractResourceFilter<EntityServerResource<T>, T> chain = requestHandler.getChainForEntity(Method.GET);
-
+        AbstractResourceFilter<EntityServerResource<T>, T> chain = RequestHandler.<T> createForEntity(Method.GET);
         ResponseWrapper<T> wrapper = chain.handle(this, getRequest());
         return wrapper.getSkysailResponse();
     }

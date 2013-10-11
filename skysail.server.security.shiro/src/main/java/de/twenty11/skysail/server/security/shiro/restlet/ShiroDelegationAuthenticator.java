@@ -5,6 +5,7 @@ import org.apache.shiro.subject.Subject;
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
+import org.restlet.data.CookieSetting;
 import org.restlet.ext.crypto.CookieAuthenticator;
 import org.restlet.routing.Filter;
 
@@ -17,6 +18,13 @@ public class ShiroDelegationAuthenticator extends CookieAuthenticator {
         setLoginFormPath("/login");
         setOptional(true); // we want anonymous users too
         setVerifier(new ShiroDelegatingVerifier());
+    }
+
+    @Override
+    protected CookieSetting getCredentialsCookie(Request request, Response response) {
+        CookieSetting credentialsCookie = super.getCredentialsCookie(request, response);
+        credentialsCookie.setPath("/");
+        return credentialsCookie;
     }
 
     @Override

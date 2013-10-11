@@ -26,16 +26,15 @@ public class SkysailRouter extends Router {
         routes.put(routeBuilder.getPathTemplate(), routeBuilder);
         if (routeBuilder.getTargetClass() != null) {
 
-            if (routeBuilder.getSecuredByRole() != null) {
-                // SkysailRoleAuthorizer authorizer = new SkysailRoleAuthorizer(routeBuilder.getSecuredByRole());
-                Authorizer authorizer = authorizationService.getRoleAuthorizer(routeBuilder.getSecuredByRole());
-                // Authorizer authorizer = roleAuthorizerFactory.create(roleName);
-                // rolesAuthorizers.add(authorizer);
-                authorizer.setNext(routeBuilder.getTargetClass());
-                attach(routeBuilder.getPathTemplate(), authorizer);
-            } else {
-                attach(routeBuilder.getPathTemplate(), routeBuilder.getTargetClass());
-            }
+            // if (routeBuilder.getSecuredByRole() != null) {
+            Authorizer authorizer = authorizationService.getRoleAuthorizer(routeBuilder.getSecuredByRole());
+            // Authorizer authorizer = roleAuthorizerFactory.create(roleName);
+            // rolesAuthorizers.add(authorizer);
+            authorizer.setNext(routeBuilder.getTargetClass());
+            attach(routeBuilder.getPathTemplate(), authorizer);
+            // } else {
+            // attach(routeBuilder.getPathTemplate(), routeBuilder.getTargetClass());
+            // }
         } else {
             attach(routeBuilder.getPathTemplate(), routeBuilder.getRestlet());
         }
