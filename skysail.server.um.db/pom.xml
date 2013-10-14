@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>skysail.server.um.db</artifactId>
-	<version>0.1.4</version>
+	<version>0.1.5-SNAPSHOT</version>
 	<name>SKYSAIL :: server :: usermanagement :: db</name>
 	<packaging>bundle</packaging>
 
@@ -21,7 +21,7 @@
 		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
 		<!-- A publicly browsable repository. For example, via ViewCVS. -->
 		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
-		<tag>skysail.server.um.db-0.1.4</tag>
+		<tag>skysail.server.um.db-0.1.0</tag>
 	</scm>
 
 	<properties>
