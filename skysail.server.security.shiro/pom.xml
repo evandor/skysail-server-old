@@ -8,7 +8,7 @@
 	</parent>
 
 	<artifactId>skysail.server.security.shiro</artifactId>
-	<version>0.1.1</version>
+	<version>0.1.2-SNAPSHOT</version>
 	<name>SKYSAIL :: server :: security :: shiro</name>
 	<packaging>bundle</packaging>
 
@@ -19,7 +19,7 @@
 		<url>scm:git:git@github.com:evandor/skysail-server.git</url>
 		<!-- A publicly browsable repository. For example, via ViewCVS. -->
 		<developerConnection>scm:git:git@github.com:evandor/skysail-server.git</developerConnection>
-		<tag>skysail.server.security.shiro-0.1.1</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<properties>
