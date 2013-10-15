@@ -45,6 +45,7 @@ import de.twenty11.skysail.server.Constants;
 import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.core.osgi.internal.ApplicationState;
 import de.twenty11.skysail.server.core.osgi.internal.MenuState;
+import de.twenty11.skysail.server.presentation.D3SimpleGraphConverter;
 import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
 import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
 import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
@@ -117,6 +118,7 @@ public class Configuration implements ComponentProvider {
         List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
         registeredConverters.add(new Json2HtmlConverter());
         registeredConverters.add(new Json2BootstrapConverter());
+        registeredConverters.add(new D3SimpleGraphConverter());
         registeredConverters.add(new IFrame2BootstrapConverter());
         registeredConverters.add(new ToCsvConverter());
 

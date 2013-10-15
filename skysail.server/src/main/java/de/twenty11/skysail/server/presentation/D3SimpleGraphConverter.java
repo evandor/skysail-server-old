@@ -44,17 +44,28 @@ import de.twenty11.skysail.server.internal.DefaultSkysailApplication;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.utils.IOUtils;
 
-public class Json2BootstrapConverter extends ConverterHelper {
+public class D3SimpleGraphConverter extends ConverterHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(Json2BootstrapConverter.class);
+    private static final Logger logger = LoggerFactory.getLogger(D3SimpleGraphConverter.class);
     private final String rootTemplate;
+    private final String d3SimpleGraphTemplate;
+
     private static final VariantInfo VARIANT_JSON = new VariantInfo(MediaType.APPLICATION_JSON);
 
-    public Json2BootstrapConverter() {
+    public D3SimpleGraphConverter() {
+
         InputStream bootstrapTemplateResource = this.getClass().getResourceAsStream("bootstrap.template");
         rootTemplate = IOUtils.convertStreamToString(bootstrapTemplateResource);
         try {
             bootstrapTemplateResource.close();
+        } catch (IOException e) {
+            logger.error("Problem closing resource", e);
+        }
+
+        InputStream d3SimpleGraphTemplateResource = this.getClass().getResourceAsStream("d3SimpleGraph.template");
+        d3SimpleGraphTemplate = IOUtils.convertStreamToString(d3SimpleGraphTemplateResource);
+        try {
+            d3SimpleGraphTemplateResource.close();
         } catch (IOException e) {
             logger.error("Problem closing resource", e);
         }
@@ -232,6 +243,8 @@ public class Json2BootstrapConverter extends ConverterHelper {
             } else if (style.equals(PresentationStyle.EDIT)) {
                 StrategyContext context = new StrategyContext(new FormForContentStrategy());
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
+            } else if (style.equals(PresentationStyle.D3_SIMPLE_GRAPH)) {
+                page = createD3SimpleGraphForContent(skysailResponseAsObject, skysailResponse);
             } else if (style.equals(PresentationStyle.IFRAME)) {
                 StrategyContext context = new StrategyContext(new IFrameForContentStrategy());
                 page = context.createHtml(page, skysailResponseAsObject, skysailResponse);
@@ -276,6 +289,29 @@ public class Json2BootstrapConverter extends ConverterHelper {
             sb.append("<li><a href='/").append(application.getName()).append("'>").append(name).append("</a></li>\n");
         }
         return sb.toString();
+    }
+
+    private String createD3SimpleGraphForContent(Object skysailResponseAsObject,
+            SkysailResponse<List<?>> skysailResponse) {
+
+        String template = d3SimpleGraphTemplate;
+        StringBuilder links = new StringBuilder();
+
+        List<Map<String, String>> data = (List<Map<String, String>>) skysailResponse.getData();
+        boolean found = false;
+        for (Map<String, String> object : data) {
+            found = true;
+            links.append("\n{source: '");
+            links.append(object.get("source"));
+            links.append("', target: '");
+            links.append(object.get("target"));
+            links.append("', type: 'licensing'},");
+        }
+        if (found) {
+            links = links.delete(links.length() - 1, links.length());
+        }
+        template = template.replace("${links}", links.toString());
+        return template;
     }
 
     private StringBuilder getBreadcrumbHtml(Resource resource) {
