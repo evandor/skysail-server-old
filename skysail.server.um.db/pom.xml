@@ -39,7 +39,6 @@
             <artifactId>skysail.server</artifactId>
             <version>${skysail.server.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>javax.persistence</artifactId>

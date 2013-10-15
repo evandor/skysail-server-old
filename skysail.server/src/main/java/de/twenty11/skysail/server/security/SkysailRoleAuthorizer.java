@@ -18,6 +18,9 @@ public class SkysailRoleAuthorizer extends Authorizer {
         if (!currentUser.isAuthenticated()) {
             return false;
         }
+        if (getIdentifier() == null) {
+            return true;
+        }
         return currentUser.hasRole(getIdentifier());
     }
 
