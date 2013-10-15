@@ -5,9 +5,11 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -17,6 +19,7 @@ import org.restlet.Application;
 import org.restlet.Request;
 import org.restlet.data.MediaType;
 import org.restlet.data.Reference;
+import org.restlet.engine.Engine;
 import org.restlet.engine.converter.ConverterHelper;
 import org.restlet.engine.resource.VariantInfo;
 import org.restlet.ext.jackson.JacksonRepresentation;
@@ -199,7 +202,7 @@ public class Json2BootstrapConverter extends ConverterHelper {
                 : skysailResponse.getMessage());
         page = page.replace("${linkedPages}", linkedPages(resource));
         page = page.replace("${commands}", commands(resource));
-        page = page.replace("${presentations}", presentations());
+        page = page.replace("${presentations}", presentations(skysailResponse));
         page = page.replace("${filterExpression}", getFilter());
         page = page.replace("${history}", "");
         page = page.replace("${mainNav}",
@@ -337,13 +340,27 @@ public class Json2BootstrapConverter extends ConverterHelper {
         return "";
     }
 
-    private String presentations() {
+    private String presentations(SkysailResponse<List<?>> skysailResponse) {
+        Set<String> mediaTypes = new HashSet<String>();
+        List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
+        for (ConverterHelper ch : registeredConverters) {
+            List<VariantInfo> variants = ch.getVariants(skysailResponse.getClass());
+            if (variants == null) {
+                continue;
+            }
+            for (VariantInfo variantInfo : variants) {
+                mediaTypes.add(variantInfo.getMediaType().getSubType());
+            }
+        }
+
         StringBuilder sb = new StringBuilder();
         sb.append("<ul>\n");
-        sb.append("<li><a href='?media=json'>Json</a></li>\n");
-        sb.append("<li><a href='?media=xml'>XML</a></li>\n");
-        sb.append("<li><a href='?media=csv'>CSV</a></li>\n");
-        sb.append("<li><a href='?media=pdf'>PDF</a></li>\n");
+        for (String mediaType : mediaTypes) {
+            sb.append("<li><a href='?media=").append(mediaType).append("'>");
+            sb.append(mediaType).append("</a></li>\n");
+        }
+
+        // sb.append("<li><a href='?media=json'>Json</a></li>\n");
         sb.append("</ul>\n");
         return sb.toString();
     }
