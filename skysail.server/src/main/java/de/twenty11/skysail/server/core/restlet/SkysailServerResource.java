@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.restlet.data.Form;
 import org.restlet.data.Reference;
 import org.restlet.resource.ResourceException;
@@ -80,15 +78,15 @@ public abstract class SkysailServerResource<T> extends ServerResource {
         return message;
     }
 
-    protected String getParent() {
-        if (getRequest() == null)
-            return null;
-        if (getRequest().getOriginalRef() == null)
-            return null;
-        if (getRequest().getOriginalRef().getParentRef() == null)
-            return null;
-        return getRequest().getOriginalRef().getParentRef().toString();
-    }
+    // protected String getParent() {
+    // if (getRequest() == null)
+    // return null;
+    // if (getRequest().getOriginalRef() == null)
+    // return null;
+    // if (getRequest().getOriginalRef().getParentRef() == null)
+    // return null;
+    // return getRequest().getOriginalRef().getParentRef().toString();
+    // }
 
     public T getSkysailData() {
         return skysailData;
@@ -98,36 +96,33 @@ public abstract class SkysailServerResource<T> extends ServerResource {
         this.skysailData = skysailData;
     }
 
-    protected String determineValue(JSONObject jsonObject, String key) throws JSONException {
-        if (jsonObject.isNull(key))
-            return null;
-        return jsonObject.getString(key);
-    }
+    // protected String determineValue(JSONObject jsonObject, String key) throws JSONException {
+    // if (jsonObject.isNull(key))
+    // return null;
+    // return jsonObject.getString(key);
+    // }
 
     // ===
     // Self describing stuff
     // ===
 
-    protected String getResourcePath() {
-        Reference ref = new Reference(getRequest().getRootRef(), getRequest().getResourceRef());
-        return ref.getRemainingPart();
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
+    // protected String getResourcePath() {
+    // Reference ref = new Reference(getRequest().getRootRef(), getRequest().getResourceRef());
+    // return ref.getRemainingPart();
+    // }
+    //
+    // public void setDescription(String description) {
+    // this.description = description;
+    // }
+    //
+    // public void setName(String name) {
+    // this.name = name;
+    // }
+    //
+    // public String getName() {
+    // return name;
+    // }
+    //
 
     protected void registerCommand(String key, Command command) {
         @SuppressWarnings("unchecked")

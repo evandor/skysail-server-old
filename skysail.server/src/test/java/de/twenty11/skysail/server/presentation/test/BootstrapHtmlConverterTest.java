@@ -19,12 +19,12 @@ import org.restlet.routing.TemplateRoute;
 import org.restlet.util.RouteList;
 
 import de.twenty11.skysail.server.presentation.Breadcrumb;
-import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
+import de.twenty11.skysail.server.presentation.BootstrapHtmlConverter;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 
-public class Json2BootstrapConverterTest {
+public class BootstrapHtmlConverterTest {
 
-    private Json2BootstrapConverter converter;
+    private BootstrapHtmlConverter converter;
     private Resource resource;
     private SkysailApplication myApplication;
     private Reference myReference;
@@ -33,7 +33,7 @@ public class Json2BootstrapConverterTest {
 
     @Before
     public void setUp() throws Exception {
-        converter = new Json2BootstrapConverter();
+        converter = new BootstrapHtmlConverter();
         resource = Mockito.mock(Resource.class);
         myApplication = Mockito.mock(SkysailApplication.class);
         myReference = Mockito.mock(Reference.class);

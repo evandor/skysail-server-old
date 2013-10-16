@@ -45,11 +45,9 @@ import de.twenty11.skysail.server.Constants;
 import de.twenty11.skysail.server.config.ServerConfiguration;
 import de.twenty11.skysail.server.core.osgi.internal.ApplicationState;
 import de.twenty11.skysail.server.core.osgi.internal.MenuState;
+import de.twenty11.skysail.server.presentation.BootstrapHtmlConverter;
 import de.twenty11.skysail.server.presentation.D3SimpleGraphConverter;
 import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
-import de.twenty11.skysail.server.presentation.Json2BootstrapConverter;
-import de.twenty11.skysail.server.presentation.Json2HtmlConverter;
-import de.twenty11.skysail.server.presentation.ToCsvConverter;
 import de.twenty11.skysail.server.security.AuthenticationService;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ComponentProvider;
@@ -98,7 +96,6 @@ public class Configuration implements ComponentProvider {
         restletComponent = new SkysailComponent();
 
         DefaultSkysailApplication defaultApplication = new DefaultSkysailApplication(componentContext);
-        // defaultApplication.setVerifier(serverConfig.getVerifier(configadmin));
         defaultApplication.setVerifier(new Verifier() {
             @Override
             public int verify(Request request, Response response) {
@@ -116,11 +113,11 @@ public class Configuration implements ComponentProvider {
         serverActive = true;
 
         List<ConverterHelper> registeredConverters = Engine.getInstance().getRegisteredConverters();
-        registeredConverters.add(new Json2HtmlConverter());
-        registeredConverters.add(new Json2BootstrapConverter());
+        // registeredConverters.add(new Json2HtmlConverter());
+        registeredConverters.add(new BootstrapHtmlConverter());
         registeredConverters.add(new D3SimpleGraphConverter());
         registeredConverters.add(new IFrame2BootstrapConverter());
-        registeredConverters.add(new ToCsvConverter());
+        // registeredConverters.add(new ToCsvConverter());
 
         updateDbConfig();
 
@@ -186,8 +183,6 @@ public class Configuration implements ComponentProvider {
                 Context appContext = restletComponent.getContext().createChildContext();
                 application.setContext(appContext);
                 applications.attach(application, restletComponent, serverConfig, configadmin, authService);
-                // Bundle appsBundle = FrameworkUtil.getBundle(application.getApplication().getClass());
-                // updateSecuredUrls(appsBundle);
             } catch (Exception e) {
                 logger.error("Problem with Application Lifecycle Management Defintion", e);
             }

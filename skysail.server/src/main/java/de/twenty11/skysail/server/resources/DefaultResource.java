@@ -19,8 +19,8 @@ public class DefaultResource extends ListServerResource<String> {
 
     public DefaultResource() {
         logger.debug("instanciation of DefaultResource");
-        setName("Skysail Server Available Applications Resource");
-        setDescription("The resource containing the list of available applications");
+        // setName("Skysail Server Available Applications Resource");
+        // setDescription("The resource containing the list of available applications");
     }
 
     @Override

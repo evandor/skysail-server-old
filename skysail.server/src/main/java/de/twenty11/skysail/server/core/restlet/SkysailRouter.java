@@ -28,6 +28,7 @@ public class SkysailRouter extends Router {
 
             // if (routeBuilder.getSecuredByRole() != null) {
             Authorizer authorizer = authorizationService.getRoleAuthorizer(routeBuilder.getSecuredByRole());
+            authorizer.setContext(getContext());
             // Authorizer authorizer = roleAuthorizerFactory.create(roleName);
             // rolesAuthorizers.add(authorizer);
             authorizer.setNext(routeBuilder.getTargetClass());

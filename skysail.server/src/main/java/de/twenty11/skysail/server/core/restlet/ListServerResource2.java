@@ -176,16 +176,6 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
         }
     }
 
-    // protected List<ResourceDetails> allMethods() {
-    // List<ResourceDetails> result = new ArrayList<ResourceDetails>();
-    // SkysailApplication restletOsgiApp = (SkysailApplication) getApplication();
-    // Map<String, RouteBuilder> skysailRoutes = restletOsgiApp.getSkysailRoutes();
-    // for (Entry<String, RouteBuilder> entry : skysailRoutes.entrySet()) {
-    // handleSkysailRoute(result, entry);
-    // }
-    // return result;
-    // }
-
     protected Validator getValidator() {
         return validator;
     }
@@ -217,23 +207,4 @@ public abstract class ListServerResource2<T> extends SkysailServerResource2<T> {
             return true;
         }
     }
-
-    // private void handleSkysailRoute(List<ResourceDetails> result, Entry<String, RouteBuilder> entry) {
-    // RouteBuilder builder = entry.getValue();
-    // if (builder.isVisible()) {
-    // List<SkysailRoleAuthorizer> rolesAuthorizers = builder.getRolesAuthorizers();
-    // Subject currentUser = SecurityUtils.getSubject();
-    // for (SkysailRoleAuthorizer authorizer : rolesAuthorizers) {
-    // if (!currentUser.hasRole(authorizer.getIdentifier())) {
-    // return;
-    // }
-    // }
-    // String from = getHostRef() + "/" + getApplication().getName() + entry.getKey();
-    // String text = builder.getText() != null ? builder.getText() : from;
-    // String targetClass = builder.getTargetClass() == null ? "null" : builder.getTargetClass().toString();
-    // ResourceDetails resourceDetails = new ResourceDetails(from, text, targetClass, "desc");
-    // result.add(resourceDetails);
-    // }
-    // }
-
 }

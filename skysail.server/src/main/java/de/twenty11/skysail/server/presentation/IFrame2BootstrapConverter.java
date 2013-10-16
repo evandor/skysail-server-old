@@ -7,7 +7,7 @@ import org.restlet.resource.Resource;
 
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 
-public class IFrame2BootstrapConverter extends Json2BootstrapConverter {
+public class IFrame2BootstrapConverter extends BootstrapHtmlConverter {
 
     @Override
     public float score(Object source, Variant target, Resource resource) {

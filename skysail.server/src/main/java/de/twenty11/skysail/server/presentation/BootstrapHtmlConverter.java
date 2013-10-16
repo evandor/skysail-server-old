@@ -5,12 +5,14 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -44,13 +46,13 @@ import de.twenty11.skysail.server.internal.DefaultSkysailApplication;
 import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.utils.IOUtils;
 
-public class Json2BootstrapConverter extends ConverterHelper {
+public class BootstrapHtmlConverter extends ConverterHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(Json2BootstrapConverter.class);
-    private final String rootTemplate;
+    private static final Logger logger = LoggerFactory.getLogger(BootstrapHtmlConverter.class);
     private static final VariantInfo VARIANT_JSON = new VariantInfo(MediaType.APPLICATION_JSON);
+    private final String rootTemplate;
 
-    public Json2BootstrapConverter() {
+    public BootstrapHtmlConverter() {
         InputStream bootstrapTemplateResource = this.getClass().getResourceAsStream("bootstrap.template");
         rootTemplate = IOUtils.convertStreamToString(bootstrapTemplateResource);
         try {
@@ -62,18 +64,16 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
     @Override
     public float score(Object source, Variant target, Resource resource) {
-        float result = -1.0F;
         if (!(source instanceof de.twenty11.skysail.common.responses.SkysailResponse)) {
             return 0.0F;
         }
         if (target.getMediaType().equals(MediaType.TEXT_HTML)) {
-            result = 1.0F;
-        } else if (target.getMediaType().equals(SkysailApplication.SKYSAIL_HTMLFORM_MEDIATYPE)) {
-            result = 1.0F;
-        } else {
-            result = 0.5F;
+            return 1.0F;
         }
-        return result;
+        if (target.getMediaType().equals(SkysailApplication.SKYSAIL_HTMLFORM_MEDIATYPE)) {
+            return 1.0F;
+        }
+        return 0.5F;
     }
 
     @Override
@@ -98,21 +98,12 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
     @Override
     public List<Class<?>> getObjectClasses(Variant source) {
-        List<Class<?>> result = null;
-        if (VARIANT_JSON.isCompatible(source)) {
-            result = addObjectClass(result, Object.class);
-            result = addObjectClass(result, JacksonRepresentation.class);
-        }
-        return result;
+        throw new NotImplementedException("getObjectClasses method is not implemented yet");
     }
 
     @Override
     public List<VariantInfo> getVariants(Class<?> source) {
-        List<VariantInfo> result = null;
-        if (source != null) {
-            result = addVariant(result, VARIANT_JSON);
-        }
-        return result;
+        return Collections.emptyList();
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -179,7 +170,6 @@ public class Json2BootstrapConverter extends ConverterHelper {
 
     private String jsonToHtml(SkysailResponse<List<?>> skysailResponse, Resource resource) {
 
-        PresentationStyle styleOldp = ConverterUtils.evalPresentationStyle(resource);
         PresentationStyle style = skysailResponse.getPresentationStyleHint();
 
         String page = rootTemplate;
@@ -198,9 +188,6 @@ public class Json2BootstrapConverter extends ConverterHelper {
                 getMainNav(((SkysailApplication) resource.getApplication()).getBundleContext()));
 
         String username = "unknown";
-        // if (resource.getRequest().getChallengeResponse() != null) {
-        // username = resource.getRequest().getChallengeResponse().getIdentifier();
-        // }
         Subject subject = SecurityUtils.getSubject();
         if (subject.getPrincipal() != null) {
             username = subject.getPrincipal().toString();
