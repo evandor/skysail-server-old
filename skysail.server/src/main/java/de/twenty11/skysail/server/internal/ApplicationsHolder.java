@@ -75,6 +75,14 @@ public class ApplicationsHolder {
         lifecycles.get(application).Fire(Trigger.ATTACH);
     }
 
+    public List<Application> getApplications() {
+        List<Application> result = new ArrayList<Application>();
+        for (Entry<Application, ApplicationLifecycle> entry : lifecycles.entrySet()) {
+            result.add(entry.getKey());
+        }
+        return result;
+    }
+
     public List<Application> getApplicationsInState(ApplicationState state) {
         List<Application> result = new ArrayList<Application>();
         for (Entry<Application, ApplicationLifecycle> entry : lifecycles.entrySet()) {

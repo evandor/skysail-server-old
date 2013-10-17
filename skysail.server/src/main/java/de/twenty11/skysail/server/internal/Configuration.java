@@ -29,6 +29,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.component.ComponentContext;
+import org.osgi.service.event.EventAdmin;
 import org.restlet.Application;
 import org.restlet.Component;
 import org.restlet.Context;
@@ -48,6 +49,7 @@ import de.twenty11.skysail.server.core.osgi.internal.MenuState;
 import de.twenty11.skysail.server.presentation.BootstrapHtmlConverter;
 import de.twenty11.skysail.server.presentation.D3SimpleGraphConverter;
 import de.twenty11.skysail.server.presentation.IFrame2BootstrapConverter;
+import de.twenty11.skysail.server.restlet.SkysailApplication;
 import de.twenty11.skysail.server.security.AuthenticationService;
 import de.twenty11.skysail.server.services.ApplicationProvider;
 import de.twenty11.skysail.server.services.ComponentProvider;
@@ -72,6 +74,7 @@ public class Configuration implements ComponentProvider {
     private boolean serverActive = false;
     private MenuService menuService;
     private AuthenticationService authService;
+    private EventAdmin eventAdmin;
 
     public Configuration() throws Exception {
         menus = new MenusHolder(this);
@@ -105,6 +108,7 @@ public class Configuration implements ComponentProvider {
         });
         defaultApplication.setServerConfiguration(serverConfig);
         defaultApplication.setAuthenticationService(authService);
+        defaultApplication.setEventAdmin(eventAdmin);
 
         restletComponent.getDefaultHost().attachDefault(defaultApplication);
 
@@ -173,22 +177,6 @@ public class Configuration implements ComponentProvider {
         }
     }
 
-    private void triggerAttachmentOfNewApplications() {
-        if (!serverActive) {
-            return;
-        }
-        List<Application> newApplications = applications.getApplicationsInState(ApplicationState.NEW);
-        for (Application application : newApplications) {
-            try {
-                Context appContext = restletComponent.getContext().createChildContext();
-                application.setContext(appContext);
-                applications.attach(application, restletComponent, serverConfig, configadmin, authService);
-            } catch (Exception e) {
-                logger.error("Problem with Application Lifecycle Management Defintion", e);
-            }
-        }
-    }
-
     public void addMenuProvider(MenuProvider provider) {
         Validate.notNull(provider, "provider may not be null");
         logger.info(" >>> registering menu entries <<<");
@@ -206,6 +194,36 @@ public class Configuration implements ComponentProvider {
             // restletComponent.getDefaultHost().detach(application);
         } else {
             logger.warn("provider {}'s menu was null", provider);
+        }
+    }
+
+    private void triggerAttachmentOfNewApplications() {
+        if (!serverActive) {
+            return;
+        }
+        List<Application> newApplications = applications.getApplicationsInState(ApplicationState.NEW);
+        for (Application application : newApplications) {
+            try {
+                Context appContext = restletComponent.getContext().createChildContext();
+                application.setContext(appContext);
+                if (application instanceof SkysailApplication) {
+                    ((SkysailApplication) application).setEventAdmin(eventAdmin);
+                }
+                applications.attach(application, restletComponent, serverConfig, configadmin, authService);
+            } catch (Exception e) {
+                logger.error("Problem with Application Lifecycle Management Defintion", e);
+            }
+        }
+    }
+
+    private void unbindEventAdmin() {
+        if (!serverActive) {
+            return;
+        }
+        for (Application application : applications.getApplications()) {
+            if (application instanceof SkysailApplication) {
+                ((SkysailApplication) application).unsetEventAdmin();
+            }
         }
     }
 
@@ -240,6 +258,17 @@ public class Configuration implements ComponentProvider {
     public synchronized void setConfigAdmin(ConfigurationAdmin configadmin) {
         logger.info("setting configadmin in Skysail Configuration");
         this.configadmin = configadmin;
+    }
+
+    public synchronized void setEventAdmin(EventAdmin eventAdmin) {
+        logger.info("setting eventAdmin in Skysail Configuration");
+        this.eventAdmin = eventAdmin;
+    }
+
+    public synchronized void unsetEventAdmin(EventAdmin eventAdmin) {
+        logger.info("unsetting eventAdmin in Skysail Configuration");
+        this.eventAdmin = null;
+        unbindEventAdmin();
     }
 
     public synchronized void setServerConfiguration(ServerConfiguration serverConfig) {

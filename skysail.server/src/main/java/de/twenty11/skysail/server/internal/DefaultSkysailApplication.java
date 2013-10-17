@@ -33,4 +33,5 @@ public class DefaultSkysailApplication extends SkysailApplication {
     public void setAuthenticationService(AuthenticationService authService) {
         super.setAuthenticationService(authService);
     }
+
 }

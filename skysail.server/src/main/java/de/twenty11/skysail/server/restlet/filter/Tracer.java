@@ -1,7 +1,11 @@
 package de.twenty11.skysail.server.restlet.filter;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventAdmin;
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -20,16 +24,24 @@ import org.slf4j.LoggerFactory;
  */
 public class Tracer extends Filter {
 
+    public static final String EVENT_PROPERTY_METHOD = "method";
+
+    public static final String EVENT_PROPERTY_PATH = "path";
+
     private static final Logger logger = LoggerFactory.getLogger(Tracer.class);
 
     private AtomicBoolean doTrace = new AtomicBoolean(false);
 
-    public Tracer(Context context) {
+    private EventAdmin eventAdmin;
+
+    public Tracer(Context context, EventAdmin eventAdmin) {
         super(context);
+        this.eventAdmin = eventAdmin;
     }
 
     @Override
     protected int beforeHandle(Request request, Response response) {
+        fireEvent(request);
         checkRequest(request);
         traceRequest(request);
         return CONTINUE;
@@ -60,10 +72,6 @@ public class Tracer extends Filter {
         logger.info("");
         logger.info("=== debug: request ========================");
         logger.info("{} '{}':", request.getMethod(), request.getResourceRef());
-        // String entityAsText = request.getEntityAsText();
-        // if (entityAsText != null && entityAsText.trim().length() > 0) {
-        // logger.info("entity: '{}'", entityAsText);
-        // }
 
         Series<Cookie> cookies = request.getCookies();
         if (cookies != null && cookies.size() > 0) {
@@ -73,6 +81,22 @@ public class Tracer extends Filter {
             }
         }
         logger.info("");
+    }
+
+    @SuppressWarnings("unchecked")
+    private void fireEvent(Request request) {
+        if (eventAdmin == null) {
+            logger.warn("eventAdmin is null, cannot fire Event in {}", this.getClass().getName());
+            return;
+        }
+        String origRequestPath = request.getOriginalRef().getPath();
+        String topic = ("request/" + origRequestPath).replace("//", "/") + "ISSUED";
+        @SuppressWarnings("rawtypes")
+        Dictionary properties = new Hashtable();
+        properties.put(EVENT_PROPERTY_PATH, origRequestPath);
+        properties.put(EVENT_PROPERTY_METHOD, request.getMethod().toString());
+        Event newEvent = new Event(topic, properties);
+        eventAdmin.postEvent(newEvent);
     }
 
     private void trackResponse(Response response) {

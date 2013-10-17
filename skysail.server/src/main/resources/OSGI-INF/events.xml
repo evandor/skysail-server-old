@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0"
+	name="de.twenty11.skysail.server.internal.Events"
+	immediate="true">
+	
+	<service>
+      <provide interface="org.osgi.service.event.EventHandler"/>
+    </service>
+    
+    <property name='event.topics' value='request/*'/>
+    
+	<implementation
+		class="de.twenty11.skysail.server.events.RequestToFileLogger" />
+	
+</scr:component>

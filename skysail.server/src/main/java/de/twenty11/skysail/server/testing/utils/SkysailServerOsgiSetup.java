@@ -58,6 +58,9 @@ public class SkysailServerOsgiSetup extends SkysailCommonOsgiSetup {
         // options.add(mavenBundle("org.eclipse.equinox","org.eclipse.equinox.log","1.2.100.v20100503"));
         options.add(mavenBundle("org.apache.felix", "org.apache.felix.scr", "1.6.0"));
 
+        // Event Admin:
+        options.add(mavenBundle("org.apache.felix", "org.apache.felix.eventadmin", "1.3.2"));
+
         options.add(mavenBundle("javax.validation", "com.springsource.javax.validation", "1.0.0.GA"));
         options.add(mavenBundle("org.hibernate", "hibernate-validator", "4.3.0.Final"));
         options.add(mavenBundle("org.jboss.logging", "jboss-logging", "3.1.2.GA"));

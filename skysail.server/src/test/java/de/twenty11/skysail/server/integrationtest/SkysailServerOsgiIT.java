@@ -4,7 +4,9 @@ import static org.junit.Assert.assertTrue;
 import static org.ops4j.pax.exam.CoreOptions.bundle;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.EnumSet;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,6 +22,9 @@ import org.ops4j.pax.exam.spi.reactors.AllConfinedStagedReactorFactory;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventConstants;
+import org.osgi.service.event.EventHandler;
 import org.restlet.Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +70,19 @@ public class SkysailServerOsgiIT {
 
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Test
+    public void shouldReceiceFrameworkEvents() throws Exception {
+        Dictionary props = new Hashtable();
+        props.put(EventConstants.EVENT_TOPIC, new String[] { "org/osgi/framework/BundleEvent/*" });
+        DummyEventHandler myEventHandler = new DummyEventHandler();
+        context.registerService(EventHandler.class.getName(), myEventHandler, props);
+        Bundle skysailServerBundle = OsgiTestingUtils.getBundleForSymbolicName(context, "skysail.server");
+        skysailServerBundle.stop();
+        skysailServerBundle.start();
+        assertTrue(myEventHandler.getCounter() > 0);
+    }
+
     @Test
     @Ignore
     // not true any more
@@ -100,15 +118,18 @@ public class SkysailServerOsgiIT {
         assertTrue(applicationFromService.getAuthor().equals("author"));
     }
 
-    // @Test
-    // public void shouldFindSkysailEntityManagerProvider() {
-    // Bundle bundle = getBundleForSymbolicName("skysail.server");
-    // ServiceReference skysailDatasourceReference = context
-    // .getServiceReference("de.twenty11.skysail.server.services.EntityManagerProvider");
-    // assertTrue(skysailDatasourceReference != null);
-    // EntityManagerProvider service = (EntityManagerProvider) context.getService(skysailDatasourceReference);
-    // assertTrue(service != null);
-    // // EntityManager entityManager = service.getEntityManager("SkysailPU");
-    // }
+    public class DummyEventHandler implements EventHandler {
+
+        int counter = 0;
+
+        @Override
+        public void handleEvent(Event event) {
+            counter++;
+        }
+
+        public int getCounter() {
+            return counter;
+        }
+    }
 
 }

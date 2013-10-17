@@ -59,6 +59,13 @@
 		interface="de.twenty11.skysail.server.security.AuthenticationService" 
 		name="AuthenticationService" 
 		policy="static"/>
-	
+
+	<reference 
+		bind="setEventAdmin" 
+		unbind="unsetEventAdmin" 
+		cardinality="0..1" 
+		interface="org.osgi.service.event.EventAdmin" 
+		name="EventAdmin" 
+		policy="dynamic"/>
 
 </scr:component>

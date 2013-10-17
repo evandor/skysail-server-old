@@ -6,6 +6,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.component.ComponentContext;
+import org.osgi.service.event.EventAdmin;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.restlet.Application;
 import org.restlet.Restlet;
@@ -65,6 +66,8 @@ public abstract class SkysailApplication extends Application {
 
     private AuthorizationService authorizationService;
 
+    private EventAdmin eventAdmin;
+
     abstract protected void attach();
 
     public SkysailApplication() {
@@ -98,24 +101,16 @@ public abstract class SkysailApplication extends Application {
 
         Timer timer = new Timer(getContext());
         Blocker blocker = new Blocker(getContext());
-        Tracer tracer = new Tracer(getContext());
+        Tracer tracer = new Tracer(getContext(), getEventAdmin());
         OriginalRequestFilter originalRequestFilter = new OriginalRequestFilter(getContext());
         blocker.setNext(originalRequestFilter);
         originalRequestFilter.setNext(router);
 
-        // de.twenty11.skysail.server.restlet.EnvironmentLoader environmentLoader =
-        // getAuthenticationService().getEnvironmentLoader();
-        // WebEnvironment initEnvironment = environmentLoader.initEnvironment(getContext());
-
         Authenticator guard = getAuthenticationService().getAuthenticator(getContext());
-
-        // DefaultHtmlSanitizerFilter defaultHtmlSanitizerFilter = new DefaultHtmlSanitizerFilter(getContext());
-        // Filter shiro = getAuthenticationService().getRestletShiroFilter(getContext());
 
         // tracer -> guard -> timer -> blocker -> originalRequest -> router
         timer.setNext(blocker);
         guard.setNext(timer);
-        // shiro.setNext(guard);
         tracer.setNext(guard);
         return tracer;
     }
@@ -153,6 +148,14 @@ public abstract class SkysailApplication extends Application {
 
     public void setServerConfiguration(ServerConfiguration config) {
         this.config = config;
+    }
+
+    public void setEventAdmin(EventAdmin eventAdmin) {
+        this.eventAdmin = eventAdmin;
+    }
+
+    public void unsetEventAdmin() {
+        this.eventAdmin = null;
     }
 
     public String getConfigForKey(String key) {
@@ -196,6 +199,10 @@ public abstract class SkysailApplication extends Application {
         return authenticationService;
     }
 
+    public EventAdmin getEventAdmin() {
+        return eventAdmin;
+    }
+
     public void setAuthenticationService(AuthenticationService authService) {
         this.authenticationService = authService;
     }
@@ -211,4 +218,5 @@ public abstract class SkysailApplication extends Application {
     public HtmlPolicyBuilder getNoHtmlPolicyBuilder() {
         return noHtmlPolicyBuilder;
     }
+
 }
