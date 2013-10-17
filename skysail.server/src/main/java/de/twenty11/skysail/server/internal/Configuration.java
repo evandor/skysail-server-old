@@ -216,6 +216,17 @@ public class Configuration implements ComponentProvider {
         }
     }
 
+    private void bindEventAdmin(EventAdmin eventAdmin) {
+        if (!serverActive) {
+            return;
+        }
+        for (Application application : applications.getApplications()) {
+            if (application instanceof SkysailApplication) {
+                ((SkysailApplication) application).setEventAdmin(eventAdmin);
+            }
+        }
+    }
+
     private void unbindEventAdmin() {
         if (!serverActive) {
             return;
@@ -263,6 +274,7 @@ public class Configuration implements ComponentProvider {
     public synchronized void setEventAdmin(EventAdmin eventAdmin) {
         logger.info("setting eventAdmin in Skysail Configuration");
         this.eventAdmin = eventAdmin;
+        bindEventAdmin(eventAdmin);
     }
 
     public synchronized void unsetEventAdmin(EventAdmin eventAdmin) {
