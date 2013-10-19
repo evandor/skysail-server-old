@@ -14,7 +14,7 @@ public class DefaultSkysailApplication extends SkysailApplication {
     public static final String LOGOUT_PATH = "/logout";
 
     public DefaultSkysailApplication(ComponentContext componentContext) {
-        super();
+        super("default");
         if (getContext() != null) {
             setContext(getContext().createChildContext());
         }

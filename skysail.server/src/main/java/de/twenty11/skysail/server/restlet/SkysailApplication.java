@@ -15,8 +15,6 @@ import org.restlet.data.Protocol;
 import org.restlet.data.Reference;
 import org.restlet.resource.ServerResource;
 import org.restlet.security.Authenticator;
-import org.restlet.security.MapVerifier;
-import org.restlet.security.Verifier;
 import org.restlet.util.RouteList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +50,7 @@ public abstract class SkysailApplication extends Application {
      */
     protected volatile SkysailRouter router;
 
-    private Verifier verifier = new MapVerifier();
+    // private Verifier verifier = new MapVerifier();
 
     private ServerConfiguration config;
 
@@ -68,10 +66,13 @@ public abstract class SkysailApplication extends Application {
 
     private EventAdmin eventAdmin;
 
+    private String home;
+
     abstract protected void attach();
 
-    public SkysailApplication() {
+    public SkysailApplication(String home) {
         logger.info("Instanciating new Skysail Application '{}'", this.getClass().getSimpleName());
+        this.home = home;
     }
 
     public BundleContext getBundleContext() {
@@ -79,6 +80,14 @@ public abstract class SkysailApplication extends Application {
             return bundleContext;
         }
         return componentContext != null ? componentContext.getBundleContext() : null;
+    }
+
+    protected void setHome(String home) {
+        this.home = home;
+    }
+
+    public String getHome() {
+        return home;
     }
 
     @Override
@@ -130,10 +139,6 @@ public abstract class SkysailApplication extends Application {
 
     public Map<String, RouteBuilder> getSkysailRoutes() {
         return router.getRouteBuilders();
-    }
-
-    public void setVerifier(Verifier verifier) {
-        this.verifier = verifier;
     }
 
     @Override

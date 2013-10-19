@@ -259,8 +259,16 @@ public class BootstrapHtmlConverter extends ConverterHelper {
             if (application.getName().equalsIgnoreCase("static") || application.getName().equalsIgnoreCase("default")) {
                 continue;
             }
-            String name = application.getName().substring(0, 1).toUpperCase() + application.getName().substring(1);
-            sb.append("<li><a href='/").append(application.getName()).append("'>").append(name).append("</a></li>\n");
+            if (application instanceof SkysailApplication) {
+                SkysailApplication skysailApp = (SkysailApplication) application;
+                String name = application.getName().substring(0, 1).toUpperCase() + application.getName().substring(1);
+                sb.append("<li><a href='/").append(skysailApp.getHome()).append("'>").append(name)
+                        .append("</a></li>\n");
+            } else {
+                String name = application.getName().substring(0, 1).toUpperCase() + application.getName().substring(1);
+                sb.append("<li><a href='/").append(application.getName()).append("'>").append(name)
+                        .append("</a></li>\n");
+            }
         }
         return sb.toString();
     }

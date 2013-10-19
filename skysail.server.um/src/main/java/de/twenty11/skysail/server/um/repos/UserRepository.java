@@ -19,6 +19,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NonUniqueResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import de.twenty11.skysail.server.um.domain.SkysailUser;
@@ -47,8 +49,16 @@ public class UserRepository {
     }
 
     public SkysailUser getByName(String username) {
-        return (SkysailUser) getEntityManager().createNamedQuery("findByName").setParameter("username", username)
-                .getSingleResult();
+        Query query = getEntityManager().createNamedQuery("findByName").setParameter("username", username);
+        @SuppressWarnings("unchecked")
+        List<SkysailUser> results = query.getResultList();
+        if (results.isEmpty()) {
+            return null;
+        }
+        if (results.size() == 1) {
+            return results.get(0);
+        }
+        throw new IllegalStateException("multiple users with name '" + username + "'");
     }
 
     public List<SkysailUser> getEntities() {

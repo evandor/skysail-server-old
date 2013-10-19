@@ -28,6 +28,7 @@ public class MenuApplication extends SkysailApplication implements ApplicationPr
     private Menu navMenu;
 
     public MenuApplication() {
+        super("menu");
         setName("menu");
         setDescription("provides the menus");
         setOwner("twenty11");

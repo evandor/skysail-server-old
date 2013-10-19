@@ -49,17 +49,23 @@ public class ApplicationsHolder {
         }
         if (application instanceof SkysailApplication) {
             SkysailApplication skysailApplication = (SkysailApplication) application;
-            skysailApplication.setVerifier(serverConfig.getVerifier(configAdmin));
-            logger.info(" >>> setting verifier from serverConfiguration");
 
-            skysailApplication.setServerConfiguration(serverConfig);
             logger.info(" >>> setting ServerConfiguration");
 
+            skysailApplication.setServerConfiguration(serverConfig);
             skysailApplication.setAuthenticationService(authenticationService);
-
             skysailApplication.setAuthorizationService(new DefaultAuthorizationService());
-            // Context appContext = getContext().createChildContext();
-            // skysailApplication.setContext(context);
+
+            // TODO make nicer
+            logger.info(" >>> attaching skysailApplication '{}' to defaultHost", "/" + skysailApplication.getName());
+            if (skysailApplication.getHome() != null) {
+                restletComponent.getDefaultHost().attach("/" + skysailApplication.getHome(), application);
+            } else {
+                restletComponent.getDefaultHost().attach("/" + skysailApplication.getName(), application);
+            }
+        } else {
+            logger.info(" >>> attaching '{}' to defaultHost", "/" + application.getName());
+            restletComponent.getDefaultHost().attach("/" + application.getName(), application);
         }
 
         List<Role> roles = application.getRoles();
@@ -67,8 +73,6 @@ public class ApplicationsHolder {
             allRoles.put(application.getName() + "." + role.getName(), role);
         }
 
-        logger.info(" >>> attaching '{}' to defaultHost", "/" + application.getName());
-        restletComponent.getDefaultHost().attach("/" + application.getName(), application);
         logger.info("==================================================");
 
         // TODO: move about into some trigger-action?

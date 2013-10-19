@@ -7,6 +7,7 @@ import org.restlet.data.Method;
 import de.twenty11.skysail.server.core.restlet.filter.AbstractResourceFilter;
 import de.twenty11.skysail.server.core.restlet.filter.CheckBusinessViolationsFilter;
 import de.twenty11.skysail.server.core.restlet.filter.CheckInvalidInputFilter;
+import de.twenty11.skysail.server.core.restlet.filter.CheckUserIsLoggedInFilter;
 import de.twenty11.skysail.server.core.restlet.filter.DataExtractingFilter;
 import de.twenty11.skysail.server.core.restlet.filter.ExceptionCatchingFilter;
 import de.twenty11.skysail.server.core.restlet.filter.FormDataExtractingFilter;
@@ -49,6 +50,7 @@ public class RequestHandler<T> {
 
     private static <T> AbstractResourceFilter<ListServerResource<T>, List<T>> chainForListGet() {
         return new ExceptionCatchingFilter<ListServerResource<T>, List<T>>()
+                .calling(new CheckUserIsLoggedInFilter<ListServerResource<T>, List<T>>())
                 .calling(new DataExtractingFilter<ListServerResource<T>, List<T>>());
     }
 

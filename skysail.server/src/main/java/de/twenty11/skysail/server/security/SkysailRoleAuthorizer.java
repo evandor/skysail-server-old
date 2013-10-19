@@ -15,11 +15,11 @@ public class SkysailRoleAuthorizer extends Authorizer {
     @Override
     protected boolean authorize(Request request, Response response) {
         Subject currentUser = SecurityUtils.getSubject();
-        if (!currentUser.isAuthenticated()) {
-            return false;
-        }
         if (getIdentifier() == null) {
             return true;
+        }
+        if (!currentUser.isAuthenticated()) {
+            return false;
         }
         return currentUser.hasRole(getIdentifier());
     }

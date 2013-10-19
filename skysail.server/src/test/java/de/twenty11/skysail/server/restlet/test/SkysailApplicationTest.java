@@ -1,5 +1,8 @@
 package de.twenty11.skysail.server.restlet.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.owasp.html.Handler;
@@ -10,9 +13,6 @@ import org.owasp.html.HtmlStreamRenderer;
 import com.google.common.base.Joiner;
 
 import de.twenty11.skysail.server.restlet.SkysailApplication;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class SkysailApplicationTest {
 
@@ -35,7 +35,7 @@ public class SkysailApplicationTest {
 
     @Before
     public void setUp() {
-        skysailApplication = new SkysailApplication() {
+        skysailApplication = new SkysailApplication("test") {
             @Override
             protected void attach() {}
         };

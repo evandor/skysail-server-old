@@ -154,9 +154,10 @@ public abstract class SkysailServerResource2<T> extends ServerResource {
 
     protected void registerLinkedPage(LinkedPage page) {
         // TODO check this: seems to be needed in tests only (ResourceTestWithUnguardedApplication)
-        // if (getContext() == null) {
-        // return;
-        // }
+        // Exapmle: UsersResourceTest.empty_repository_returns_list_with_zero_entities
+        if (getContext() == null) {
+            return;
+        }
         @SuppressWarnings("unchecked")
         List<LinkedPage> pages = (List<LinkedPage>) getContext().getAttributes().get(CONTEXT_LINKED_PAGES);
         if (pages == null) {

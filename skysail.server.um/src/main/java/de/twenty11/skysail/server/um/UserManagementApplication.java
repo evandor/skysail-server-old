@@ -44,6 +44,7 @@ public class UserManagementApplication extends SkysailApplication implements App
     private RoleRepository roleRepository;
 
     public UserManagementApplication() {
+        super("usermanagement");
         setName("usermanagement");
         setDescription("Central User Configuration Application");
     }

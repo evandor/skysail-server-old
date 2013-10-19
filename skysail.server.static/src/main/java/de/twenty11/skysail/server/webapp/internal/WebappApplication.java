@@ -46,7 +46,7 @@ public class WebappApplication extends SkysailApplication implements Application
      * @param bundleContext
      */
     public WebappApplication(String staticPathTemplate) {
-        super();
+        super("static");
         setDescription("Static webapp bundle");
         setOwner("twentyeleven");
         setName("static");
