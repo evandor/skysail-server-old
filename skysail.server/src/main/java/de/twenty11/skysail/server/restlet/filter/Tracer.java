@@ -95,8 +95,16 @@ public class Tracer extends Filter {
         Dictionary properties = new Hashtable();
         properties.put(EVENT_PROPERTY_PATH, origRequestPath);
         properties.put(EVENT_PROPERTY_METHOD, request.getMethod().toString());
+        postEvent(topic, properties);
+    }
+
+    private void postEvent(String topic, Dictionary properties) {
         Event newEvent = new Event(topic, properties);
-        eventAdmin.postEvent(newEvent);
+        try {
+            eventAdmin.postEvent(newEvent);
+        } catch (Exception e) {
+            logger.warn("Exception caught when trying to post event", e);
+        }
     }
 
     private void trackResponse(Response response) {
