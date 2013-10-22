@@ -15,7 +15,7 @@ public class UpdateEntityFilter<R extends SkysailServerResource<T>, T> extends A
     public FilterResult doHandle(R resource, Request request, ResponseWrapper<T> response) {
         logger.debug("entering {}#doHandle", this.getClass().getSimpleName());
         T entity = response.getSkysailResponse().getData();
-        resource.addEntity(entity);
+        resource.updateEntity(entity);
         super.doHandle(resource, request, response);
         return FilterResult.CONTINUE;
     }
