@@ -33,6 +33,12 @@ public class MyEntityResource extends EntityServerResource<SimpleEntity> {
     }
 
     @Override
+    public SkysailResponse<?> updateEntity(SimpleEntity entity) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public String getMessage(String key) {
         return "defaultMessge";
     }

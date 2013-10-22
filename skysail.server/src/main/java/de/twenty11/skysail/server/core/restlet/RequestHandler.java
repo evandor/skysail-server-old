@@ -12,6 +12,7 @@ import de.twenty11.skysail.server.core.restlet.filter.DataExtractingFilter;
 import de.twenty11.skysail.server.core.restlet.filter.ExceptionCatchingFilter;
 import de.twenty11.skysail.server.core.restlet.filter.FormDataExtractingFilter;
 import de.twenty11.skysail.server.core.restlet.filter.PersistEntityFilter;
+import de.twenty11.skysail.server.core.restlet.filter.UpdateEntityFilter;
 
 public class RequestHandler<T> {
 
@@ -35,6 +36,8 @@ public class RequestHandler<T> {
             return chainForEntityGet();
         } else if (method.equals(Method.POST)) {
             return chainForEntityPost();
+        } else if (method.equals(Method.PUT)) {
+            return chainForEntityPut();
         }
         throw new RuntimeException("Method " + method + " is not yet supported");
     }
@@ -69,19 +72,16 @@ public class RequestHandler<T> {
                 .calling(new PersistEntityFilter<EntityServerResource<T>, T>());
     }
 
+    private static <T> AbstractResourceFilter<EntityServerResource<T>, T> chainForEntityPut() {
+        return new ExceptionCatchingFilter<EntityServerResource<T>, T>()
+                //.calling(new AuthorizationFilter<ListServerResource<T>, List<T>>())
+                .calling(new CheckInvalidInputFilter<EntityServerResource<T>, T>())
+                .calling(new FormDataExtractingFilter<EntityServerResource<T>, T>())
+                .calling(new CheckBusinessViolationsFilter<EntityServerResource<T>, T>())
+                .calling(new UpdateEntityFilter<EntityServerResource<T>, T>());
+    }
+
     
-//    public AbstractResourceFilter<ListServerResource<T>, List<T>> getChain(Method method) {
-//        if (method.equals(Method.GET)) {
-//        
-//            return null;
-//        } else if (method.equals(Method.POST)) {
-//
-//            // exceptionCatching -> QueryExtracting -> DataExtracting
-//            return  chainForListPost();
-//        }
-//        throw new RuntimeException("Method " + method + " is not yet supported");
-//    }
-//
 //    public AbstractResourceFilter<EntityServerResource<T>, T> getChainForEntity(Method method) {
 //        if (method.equals(Method.GET)) {
 //        

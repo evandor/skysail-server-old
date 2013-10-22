@@ -10,10 +10,9 @@ import org.restlet.data.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.twenty11.skysail.common.responses.FoundIllegalInputResponse;
+import de.twenty11.skysail.server.core.restlet.EntityServerResource;
 import de.twenty11.skysail.server.core.restlet.ResponseWrapper;
 import de.twenty11.skysail.server.core.restlet.SkysailServerResource;
-import de.twenty11.skysail.server.core.restlet.EntityServerResource;
 
 public class CheckInvalidInputFilter<R extends SkysailServerResource<T>, T> extends AbstractResourceFilter<R, T> {
 
@@ -29,17 +28,13 @@ public class CheckInvalidInputFilter<R extends SkysailServerResource<T>, T> exte
         Form form = (Form) request.getAttributes().get(EntityServerResource.SKYSAIL_SERVER_RESTLET_FORM);
 
         if (containsInvalidInput(form)) {
-            T entity = (T) resource.getData(form);
-            response.setSkysailResponse(new FoundIllegalInputResponse<T>(entity, resource.getOriginalRef()));
-            return FilterResult.STOP;
+            logger.info("Input was sanitized");
         }
         super.doHandle(resource, request, response);
         return FilterResult.CONTINUE;
     }
 
     private boolean containsInvalidInput(Form form) {
-        // SkysailApplication app = (SkysailApplication) getApplication();
-        // HtmlPolicyBuilder noHtmlPolicyBuilder = app.getNoHtmlPolicyBuilder();
         boolean foundInvalidInput = false;
         for (int i = 0; i < form.size(); i++) {
             Parameter parameter = form.get(i);

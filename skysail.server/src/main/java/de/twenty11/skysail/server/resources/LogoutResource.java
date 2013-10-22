@@ -39,6 +39,12 @@ public class LogoutResource extends EntityServerResource<String> {
     }
 
     @Override
+    public SkysailResponse<?> updateEntity(String entity) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public String getMessage(String key) {
         // TODO Auto-generated method stub
         return null;

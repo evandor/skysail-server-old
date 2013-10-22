@@ -43,4 +43,9 @@ public class DefaultResource extends ListServerResource<String> {
         return null;
     }
 
+    @Override
+    public SkysailResponse<?> updateEntity(List<String> entity) {
+        return null;
+    }
+
 }

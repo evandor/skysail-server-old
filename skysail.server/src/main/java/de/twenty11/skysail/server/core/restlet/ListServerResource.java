@@ -78,6 +78,11 @@ public abstract class ListServerResource<T> extends SkysailServerResource<List<T
         throw new NotImplementedException();
     }
 
+    @Override
+    public SkysailResponse<?> updateEntity(List<T> entity) {
+        throw new NotImplementedException();
+    }
+
     protected Map<String, String> getParamsFromRequest() {
         Map<String, String> params = new HashMap<String, String>();
         if (getQuery() != null) {

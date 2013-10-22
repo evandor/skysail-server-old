@@ -23,6 +23,12 @@ public class MyListResource extends ListServerResource<SimpleEntity> {
     }
 
     @Override
+    public SkysailResponse<?> updateEntity(List<SimpleEntity> entity) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public List<SimpleEntity> getData() {
         return Arrays.asList(new SimpleEntity("one"), new SimpleEntity("two"));
     }

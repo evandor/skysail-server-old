@@ -47,4 +47,9 @@ public class LoginResource extends EntityServerResource<Credentials> {
         return null;
     }
 
+    @Override
+    public SkysailResponse<?> updateEntity(Credentials entity) {
+        return null;
+    }
+
 }

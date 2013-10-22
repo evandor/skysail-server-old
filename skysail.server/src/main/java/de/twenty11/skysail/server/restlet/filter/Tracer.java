@@ -99,8 +99,8 @@ public class Tracer extends Filter {
     }
 
     private void postEvent(String topic, Dictionary properties) {
-        Event newEvent = new Event(topic, properties);
         try {
+            Event newEvent = new Event(topic, properties);
             eventAdmin.postEvent(newEvent);
         } catch (Exception e) {
             logger.warn("Exception caught when trying to post event", e);

@@ -13,6 +13,7 @@ import org.restlet.data.Form;
 import org.restlet.data.Method;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
+import org.restlet.resource.Put;
 import org.restlet.resource.ResourceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,6 +69,28 @@ public abstract class EntityServerResource<T> extends SkysailServerResource<T> {
         getRequest().getAttributes().put(SKYSAIL_SERVER_RESTLET_FORM, form);
         AbstractResourceFilter<EntityServerResource<T>, T> handler = RequestHandler.<T> createForEntity(Method.POST);
         return handler.handle(this, getRequest()).getSkysailResponse();
+    }
+
+    @Put("x-www-form-urlencoded:html")
+    public SkysailResponse<?> put(Form form) {
+        getRequest().getAttributes().put(SKYSAIL_SERVER_RESTLET_FORM, form);
+        AbstractResourceFilter<EntityServerResource<T>, T> handler = RequestHandler.<T> createForEntity(Method.PUT);
+        return handler.handle(this, getRequest()).getSkysailResponse();
+
+        // Note entity = getData(form);
+        // entity.setPid(noteId);
+        // // Set<ConstraintViolation<T>> violations = validate(entity);
+        // // if (violations.size() > 0) {
+        // // return new ConstraintViolationsResponse(entity, violations);
+        // // }
+        // // return addEntity(entity);
+        //
+        // NotesApplication app = (NotesApplication) getApplication();
+        // app.getNotesRepository().update(entity);
+        // // return new FoldersResource().getEntities();
+        // EntityDetailsResponse response = new EntityDetailsResponse(entity, "note");
+        // response.setMessage("note entity details");
+        // return response;
     }
 
     protected SkysailResponse<T> getEntity(String defaultMsg) {

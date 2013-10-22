@@ -45,6 +45,8 @@ public abstract class SkysailServerResource<T> extends ServerResource {
 
     public abstract SkysailResponse<?> addEntity(T entity);
 
+    public abstract SkysailResponse<?> updateEntity(T entity);
+
     @Override
     protected void doInit() throws ResourceException {
         if (getContext() != null) {
@@ -78,16 +80,6 @@ public abstract class SkysailServerResource<T> extends ServerResource {
         return message;
     }
 
-    // protected String getParent() {
-    // if (getRequest() == null)
-    // return null;
-    // if (getRequest().getOriginalRef() == null)
-    // return null;
-    // if (getRequest().getOriginalRef().getParentRef() == null)
-    // return null;
-    // return getRequest().getOriginalRef().getParentRef().toString();
-    // }
-
     public T getSkysailData() {
         return skysailData;
     }
@@ -95,34 +87,6 @@ public abstract class SkysailServerResource<T> extends ServerResource {
     public void setSkysailData(T skysailData) {
         this.skysailData = skysailData;
     }
-
-    // protected String determineValue(JSONObject jsonObject, String key) throws JSONException {
-    // if (jsonObject.isNull(key))
-    // return null;
-    // return jsonObject.getString(key);
-    // }
-
-    // ===
-    // Self describing stuff
-    // ===
-
-    // protected String getResourcePath() {
-    // Reference ref = new Reference(getRequest().getRootRef(), getRequest().getResourceRef());
-    // return ref.getRemainingPart();
-    // }
-    //
-    // public void setDescription(String description) {
-    // this.description = description;
-    // }
-    //
-    // public void setName(String name) {
-    // this.name = name;
-    // }
-    //
-    // public String getName() {
-    // return name;
-    // }
-    //
 
     protected void registerCommand(String key, Command command) {
         @SuppressWarnings("unchecked")
